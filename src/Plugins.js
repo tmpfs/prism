@@ -1,3 +1,19 @@
+const boxModel = (key, value) => {
+  const out = {}
+  if (typeof(value) === 'number') {
+    out[key] = value
+  } else if (Array.isArray(value)) {
+    out[key + 'Vertical'] = value[0]
+    out[key + 'Horizontal'] = value[1]
+  } else {
+    out[key + 'Top'] = value.top
+    out[key + 'Right'] = value.right
+    out[key + 'Bottom'] = value.bottom
+    out[key + 'Left'] = value.left
+  }
+  return out
+}
+
 export default [
   // Support for mapPropsToStyle
   (pluginOptions) => {
