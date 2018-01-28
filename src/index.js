@@ -119,18 +119,24 @@ const getStyleSheet = ({props, definition}) => {
 
   const {styleSheet, colors} = registry
 
-  let {defaultStyles} = options
+  let {defaultStyles, inherit} = options
+
+  const defaultClassStyle = styleSheet[definition.Name] ?
+    [styleSheet[definition.Name]] : []
+
+  if (defaultStyles && inherit) {
+    defaultStyles = defaultClassStyles.concat(defaultStyles)
+  }
 
   // Look up default styles by class name
   if (!defaultStyles) {
-    defaultStyles = styleSheet[definition.Name] ?
-      [styleSheet[definition.Name]] : []
+    defaultStyles = defaultClassStyle
   }
 
   let sheets = []
-  if (!Array.isArray(defaultStyles)) {
-    defaultStyles = []
-  }
+  //if (!Array.isArray(defaultStyles)) {
+    //defaultStyles = []
+  //}
 
   // Add default styles
   sheets = sheets.concat(defaultStyles)
@@ -252,7 +258,14 @@ Prism.configure = (registry, config = {}) => {
       const {Type, Name, styleOptions, mapPropsToStyle} = definition
       definition.options = {}
       if (styleOptions) {
-        definition.options = styleOptions({...registry, compile})
+        const options = styleOptions({...registry, compile})
+        const {defaultStyles} = options
+        if (defaultStyles && !Array.isArray(defaultStyles)) {
+          throw new Error(
+            'Default styles should be an array of objects')
+        }
+
+        definition.options = options
       }
 
       // Validate mapPropsToStyle
