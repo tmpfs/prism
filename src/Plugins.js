@@ -138,7 +138,7 @@ export default [
       if (typeof(flex) === 'number') {
         return {flex}
       }
-      // TODO: handle object values: {row: true, wrap: true, grow: .5}
+
       const out = {
         flexDirection: flex.row ? 'row' : 'column',
         flexWrap: flex.wrap ? 'wrap' : 'nowrap'

@@ -1,83 +1,14 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {Platform, StyleSheet} from 'react-native'
+import {StyleSheet} from 'react-native'
+
 import StyleRegistry from './StyleRegistry'
 import Plugins from './Plugins'
-
-const position = {
-  top: PropTypes.number,
-  right: PropTypes.number,
-  bottom: PropTypes.number,
-  left: PropTypes.number
-}
+import propTypes from './PropTypes'
 
 const compile = (decl) => {
   const sheet = {decl}
   const compiled = StyleSheet.create(sheet)
   return compiled.decl
-}
-
-const boxModelType = PropTypes.oneOfType([
-  // All sides are equal
-  PropTypes.number,
-  // {top: 2, left: 4}
-  PropTypes.shape(position),
-  // Array is vertical/horizontal: [5, 10]
-  PropTypes.arrayOf(PropTypes.number)
-])
-
-// TODO: find definition for react native color type
-const colorType = PropTypes.string
-
-const sides = {
-  left: PropTypes.number,
-  right: PropTypes.number
-}
-
-const propTypes = {
-  style: PropTypes.oneOfType([
-    // NOTE: we need number for compiled stylesheets
-    PropTypes.number,
-    PropTypes.array,
-    PropTypes.object
-  ]),
-  className: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array
-  ]),
-  flex: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.number,
-    PropTypes.shape({
-      row: PropTypes.bool,
-      grow: PropTypes.number,
-      wrap: PropTypes.bool
-    })
-  ]),
-  direction: PropTypes.oneOf(['row', 'column']),
-  wrap: PropTypes.bool,
-  justify: PropTypes.oneOf([
-    'center', 'start', 'end', 'between', 'around'
-  ]),
-  padding: boxModelType,
-  margin: boxModelType,
-  position: PropTypes.shape(position),
-  background: colorType,
-  border: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.shape({
-      color: PropTypes.string,
-      ...position
-    })
-  ]),
-  radius: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.shape({
-      top: PropTypes.shape(sides),
-      bottom: PropTypes.shape(sides)
-    })
-  ])
 }
 
 const Configuration = {
