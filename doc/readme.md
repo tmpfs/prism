@@ -27,6 +27,12 @@ It provides a simple yet flexible mechanism for mapping properties to styles and
 
 By default plugins are enabled that expose the following properties on all styled components.
 
+### style
+
+`Array | Object`
+
+Inline styles for the component.
+
 ### className
 
 `String | Array <String>`
@@ -56,5 +62,27 @@ The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets t
 `String <row|column>`
 
 Set the `flexDirection` style property.
+
+## System Properties
+
+System properties are those passed to the underlying component implementation from the HOC component that allow access to style definitions.
+
+### style
+
+`Array`
+
+The computed stylesheet for the component.
+
+### styleSheet
+
+`Object`
+
+The compiled collection of stylesheets.
+
+### styleRegistry
+
+`StyleRegistry`
+
+The underlying registry of colors, fonts and stylesheets.
 
 <? @include components.md ?>
