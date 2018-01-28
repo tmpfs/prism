@@ -7,6 +7,8 @@
 ---
 
 - [Installation](#installation)
+- [Synopsis](#synopsis)
+- [Style Properties](#style-properties)
 - [Components](#components)
   - [Stylesheets](#stylesheets)
     - [Colors](#colors)
@@ -25,6 +27,20 @@ Use your preferred package manager for installation.
 npm i react-native-prism
 yarn add react-native-prism
 ```
+
+## Synopsis
+
+Prism is a library that returns a HOC (Higher Order Component) that exposes access to a style registry containing user-defined colors, fonts and styles.
+
+It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
+
+## Style Properties
+
+By default plugins are enabled that expose the following properties on all styled components.
+
+| Property                    | Default                 | Type                              |
+|-------------------------------------------------------------------------------------------|
+| `className`                 | -                       | String or array or strings.       |
 
 ## Components
 
