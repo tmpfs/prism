@@ -21,7 +21,7 @@ Fonts are declared as functions that return a different string per platform as i
 Each font function is passed a boolean indicating if the platform is iOS.
 
 ```javascript
-export default = {
+export default {
   regular: (ios) => {
     return ios ? 'WorkSans-Regular' : 'worksans'
   }
@@ -33,7 +33,7 @@ export default = {
 Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts so this signature is common:
 
 ```javascript
-export default = ({colors, fonts}) => {
+export default ({colors, fonts}) => {
   return {
     Label: {
       fontSize: 16,
