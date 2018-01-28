@@ -95,11 +95,6 @@ const getStyleSheet = ({props, definition}) => {
   const {style} = props
   const {config, options, registry} = definition
 
-  // No registry configured, just pass through the style
-  if (!registry) {
-    return style ? [style] : []
-  }
-
   const {styleSheet, colors} = registry
   const defaultClassStyle = styleSheet[definition.Name] ?
     [styleSheet[definition.Name]] : []
@@ -163,6 +158,19 @@ const Prism = (Type) => {
   // High order component wrapper
   const Wrapped = (Stylable, definition) => {
     class PrismComponent extends Component {
+
+      constructor (props) {
+        super(props)
+        if (!definition.registry) {
+          throw new Error(
+            'No style registry configured, did you forget to call Prism.configure()?')
+        }
+        if (!definition.registry.styleSheet) {
+          throw new Error(
+            'No style sheet available, did you forget to call styleRegistry.addStyleSheet()?')
+        }
+      }
+
       state = {
         style: []
       }
@@ -191,15 +199,6 @@ const Prism = (Type) => {
       }
 
       render () {
-        if (!definition.registry) {
-          return (
-            <Stylable
-              ref='stylable'
-              {...this.props}
-              style={this.state.style} />
-          )
-        }
-
         return (
           <Stylable
             ref='stylable'
@@ -218,61 +217,74 @@ const Prism = (Type) => {
     return PrismComponent
   }
 
-  const Definition = {Type, Name, styleOptions, mapPropsToStyle}
-  const NewType = Wrapped(Type, Definition)
-  Definition.NewType = NewType
+  const definition = {Type, Name, styleOptions, mapPropsToStyle}
+  const NewType = Wrapped(Type, definition)
+  definition.NewType = NewType
 
-  // TODO: use Set/HashMap
-  Prism.components.push(Definition)
+  if (!Prism.registry) {
+    // Collect components before a registry is available,
+    // these will be registered when Prism.configure() is called
+    Prism.components.push(definition)
+  } else {
+    // Already configured so register directly
+    registerComponent(Prism.registry, definition, Prism.config)
+  }
 
   return NewType
 }
 
+const registerComponent = (registry, definition, config) => {
+  const {Type, Name, styleOptions, mapPropsToStyle} = definition
+  definition.options = {}
+  if (styleOptions) {
+    const options = styleOptions({...registry, compile})
+    const {defaultStyles} = options
+    if (defaultStyles && !Array.isArray(defaultStyles)) {
+      throw new Error(
+        'Default styles should be an array of objects')
+    }
+
+    definition.options = options
+  }
+
+  // Validate mapPropsToStyle
+  if (mapPropsToStyle) {
+    if(mapPropsToStyle.toString() !== '[object Object]') {
+      throw new Error(
+        `Static mapPropsToStyle must be a plain object`)
+    }
+    for (let k in mapPropsToStyle) {
+      if (!(mapPropsToStyle[k] instanceof Function)) {
+        throw new Error(
+          `Function for mapPropsToStyle field ${k} expected`)
+      }
+    }
+  }
+
+  // Merge config propTypes into the Stylable propTypes.
+  //
+  // On collision the underlying component propTypes win.
+  const propertyTypes = Object.assign({}, config.propTypes, Type.propTypes)
+  Type.propTypes = propertyTypes
+
+  // TODO: support multiple registries
+  // TODO: merge if we have an existing registry?
+  definition.config = config
+  definition.registry = registry
+}
+
 Prism.components = []
 Prism.configure = (registry, config = {}) => {
-  if (registry) {
-    config = Object.assign({}, Configuration, config)
-
-    Prism.components.forEach((definition) => {
-      const {Type, Name, styleOptions, mapPropsToStyle} = definition
-      definition.options = {}
-      if (styleOptions) {
-        const options = styleOptions({...registry, compile})
-        const {defaultStyles} = options
-        if (defaultStyles && !Array.isArray(defaultStyles)) {
-          throw new Error(
-            'Default styles should be an array of objects')
-        }
-
-        definition.options = options
-      }
-
-      // Validate mapPropsToStyle
-      if (mapPropsToStyle) {
-        if(mapPropsToStyle.toString() !== '[object Object]') {
-          throw new Error(
-            `Static mapPropsToStyle must be a plain object`)
-        }
-        for (let k in mapPropsToStyle) {
-          if (!(mapPropsToStyle[k] instanceof Function)) {
-            throw new Error(
-              `Function for mapPropsToStyle field ${k} expected`)
-          }
-        }
-      }
-
-      // Merge config propTypes into the Stylable propTypes.
-      //
-      // On collision the underlying component propTypes win.
-      const propertyTypes = Object.assign({}, config.propTypes, Type.propTypes)
-      Type.propTypes = propertyTypes
-
-      // TODO: support multiple registries
-      // TODO: merge if we have an existing registry?
-      definition.config = config
-      definition.registry = registry
-    })
+  if (!(registry instanceof StyleRegistry)) {
+    throw new Error('You must pass a StyleRegistry to configure')
   }
+
+  Prism.config = Object.assign({}, Configuration, config)
+  Prism.components.forEach((definition) => {
+    registerComponent(registry, definition, Prism.config)
+  })
+
+  Prism.registry = registry
 }
 
 Prism.propTypes = propTypes

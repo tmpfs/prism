@@ -7,7 +7,6 @@
 import React, { Component } from 'react';
 import {
   Platform,
-  StyleSheet,
   Text,
   View
 } from 'react-native';
@@ -20,18 +19,29 @@ const instructions = Platform.select({
 });
 
 import {Prism, StyleRegistry} from './src'
+import Colors from './app/Colors'
+import Fonts from './app/Fonts'
+import StyleSheet from './app/StyleSheet'
+
+const registry = new StyleRegistry()
+registry.addColors(Colors)
+registry.addFonts(Fonts)
+registry.addStyleSheet(StyleSheet)
+Prism.configure(registry)
+
+const {styleSheet} = registry
 
 class MockComponent extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
+      <View style={styleSheet.container}>
+        <Text style={styleSheet.welcome}>
           Welcome to React Native!
         </Text>
-        <Text style={styles.instructions}>
+        <Text style={styleSheet.instructions}>
           To get started, edit App.js
         </Text>
-        <Text style={styles.instructions}>
+        <Text style={styleSheet.instructions}>
           {instructions}
         </Text>
       </View>
@@ -48,22 +58,3 @@ export default class App extends Component<{}> {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
