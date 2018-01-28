@@ -1,4 +1,4 @@
-import {Platform} from 'react-native'
+import {Platform, StyleSheet} from 'react-native'
 
 export default class StyleRegistry {
   fonts = {}
