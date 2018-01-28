@@ -13,6 +13,14 @@
   - [className](#classname)
   - [flex](#flex)
   - [direction](#direction)
+  - [wrap](#wrap)
+  - [justify](#justify)
+  - [padding](#padding)
+  - [margin](#margin)
+  - [position](#position)
+  - [background](#background)
+  - [border](#border)
+  - [radius](#radius)
 - [System Properties](#system-properties)
   - [style](#style-1)
   - [styleSheet](#stylesheet)
@@ -57,7 +65,7 @@ Inline styles for the component.
 
 `String | Array <String>`
 
-Assign stylesheets to the component. When a string is given separate stylesheet names can be separated with whitespace.
+Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
 
 ### flex
 
@@ -75,17 +83,104 @@ Object notation supports the `grow`, `row` and `wrap` fields:
 }
 ```
 
-The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets the `flex` propety.
+The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets the `flex` property.
 
 ### direction
 
-`String <row|column>`
+`Enum<String> (row|column)`
 
 Set the `flexDirection` style property.
 
+### wrap
+
+`Boolean`
+
+Set the `flexWrap` style property.
+
+### justify
+
+`Enum<String> (center|start|end|between|around)`
+
+Set the `justifyContent` style property, note that the `flex-` prefixes are omitted.
+
+### padding
+
+`Number | Object | Array`
+
+Sets padding properties, a number sets all edges to be equal.
+
+Arrays are a shorthand for setting vertical and horizontal values and take the form: `[vertical, horizontal]`.
+
+```javascript
+{top: 0, right: 0, bottom: 0, top:0}
+[5,10]
+```
+
+### margin
+
+`Number | Object | Array`
+
+Sets margin properties, a number sets all edges to be equal.
+
+Arrays are a shorthand for setting vertical and horizontal values and take the form: `[vertical, horizontal]`.
+
+```javascript
+{top: 0, right: 0, bottom: 0, top:0}
+[5,10]
+```
+
+### position
+
+`Object`
+
+Makes a component absolutely positioned (relative to the parent as is the RN way) and sets the style properties to the given values.
+
+```javascript
+{top: 0, right: 0, bottom: 0, top:0}
+```
+
+### background
+
+`String`
+
+Set the `backgroundColor` style property.
+
+### border
+
+`String | Array | Object`
+
+Enables a border for the component. When a string is given `borderColor` is set and a default `borderWidth` is used.
+
+When an array is given it takes the form `[width, color]`.
+
+```javascript
+{
+  color: 'red',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+}
+```
+
+Note that not all RN components will set borders as expected when different widths are given for each side, if you experience problems with this syntax ensure the style is applied to a `View` rather than `Image` etc.
+
+### radius
+
+`Number | Object`
+
+Sets border radius style properties.
+
+```javascript
+{
+  top: {left: 0, right: 0},
+  bottom: {left: 0, right: 0}
+}
+```
+
 ## System Properties
 
-System properties are those passed to the underlying component implementation from the HOC component that allow access to style definitions.
+System properties are those passed to the underlying component implementation from the HOC component. They allow access to the colors, fonts and compiled stylesheet.
 
 ### style
 

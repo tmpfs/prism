@@ -61,14 +61,6 @@ const propTypes = {
     PropTypes.string,
     PropTypes.array
   ]),
-  background: colorType,
-  radius: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.shape({
-      top: PropTypes.shape(sides),
-      bottom: PropTypes.shape(sides)
-    })
-  ]),
   flex: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.number,
@@ -83,15 +75,24 @@ const propTypes = {
   justify: PropTypes.oneOf([
     'center', 'start', 'end', 'between', 'around'
   ]),
+
   padding: boxModelType,
   margin: boxModelType,
   position: PropTypes.shape(position),
+  background: colorType,
   border: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
     PropTypes.shape({
       color: PropTypes.string,
       ...position
+    })
+  ]),
+  radius: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.shape({
+      top: PropTypes.shape(sides),
+      bottom: PropTypes.shape(sides)
     })
   ])
 }
