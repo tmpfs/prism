@@ -299,7 +299,7 @@ Styles are much easier to change if we can refer to our custom colors by name, h
 Take for example the `color` style property; it only applies to the `Text` related components. So we should enable it for our `Label`. Just add the `colorNames` class option:
 
 ```javascript
-clas Label extends Component {
+class Label extends Component {
   static styleOptions = () => {
     return {
       colorNames: true
