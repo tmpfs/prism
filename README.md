@@ -312,7 +312,7 @@ Take an imaginary `ImageLabel` that wraps an `Image` and `Label`. We would likel
 
 Then we can render it like so:
 
-```javascript
+```html
 <ImageLabel color='orange' />
 ```
 
