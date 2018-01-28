@@ -97,6 +97,8 @@ Now you can use all the built in [style properties](#style-properties), for exam
     style={{color: 'red'}}>Text</Label>
 ```
 
+The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
+
 ### Mapping Properties To Styles
 
 It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. For example to return a declaration from the compiled stylesheet:
@@ -126,7 +128,7 @@ static mapPropsToStyle = {
 }
 ```
 
-The former style is preferred as the style declaration is pre-compiled.
+It is recommended to access pre-compiled stylesheets wherever possible.
 
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
