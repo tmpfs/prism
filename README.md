@@ -39,7 +39,7 @@ It provides a simple yet flexible mechanism for mapping properties to styles and
 By default plugins are enabled that expose the following properties on all styled components.
 
 | Property                    | Default                 | Type                              |
-|-------------------------------------------------------------------------------------------|
+| ----------------------------| ------------------------| --------------------------------- |
 | `className`                 | -                       | String or array or strings.       |
 
 ## Components
