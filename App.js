@@ -18,7 +18,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-import {Prism, StyleRegistry} from './src'
+import {Prism, StyleRegistry} from './src/Prism'
 import Colors from './app/Colors'
 import Fonts from './app/Fonts'
 import StyleSheet from './app/StyleSheet'
