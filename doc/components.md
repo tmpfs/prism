@@ -8,11 +8,7 @@ To configure your application stylesheets first create some colors, fonts and st
 
 Colors are a map from color name to value.
 
-```javascript
-export default {
-  orange: '#ff6600'
-}
-```
+<? @source {javascript} ../app/Colors.js ?>
 
 #### Fonts
 
@@ -20,13 +16,7 @@ Fonts are declared as functions that return a different string per platform as i
 
 Each font function is passed the value of `Platform.OS`.
 
-```javascript
-export default {
-  regular: (os) => {
-    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
-  }
-}
-```
+<? @source {javascript} ../app/Fonts.js ?>
 
 #### Styles
 
