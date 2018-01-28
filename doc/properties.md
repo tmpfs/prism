@@ -10,7 +10,7 @@ Inline styles for the component.
 
 ### className
 
-`String | Array <String>`
+`String | Array<String>`
 
 Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
 
