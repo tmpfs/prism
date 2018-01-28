@@ -29,7 +29,7 @@ By default plugins are enabled that expose the following properties on all style
 
 ### className
 
-`String | Array<String>`
+`String | Array <String>`
 
 Assign stylesheets to the component. When a string is given separate stylesheet names can be separated with whitespace.
 
@@ -37,6 +37,24 @@ Assign stylesheets to the component. When a string is given separate stylesheet 
 
 `Number | Boolean | Object`
 
-Shorthand for `flex` properties.
+Shorthand for `flex` properties. A number is assigned directly to the `flex` style property, boolean is coerced to a number (yields zero or one).
+
+Object notation supports the `grow`, `row` and `wrap` fields:
+
+```
+{
+  grow: 1,
+  row: true,
+  wrap: true
+}
+```
+
+The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets the `flex` propety.
+
+### direction
+
+`String <row|column>`
+
+Set the `flexDirection` style property.
 
 <? @include components.md ?>
