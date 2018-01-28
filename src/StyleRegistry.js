@@ -15,10 +15,9 @@ export default class StyleRegistry {
   }
 
   addFonts (map) {
-    const ios = Platform.OS === 'ios'
     for (let k in map) {
       const fn = map[k]
-      this.fonts[k] = fn(ios)
+      this.fonts[k] = fn(Platform.OS)
     }
   }
 

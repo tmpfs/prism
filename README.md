@@ -79,12 +79,12 @@ export default {
 
 Fonts are declared as functions that return a different string per platform as iOS uses the PostScript name and Android uses the file name.
 
-Each font function is passed a boolean indicating if the platform is iOS.
+Each font function is passed the value of `Platform.OS`.
 
 ```javascript
 export default {
-  regular: (ios) => {
-    return ios ? 'WorkSans-Regular' : 'worksans'
+  regular: (os) => {
+    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
   }
 }
 ```

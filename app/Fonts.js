@@ -1,5 +1,5 @@
 export default {
-  regular: (ios) => {
-    return ios ? 'WorkSans-Regular' : 'worksans'
+  regular: (os) => {
+    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
   }
 }
