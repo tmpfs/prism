@@ -89,7 +89,7 @@ class Label extends Component {
 export default Prism(Label)
 ```
 
-Now you can use all the built in properties, for example:
+Now you can use all the built in [style properties](#style-properties), for example:
 
 ```html
   <Label
