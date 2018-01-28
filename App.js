@@ -24,6 +24,9 @@ import Fonts from './app/Fonts'
 import StyleSheet from './app/StyleSheet'
 import Label from './app/Label'
 
+// Ensure example code compiles
+import './app/ImageLabel'
+
 const registry = new StyleRegistry()
 registry.addColors(Colors)
 registry.addFonts(Fonts)

@@ -131,31 +131,7 @@ The `Prism.propTypes` field exposes the underlying configured property types.
 
 This is common when a component wraps several fixed child components.
 
-```javascript
-import React, {Component} from 'react'
-import {Image, Text, View} from 'react-native'
-import {Prism} from 'react-native-prism'
-
-class ImageLabel extends Component {
-
-  static propTypes = {
-    // Make sure our properties are validated correctly
-    imageStyle: Prism.propTypes.style,
-    labelStyle: Prism.propTypes.style
-  }
-
-  render () {
-    const {style, imageStyle, labelStyle} = this.props
-    return (
-      <View style={style}>
-        <Image style={imageStyle} {...this.props} />
-        <Text style={labelStyle}>{this.props.children}</Text>
-      </View>
-    )
-  }
-}
-export default Prism(ImageLabel)
-```
+<? @source {javascript=s/\.\.\/src\/Prism/react-native-prism/} ../app/ImageLabel.js ?>
 
 ### Component Options
 
