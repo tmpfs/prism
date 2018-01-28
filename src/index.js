@@ -109,7 +109,7 @@ const getStyleSheet = ({props, definition}) => {
     [styleSheet[definition.Name]] : []
 
   if (defaultStyles && inherit) {
-    defaultStyles = defaultClassStyles.concat(defaultStyles)
+    defaultStyles = defaultStyles.concat(defaultClassStyles)
   }
 
   // Look up default styles by class name
