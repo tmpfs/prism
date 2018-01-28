@@ -51,3 +51,8 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+package
+*.bak
+*.log
+*.tgz
