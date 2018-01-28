@@ -248,11 +248,11 @@ Prism.configure = (registry, config = {}) => {
   if (registry) {
     config = Object.assign({}, Configuration, config)
 
-    Prism.components.forEach((Definition) => {
-      const {Type, Name, styleOptions, mapPropsToStyle} = Definition
-      Definition.options = {}
+    Prism.components.forEach((definition) => {
+      const {Type, Name, styleOptions, mapPropsToStyle} = definition
+      definition.options = {}
       if (styleOptions) {
-        Definition.options = styleOptions({...registry, compile})
+        definition.options = styleOptions({...registry, compile})
       }
 
       // Validate mapPropsToStyle
@@ -269,13 +269,16 @@ Prism.configure = (registry, config = {}) => {
         }
       }
 
-      // Merge config propTypes into the Stylable propTypes
+      // Merge config propTypes into the Stylable propTypes.
+      //
+      // On collision the underlying component propTypes win.
       const propertyTypes = Object.assign({}, config.propTypes, Type.propTypes)
       Type.propTypes = propertyTypes
 
-      // TODO: merge if we have an existing registry
-      Definition.config = config
-      Definition.registry = registry
+      // TODO: support multiple registries
+      // TODO: merge if we have an existing registry?
+      definition.config = config
+      definition.registry = registry
     })
   }
 }

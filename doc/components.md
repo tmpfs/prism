@@ -154,5 +154,39 @@ static mapPropsToStyle = {
 }
 ```
 
+### Property Type Access
+
+Sometimes you have a property that you wish to pass to a child component that should conform to one of the built in property types.
+
+The `Prism.propTypes` field exposes the underlying configured property types.
+
+This is common when a component wraps several fixed child components.
+
+```javascript
+import React, {Component} from 'react'
+import {Image, Text, View} from 'react-native'
+import {Prism} from 'react-native-prism'
+
+class ImageLabel extends Component {
+
+  static propTypes = {
+    // Make sure our style property is validated correctly
+    imageStyle: Prism.propTypes.style,
+    labelStyle: Prism.propTypes.style
+  }
+
+  render () {
+    const {style, imageStyle, labelStyle} = this.props
+    return (
+      <View style={style}>
+        <Image style={imageStyle} {...this.props} />
+        <Text style={labelStyle}>{this.props.children}</Text>
+      </View>
+    )
+  }
+}
+export default Prism(ImageLabel)
+```
+
 ### Setting Default Styles (styleOptions)
 
