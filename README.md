@@ -326,7 +326,7 @@ class Label extends Component {
 }
 ```
 
-Take an imaginary `ImageLabel` that wraps an `Image` and `Label`. We would likely want to expose `color` on the parent component and pass it to the `Label`.
+Take an `ImageLabel` that wraps an `Image` and `Label`. We would likely want to expose `color` on the parent component and pass it to the `Label`.
 
 Then we can render it like so:
 
