@@ -7,6 +7,7 @@
 
 ---
 
+- [Installation](#installation)
 - [Components](#components)
   - [Stylesheets](#stylesheets)
     - [Colors](#colors)
@@ -16,6 +17,15 @@
   - [Styled Components](#styled-components)
 
 ---
+
+## Installation
+
+Use your preferred package manager for installation.
+
+```
+npm i react-native-prism
+yarn add react-native-prism
+```
 
 ## Components
 
