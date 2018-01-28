@@ -16,8 +16,6 @@ Minimal, idiomatic style management for React Native.
 
 ## Components
 
-The styling system is called `prism`.
-
 ### Stylesheets
 
 To configure your application stylesheets first create some colors, fonts and styles.
