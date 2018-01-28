@@ -19,6 +19,7 @@
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
   - [Property Type Access](#property-type-access)
   - [Component Options](#component-options)
+    - [Default Styles](#default-styles)
     - [Default Style Inheritance](#default-style-inheritance)
   - [Color Names](#color-names)
 - [Style Properties](#style-properties)
@@ -136,7 +137,7 @@ To create a styled component you just need to pass the component class to the `P
 ```javascript
 import React, {Component} from 'react'
 import {Text} from 'react-native'
-import {Prism} from 'react-native-prism'
+import {Prism} from '../src/Prism'
 
 class Label extends Component {
   render () {
@@ -255,7 +256,9 @@ export default Prism(ImageLabel)
 
 Components can declare processing options at a class level by declaring a static `styleOptions` function.
 
-You can use this to override the default style behaviour (looking up a style declaration by class name) and supply alternative default styles.
+#### Default Styles
+
+You can use `styleOptions` to override the default style behaviour (looking up a style declaration by class name) and supply alternative default styles.
 
 ```javascript
 static styleOptions = ({styleSheet}) => {
@@ -288,6 +291,19 @@ static styleOptions = ({compile}) => {
   return {
     inherit: true,
     defaultStyles: [compile{{textAlign: 'center'}}]
+  }
+}
+```
+
+You can use `defaultStyles` to create simple inheritance patterns that can help to remove duplicate properties in your styles:
+
+```javascript
+class BlockQuote extends Component {
+  static styleOptions = ({styleSheet}) => {
+    return {
+      inherit: true,
+      defaultStyles: [styleSheet.Label, styleSheet.Paragraph]
+    }
   }
 }
 ```
@@ -475,5 +491,5 @@ Indicates whether the layout direction is horizontal or vertical, can be used by
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 28, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 29, 2018
 
