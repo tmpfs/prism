@@ -17,6 +17,7 @@
   - [style](#style-1)
   - [styleSheet](#stylesheet)
   - [styleRegistry](#styleregistry)
+  - [styleFlexRow](#styleflexrow)
 - [Components](#components)
   - [Stylesheets](#stylesheets)
     - [Colors](#colors)
@@ -103,6 +104,12 @@ The compiled collection of stylesheets.
 `StyleRegistry`
 
 The underlying registry of colors, fonts and stylesheets.
+
+### styleFlexRow
+
+`Boolean`
+
+Indicates whether the layout direction is horizontal or vertical, can be used by child components to determine the edge for intermediate space.
 
 ## Components
 
