@@ -169,7 +169,9 @@ Built in `propTypes` are merged first so your `propTypes` will win if there is a
 
 ### Mapping Properties To Styles
 
-It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. For example to return a declaration from the compiled stylesheet:
+It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. Functions declared in `mapPropsToStyles` *must* return either a compiled style declaration, plain object or undefined when no action should be taken.
+
+For example to return a declaration from the compiled stylesheet:
 
 ```javascript
 static propTypes = {
