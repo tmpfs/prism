@@ -1,0 +1,12 @@
+__tests__
+android
+ios
+doc
+App.js
+app.json
+mkdoc.js
+.buckconfig
+.flowconfig
+.gitattributes
+.watchmanconfig
+yarn.lock
