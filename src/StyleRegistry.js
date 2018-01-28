@@ -1,3 +1,5 @@
+import {Platform} from 'react-native'
+
 export default class StyleRegistry {
   fonts = {}
   colors = {}
