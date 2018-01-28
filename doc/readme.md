@@ -27,11 +27,16 @@ It provides a simple yet flexible mechanism for mapping properties to styles and
 
 By default plugins are enabled that expose the following properties on all styled components.
 
-| Property         | Description               | Type                              |
-| -----------------| ------------------------- | --------------------------------- |
-| `className`      | Assign stylesheets to the | String or array of strings.       |
-|                  | component.                |                                   |
-|                  |                           |                                   |
-| `flex`           | Set flex grow.            | Number, boolean or object.        |
+### className
+
+`String | Array<String>`
+
+Assign stylesheets to the component. When a string is given separate stylesheet names can be separated with whitespace.
+
+### flex
+
+`Number | Boolean | Object`
+
+Shorthand for `flex` properties.
 
 <? @include components.md ?>
