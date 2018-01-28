@@ -8,13 +8,14 @@
 
 - [Installation](#installation)
 - [Synopsis](#synopsis)
-- [Components](#components)
+- [Getting Started](#getting-started)
   - [Defining Styles](#defining-styles)
     - [Colors](#colors)
     - [Fonts](#fonts)
     - [Styles](#styles)
   - [Create Style Registry](#create-style-registry)
   - [Defining Styled Components](#defining-styled-components)
+- [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
   - [Property Type Access](#property-type-access)
   - [Component Options](#component-options)
@@ -50,13 +51,13 @@ yarn add react-native-prism
 
 ## Synopsis
 
-Prism is a library that returns a HOC (Higher Order Component) that exposes access to a style registry containing user-defined colors, fonts and styles.
+Prism is a library that returns a HOC (Higher Order Component) which exposes access to a style registry containing user-defined colors, fonts and styles.
 
 It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
 
 For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~500 lines of code.
 
-## Components
+## Getting Started
 
 ### Defining Styles
 
@@ -160,6 +161,8 @@ The default styles for a component are extracted by class name so the stylesheet
 It is important to know that the `propTypes` and `defaultProps` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
 
 Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
+
+## Components
 
 ### Mapping Properties To Styles
 

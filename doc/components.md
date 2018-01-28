@@ -1,4 +1,4 @@
-## Components
+## Getting Started
 
 ### Defining Styles
 
@@ -102,6 +102,8 @@ The default styles for a component are extracted by class name so the stylesheet
 It is important to know that the `propTypes` and `defaultProps` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
 
 Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
+
+## Components
 
 ### Mapping Properties To Styles
 

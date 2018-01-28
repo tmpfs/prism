@@ -19,7 +19,7 @@ yarn add react-native-prism
 
 ## Synopsis
 
-Prism is a library that returns a HOC (Higher Order Component) that exposes access to a style registry containing user-defined colors, fonts and styles.
+Prism is a library that returns a HOC (Higher Order Component) which exposes access to a style registry containing user-defined colors, fonts and styles.
 
 It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
 
