@@ -1,5 +1,4 @@
-# Prism
-
+<h1 align="center">Prism</h1>
 <p align="center">Minimal, idiomatic style management for React Native.</p>
 <p align="center">
   <img width="256" height="256" src="https://raw.githubusercontent.com/fika-community/prism/master/prism.png" />
