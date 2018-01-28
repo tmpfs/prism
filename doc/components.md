@@ -93,10 +93,60 @@ Now you can use all the built in properties, for example:
 
 ```html
   <Label
-    position={top: 10, left: 20}
+    position={{top: 10, left: 20}}
     style={{color: 'red'}}>Text</Label>
+```
+
+### Mapping Properties To Styles
+
+It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. For example to return a declaration from the compiled stylesheet:
+
+```javascript
+static propTypes = {
+  center: PropTypes.bool
+}
+static mapPropsToStyle = {
+  center: ({prop, styleSheet}) => {
+    if (prop) {
+      return styleSheet.textCenter
+    }
+  }
+}
+```
+
+Or if you prefer you can return a plain object of style properties:
+
+```javascript
+static mapPropsToStyle = {
+  center: ({prop, styleSheet}) => {
+    if (prop) {
+      return {textAlign: 'center'}
+    }
+  }
+}
+```
+
+The former style is preferred as the style declaration is pre-compiled.
+
+You have access to all the properties so you can apply styles conditionally based on other properties:
+
+```javascript
+static propTypes = {
+  space: PropTypes.number,
+  horizontal: PropTypes.bool
+}
+static mapPropsToStyle = {
+  space: ({prop, props, styleSheet}) => {
+    if (prop) {
+      const {horizontal} = props
+      const styleProp = horizontal ? 'marginRight' : 'marginBottom'
+      const style = {}
+      style[styleProp] = prop
+      return style
+    }
+  }
+}
 ```
 
 ### Setting Default Styles (styleOptions)
 
-### Mapping Properties To Styles
