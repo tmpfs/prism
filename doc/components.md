@@ -1,6 +1,6 @@
 ## Components
 
-### Stylesheets
+### Defining Styles
 
 To configure your application stylesheets first create some colors, fonts and styles.
 
@@ -44,7 +44,7 @@ export default ({colors, fonts}) => {
 }
 ```
 
-#### Registry
+### Create Style Registry
 
 Now you can create a registry for your style definitions and instruct your components to use the registry:
 
@@ -68,7 +68,7 @@ Prism.configure(registry)
 // Initialize your application
 ```
 
-### Styled Components
+### Defining Styled Components
 
 To create a styled component you just need to pass the component class to the `Prism` function which will return a HOC wrapper.
 
@@ -88,3 +88,15 @@ class Label extends Component {
 }
 export default Prism(Label)
 ```
+
+Now you can use all the built in properties, for example:
+
+```html
+  <Label
+    position={top: 10, left: 20}
+    style={{color: 'red'}}>Text</Label>
+```
+
+### Setting Default Styles (styleOptions)
+
+### Mapping Properties To Styles

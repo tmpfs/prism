@@ -75,7 +75,6 @@ const propTypes = {
   justify: PropTypes.oneOf([
     'center', 'start', 'end', 'between', 'around'
   ]),
-
   padding: boxModelType,
   margin: boxModelType,
   position: PropTypes.shape(position),
