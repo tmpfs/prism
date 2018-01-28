@@ -200,7 +200,7 @@ static propTypes = {
   horizontal: PropTypes.bool
 }
 static mapPropsToStyle = {
-  space: ({prop, props, styleSheet}) => {
+  space: ({prop, props}) => {
     if (prop) {
       const {horizontal} = props
       const styleProp = horizontal ? 'marginRight' : 'marginBottom'
