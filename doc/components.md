@@ -230,3 +230,30 @@ static styleOptions = ({compile}) => {
   }
 }
 ```
+
+### Color Names
+
+Styles are much easier to change if we can refer to our custom colors by name, however this functionality needs to be enabled in your components. The plugin that processes color names is activated by default but it's more efficient if we only process color names at the boundary with the underlying RN components.
+
+Take for example the `color` style property; it only applies to the `Text` related components. So we should enable it for our `Label`. Just add the `colorNames` class option:
+
+```javascript
+clas Label extends Component {
+  static styleOptions = () => {
+    return {
+      colorNames: true
+    }
+  }
+}
+```
+
+Take an imaginary `ImageLabel` that wraps an `Image` and `Label`. We would likely want to expose `color` on the parent component and pass it to the `Label`.
+
+Then we can render it like so:
+
+```javascript
+<ImageLabel color='orange' />
+```
+
+In this case after the `style` for `ImageLabel` has been computed `color` is still `orange`, only when it is computed in `Label` does it become `#ff6600` *just before* being passed to the underying RN `Text` component.
+
