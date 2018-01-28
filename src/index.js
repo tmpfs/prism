@@ -92,8 +92,7 @@ const Configuration = {
 }
 
 const getStyleSheet = ({props, definition}) => {
-  let {style} = props
-
+  const {style} = props
   const {config, options, registry} = definition
 
   // No registry configured, just pass through the style
@@ -102,11 +101,10 @@ const getStyleSheet = ({props, definition}) => {
   }
 
   const {styleSheet, colors} = registry
-
-  let {defaultStyles, inherit} = options
-
   const defaultClassStyle = styleSheet[definition.Name] ?
     [styleSheet[definition.Name]] : []
+
+  let {defaultStyles, inherit} = options
 
   if (defaultStyles && inherit) {
     defaultStyles = defaultStyles.concat(defaultClassStyle)
@@ -118,9 +116,6 @@ const getStyleSheet = ({props, definition}) => {
   }
 
   let sheets = []
-  //if (!Array.isArray(defaultStyles)) {
-    //defaultStyles = []
-  //}
 
   // Add default styles
   sheets = sheets.concat(defaultStyles)

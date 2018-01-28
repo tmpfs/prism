@@ -19,6 +19,7 @@
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
   - [Property Type Access](#property-type-access)
   - [Component Options](#component-options)
+    - [Default Style Inheritance](#default-style-inheritance)
 - [Style Properties](#style-properties)
   - [style](#style)
   - [className](#classname)
@@ -274,6 +275,21 @@ static styleOptions = ({compile}) => {
 ```
 
 The entire style registry is passed so you can access `colors` and `fonts` too if required.
+
+#### Default Style Inheritance
+
+Sometimes you may wish to distribute a collection of components intended to be reusable, in this case you may expect the consumer to declare the class level style for the component but wish to provide some default styles *before* the class level style is applied.
+
+To do so you can use the `inherit` option which will use the supplied `defaultStyles` array and append a class level style definition (eg: `Label`) when available.
+
+```javascript
+static styleOptions = ({compile}) => {
+  return {
+    inherit: true,
+    defaultStyles: [compile{{textAlign: 'center'}}]
+  }
+}
+```
 
 ## Style Properties
 
