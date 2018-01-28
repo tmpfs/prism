@@ -43,7 +43,7 @@
 Use your preferred package manager for installation.
 
 ```
-npm i react-native-prism
+npm i --save react-native-prism
 yarn add react-native-prism
 ```
 
