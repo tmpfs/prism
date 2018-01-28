@@ -349,12 +349,13 @@ class StyleRegistry {
 const getStyleSheet = ({props, definition}) => {
   let {style} = props
 
+  const {config, options, registry} = definition
+
   // No registry configured, just pass through the style
   if (!registry) {
     return style ? [style] : []
   }
 
-  const {config, options, registry} = definition
   const {styleSheet, colors} = registry
 
   let {defaultStyles} = options
