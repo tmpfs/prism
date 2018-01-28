@@ -22,17 +22,7 @@ Each font function is passed the value of `Platform.OS`.
 
 Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts so this signature is common:
 
-```javascript
-export default ({colors, fonts}) => {
-  return {
-    Label: {
-      fontSize: 16,
-      fontFamily: fonts.regular,
-      color: colors.orange
-    }
-  }
-}
-```
+<? @source {javascript} ../app/StyleSheet.js ?>
 
 ### Create Style Registry
 
@@ -62,22 +52,7 @@ Prism.configure(registry)
 
 To create a styled component you just need to pass the component class to the `Prism` function which will return a HOC wrapper.
 
-```javascript
-import React, {Component} from 'react'
-import {Text} from 'react-native'
-import {Prism} from 'react-native-prism'
-
-class Label extends Component {
-  render () {
-    // Get the computed style sheet
-    const {style} = this.props
-    return (
-      <Text style={style}>{this.props.children}</Text>
-    )
-  }
-}
-export default Prism(Label)
-```
+<? @source {javascript} ../app/Label.js ?>
 
 Now you can use all the built in [style properties](#style-properties), for example:
 
