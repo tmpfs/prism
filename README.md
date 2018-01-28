@@ -17,7 +17,7 @@
   - [Defining Styled Components](#defining-styled-components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
   - [Property Type Access](#property-type-access)
-  - [Setting Default Styles (styleOptions)](#setting-default-styles-styleoptions)
+  - [Component Options](#component-options)
 - [Style Properties](#style-properties)
   - [style](#style)
   - [className](#classname)
@@ -246,7 +246,31 @@ class ImageLabel extends Component {
 export default Prism(ImageLabel)
 ```
 
-### Setting Default Styles (styleOptions)
+### Component Options
+
+Components can declare processing options at a class level by declaring a static `styleOptions` function.
+
+You can use this to override the default style behaviour (looking up a stylesheet by class name) and supply your preferred default styles.
+
+```javascript
+static styleOptions = ({styleSheet}) => {
+  return {
+    defaultStyles: [styleSheet.textCenter]
+  }
+}
+```
+
+Or if you want to compile a style declaration:
+
+```javascript
+static styleOptions = ({compile}) => {
+  return {
+    defaultStyles: [compile{{textAlign: 'center'}}]
+  }
+}
+```
+
+The entire style registry is passed so you can access `colors` and `fonts` too if required.
 
 ## Style Properties
 
