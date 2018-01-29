@@ -10,8 +10,8 @@ class ImageLabel extends Component {
     return {
       colorNames: ['color'],
       styleProperties: {
-        // Maps to labelStyle.color
-        label: ['color'],
+        // Maps color -> labelStyle.color and space -> labelStyle.marginTop
+        label: ['color', ['space', 'marginTop']],
         // Maps to imageStyle.width and imageStyle.height
         image: ['width', 'height']
       }
@@ -22,7 +22,12 @@ class ImageLabel extends Component {
     source: Image.propTypes.source,
     color: PropTypes.string,
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    space: PropTypes.number
+  }
+
+  static defaultProps = {
+    space: 10
   }
 
   render () {

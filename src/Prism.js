@@ -77,7 +77,7 @@ const registerPlugin = (plugin) => {
 }
 
 const getStyleSheet = (
-  {props, definition, attrName, fullAttrName, plugins}) => {
+  {props, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
 
   const style = props[fullAttrName]
 
@@ -121,7 +121,8 @@ const getStyleSheet = (
     props,
     styleSheet,
     options,
-    colors
+    colors,
+    propertyStyleMap
   }
 
   plugins.globals.forEach((plugin) => {
@@ -204,6 +205,7 @@ const Prism = (Type, namespace = '') => {
       processStylePlugins (props, testFunc = () => true) {
         const {options} = definition
         const {stylePropertyNames, styleProperties} = options
+        //console.log(styleProperties)
         const {globals, property} = options.plugins
         const {styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
@@ -211,6 +213,18 @@ const Prism = (Type, namespace = '') => {
           if (testFunc({props, attrName})) {
             const fullAttrName = getStylePropertyName(attrName)
             const availableProperties = styleProperties[attrName].slice()
+            const propertyStyleMap = {}
+            const flatAvailableProperties =
+              availableProperties.map((val) => {
+                if (Array.isArray(val)) {
+                  propertyStyleMap[val[0]] = val[1]
+                  return val[0]
+                }
+                return val
+              })
+
+            //console.log(flatAvailableProperties)
+            //console.log(availableProperties)
 
             // TODO: only run global plugins once!
 
@@ -218,11 +232,11 @@ const Prism = (Type, namespace = '') => {
             // Eg: style, labelStyle, imageStyle etc
             let propertyMap = {}
             let propertyPlugins = property.reduce((list, plugin) => {
-              const ind = availableProperties.indexOf(plugin.name)
+              const ind = flatAvailableProperties.indexOf(plugin.name)
               if (~ind) {
                 propertyMap[plugin.name] = plugin
                 list.push(plugin.name)
-                availableProperties.splice(ind, 1)
+                flatAvailableProperties.splice(ind, 1)
               }
               return list
             }, [])
@@ -233,19 +247,32 @@ const Prism = (Type, namespace = '') => {
                 map: propertyMap
               }
             }
+
             const computedStyle = getStyleSheet(
-              {props, definition, attrName, fullAttrName, plugins})
+              {
+                props,
+                definition,
+                attrName,
+                fullAttrName,
+                plugins,
+                propertyStyleMap
+              })
+
             // It's possible for a component to declare style
             // properties not mapped to a plugin, in this case
             // we pass the properties through verbatim
             // TODO: provide a default handler for these properties?
             // NOTE: currently this is the last computed style so overrides
             // NOTE: values in the target attribute eg: `labelStyle`
-            if (availableProperties.length) {
+            if (flatAvailableProperties.length) {
               const verbatim = {}
-              availableProperties.forEach((name) => {
+              flatAvailableProperties.forEach((name) => {
+                let styleProp = name
+                if (propertyStyleMap[name]) {
+                  styleProp = propertyStyleMap[name]
+                }
                 if (props[name] !== undefined) {
-                  verbatim[name] = props[name]
+                  verbatim[styleProp] = props[name]
                 }
               })
               computedStyle.push(verbatim)
