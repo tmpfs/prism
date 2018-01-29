@@ -47,7 +47,10 @@ Prism.configure(registry, config)
 export default class App extends Component<{}> {
   render () {
     return (
-      <Label>Text</Label>
+      <Label
+        padding={5}
+        margin={[10, 20]}
+        color='green'>Text</Label>
     )
   }
 }
