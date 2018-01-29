@@ -86,6 +86,7 @@ Colors are a map from color name to value.
 ```javascript
 export default {
   cream: '#fdfbdf',
+  muted: '#9a9a9a',
   green: '#023926',
   backgroundGreen: '#16a085',
   lightGreen: '#045B1E',
@@ -193,7 +194,7 @@ Then you can use all the built in (and extended) [style properties](#style-prope
   <Label
     padding={5}
     margin={[10, 20]}
-    style={{color: 'red'}}>Text</Label>
+    color='muted'>Text</Label>
 ```
 
 The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
