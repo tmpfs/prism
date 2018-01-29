@@ -23,8 +23,10 @@
     - [Default Style Inheritance](#default-style-inheritance)
   - [Color Names](#color-names)
 - [Configuration](#configuration)
+  - [Custom Plugins](#custom-plugins)
   - [Inline Styles Only](#inline-styles-only)
   - [Remove Default Plugins](#remove-default-plugins)
+- [Plugins](#plugins)
 - [Style Properties](#style-properties)
   - [style](#style)
   - [className](#classname)
@@ -344,8 +346,15 @@ In this case after the `style` for `ImageLabel` has been computed `color` is sti
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
 
 * `disabled` boolean that when `true` disables all default plugins.
+* `additionalPlugins` array of plugin definitions to append to the default plugins.
 * `disabledPlugins` array of string plugin names to disable.
-* `plugins` array of plugin definitions to use, overrides the built in plugins.
+* `plugins` array of plugin definitions to use, overrides the default plugins.
+
+### Custom Plugins
+
+Use the `additionalPlugins` option to add functionality to all your styled components.
+
+See [plugins](#plugins) for information on defining custom plugins.
 
 ### Inline Styles Only
 
@@ -361,6 +370,41 @@ You may want to remove plugins you don't need or if you find a property name col
 
 ```javascript
 Prism.configure(registry, {disabledPlugins: ['direction', 'wrap']})
+```
+
+## Plugins
+
+Plugins allow you to change the default behaviour, see [style properties](#style-properties) for the list of default properties and [configuration](#configuration) for how to register plugins.
+
+A plugin is defined as an array that specifies the plugin name, function handler and optionally a third `propType` field.
+
+Global plugins such as the `mapPropsToStyle` and `colorNames` plugins are not property-specific so they omit the `propType`:
+
+```javascript
+const plugins = [
+  [
+    'globalPlugin',
+    ({props, styleSheet}) => { /* ... */ }
+  ]
+]
+```
+
+If your plugin is for a property you should specify a `propType` to use so the property will be validated, for example:
+
+```javascript
+import PropTypes from 'prop-types'
+const plugins = [
+  [
+    'transform',
+    ({props, styleSheet}) => {
+      const {transform} = props
+      if (transform) {
+        // Return some transform specific style declarations
+      }
+    }
+    PropTypes.object
+  ]
+]
 ```
 
 ## Style Properties

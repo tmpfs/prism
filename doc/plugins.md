@@ -1,16 +1,34 @@
 ## Plugins
 
-Plugins allow you to change the behaviour of the default property processing, see [style properties](#style-properties) for the list of default properties.
+Plugins allow you to change the default behaviour, see [style properties](#style-properties) for the list of default properties and [configuration](#configuration) for how to register plugins.
 
-Each property has a corresponding plugin function and other functionality which does not correspond to a property are also defined as plugins. For example, the `mapPropsToStyle` logic is a plugin so that it can be disabled.
+A plugin is defined as an array that specifies the plugin name, function handler and optionally a third `propType` field.
 
-Plugins are defined as an array of plugin objects, when the plugin is a function it is deemed to be a global like `mapPropsToStyle`:
+Global plugins such as the `mapPropsToStyle` and `colorNames` plugins are not property-specific so they omit the `propType`:
 
 ```javascript
 const plugins = [
-  ({props, styleSheet}) => {
-    // Global plugins are not property-specific
-    // and do not need to define a propType
-  }
+  [
+    'globalPlugin',
+    ({props, styleSheet}) => { /* ... */ }
+  ]
+]
+```
+
+If your plugin is for a property you should specify a `propType` to use so the property will be validated, for example:
+
+```javascript
+import PropTypes from 'prop-types'
+const plugins = [
+  [
+    'transform',
+    ({props, styleSheet}) => {
+      const {transform} = props
+      if (transform) {
+        // Return some transform specific style declarations
+      }
+    }
+    PropTypes.object
+  ]
 ]
 ```
