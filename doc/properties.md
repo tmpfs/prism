@@ -18,7 +18,7 @@ Assign stylesheets to the component. When a string is given separate stylesheet 
 
 ### Extended Style Properties
 
-When the `extenededProperties` option is enabled plugins that handle these properties are configured.
+When the `extendedProperties` option is enabled plugins that handle these properties are configured.
 
 #### flex
 
