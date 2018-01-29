@@ -54,7 +54,8 @@ export default class App extends Component<{}> {
           color='green'>Text</Label>
         <ImageLabel
           padding={5}
-          margin={[10, 20]}>Text</ImageLabel>
+          margin={[10, 20]}
+          color='orange'>Text</ImageLabel>
       </View>
     )
   }

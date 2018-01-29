@@ -1,21 +1,24 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Image, Text, View} from 'react-native'
 import {Prism} from '../src/Prism'
+import Label from './Label'
 
 class ImageLabel extends Component {
 
   static propTypes = {
+    color: PropTypes.string,
     // Make sure our properties are validated correctly
     imageStyle: Prism.propTypes.style,
     labelStyle: Prism.propTypes.style
   }
 
   render () {
-    const {style, imageStyle, labelStyle} = this.props
+    const {style, imageStyle, labelStyle, color} = this.props
     return (
       <View style={style}>
         <Image style={imageStyle} />
-        <Text style={labelStyle}>{this.props.children}</Text>
+        <Label color={color} style={labelStyle}>{this.props.children}</Label>
       </View>
     )
   }
