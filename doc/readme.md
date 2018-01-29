@@ -26,5 +26,6 @@ It provides a simple yet flexible mechanism for mapping properties to styles and
 For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~500 lines of code.
 
 <? @include components.md ?>
+<? @include configuration.md ?>
 <? @include properties.md ?>
 

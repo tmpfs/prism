@@ -19,7 +19,49 @@ const Configuration = {
     'background'
   ],
   propTypes: propTypes,
-  plugins: Plugins
+  plugins: null
+}
+
+// The actual final plugins
+Object.defineProperty(Configuration, 'runtime', {
+  enumerable: false,
+  configurable: false,
+  writable: false,
+  value: []
+})
+
+const registerPlugins = (plugins) => {
+  if (!Array.isArray(plugins)) {
+    throw new Error(`Plugins must be an array of plugin definitions`)
+  }
+  return plugins.map((plugin) => registerPlugin(plugin))
+}
+
+class Plugin  {
+  constructor (name, func, propType = null) {
+    this.name = name
+    this.func = func
+    this.propType = propType
+  }
+}
+
+const registerPlugin = (plugin) => {
+  // Named plugin as array
+  if (Array.isArray(plugin)) {
+    const valid = (plugin.length === 2 || plugin.length === 3) &&
+      typeof(plugin[0] === 'string') && plugin[0] &&
+      typeof(plugin[1] === 'function')
+    if (valid) {
+      const name = plugin[0]
+      //console.log('Registering plugin with name: ' + name)
+      // Prop type given
+      if (plugin.length === 3 && typeof(plugin[2]) !== 'function') {
+        throw new Error('Prism: function expected for plugin propType')
+      }
+      return new Plugin(name, plugin[1], plugin[2])
+    }
+  }
+  throw new Error('Prism: invalid plugin definition')
 }
 
 const getStyleSheet = ({props, definition}) => {
@@ -64,7 +106,7 @@ const getStyleSheet = ({props, definition}) => {
 
   const plugins = config.plugins || []
   plugins.forEach((plugin) => {
-    const style = plugin(pluginOptions)
+    const style = plugin.func(pluginOptions)
     if (style) {
       sheets = sheets.concat(style)
     }
@@ -210,7 +252,35 @@ Prism.configure = (registry, config = {}) => {
     throw new Error('You must pass a StyleRegistry to configure')
   }
 
+  let plugins = Array.isArray(config.plugins) ?
+    config.plugins : (!config.disabled ? Plugins : [])
+
+  // Register the default plugins
+  plugins = registerPlugins(plugins)
+
+  if (Array.isArray(config.additionalPlugins)) {
+    plugins = plugins.concat(
+      registerPlugins(config.additionalPlugins))
+  }
+
+  // Process flags that disable plugins
+  if (Array.isArray(config.disabledPlugins)) {
+    plugins = plugins.filter((plugin) => {
+      return !~config.disabledPlugins.indexOf(plugin.name)
+    })
+  }
+
   Prism.config = Object.assign({}, Configuration, config)
+  console.log('Final plugins length: ' + plugins.length)
+
+  // Ensure we use the computed plugins
+  Prism.config.plugins = plugins
+
+  if (!Array.isArray(Prism.config.plugins)) {
+    throw new Error('Prism: array expected for plugins list')
+  }
+
+  // Components exported before the registry was configured
   Prism.components.forEach((definition) => {
     registerComponent(registry, definition, Prism.config)
   })

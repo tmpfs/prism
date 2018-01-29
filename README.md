@@ -22,6 +22,9 @@
     - [Default Styles](#default-styles)
     - [Default Style Inheritance](#default-style-inheritance)
   - [Color Names](#color-names)
+- [Configuration](#configuration)
+  - [Inline Styles Only](#inline-styles-only)
+  - [Remove Default Plugins](#remove-default-plugins)
 - [Style Properties](#style-properties)
   - [style](#style)
   - [className](#classname)
@@ -335,6 +338,30 @@ Then we can render it like so:
 ```
 
 In this case after the `style` for `ImageLabel` has been computed `color` is still `orange`, only when it is computed in `Label` does it become `#ff6600` *just before* being passed to the underying RN `Text` component.
+
+## Configuration
+
+You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
+
+* `disabled` boolean that when `true` disables all default plugins.
+* `disabledPlugins` array of string plugin names to disable.
+* `plugins` array of plugin definitions to use, overrides the built in plugins.
+
+### Inline Styles Only
+
+You can disable all plugins and inline `style` attributes are still processed and available to your component:
+
+```javascript
+Prism.configure(registry, {disabled: true})
+```
+
+### Remove Default Plugins
+
+You may want to remove plugins you don't need or if you find a property name collision:
+
+```javascript
+Prism.configure(registry, {disabledPlugins: ['direction', 'wrap']})
+```
 
 ## Style Properties
 

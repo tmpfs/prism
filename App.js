@@ -27,11 +27,15 @@ import Label from './app/Label'
 // Ensure example code compiles
 import './app/ImageLabel'
 
+const config = {
+  //disabled: true,
+  //disabledPlugins: ['mapPropsToStyle']
+}
 const registry = new StyleRegistry()
 registry.addColors(Colors)
 registry.addFonts(Fonts)
 registry.addStyleSheet(StyleSheet)
-Prism.configure(registry)
+Prism.configure(registry, config)
 
 export default class App extends Component<{}> {
   render () {
