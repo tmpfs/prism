@@ -159,9 +159,9 @@ const Prism = (Type, namespace = '') => {
           styleValues: {}
         }
 
-        // Initialize empty styles
+        // Initialize empty styles, following the convention
         state.styleProperties.forEach((name) => {
-          if (name !== STYLE && !/Style$/.test(name) {
+          if (name !== STYLE && !/Style$/.test(name)) {
             name += 'Style'
           }
           state.styleValues[name] = []
@@ -176,30 +176,32 @@ const Prism = (Type, namespace = '') => {
         }
       }
 
-      // So that changes to style properties are
-      // reflected in the stylable component
-      componentWillReceiveProps (props) {
+      processStylePlugins (props, testFunc) {
         const {styleProperties, styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
+        if (!testFunc) {
+          testFunc = () => true
+        }
         styleProperties.forEach((propertyName) => {
-          // TODO: proper invalidation
-          if (props[propertyName] && this.props[propertyName]) {
-            const style = getStyleSheet({props, definition, propertyName})
-            mutableStyleValues[propertyName] = style
+          if (testFunc({props, propertyName})) {
+            const computedStyle = getStyleSheet({props, definition, propertyName})
+            mutableStyleValues[propertyName] = computedStyle
           }
         })
         this.setState({styleValues: mutableStyleValues})
       }
 
-      componentWillMount () {
-        const {props} = this
-        const {styleProperties, styleValues} = this.state
-        let mutableStyleValues = Object.assign({}, styleValues)
-        styleProperties.forEach((propertyName) => {
-          const style = getStyleSheet({props, definition, propertyName})
-          mutableStyleValues[propertyName] = style
+      // So that changes to style properties are
+      // reflected in the stylable component
+      componentWillReceiveProps (props) {
+        this.processStylePlugins(props, ({propertyName}) => {
+          // TODO: proper invalidation
+          return props[propertyName] && this.props[propertyName]
         })
-        this.setState({styleValues: mutableStyleValues})
+      }
+
+      componentWillMount () {
+        this.processStylePlugins(this.props)
       }
 
       render () {
@@ -270,17 +272,12 @@ const registerComponent = (registry, definition, config) => {
         return list
       }, [])
 
-    console.log('assigned: ' + assignedPropertyNames)
-
     // Configure handling for style property
     // when not explicitly specified
     if (!styleProperties.style) {
-      console.log('Set subtractive ')
       styleProperties.style = availablePropertyNames
         .filter((propName) => !~assignedPropertyNames.indexOf(propName))
     }
-
-    console.log('final style props: ' + styleProperties.style)
   }
 
   // Default style property support, all
@@ -293,9 +290,19 @@ const registerComponent = (registry, definition, config) => {
 
   options.styleProperties = styleProperties
   options.stylePropertyNames = Object.keys(styleProperties)
-  console.log('stylePropertyNames: ' + options.stylePropertyNames)
-  definition.options = options
 
+  const globalPlugins = plugins.filter((plugin) => !plugin.propType)
+  const propertyPlugins = plugins.filter((plugin) => plugin.propType)
+
+  //console.log('Assigning component options, split plugins' + globalPlugins.length)
+  //console.log('Assigning component options, split plugins' + propertyPlugins.length)
+
+  options.plugins = {
+    property: propertyPlugins,
+    globals: globalPlugins
+  }
+
+  definition.options = options
 
   // Validate mapPropsToStyle
   if (mapPropsToStyle) {

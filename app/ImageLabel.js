@@ -8,8 +8,6 @@ class ImageLabel extends Component {
 
   static styleOptions = () => {
     return {
-      //styleProperties: ['labelStyle', 'imageStyle']
-      //styl
       styleProperties: {
         label: ['color'],
         image: ['position']
@@ -29,7 +27,7 @@ class ImageLabel extends Component {
     return (
       <View style={style}>
         <Image style={imageStyle} />
-        <Label color={color} style={labelStyle}>{this.props.children}</Label>
+        <Label style={labelStyle}>{this.props.children}</Label>
       </View>
     )
   }
