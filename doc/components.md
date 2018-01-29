@@ -125,7 +125,7 @@ static mapPropsToStyle = {
 }
 ```
 
-### Property Type Access
+### Property Type Validation
 
 Sometimes you have a property that you wish to pass to a child component that should conform to one of the built in property types.
 
@@ -134,6 +134,26 @@ The `Prism.propTypes` field exposes the underlying configured property types.
 This is common when a component wraps several fixed child components.
 
 <? @source {javascript=s/\.\.\/src\/Prism/react-native-prism/} ../app/ImageLabel.js ?>
+
+### Namespaces
+
+The `Prism` function accepts a second argument which can be used to specify a namespace for your component. This is useful (and recommended) when designing reusable component sets.
+
+```javascript
+export default Prism(Label, 'com.fika.text')
+```
+
+Now the default component style declaration name is `com.fika.text.Label` and a consumer needs to declare the style using the fully qualified name:
+
+```javascript
+export default ({colors, fonts}) => {
+  return {
+    'com.fika.text.Label': {
+      color: colors.orange
+    }
+  }
+}
+```
 
 ### Component Options
 

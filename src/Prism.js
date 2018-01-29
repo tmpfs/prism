@@ -66,6 +66,8 @@ const getStyleSheet = ({props, definition}) => {
   const defaultClassStyle = styleSheet[componentClassName] ?
     [styleSheet[componentClassName]] : []
 
+  console.log(componentClassName)
+
   let {defaultStyles, inherit} = options
 
   if (defaultStyles && inherit) {

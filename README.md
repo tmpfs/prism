@@ -17,7 +17,8 @@
   - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
-  - [Property Type Access](#property-type-access)
+  - [Property Type Validation](#property-type-validation)
+  - [Namespaces](#namespaces)
   - [Component Options](#component-options)
     - [Default Styles](#default-styles)
     - [Default Style Inheritance](#default-style-inheritance)
@@ -84,7 +85,8 @@ Colors are a map from color name to value.
 
 ```javascript
 export default {
-  orange: '#ff6600'
+  orange: '#ff6600',
+  green: '#009900'
 }
 ```
 
@@ -149,10 +151,22 @@ To create a styled component you just need to pass the component class to the `P
 
 ```javascript
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 class Label extends Component {
+
+  static styleOptions = () => {
+    return {
+      colorNames: true
+    }
+  }
+
+  static propTypes = {
+    color: PropTypes.string
+  }
+
   render () {
     // Get the computed style sheet
     const {style} = this.props
@@ -161,7 +175,7 @@ class Label extends Component {
     )
   }
 }
-export default Prism(Label)
+export default Prism(Label, 'com.fika.text')
 ```
 
 Then you can use all the built in (and extended) [style properties](#style-properties), for example:
@@ -234,7 +248,7 @@ static mapPropsToStyle = {
 }
 ```
 
-### Property Type Access
+### Property Type Validation
 
 Sometimes you have a property that you wish to pass to a child component that should conform to one of the built in property types.
 
@@ -266,6 +280,26 @@ class ImageLabel extends Component {
   }
 }
 export default Prism(ImageLabel)
+```
+
+### Namespaces
+
+The `Prism` function accepts a second argument which can be used to specify a namespace for your component. This is useful (and recommended) when designing reusable component sets.
+
+```javascript
+export default Prism(Label, 'com.fika.text')
+```
+
+Now the default component style declaration name is `com.fika.text.Label` and a consumer needs to declare the style using the fully qualified name:
+
+```javascript
+export default ({colors, fonts}) => {
+  return {
+    'com.fika.text.Label': {
+      color: colors.orange
+    }
+  }
+}
 ```
 
 ### Component Options
