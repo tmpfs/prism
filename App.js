@@ -56,6 +56,7 @@ export default class App extends Component<{}> {
           <Label
             border='cream'
             padding={5}
+            align='center'
             margin={[10, 20]}>Simple Label</Label>
 
           <ImageLabel

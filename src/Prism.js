@@ -205,7 +205,6 @@ const Prism = (Type, namespace = '') => {
       processStylePlugins (props, testFunc = () => true) {
         const {options} = definition
         const {stylePropertyNames, styleProperties} = options
-        //console.log(styleProperties)
         const {globals, property} = options.plugins
         const {styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
@@ -222,9 +221,6 @@ const Prism = (Type, namespace = '') => {
                 }
                 return val
               })
-
-            //console.log(flatAvailableProperties)
-            //console.log(availableProperties)
 
             // TODO: only run global plugins once!
 
@@ -351,7 +347,7 @@ const registerComponent = (registry, definition, config) => {
     .filter((plugin) => plugin.propType)
     .map((plugin) => plugin.name)
 
-  let {styleProperties} = options
+  let {styleProperties, merge} = options
   // User defined style property names
   if (styleProperties !== undefined) {
     if (!isObject(styleProperties)) {
@@ -370,6 +366,14 @@ const registerComponent = (registry, definition, config) => {
     if (!styleProperties.style) {
       styleProperties.style = availablePropertyNames
         .filter((propName) => !~assignedPropertyNames.indexOf(propName))
+    }
+
+    if (Array.isArray(merge)) {
+      for (let k in styleProperties) {
+        if (~merge.indexOf(k)) {
+          styleProperties[k] = availablePropertyNames.concat(styleProperties[k])
+        }
+      }
     }
   }
 

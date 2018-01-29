@@ -4,16 +4,23 @@ import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 class Label extends Component {
-
   static styleOptions = () => {
     return {
-      colorNames: ['color'],
-
+      colorNames: ['color']
     }
   }
 
   static propTypes = {
-    color: PropTypes.string
+    color: PropTypes.string,
+    align: PropTypes.oneOf(['left', 'center', 'right'])
+  }
+
+  static mapPropsToStyle = {
+    align: ({prop, styleSheet}) => {
+      if (prop) {
+        return {textAlign: prop}
+      }
+    }
   }
 
   render () {
