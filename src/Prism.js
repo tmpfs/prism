@@ -8,6 +8,13 @@ import propTypes from './PropTypes'
 
 const STYLE = 'style'
 
+const getStylePropertyName = (name) => {
+  if (name !== STYLE && !/Style$/.test(name)) {
+    name += 'Style'
+  }
+  return name
+}
+
 const isObject = (o) => {
   return o && o.toString() === '[object Object]'
 }
@@ -181,17 +188,10 @@ const Prism = (Type, namespace = '') => {
 
         // Initialize empty styles, following the convention
         options.stylePropertyNames.forEach((name) => {
-          name = this.getStylePropertyName(name)
+          name = getStylePropertyName(name)
           state.styleValues[name] = []
         })
         this.state = state
-      }
-
-      getStylePropertyName (name) {
-        if (name !== STYLE && !/Style$/.test(name)) {
-          name += 'Style'
-        }
-        return name
       }
 
       setNativeProps (props) {
@@ -209,7 +209,7 @@ const Prism = (Type, namespace = '') => {
         let mutableStyleValues = Object.assign({}, styleValues)
         stylePropertyNames.forEach((attrName) => {
           if (testFunc({props, attrName})) {
-            const fullAttrName = this.getStylePropertyName(attrName)
+            const fullAttrName = getStylePropertyName(attrName)
             const availableProperties = styleProperties[attrName].slice()
 
             // TODO: only run global plugins once!
@@ -392,6 +392,14 @@ const registerComponent = (registry, definition, config) => {
   })
   const propertyTypes = Object.assign({}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
+
+  // Automatic propTypes for style, labelStyle, imageStyle etc.
+  options.stylePropertyNames.forEach((name) => {
+    name = getStylePropertyName(name)
+    Type.propTypes[name] = propTypes.style
+  })
+
+  //console.log(Object.keys(Type.propTypes))
 
   // TODO: support multiple registries
   // TODO: merge if we have an existing registry?

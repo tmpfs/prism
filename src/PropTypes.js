@@ -16,7 +16,6 @@ const boxModelType = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.number)
 ])
 
-// TODO: find definition for react native color type
 const colorType = PropTypes.string
 
 const sides = {

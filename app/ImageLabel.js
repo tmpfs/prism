@@ -22,10 +22,7 @@ class ImageLabel extends Component {
     source: Image.propTypes.source,
     color: PropTypes.string,
     width: PropTypes.number,
-    height: PropTypes.number,
-    // Make sure our properties are validated correctly
-    imageStyle: Prism.propTypes.style,
-    labelStyle: Prism.propTypes.style
+    height: PropTypes.number
   }
 
   render () {
