@@ -30,3 +30,6 @@ For any non-trival RN application the question arises on how to manage styles fo
 <? @include plugins.md ?>
 <? @include properties.md ?>
 
+## License
+
+MIT

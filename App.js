@@ -30,7 +30,13 @@ import './app/ImageLabel'
 const config = {
   extendedProperties: true,
   //disabled: true,
-  //disabledPlugins: ['mapPropsToStyle']
+  //additionalPlugins: [
+    //[
+      //'customPlugin',
+      //() => {}
+    //]
+  //],
+  //disabledPlugins: ['mapPropsToStyle', 'customPlugin']
 }
 const registry = new StyleRegistry()
 registry.addColors(Colors)

@@ -23,27 +23,19 @@ const Configuration = {
   plugins: null
 }
 
-// The actual final plugins
-Object.defineProperty(Configuration, 'runtime', {
-  enumerable: false,
-  configurable: false,
-  writable: false,
-  value: []
-})
-
-const registerPlugins = (plugins) => {
-  if (!Array.isArray(plugins)) {
-    throw new Error(`Plugins must be an array of plugin definitions`)
-  }
-  return plugins.map((plugin) => registerPlugin(plugin))
-}
-
 class Plugin  {
   constructor (name, func, propType = null) {
     this.name = name
     this.func = func
     this.propType = propType
   }
+}
+
+const registerPlugins = (plugins) => {
+  if (!Array.isArray(plugins)) {
+    throw new Error('Prism: plugins must be an array')
+  }
+  return plugins.map((plugin) => registerPlugin(plugin))
 }
 
 const registerPlugin = (plugin) => {
@@ -54,7 +46,6 @@ const registerPlugin = (plugin) => {
       typeof(plugin[1] === 'function')
     if (valid) {
       const name = plugin[0]
-      //console.log('Registering plugin with name: ' + name)
       // Prop type given
       if (plugin.length === 3 && typeof(plugin[2]) !== 'function') {
         throw new Error('Prism: function expected for plugin propType')
@@ -137,11 +128,13 @@ const Prism = (Type) => {
         super(props)
         if (!definition.registry) {
           throw new Error(
-            'No style registry configured, did you forget to call Prism.configure()?')
+            'Prism: no style registry configured, ' +
+            'did you forget to call Prism.configure()?')
         }
         if (!definition.registry.styleSheet) {
           throw new Error(
-            'No style sheet available, did you forget to call styleRegistry.addStyleSheet()?')
+            'Prism: no style sheet available, ' +
+            'did you forget to call styleRegistry.addStyleSheet()?')
         }
       }
 
@@ -215,7 +208,7 @@ const registerComponent = (registry, definition, config) => {
     const {defaultStyles} = options
     if (defaultStyles && !Array.isArray(defaultStyles)) {
       throw new Error(
-        'Default styles should be an array of objects')
+        'Prism: default styles should be an array of objects')
     }
 
     definition.options = options
@@ -225,12 +218,12 @@ const registerComponent = (registry, definition, config) => {
   if (mapPropsToStyle) {
     if(mapPropsToStyle.toString() !== '[object Object]') {
       throw new Error(
-        `Static mapPropsToStyle must be a plain object`)
+        'Prism: static mapPropsToStyle must be a plain object')
     }
     for (let k in mapPropsToStyle) {
       if (!(mapPropsToStyle[k] instanceof Function)) {
         throw new Error(
-          `Function for mapPropsToStyle field ${k} expected`)
+          `Prism: function for mapPropsToStyle field ${k} expected`)
       }
     }
   }
@@ -250,7 +243,7 @@ const registerComponent = (registry, definition, config) => {
 Prism.components = []
 Prism.configure = (registry, config = {}) => {
   if (!(registry instanceof StyleRegistry)) {
-    throw new Error('You must pass a StyleRegistry to configure')
+    throw new Error('Prism: you must pass a StyleRegistry to configure')
   }
 
   let systemPlugins = !config.disabled ? Plugins : []
@@ -276,7 +269,8 @@ Prism.configure = (registry, config = {}) => {
   }
 
   Prism.config = Object.assign({}, Configuration, config)
-  console.log('Final plugins length: ' + plugins.length)
+
+  console.log(`Prism configured with ${plugins.length} plugins`)
 
   // Ensure we use the computed plugins
   Prism.config.plugins = plugins
