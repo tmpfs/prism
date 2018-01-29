@@ -1,5 +1,4 @@
 export default {
-  //orange: '#ff6600',
-  orange: '#ff0000',
+  orange: '#ff6600',
   green: '#009900'
 }

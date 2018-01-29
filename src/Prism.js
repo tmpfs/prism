@@ -21,13 +21,6 @@ const compile = (decl) => {
 }
 
 const Configuration = {
-  // TODO: document this config option
-  colorProperties: [
-    'color',
-    'backgroundColor',
-    'borderColor',
-    'background'
-  ],
   plugins: null
 }
 
@@ -76,8 +69,8 @@ const registerPlugin = (plugin) => {
   throw new Error('Prism: invalid plugin definition')
 }
 
-const getStyleSheet = ({props, definition, propertyName, plugins}) => {
-  const style = props[propertyName]
+const getStyleSheet = ({props, definition, attrName, plugins}) => {
+  const style = props[attrName]
 
   const {config, options, registry, namespace} = definition
   const {styleSheet, colors} = registry
@@ -86,9 +79,9 @@ const getStyleSheet = ({props, definition, propertyName, plugins}) => {
     `${namespace}.${definition.Name}` : definition.Name
 
   // Passing style to nested child component
-  if (propertyName && propertyName !== STYLE) {
-    const childClassName = propertyName.charAt(0).toUpperCase() +
-      propertyName.slice(1)
+  if (attrName && attrName !== STYLE) {
+    const childClassName = attrName.charAt(0).toUpperCase() +
+      attrName.slice(1)
     componentClassName += '.' + childClassName
   }
 
@@ -122,8 +115,18 @@ const getStyleSheet = ({props, definition, propertyName, plugins}) => {
     colors
   }
 
-  //const plugins = config.plugins || []
-  plugins.forEach((plugin) => {
+  plugins.globals.forEach((plugin) => {
+    const style = plugin.func(pluginOptions)
+    if (style) {
+      sheets = sheets.concat(style)
+    }
+  })
+
+  const {keys, map} = plugins.property
+  keys.forEach((propName) => {
+    const plugin = map[propName]
+    pluginOptions.propName = propName
+    pluginOptions.prop = props[propName]
     const style = plugin.func(pluginOptions)
     if (style) {
       sheets = sheets.concat(style)
@@ -200,32 +203,31 @@ const Prism = (Type, namespace = '') => {
         const {globals, property} = options.plugins
         const {styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
-        stylePropertyNames.forEach((propertyName) => {
-          if (testFunc({props, propertyName})) {
-            const fullPropertyName = this.getStylePropertyName(propertyName)
-            const availableProperties = styleProperties[propertyName]
-            // TODO: only run global plugins once?
-            let stylePlugins = globals.slice()
-            let propertyPlugins = property.filter((plugin) => {
-              const ind = availableProperties.indexOf(plugin.name)
-              const matched = ind > -1
-              if (matched) {
-                availableProperties.splice(ind, 1)
+        stylePropertyNames.forEach((attrName) => {
+          if (testFunc({props, attrName})) {
+            const fullPropertyName = this.getStylePropertyName(attrName)
+            const availableProperties = styleProperties[attrName]
+
+            // TODO: only run global plugins once!
+
+            // Filter to properties available for this property attribute
+            // Eg: style, labelStyle, imageStyle etc
+            let propertyMap = {}
+            let propertyPlugins = property.reduce((list, plugin) => {
+              if (~availableProperties.indexOf(plugin.name)) {
+                propertyMap[plugin.name] = plugin
+                list.push(plugin.name)
               }
-              return matched
-            })
-            const plugins = stylePlugins.concat(propertyPlugins)
-            const computedStyle = getStyleSheet({props, definition, propertyName, plugins})
-            // Some declared properties did not match
-            // a plugin so we pass them through verbatim
-            if (availableProperties.length) {
-              const verbatim = {}
-              availableProperties.forEach((name) => {
-                verbatim[name] = props[name]
-              })
-              console.log(verbatim)
-              computedStyle.push(verbatim)
+              return list
+            }, [])
+            const plugins = {
+              globals: globals,
+              property: {
+                keys: propertyPlugins,
+                map: propertyMap
+              }
             }
+            const computedStyle = getStyleSheet({props, definition, attrName, plugins})
             mutableStyleValues[fullPropertyName] = computedStyle
           }
         })
@@ -235,9 +237,9 @@ const Prism = (Type, namespace = '') => {
       // So that changes to style properties are
       // reflected in the stylable component
       componentWillReceiveProps (props) {
-        this.processStylePlugins(props, ({propertyName}) => {
+        this.processStylePlugins(props, ({attrName}) => {
           // TODO: proper invalidation
-          return props[propertyName] && this.props[propertyName]
+          return props[attrName] && this.props[attrName]
         })
       }
 

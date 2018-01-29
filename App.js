@@ -29,7 +29,7 @@ import ImageLabel from './app/ImageLabel'
 const config = {
   debug: true,
   extendedProperties: true,
-  disabled: true,
+  // TODO: additional propTypes
   //additionalPlugins: [
     //[
       //'customPlugin',
@@ -51,8 +51,8 @@ export default class App extends Component<{}> {
         <Label
           padding={5}
           margin={[10, 20]}
-          color='green'
           style={{color: 'blue'}}
+          color='green'
           >Text</Label>
         <ImageLabel
           padding={5}

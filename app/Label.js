@@ -5,12 +5,6 @@ import {Prism} from '../src/Prism'
 
 class Label extends Component {
 
-  static styleOptions = () => {
-    return {
-      colorNames: true
-    }
-  }
-
   static propTypes = {
     color: PropTypes.string
   }
@@ -23,4 +17,6 @@ class Label extends Component {
     )
   }
 }
-export default Prism(Label, 'com.fika.text')
+
+//export default Prism(Label, 'com.fika.text')
+export default Prism(Label)
