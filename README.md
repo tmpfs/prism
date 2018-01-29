@@ -29,24 +29,25 @@
 - [Plugins](#plugins)
   - [Global Plugins](#global-plugins)
   - [Property Plugins](#property-plugins)
-- [Style Properties](#style-properties)
-  - [style](#style)
-  - [className](#classname)
-  - [flex](#flex)
-  - [direction](#direction)
-  - [wrap](#wrap)
-  - [justify](#justify)
-  - [padding](#padding)
-  - [margin](#margin)
-  - [position](#position)
-  - [background](#background)
-  - [border](#border)
-  - [radius](#radius)
-- [System Properties](#system-properties)
-  - [style](#style-1)
-  - [styleSheet](#stylesheet)
-  - [styleRegistry](#styleregistry)
-  - [styleFlexRow](#styleflexrow)
+- [Properties](#properties)
+  - [Style Properties](#style-properties)
+    - [style](#style)
+    - [className](#classname)
+    - [flex](#flex)
+    - [direction](#direction)
+    - [wrap](#wrap)
+    - [justify](#justify)
+    - [padding](#padding)
+    - [margin](#margin)
+    - [position](#position)
+    - [background](#background)
+    - [border](#border)
+    - [radius](#radius)
+  - [System Properties](#system-properties)
+    - [style](#style-1)
+    - [styleSheet](#stylesheet)
+    - [styleRegistry](#styleregistry)
+    - [styleFlexRow](#styleflexrow)
 
 ---
 
@@ -413,23 +414,25 @@ const plugins = [
 ]
 ```
 
-## Style Properties
+## Properties
+
+### Style Properties
 
 By default plugins are enabled that expose the following properties on all styled components.
 
-### style
+#### style
 
 `Array | Object`
 
 Inline styles for the component.
 
-### className
+#### className
 
 `String | Array<String>`
 
 Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
 
-### flex
+#### flex
 
 `Number | Boolean | Object`
 
@@ -447,25 +450,25 @@ Object notation supports the `grow`, `row` and `wrap` fields:
 
 The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets the `flex` property.
 
-### direction
+#### direction
 
 `Enum<String> (row|column)`
 
 Set the `flexDirection` style property.
 
-### wrap
+#### wrap
 
 `Boolean`
 
 Set the `flexWrap` style property.
 
-### justify
+#### justify
 
 `Enum<String> (center|start|end|between|around)`
 
 Set the `justifyContent` style property, note that the `flex-` prefixes are omitted.
 
-### padding
+#### padding
 
 `Number | Object | Array`
 
@@ -478,7 +481,7 @@ Arrays are a shorthand for setting vertical and horizontal values and take the f
 [5,10]
 ```
 
-### margin
+#### margin
 
 `Number | Object | Array`
 
@@ -491,7 +494,7 @@ Arrays are a shorthand for setting vertical and horizontal values and take the f
 [5,10]
 ```
 
-### position
+#### position
 
 `Object`
 
@@ -501,13 +504,13 @@ Makes a component absolutely positioned (relative to the parent as is the RN way
 {top: 0, right: 0, bottom: 0, top:0}
 ```
 
-### background
+#### background
 
 `String`
 
 Set the `backgroundColor` style property.
 
-### border
+#### border
 
 `String | Array | Object`
 
@@ -527,7 +530,7 @@ When an array is given it takes the form `[width, color]`.
 
 Note that not all RN components will set borders as expected when different widths are given for each side, if you experience problems with this syntax ensure the style is applied to a `View` rather than `Image` etc.
 
-### radius
+#### radius
 
 `Number | Object`
 
@@ -540,29 +543,29 @@ Sets border radius style properties.
 }
 ```
 
-## System Properties
+### System Properties
 
 System properties are those passed to the underlying component implementation from the HOC component. They allow access to the colors, fonts and compiled stylesheet.
 
-### style
+#### style
 
 `Array`
 
 The computed stylesheet for the component.
 
-### styleSheet
+#### styleSheet
 
 `Object`
 
 The compiled collection of stylesheets.
 
-### styleRegistry
+#### styleRegistry
 
 `StyleRegistry`
 
 The underlying registry of colors, fonts and stylesheets.
 
-### styleFlexRow
+#### styleFlexRow
 
 `Boolean`
 
