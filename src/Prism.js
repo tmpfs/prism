@@ -6,6 +6,12 @@ import Plugins from './Plugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import propTypes from './PropTypes'
 
+const STYLE = 'style'
+
+const isObject = (o) => {
+  return o && o.toString() === '[object Object]'
+}
+
 const compile = (decl) => {
   const sheet = {decl}
   const compiled = StyleSheet.create(sheet)
@@ -62,8 +68,16 @@ const getStyleSheet = ({props, definition, propertyName}) => {
   const {config, options, registry, namespace} = definition
   const {styleSheet, colors} = registry
 
-  const componentClassName = namespace ?
+  let componentClassName = namespace ?
     `${namespace}.${definition.Name}` : definition.Name
+
+  // Passing style to nested child component
+  if (propertyName && propertyName !== STYLE) {
+    const childClassName = propertyName.charAt(0).toUpperCase() +
+      propertyName.slice(1)
+    componentClassName += '.' + childClassName
+  }
+
   const defaultClassStyle = styleSheet[componentClassName] ?
     [styleSheet[componentClassName]] : []
 
@@ -141,12 +155,15 @@ const Prism = (Type, namespace = '') => {
         // Class level processing options
         const {options} = definition
         const state = {
-          styleProperties: options.styleProperties,
+          styleProperties: options.stylePropertyNames,
           styleValues: {}
         }
 
         // Initialize empty styles
         state.styleProperties.forEach((name) => {
+          if (name !== STYLE && !/Style$/.test(name) {
+            name += 'Style'
+          }
           state.styleValues[name] = []
         })
         this.state = state
@@ -235,31 +252,54 @@ const registerComponent = (registry, definition, config) => {
     }
   }
 
+  const availablePropertyNames = config.plugins
+    .filter((plugin) => plugin.propType)
+    .map((plugin) => plugin.name)
+
   let {styleProperties} = options
   // User defined style property names
   if (styleProperties !== undefined) {
-    if (!Array.isArray(styleProperties)) {
+    if (!isObject(styleProperties)) {
       throw new Error(
-        'Prism: styleProperties should be an array of strings')
+        'Prism: styleProperties should be a plain object')
     }
-    // Must always include the default style property
-    if (!~styleProperties.indexOf('style')) {
-      styleProperties = ['style'].concat(styleProperties)
+
+    const assignedPropertyNames = Object.keys(styleProperties)
+      .reduce((list, propName) => {
+        list = list.concat(styleProperties[propName])
+        return list
+      }, [])
+
+    console.log('assigned: ' + assignedPropertyNames)
+
+    // Configure handling for style property
+    // when not explicitly specified
+    if (!styleProperties.style) {
+      console.log('Set subtractive ')
+      styleProperties.style = availablePropertyNames
+        .filter((propName) => !~assignedPropertyNames.indexOf(propName))
     }
+
+    console.log('final style props: ' + styleProperties.style)
   }
 
-  // Default style property support
+  // Default style property support, all
+  // names are mapped to the default style object
   if (!styleProperties) {
-    styleProperties = ['style']
+    styleProperties = {
+      style: availablePropertyNames
+    }
   }
 
   options.styleProperties = styleProperties
+  options.stylePropertyNames = Object.keys(styleProperties)
+  console.log('stylePropertyNames: ' + options.stylePropertyNames)
   definition.options = options
 
 
   // Validate mapPropsToStyle
   if (mapPropsToStyle) {
-    if(mapPropsToStyle.toString() !== '[object Object]') {
+    if(!isObject(mapPropsToStyle)) {
       throw new Error(
         'Prism: static mapPropsToStyle must be a plain object')
     }

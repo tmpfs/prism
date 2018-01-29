@@ -6,6 +6,17 @@ import Label from './Label'
 
 class ImageLabel extends Component {
 
+  static styleOptions = () => {
+    return {
+      //styleProperties: ['labelStyle', 'imageStyle']
+      //styl
+      styleProperties: {
+        label: ['color'],
+        image: ['position']
+      }
+    }
+  }
+
   static propTypes = {
     color: PropTypes.string,
     // Make sure our properties are validated correctly
