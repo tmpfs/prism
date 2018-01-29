@@ -408,7 +408,7 @@ const plugins = [
       if (transform) {
         // Return some transform specific style declarations
       }
-    }
+    },
     PropTypes.object
   ]
 ]
