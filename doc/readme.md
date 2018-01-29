@@ -23,7 +23,7 @@ Prism is a library that returns a HOC (Higher Order Component) which exposes acc
 
 It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
 
-For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~500 lines of code.
+For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~600 lines of code.
 
 <? @include components.md ?>
 <? @include configuration.md ?>

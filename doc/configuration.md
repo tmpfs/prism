@@ -2,7 +2,8 @@
 
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
 
-* `disabled` boolean that when `true` disables all default plugins.
+* `extendedProperties` boolean that enables the extended style property plugins.
+* `disabled` boolean that when disables all default plugins.
 * `additionalPlugins` array of plugin definitions to append to the default plugins.
 * `disabledPlugins` array of string plugin names to disable.
 * `plugins` array of plugin definitions to use, overrides the default plugins.

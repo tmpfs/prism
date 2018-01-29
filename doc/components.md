@@ -42,8 +42,9 @@ registry.addColors(Colors)
 registry.addFonts(Fonts)
 registry.addStyleSheet(StyleSheet)
 
-// Use this registry for styled components
-Prism.configure(registry)
+// Use this registry for styled components and
+// enable the extended properties (padding, margin etc)
+Prism.configure(registry, {extendedProperties: true})
 
 // Initialize your application
 ```

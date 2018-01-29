@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native'
 
 import StyleRegistry from './StyleRegistry'
 import Plugins from './Plugins'
+import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import propTypes from './PropTypes'
 
 const compile = (decl) => {
@@ -252,8 +253,12 @@ Prism.configure = (registry, config = {}) => {
     throw new Error('You must pass a StyleRegistry to configure')
   }
 
-  let plugins = Array.isArray(config.plugins) ?
-    config.plugins : (!config.disabled ? Plugins : [])
+  let systemPlugins = !config.disabled ? Plugins : []
+  if (config.extendedProperties) {
+    systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
+  }
+
+  let plugins = Array.isArray(config.plugins) ? config.plugins : systemPlugins
 
   // Register the default plugins
   plugins = registerPlugins(plugins)

@@ -28,6 +28,7 @@ import Label from './app/Label'
 import './app/ImageLabel'
 
 const config = {
+  extendedProperties: true,
   //disabled: true,
   //disabledPlugins: ['mapPropsToStyle']
 }

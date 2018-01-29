@@ -16,6 +16,10 @@ Inline styles for the component.
 
 Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
 
+### Extended Style Properties
+
+When the `extenededProperties` option is enabled plugins that handle these properties are configured.
+
 #### flex
 
 `Number | Boolean | Object`

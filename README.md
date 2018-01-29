@@ -33,6 +33,7 @@
   - [Style Properties](#style-properties)
     - [style](#style)
     - [className](#classname)
+  - [Extended Style Properties](#extended-style-properties)
     - [flex](#flex)
     - [direction](#direction)
     - [wrap](#wrap)
@@ -66,7 +67,7 @@ Prism is a library that returns a HOC (Higher Order Component) which exposes acc
 
 It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
 
-For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~500 lines of code.
+For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~600 lines of code.
 
 ## Getting Started
 
@@ -132,8 +133,9 @@ registry.addColors(Colors)
 registry.addFonts(Fonts)
 registry.addStyleSheet(StyleSheet)
 
-// Use this registry for styled components
-Prism.configure(registry)
+// Use this registry for styled components and
+// enable the extended properties (padding, margin etc)
+Prism.configure(registry, {extendedProperties: true})
 
 // Initialize your application
 ```
@@ -348,7 +350,8 @@ In this case after the `style` for `ImageLabel` has been computed `color` is sti
 
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
 
-* `disabled` boolean that when `true` disables all default plugins.
+* `extendedProperties` boolean that enables the extended style property plugins.
+* `disabled` boolean that when disables all default plugins.
 * `additionalPlugins` array of plugin definitions to append to the default plugins.
 * `disabledPlugins` array of string plugin names to disable.
 * `plugins` array of plugin definitions to use, overrides the default plugins.
@@ -431,6 +434,10 @@ Inline styles for the component.
 `String | Array<String>`
 
 Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
+
+### Extended Style Properties
+
+When the `extenededProperties` option is enabled plugins that handle these properties are configured.
 
 #### flex
 
