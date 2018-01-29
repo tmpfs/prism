@@ -180,15 +180,12 @@ const Prism = (Type, namespace = '') => {
         }
       }
 
-      processStylePlugins (props, testFunc) {
+      processStylePlugins (props, testFunc = () => true) {
         const {options} = definition
         const {stylePropertyNames, styleProperties} = options
         const {globals, property} = options.plugins
         const {styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
-        if (!testFunc) {
-          testFunc = () => true
-        }
         stylePropertyNames.forEach((propertyName) => {
           if (testFunc({props, propertyName})) {
             const fullPropertyName = this.getStylePropertyName(propertyName)
