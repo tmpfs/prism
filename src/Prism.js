@@ -124,12 +124,14 @@ const getStyleSheet = ({props, definition, attrName, plugins}) => {
 
   const {keys, map} = plugins.property
   keys.forEach((propName) => {
-    const plugin = map[propName]
-    pluginOptions.propName = propName
-    pluginOptions.prop = props[propName]
-    const style = plugin.func(pluginOptions)
-    if (style) {
-      sheets = sheets.concat(style)
+    if (props[propName] !== undefined) {
+      const plugin = map[propName]
+      pluginOptions.propName = propName
+      pluginOptions.prop = props[propName]
+      const style = plugin.func(pluginOptions)
+      if (style) {
+        sheets = sheets.concat(style)
+      }
     }
   })
 
@@ -336,9 +338,6 @@ const registerComponent = (registry, definition, config) => {
 
   const globalPlugins = plugins.filter((plugin) => !plugin.propType)
   const propertyPlugins = plugins.filter((plugin) => plugin.propType)
-
-  //console.log('Assigning component options, split plugins' + globalPlugins.length)
-  //console.log('Assigning component options, split plugins' + propertyPlugins.length)
 
   options.plugins = {
     property: propertyPlugins,

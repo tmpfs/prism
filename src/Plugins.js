@@ -50,14 +50,12 @@ export default [
 
   // Color name handling
   [
-    ({propName, prop, options, colors, config}) => {
+    ({propName, prop, colors}) => {
       if (prop) {
         const colorValue = {}
-
         if (colors[prop]) {
           prop = colors[prop]
         }
-
         colorValue[propName] = prop
         return colorValue
       }
@@ -69,5 +67,4 @@ export default [
       background: PropTypes.string,
     }
   ]
-
 ]

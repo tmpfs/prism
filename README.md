@@ -85,8 +85,9 @@ Colors are a map from color name to value.
 
 ```javascript
 export default {
-  orange: '#ff6600',
-  green: '#009900'
+  cream: '#fdfbdf',
+  green: '#023926',
+  orange: '#ff6600'
 }
 ```
 
@@ -111,10 +112,13 @@ Styles are declared as a function that is passed the style registry, typically y
 ```javascript
 export default ({colors, fonts}) => {
   return {
+    Layout: {
+      flex: 1
+    },
     Label: {
       fontSize: 16,
       fontFamily: fonts.regular,
-      color: colors.orange
+      color: colors.cream
     }
   }
 }
@@ -157,12 +161,6 @@ import {Prism} from '../src/Prism'
 
 class Label extends Component {
 
-  static styleOptions = () => {
-    return {
-      colorNames: true
-    }
-  }
-
   static propTypes = {
     color: PropTypes.string
   }
@@ -175,7 +173,9 @@ class Label extends Component {
     )
   }
 }
-export default Prism(Label, 'com.fika.text')
+
+//export default Prism(Label, 'com.fika.text')
+export default Prism(Label)
 ```
 
 Then you can use all the built in (and extended) [style properties](#style-properties), for example:
@@ -258,23 +258,35 @@ This is common when a component wraps several fixed child components.
 
 ```javascript
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Image, Text, View} from 'react-native'
 import {Prism} from 'react-native-prism'
+import Label from './Label'
 
 class ImageLabel extends Component {
 
+  static styleOptions = () => {
+    return {
+      styleProperties: {
+        label: ['color'],
+        image: ['position']
+      }
+    }
+  }
+
   static propTypes = {
+    color: PropTypes.string,
     // Make sure our properties are validated correctly
     imageStyle: Prism.propTypes.style,
     labelStyle: Prism.propTypes.style
   }
 
   render () {
-    const {style, imageStyle, labelStyle} = this.props
+    const {style, imageStyle, labelStyle, color} = this.props
     return (
       <View style={style}>
         <Image style={imageStyle} />
-        <Text style={labelStyle}>{this.props.children}</Text>
+        <Label style={labelStyle}>{this.props.children}</Label>
       </View>
     )
   }
@@ -461,11 +473,9 @@ The `disabledPlugins` option is processed after `plugins` and `additionalPlugins
 
 Plugins allow you to change the default behaviour, see [style properties](#style-properties) for the list of default properties and [configuration](#configuration) for how to register plugins.
 
-A plugin is defined as an array that specifies the plugin name, function handler and optionally a third `propType` field.
-
 ### Global Plugins
 
-Global plugins such as the `mapPropsToStyle` and `colorNames` plugins are not property-specific so they omit the `propType`:
+Global plugins such as `mapPropsToStyle` are defined by string name followed by plugin implementation:
 
 ```javascript
 const plugins = [
@@ -478,20 +488,16 @@ const plugins = [
 
 ### Property Plugins
 
-If your plugin is for a property you should specify a `propType` to use so the property will be validated, for example:
+If your plugin is for a property you should specify the implementation followed by the `propType` to use:
 
 ```javascript
 import PropTypes from 'prop-types'
 const plugins = [
   [
-    'transform',
-    ({props, styleSheet}) => {
-      const {transform} = props
-      if (transform) {
-        // Return some transform specific style declarations
-      }
+    ({prop, propName, styleSheet, colors}) => {
+      // Return some transform specific style declarations
     },
-    PropTypes.object
+    {transform: PropTypes.object}
   ]
 ]
 ```
@@ -663,5 +669,5 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 29, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 30, 2018
 

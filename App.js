@@ -21,9 +21,9 @@ import {Prism, StyleRegistry} from './src/Prism'
 import Colors from './app/Colors'
 import Fonts from './app/Fonts'
 import StyleSheet from './app/StyleSheet'
-import Label from './app/Label'
 
-// Ensure example code compiles
+import Layout from './app/Layout'
+import Label from './app/Label'
 import ImageLabel from './app/ImageLabel'
 
 const config = {
@@ -47,19 +47,19 @@ Prism.configure(registry, config)
 export default class App extends Component<{}> {
   render () {
     return (
-      <View style={{flex: 1}}>
-        <Label
-          padding={5}
-          margin={[10, 20]}
-          style={{color: 'blue'}}
-          color='green'
-          >Text</Label>
-        <ImageLabel
-          padding={5}
-          margin={[10, 20]}
-          color='orange'
-          >Text</ImageLabel>
-      </View>
+      <Layout background='green'>
+        <Layout margin={20} padding={10} border='cream'>
+          <Label
+            padding={5}
+            margin={[10, 20]}
+            >Text</Label>
+          <ImageLabel
+            padding={5}
+            margin={[10, 20]}
+            color='orange'
+            >Text</ImageLabel>
+          </Layout>
+      </Layout>
     )
   }
 }

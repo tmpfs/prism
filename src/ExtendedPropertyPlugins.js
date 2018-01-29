@@ -19,11 +19,8 @@ const boxModel = (key, value) => {
 export default [
   // Background
   [
-    ({props, styleSheet}) => {
-      const {background} = props
-      if (background) {
-        return {backgroundColor: background}
-      }
+    ({prop, styleSheet, colors}) => {
+      return {backgroundColor: colors[prop] || prop}
     },
     {background: propTypes.background}
   ],
@@ -86,23 +83,21 @@ export default [
 
   // Border
   [
-    ({props, styleSheet}) => {
-      const {border} = props
-      if (border) {
-        if (Array.isArray(border)) {
-          return {
-            borderWidth: border[0],
-            borderColor: border[1]}
-        } else if (typeof(border) === 'string') {
-          return {borderWidth: 1, borderColor: border}
-        } else {
-          return {
-            borderColor: border.color,
-            borderTopWidth: border.top,
-            borderRightWidth: border.right,
-            borderBottomWidth: border.bottom,
-            borderLeftWidth: border.left
-          }
+    ({prop, styleSheet, colors}) => {
+      const border = prop
+      if (Array.isArray(border)) {
+        return {
+          borderWidth: border[0],
+          borderColor: colors[border[1]] || border[1]}
+      } else if (typeof(border) === 'string') {
+        return {borderWidth: 1, borderColor: colors[border] || border}
+      } else {
+        return {
+          borderColor: colors[border.color] || border.color,
+          borderTopWidth: border.top,
+          borderRightWidth: border.right,
+          borderBottomWidth: border.bottom,
+          borderLeftWidth: border.left
         }
       }
     },
