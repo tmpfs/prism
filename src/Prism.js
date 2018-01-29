@@ -58,11 +58,13 @@ const registerPlugin = (plugin) => {
 
 const getStyleSheet = ({props, definition}) => {
   const {style} = props
-  const {config, options, registry} = definition
-
+  const {config, options, registry, namespace} = definition
   const {styleSheet, colors} = registry
-  const defaultClassStyle = styleSheet[definition.Name] ?
-    [styleSheet[definition.Name]] : []
+
+  const componentClassName = namespace ?
+    `${namespace}.${definition.Name}` : definition.Name
+  const defaultClassStyle = styleSheet[componentClassName] ?
+    [styleSheet[componentClassName]] : []
 
   let {defaultStyles, inherit} = options
 
@@ -70,7 +72,7 @@ const getStyleSheet = ({props, definition}) => {
     defaultStyles = defaultStyles.concat(defaultClassStyle)
   }
 
-  // Look up default styles by class name
+  // Use default component class style
   if (!defaultStyles) {
     defaultStyles = defaultClassStyle
   }
@@ -110,7 +112,7 @@ const getStyleSheet = ({props, definition}) => {
 // Register a stylable component type.
 //
 // Likely the registry has not been set yet.
-const Prism = (Type) => {
+const Prism = (Type, namespace = '') => {
   const Name = Type.name
 
   let styleOptions
@@ -184,7 +186,7 @@ const Prism = (Type) => {
     return PrismComponent
   }
 
-  const definition = {Type, Name, styleOptions, mapPropsToStyle}
+  const definition = {Type, Name, styleOptions, mapPropsToStyle, namespace}
   const NewType = Wrapped(Type, definition)
   definition.NewType = NewType
 
