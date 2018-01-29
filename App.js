@@ -51,11 +51,14 @@ export default class App extends Component<{}> {
         <Label
           padding={5}
           margin={[10, 20]}
-          color='green'>Text</Label>
+          color='green'
+          style={{color: 'blue'}}
+          >Text</Label>
         <ImageLabel
           padding={5}
           margin={[10, 20]}
-          color='orange'>Text</ImageLabel>
+          color='orange'
+          >Text</ImageLabel>
       </View>
     )
   }

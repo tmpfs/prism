@@ -56,8 +56,9 @@ const registerPlugin = (plugin) => {
   throw new Error('Prism: invalid plugin definition')
 }
 
-const getStyleSheet = ({props, definition}) => {
-  const {style} = props
+const getStyleSheet = ({props, definition, propertyName}) => {
+  const style = props[propertyName]
+
   const {config, options, registry, namespace} = definition
   const {styleSheet, colors} = registry
 
@@ -82,11 +83,6 @@ const getStyleSheet = ({props, definition}) => {
   // Add default styles
   sheets = sheets.concat(defaultStyles)
 
-  // Add inline `style` property
-  if (style) {
-    sheets = sheets.concat(style)
-  }
-
   // Process plugins
   const pluginOptions = {
     config,
@@ -106,6 +102,11 @@ const getStyleSheet = ({props, definition}) => {
     }
   })
 
+  // Add inline `style` property
+  if (style) {
+    sheets = sheets.concat(style)
+  }
+
   return sheets
 }
 
@@ -117,7 +118,6 @@ const Prism = (Type, namespace = '') => {
 
   let styleOptions
   let mapPropsToStyle = Type.mapPropsToStyle
-
   if (Type.styleOptions instanceof Function) {
     styleOptions = Type.styleOptions
   }
@@ -138,14 +138,18 @@ const Prism = (Type, namespace = '') => {
             'Prism: no style sheet available, ' +
             'did you forget to call styleRegistry.addStyleSheet()?')
         }
-        this.state = {
-          styleProperties: [
-            'style'
-          ],
-          styleValues: {
-            style: []
-          }
+        // Class level processing options
+        const {options} = definition
+        const state = {
+          styleProperties: options.styleProperties,
+          styleValues: {}
         }
+
+        // Initialize empty styles
+        state.styleProperties.forEach((name) => {
+          state.styleValues[name] = []
+        })
+        this.state = state
       }
 
       setNativeProps (props) {
@@ -220,17 +224,38 @@ const Prism = (Type, namespace = '') => {
 const registerComponent = (registry, definition, config) => {
   const {Type, Name, styleOptions, mapPropsToStyle} = definition
   const {plugins} = config
-  definition.options = {}
+  //definition.options = {}
+  let options = {}
   if (styleOptions) {
-    const options = styleOptions({...registry, compile})
+    options = styleOptions({...registry, compile})
     const {defaultStyles} = options
     if (defaultStyles && !Array.isArray(defaultStyles)) {
       throw new Error(
         'Prism: default styles should be an array of objects')
     }
-
-    definition.options = options
   }
+
+  let {styleProperties} = options
+  // User defined style property names
+  if (styleProperties !== undefined) {
+    if (!Array.isArray(styleProperties)) {
+      throw new Error(
+        'Prism: styleProperties should be an array of strings')
+    }
+    // Must always include the default style property
+    if (!~styleProperties.indexOf('style')) {
+      styleProperties = ['style'].concat(styleProperties)
+    }
+  }
+
+  // Default style property support
+  if (!styleProperties) {
+    styleProperties = ['style']
+  }
+
+  options.styleProperties = styleProperties
+  definition.options = options
+
 
   // Validate mapPropsToStyle
   if (mapPropsToStyle) {
