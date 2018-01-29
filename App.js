@@ -7,7 +7,6 @@
 import React, { Component } from 'react';
 import {
   Platform,
-  Text,
   View
 } from 'react-native';
 
@@ -25,9 +24,10 @@ import StyleSheet from './app/StyleSheet'
 import Label from './app/Label'
 
 // Ensure example code compiles
-import './app/ImageLabel'
+import ImageLabel from './app/ImageLabel'
 
 const config = {
+  debug: true,
   extendedProperties: true,
   disabled: true,
   //additionalPlugins: [
@@ -47,10 +47,15 @@ Prism.configure(registry, config)
 export default class App extends Component<{}> {
   render () {
     return (
-      <Label
-        padding={5}
-        margin={[10, 20]}
-        color='green'>Text</Label>
+      <View style={{flex: 1}}>
+        <Label
+          padding={5}
+          margin={[10, 20]}
+          color='green'>Text</Label>
+        <ImageLabel
+          padding={5}
+          margin={[10, 20]}>Text</ImageLabel>
+      </View>
     )
   }
 }

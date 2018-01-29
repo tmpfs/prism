@@ -273,7 +273,7 @@ class ImageLabel extends Component {
     const {style, imageStyle, labelStyle} = this.props
     return (
       <View style={style}>
-        <Image style={imageStyle} {...this.props} />
+        <Image style={imageStyle} />
         <Text style={labelStyle}>{this.props.children}</Text>
       </View>
     )
@@ -392,6 +392,7 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `extendedProperties` boolean that enables the extended style property plugins.
 * `additionalPlugins` array of plugin definitions to append to the system plugins.
 * `disabledPlugins` array of string plugin names to disable.
+* `debug` print configured plugins.
 
 Note that support for the `style` property cannot be disabled, it is not handled by a plugin.
 

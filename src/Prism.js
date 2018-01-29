@@ -274,7 +274,12 @@ Prism.configure = (registry, config = {}) => {
 
   Prism.config = Object.assign({}, Configuration, config)
 
-  console.log(`Prism configured with ${plugins.length} plugins`)
+  if (config.debug) {
+    console.log(`Prism configured with ${plugins.length} plugins`)
+    plugins.forEach((plugin) => {
+      console.log(`Prism using plugin "${plugin.name}"`)
+    })
+  }
 
   // Ensure we use the computed plugins
   Prism.config.plugins = plugins

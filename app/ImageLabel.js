@@ -14,7 +14,7 @@ class ImageLabel extends Component {
     const {style, imageStyle, labelStyle} = this.props
     return (
       <View style={style}>
-        <Image style={imageStyle} {...this.props} />
+        <Image style={imageStyle} />
         <Text style={labelStyle}>{this.props.children}</Text>
       </View>
     )
