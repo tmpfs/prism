@@ -69,8 +69,10 @@ const registerPlugin = (plugin) => {
   throw new Error('Prism: invalid plugin definition')
 }
 
-const getStyleSheet = ({props, definition, attrName, plugins}) => {
-  const style = props[attrName]
+const getStyleSheet = (
+  {props, definition, attrName, fullAttrName, plugins}) => {
+
+  const style = props[fullAttrName]
 
   const {config, options, registry, namespace} = definition
   const {styleSheet, colors} = registry
@@ -207,7 +209,7 @@ const Prism = (Type, namespace = '') => {
         let mutableStyleValues = Object.assign({}, styleValues)
         stylePropertyNames.forEach((attrName) => {
           if (testFunc({props, attrName})) {
-            const fullPropertyName = this.getStylePropertyName(attrName)
+            const fullAttrName = this.getStylePropertyName(attrName)
             const availableProperties = styleProperties[attrName]
 
             // TODO: only run global plugins once!
@@ -229,8 +231,9 @@ const Prism = (Type, namespace = '') => {
                 map: propertyMap
               }
             }
-            const computedStyle = getStyleSheet({props, definition, attrName, plugins})
-            mutableStyleValues[fullPropertyName] = computedStyle
+            const computedStyle = getStyleSheet(
+              {props, definition, attrName, fullAttrName, plugins})
+            mutableStyleValues[fullAttrName] = computedStyle
           }
         })
         this.setState({styleValues: mutableStyleValues})

@@ -16,6 +16,7 @@ class ImageLabel extends Component {
   }
 
   static propTypes = {
+    source: Image.propTypes.source,
     color: PropTypes.string,
     // Make sure our properties are validated correctly
     imageStyle: Prism.propTypes.style,
@@ -23,7 +24,8 @@ class ImageLabel extends Component {
   }
 
   render () {
-    const {style, imageStyle, labelStyle, color} = this.props
+    const {style, imageStyle, labelStyle} = this.props
+    console.log(labelStyle)
     return (
       <View style={style}>
         <Image style={imageStyle} />

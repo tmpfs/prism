@@ -62,7 +62,7 @@ export default class App extends Component<{}> {
             border='cream'
             padding={20}
             margin={[10, 20]}
-            color='orange'
+            color='white'
             labelStyle={{textAlign: 'center'}}
             >Image Caption</ImageLabel>
           </Layout>

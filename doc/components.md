@@ -213,27 +213,15 @@ class BlockQuote extends Component {
 
 ### Color Names
 
-Styles are much easier to change if we can refer to our custom colors by name, however this functionality needs to be enabled in your components. The plugin that processes color names is activated by default but it's more efficient if we only process color names at the boundary with the underlying RN components.
+Styles are much easier to change if we can refer to our custom colors by name.
 
-Take for example the `color` style property; it only applies to the `Text` related components. So we should enable it for our `Label`. Just add the `colorNames` class option:
+The bundled plugins handle color name lookup but if you are writing your own plugins and want to support color name lookup for color values you need to test the `colors` map:
 
 ```javascript
-class Label extends Component {
-  static styleOptions = () => {
-    return {
-      colorNames: true
-    }
-  }
-}
+[
+  ({prop, colors}) => {
+    return {backgroundColor: colors[prop] || prop}
+  },
+  {bulletColor: PropTypes.string}
+]
 ```
-
-Take an `ImageLabel` that wraps an `Image` and `Label`. We would likely want to expose `color` on the parent component and pass it to the `Label`.
-
-Then we can render it like so:
-
-```html
-<ImageLabel color='orange' />
-```
-
-In this case after the `style` for `ImageLabel` has been computed `color` is still `orange`, only when it is computed in `Label` does it become `#ff6600` *just before* being passed to the underying RN `Text` component.
-
