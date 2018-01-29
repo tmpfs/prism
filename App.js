@@ -24,6 +24,7 @@ import StyleSheet from './app/StyleSheet'
 
 import Layout from './app/Layout'
 import Label from './app/Label'
+import Square from './app/Square'
 import ImageLabel from './app/ImageLabel'
 
 const config = {
@@ -68,6 +69,12 @@ export default class App extends Component<{}> {
             height={96}
             source={{uri: 'https://fika.community/img/fika-icon-512x512.png'}}
             >Image Caption</ImageLabel>
+
+            <Layout direction='row' justify='center'>
+              <Square margin={15} />
+              <Square margin={15} />
+              <Square margin={15} />
+            </Layout>
           </Layout>
       </Layout>
     )
