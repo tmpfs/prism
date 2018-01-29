@@ -164,11 +164,12 @@ class Label extends Component {
 export default Prism(Label)
 ```
 
-Now you can use all the built in [style properties](#style-properties), for example:
+Now you can use all the built in (and extended) [style properties](#style-properties), for example:
 
 ```html
   <Label
-    position={{top: 10, left: 20}}
+    padding={5}
+    margin={[10, 20]}
     style={{color: 'red'}}>Text</Label>
 ```
 

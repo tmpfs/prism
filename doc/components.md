@@ -55,11 +55,12 @@ To create a styled component you just need to pass the component class to the `P
 
 <? @source {javascript} ../app/Label.js ?>
 
-Now you can use all the built in [style properties](#style-properties), for example:
+Now you can use all the built in (and extended) [style properties](#style-properties), for example:
 
 ```html
   <Label
-    position={{top: 10, left: 20}}
+    padding={5}
+    margin={[10, 20]}
     style={{color: 'red'}}>Text</Label>
 ```
 
