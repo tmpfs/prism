@@ -102,7 +102,6 @@ export default [
         } else if (typeof(border) === 'string') {
           return {borderWidth: 1, borderColor: border}
         } else {
-          console.log(border)
           return {
             borderColor: border.color,
             borderTopWidth: border.top,

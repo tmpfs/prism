@@ -13,13 +13,13 @@ const compile = (decl) => {
 }
 
 const Configuration = {
+  // TODO: document this config option
   colorProperties: [
     'color',
     'backgroundColor',
     'borderColor',
     'background'
   ],
-  propTypes: propTypes,
   plugins: null
 }
 
@@ -65,8 +65,6 @@ const getStyleSheet = ({props, definition}) => {
     `${namespace}.${definition.Name}` : definition.Name
   const defaultClassStyle = styleSheet[componentClassName] ?
     [styleSheet[componentClassName]] : []
-
-  console.log(componentClassName)
 
   let {defaultStyles, inherit} = options
 
@@ -140,10 +138,14 @@ const Prism = (Type, namespace = '') => {
             'Prism: no style sheet available, ' +
             'did you forget to call styleRegistry.addStyleSheet()?')
         }
-      }
-
-      state = {
-        style: []
+        this.state = {
+          styleProperties: [
+            'style'
+          ],
+          styleValues: {
+            style: []
+          }
+        }
       }
 
       setNativeProps (props) {
@@ -153,20 +155,30 @@ const Prism = (Type, namespace = '') => {
         }
       }
 
-      // So that changes to `style` are
-      // reflected in the stylable
+      // So that changes to style properties are
+      // reflected in the stylable component
       componentWillReceiveProps (props) {
-        // TODO: proper invalidation
-        if (props.style && this.props.style) {
-          const style = getStyleSheet({props, definition})
-          this.setState({style})
-        }
+        const {styleProperties, styleValues} = this.state
+        let mutableStyleValues = Object.assign({}, styleValues)
+        styleProperties.forEach((propertyName) => {
+          // TODO: proper invalidation
+          if (props[propertyName] && this.props[propertyName]) {
+            const style = getStyleSheet({props, definition, propertyName})
+            mutableStyleValues[propertyName] = style
+          }
+        })
+        this.setState({styleValues: mutableStyleValues})
       }
 
       componentWillMount () {
         const {props} = this
-        const style = getStyleSheet({props, definition})
-        this.setState({style})
+        const {styleProperties, styleValues} = this.state
+        let mutableStyleValues = Object.assign({}, styleValues)
+        styleProperties.forEach((propertyName) => {
+          const style = getStyleSheet({props, definition, propertyName})
+          mutableStyleValues[propertyName] = style
+        })
+        this.setState({styleValues: mutableStyleValues})
       }
 
       render () {
@@ -174,7 +186,8 @@ const Prism = (Type, namespace = '') => {
           <Stylable
             ref='stylable'
             {...this.props}
-            style={this.state.style}
+            {...this.state.styleValues}
+            //style={this.state.style}
             styleRegistry={definition.registry}
             styleFlexRow={this.props.direction === 'row'}
             styleSheet={definition.registry.styleSheet} />
@@ -206,6 +219,7 @@ const Prism = (Type, namespace = '') => {
 
 const registerComponent = (registry, definition, config) => {
   const {Type, Name, styleOptions, mapPropsToStyle} = definition
+  const {plugins} = config
   definition.options = {}
   if (styleOptions) {
     const options = styleOptions({...registry, compile})
@@ -235,7 +249,13 @@ const registerComponent = (registry, definition, config) => {
   // Merge config propTypes into the Stylable propTypes.
   //
   // On collision the underlying component propTypes win.
-  const propertyTypes = Object.assign({}, config.propTypes, Type.propTypes)
+  const systemPropTypes = {}
+  plugins.forEach((plugin) => {
+    if (plugin.propType) {
+      systemPropTypes[plugin.name] = plugin.propType
+    }
+  })
+  const propertyTypes = Object.assign({}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
 
   // TODO: support multiple registries
