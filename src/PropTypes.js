@@ -67,7 +67,12 @@ const propTypes = {
       top: PropTypes.shape(sides),
       bottom: PropTypes.shape(sides)
     })
-  ])
+  ]),
+  colorNames: {
+    color: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    borderColor: PropTypes.string
+  }
 }
 
 export default propTypes

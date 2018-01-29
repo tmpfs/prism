@@ -5,8 +5,7 @@ export default [
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',
-    (pluginOptions) => {
-      const {props, definition} = pluginOptions
+    ({props, definition}) => {
       const {mapPropsToStyle, Type} = definition
       if (mapPropsToStyle) {
         const sheets = []
@@ -28,22 +27,19 @@ export default [
 
   // Support for className
   [
-    ({props, styleSheet}) => {
-      const {className} = props
-      if (className) {
-
-        const find = (list) => {
-          return list
-            .filter((nm) => styleSheet.hasOwnProperty(nm))
-            .map((nm) => styleSheet[nm])
-        }
-
-        if (Array.isArray(className)) {
-          return find(className)
-        }
-
-        return find(className.split(/\s+/))
+    ({prop, styleSheet}) => {
+      const className = prop
+      const find = (list) => {
+        return list
+          .filter((nm) => styleSheet.hasOwnProperty(nm))
+          .map((nm) => styleSheet[nm])
       }
+
+      if (Array.isArray(className)) {
+        return find(className)
+      }
+
+      return find(className.split(/\s+/))
     },
     {className: propTypes.className}
   ],
@@ -60,11 +56,6 @@ export default [
         return colorValue
       }
     },
-    {
-      color: PropTypes.string,
-      backgroundColor: PropTypes.string,
-      borderColor: PropTypes.string,
-      background: PropTypes.string,
-    }
+    propTypes.colorNames
   ]
 ]

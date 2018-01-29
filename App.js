@@ -47,17 +47,24 @@ Prism.configure(registry, config)
 export default class App extends Component<{}> {
   render () {
     return (
-      <Layout background='green'>
-        <Layout margin={20} padding={10} border='cream'>
+      <Layout background='backgroundGreen'>
+        <Layout
+          margin={20}
+          padding={10}
+          background='green'
+          border={[4, 'cream']}>
           <Label
+            border='cream'
             padding={5}
-            margin={[10, 20]}
-            >Text</Label>
+            margin={[10, 20]}>Simple Label</Label>
+
           <ImageLabel
-            padding={5}
+            border='cream'
+            padding={20}
             margin={[10, 20]}
             color='orange'
-            >Text</ImageLabel>
+            labelStyle={{textAlign: 'center'}}
+            >Image Caption</ImageLabel>
           </Layout>
       </Layout>
     )

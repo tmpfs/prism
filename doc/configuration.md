@@ -15,7 +15,6 @@ Note that support for the `style` property cannot be disabled, it is not handled
 When no configuration object is given the following plugins are enabled:
 
 * `mapPropsToStyle`
-* `colorNames`
 * `className`
 
 ### Extended Plugins
