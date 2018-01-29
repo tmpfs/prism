@@ -62,7 +62,7 @@ const registerPlugin = (plugin) => {
   throw new Error('Prism: invalid plugin definition')
 }
 
-const getStyleSheet = ({props, definition, propertyName}) => {
+const getStyleSheet = ({props, definition, propertyName, plugins}) => {
   const style = props[propertyName]
 
   const {config, options, registry, namespace} = definition
@@ -108,7 +108,7 @@ const getStyleSheet = ({props, definition, propertyName}) => {
     colors
   }
 
-  const plugins = config.plugins || []
+  //const plugins = config.plugins || []
   plugins.forEach((plugin) => {
     const style = plugin.func(pluginOptions)
     if (style) {
@@ -155,18 +155,22 @@ const Prism = (Type, namespace = '') => {
         // Class level processing options
         const {options} = definition
         const state = {
-          styleProperties: options.stylePropertyNames,
           styleValues: {}
         }
 
         // Initialize empty styles, following the convention
-        state.styleProperties.forEach((name) => {
-          if (name !== STYLE && !/Style$/.test(name)) {
-            name += 'Style'
-          }
+        options.stylePropertyNames.forEach((name) => {
+          name = this.getStylePropertyName(name)
           state.styleValues[name] = []
         })
         this.state = state
+      }
+
+      getStylePropertyName (name) {
+        if (name !== STYLE && !/Style$/.test(name)) {
+          name += 'Style'
+        }
+        return name
       }
 
       setNativeProps (props) {
@@ -177,15 +181,41 @@ const Prism = (Type, namespace = '') => {
       }
 
       processStylePlugins (props, testFunc) {
-        const {styleProperties, styleValues} = this.state
+        const {options} = definition
+        const {stylePropertyNames, styleProperties} = options
+        const {globals, property} = options.plugins
+        const {styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
         if (!testFunc) {
           testFunc = () => true
         }
-        styleProperties.forEach((propertyName) => {
+        stylePropertyNames.forEach((propertyName) => {
           if (testFunc({props, propertyName})) {
-            const computedStyle = getStyleSheet({props, definition, propertyName})
-            mutableStyleValues[propertyName] = computedStyle
+            const fullPropertyName = this.getStylePropertyName(propertyName)
+            const availableProperties = styleProperties[propertyName]
+            // TODO: only run global plugins once?
+            let stylePlugins = globals.slice()
+            let propertyPlugins = property.filter((plugin) => {
+              const ind = availableProperties.indexOf(plugin.name)
+              const matched = ind > -1
+              if (matched) {
+                availableProperties.splice(ind, 1)
+              }
+              return matched
+            })
+            const plugins = stylePlugins.concat(propertyPlugins)
+            const computedStyle = getStyleSheet({props, definition, propertyName, plugins})
+            // Some declared properties did not match
+            // a plugin so we pass them through verbatim
+            if (availableProperties.length) {
+              const verbatim = {}
+              availableProperties.forEach((name) => {
+                verbatim[name] = props[name]
+              })
+              console.log(verbatim)
+              computedStyle.push(verbatim)
+            }
+            mutableStyleValues[fullPropertyName] = computedStyle
           }
         })
         this.setState({styleValues: mutableStyleValues})
