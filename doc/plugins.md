@@ -4,6 +4,8 @@ Plugins allow you to change the default behaviour, see [style properties](#style
 
 A plugin is defined as an array that specifies the plugin name, function handler and optionally a third `propType` field.
 
+### Global Plugins
+
 Global plugins such as the `mapPropsToStyle` and `colorNames` plugins are not property-specific so they omit the `propType`:
 
 ```javascript
@@ -14,6 +16,8 @@ const plugins = [
   ]
 ]
 ```
+
+### Property Plugins
 
 If your plugin is for a property you should specify a `propType` to use so the property will be validated, for example:
 
