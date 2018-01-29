@@ -5,7 +5,8 @@ export default [
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',
-    ({props, definition}) => {
+    (pluginOptions) => {
+      const {props, definition} = pluginOptions
       const {mapPropsToStyle, Type} = definition
       if (mapPropsToStyle) {
         const sheets = []
