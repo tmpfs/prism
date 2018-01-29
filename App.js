@@ -63,7 +63,9 @@ export default class App extends Component<{}> {
             padding={20}
             margin={[10, 20]}
             color='white'
-            labelStyle={{textAlign: 'center'}}
+            width={96}
+            height={96}
+            source={{uri: 'https://fika.community/img/fika-icon-512x512.png'}}
             >Image Caption</ImageLabel>
           </Layout>
       </Layout>

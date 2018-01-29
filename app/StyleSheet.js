@@ -7,6 +7,13 @@ export default ({colors, fonts}) => {
       fontSize: 16,
       fontFamily: fonts.regular,
       color: colors.cream
+    },
+    ImageLabel: {
+      flex: 1,
+      alignItems: 'center'
+    },
+    'ImageLabel.Label': {
+      textAlign: 'center'
     }
   }
 }

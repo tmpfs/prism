@@ -9,8 +9,10 @@ class ImageLabel extends Component {
   static styleOptions = () => {
     return {
       styleProperties: {
+        // Maps to labelStyle.color
         label: ['color'],
-        image: ['position']
+        // Maps to imageStyle.width and imageStyle.height
+        image: ['width', 'height']
       }
     }
   }
@@ -18,16 +20,22 @@ class ImageLabel extends Component {
   static propTypes = {
     source: Image.propTypes.source,
     color: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
     // Make sure our properties are validated correctly
     imageStyle: Prism.propTypes.style,
     labelStyle: Prism.propTypes.style
   }
 
   render () {
-    const {style, imageStyle, labelStyle} = this.props
+    const {style, imageStyle, labelStyle, width, height, source} = this.props
     return (
       <View style={style}>
-        <Image style={imageStyle} />
+        <Image
+          width={width}
+          height={height}
+          source={source}
+          style={imageStyle} />
         <Label style={labelStyle}>{this.props.children}</Label>
       </View>
     )
