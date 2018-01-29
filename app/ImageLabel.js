@@ -11,7 +11,7 @@ class ImageLabel extends Component {
       colorNames: ['color'],
       styleProperties: {
         // Maps color -> labelStyle.color and space -> labelStyle.marginTop
-        label: ['color', ['space', 'marginTop']],
+        label: ['color', ['space', 'marginTop'], ['size', 'fontSize']],
         // Maps to imageStyle.width and imageStyle.height
         image: ['width', 'height']
       }
@@ -23,7 +23,8 @@ class ImageLabel extends Component {
     color: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
-    space: PropTypes.number
+    space: PropTypes.number,
+    size: PropTypes.number
   }
 
   static defaultProps = {

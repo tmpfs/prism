@@ -12,13 +12,19 @@ class Label extends Component {
 
   static propTypes = {
     color: PropTypes.string,
-    align: PropTypes.oneOf(['left', 'center', 'right'])
+    align: PropTypes.oneOf(['left', 'center', 'right']),
+    size: PropTypes.number
   }
 
   static mapPropsToStyle = {
-    align: ({prop, styleSheet}) => {
+    align: ({prop}) => {
       if (prop) {
         return {textAlign: prop}
+      }
+    },
+    size: ({prop}) => {
+      if (prop) {
+        return {fontSize: prop}
       }
     }
   }
