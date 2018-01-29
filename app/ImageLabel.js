@@ -25,7 +25,6 @@ class ImageLabel extends Component {
 
   render () {
     const {style, imageStyle, labelStyle} = this.props
-    console.log(labelStyle)
     return (
       <View style={style}>
         <Image style={imageStyle} />
