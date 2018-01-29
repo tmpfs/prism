@@ -29,7 +29,7 @@ import './app/ImageLabel'
 
 const config = {
   extendedProperties: true,
-  //disabled: true,
+  disabled: true,
   //additionalPlugins: [
     //[
       //'customPlugin',

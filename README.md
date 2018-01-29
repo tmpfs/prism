@@ -26,7 +26,7 @@
   - [Default Plugins](#default-plugins)
   - [Extended Plugins](#extended-plugins)
   - [Custom Plugins](#custom-plugins)
-  - [Inline Styles Only](#inline-styles-only)
+  - [Disable System Plugins](#disable-system-plugins)
   - [Remove Plugins](#remove-plugins)
 - [Plugins](#plugins)
   - [Global Plugins](#global-plugins)
@@ -51,6 +51,7 @@
     - [styleSheet](#stylesheet)
     - [styleRegistry](#styleregistry)
     - [styleFlexRow](#styleflexrow)
+- [License](#license)
 
 ---
 
@@ -352,11 +353,10 @@ In this case after the `style` for `ImageLabel` has been computed `color` is sti
 
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
 
+* `plugins` array of plugin definitions to use, overrides the system plugins.
 * `extendedProperties` boolean that enables the extended style property plugins.
-* `disabled` boolean that disables all default plugins.
-* `additionalPlugins` array of plugin definitions to append to the default plugins.
+* `additionalPlugins` array of plugin definitions to append to the system plugins.
 * `disabledPlugins` array of string plugin names to disable.
-* `plugins` array of plugin definitions to use, overrides the default plugins.
 
 Note that support for the `style` property cannot be disabled, it is not handled by a plugin.
 
@@ -378,16 +378,31 @@ Prism.configure(registry, {extendedProperties: true})
 
 ### Custom Plugins
 
-Use the `additionalPlugins` option to add custom functionality to all your styled components.
-
-See [plugins](#plugins) for information on defining custom plugins.
-
-### Inline Styles Only
-
-You can disable all plugins and inline `style` attributes are still processed and available to your component:
+Use the `additionalPlugins` option to add custom functionality to all your styled components, see [plugins](#plugins) for information on defining custom plugins.
 
 ```javascript
-Prism.configure(registry, {disabled: true})
+Prism.configure(
+  registry,
+  {
+    extendedProperties: true,
+    additionalPlugins: [
+      [
+        'customGlobalPlugin',
+        ({props, styleSheet}) => {
+          // Do something cool
+        }
+      ]
+    ]
+  }
+)
+```
+
+### Disable System Plugins
+
+You can disable all system plugins with an empty array, inline `style` attributes are still processed and available to your component:
+
+```javascript
+Prism.configure(registry, {plugins: []})
 ```
 
 ### Remove Plugins
@@ -395,8 +410,16 @@ Prism.configure(registry, {disabled: true})
 You may want to remove plugins you don't need or if you find a property name collision:
 
 ```javascript
-Prism.configure(registry, {disabledPlugins: ['direction', 'wrap']})
+Prism.configure(
+  registry,
+  {
+    extendedProperties: true,
+    disabledPlugins: ['direction', 'wrap']
+  }
+)
 ```
+
+The `disabledPlugins` option is processed after `plugins` and `additionalPlugins` so you may use this to disable your custom plugins. If you give a plugin name that does not exist it is ignored.
 
 ## Plugins
 
@@ -597,6 +620,10 @@ The underlying registry of colors, fonts and stylesheets.
 `Boolean`
 
 Indicates whether the layout direction is horizontal or vertical, can be used by child components to determine the edge for intermediate space.
+
+## License
+
+MIT
 
 ---
 

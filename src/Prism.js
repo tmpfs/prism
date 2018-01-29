@@ -246,14 +246,14 @@ Prism.configure = (registry, config = {}) => {
     throw new Error('Prism: you must pass a StyleRegistry to configure')
   }
 
-  let systemPlugins = !config.disabled ? Plugins : []
+  let systemPlugins = Plugins
   if (config.extendedProperties) {
     systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
   }
 
   let plugins = Array.isArray(config.plugins) ? config.plugins : systemPlugins
 
-  // Register the default plugins
+  // Register the plugins
   plugins = registerPlugins(plugins)
 
   if (Array.isArray(config.additionalPlugins)) {
