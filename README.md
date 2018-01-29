@@ -170,9 +170,23 @@ import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 class Label extends Component {
+  static styleOptions = () => {
+    return {
+      colorNames: ['color']
+    }
+  }
 
   static propTypes = {
-    color: PropTypes.string
+    color: PropTypes.string,
+    align: PropTypes.oneOf(['left', 'center', 'right'])
+  }
+
+  static mapPropsToStyle = {
+    align: ({prop, styleSheet}) => {
+      if (prop) {
+        return {textAlign: prop}
+      }
+    }
   }
 
   render () {
@@ -277,9 +291,10 @@ class ImageLabel extends Component {
 
   static styleOptions = () => {
     return {
+      colorNames: ['color'],
       styleProperties: {
-        // Maps to labelStyle.color
-        label: ['color'],
+        // Maps color -> labelStyle.color and space -> labelStyle.marginTop
+        label: ['color', ['space', 'marginTop']],
         // Maps to imageStyle.width and imageStyle.height
         image: ['width', 'height']
       }
@@ -291,9 +306,11 @@ class ImageLabel extends Component {
     color: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
-    // Make sure our properties are validated correctly
-    imageStyle: Prism.propTypes.style,
-    labelStyle: Prism.propTypes.style
+    space: PropTypes.number
+  }
+
+  static defaultProps = {
+    space: 10
   }
 
   render () {

@@ -45,6 +45,8 @@ registry.addFonts(Fonts)
 registry.addStyleSheet(StyleSheet)
 Prism.configure(registry, config)
 
+const image = 'https://raw.githubusercontent.com/fika-community/prism/master/prism.png'
+
 export default class App extends Component<{}> {
   render () {
     return (
@@ -54,21 +56,22 @@ export default class App extends Component<{}> {
           padding={10}
           background='green'
           border={[4, 'cream']}>
-          <Label
-            border='cream'
-            padding={5}
-            align='center'
-            margin={[10, 20]}>Simple Label</Label>
+            <ImageLabel
+              border='cream'
+              padding={20}
+              margin={[10, 20]}
+              color='white'
+              width={96}
+              height={96}
+              source={{uri: image}}>Prism</ImageLabel>
 
-          <ImageLabel
-            border='cream'
-            padding={20}
-            margin={[10, 20]}
-            color='white'
-            width={96}
-            height={96}
-            source={{uri: 'https://fika.community/img/fika-icon-512x512.png'}}
-            >Image Caption</ImageLabel>
+            <Label
+              border='cream'
+              padding={20}
+              align='center'
+              margin={[10, 20]}>
+                Minimal, idiomatic style management for React Native.
+              </Label>
 
             <Layout direction='row' justify='center'>
               <Square margin={15} />
