@@ -12,6 +12,8 @@ const isObject = (o) => {
   return o && o.toString() === '[object Object]'
 }
 
+const isFunction = (fn) => (fn instanceof Function)
+
 const compile = (decl) => {
   const sheet = {decl}
   const compiled = StyleSheet.create(sheet)
@@ -41,21 +43,33 @@ const registerPlugins = (plugins) => {
   if (!Array.isArray(plugins)) {
     throw new Error('Prism: plugins must be an array')
   }
-  return plugins.map((plugin) => registerPlugin(plugin))
+  return plugins.reduce((list, plugin) => {
+    list = list.concat(registerPlugin(plugin))
+    return list
+  }, [])
 }
 
 const registerPlugin = (plugin) => {
   // Named plugin as array
   if (Array.isArray(plugin)) {
-    const valid = (plugin.length === 2 || plugin.length === 3) &&
-      typeof(plugin[0] === 'string') && plugin[0] &&
-      typeof(plugin[1] === 'function')
-    if (valid) {
-      const name = plugin[0]
-      // Prop type given
-      if (plugin.length === 3 && typeof(plugin[2]) !== 'function') {
-        throw new Error('Prism: function expected for plugin propType')
+    const isGlobal = plugin.length === 2 &&
+      typeof(plugin[0]) === 'string' && isFunction(plugin[1])
+    const isProperty = plugin.length === 2 &&
+      isFunction(plugin[0]) && isObject(plugin[1])
+
+    if (isGlobal) {
+      return new Plugin(plugin[0], plugin[1])
+    }
+
+    if (isProperty) {
+      const keys = Object.keys(plugin[1])
+      if (!keys.length) {
+        throw new Error('Prism plugin definition with no propType keys')
       }
+      return keys.map((propName) => {
+        return new Plugin(propName, plugin[0], plugin[1][propName])
+      })
+
       return new Plugin(name, plugin[1], plugin[2])
     }
   }

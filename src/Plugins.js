@@ -23,7 +23,6 @@ export default [
         return sheets
       }
     }
-
   ],
 
   // Color name handling
@@ -54,7 +53,6 @@ export default [
 
   // Support for className
   [
-    'className',
     ({props, styleSheet}) => {
       const {className} = props
       if (className) {
@@ -72,6 +70,6 @@ export default [
         return find(className.split(/\s+/))
       }
     },
-    propTypes.className
+    {className: propTypes.className}
   ]
 ]
