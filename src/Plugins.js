@@ -47,8 +47,10 @@ export default [
 
   // Color name handling
   [
-    ({propName, prop, colors}) => {
-      if (prop) {
+    ({propName, prop, colors, options}) => {
+      let {colorNames} = options
+      colorNames = Array.isArray(colorNames) ? colorNames : []
+      if (prop && ~colorNames.indexOf(propName)) {
         const colorValue = {}
         if (colors[prop]) {
           prop = colors[prop]

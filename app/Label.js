@@ -5,6 +5,13 @@ import {Prism} from '../src/Prism'
 
 class Label extends Component {
 
+  static styleOptions = () => {
+    return {
+      colorNames: ['color'],
+
+    }
+  }
+
   static propTypes = {
     color: PropTypes.string
   }

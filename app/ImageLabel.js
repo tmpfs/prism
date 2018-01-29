@@ -8,6 +8,7 @@ class ImageLabel extends Component {
 
   static styleOptions = () => {
     return {
+      colorNames: ['color'],
       styleProperties: {
         // Maps to labelStyle.color
         label: ['color'],
