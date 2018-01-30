@@ -362,6 +362,8 @@ export default ({colors, fonts}) => {
 
 The child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
+If the component is namespaced use the fully qualified name, eg: `com.fika.ImageLabel.Label`.
+
 #### mapPropsToStyle
 
 If none of the above options suit your purposes the `mapPropsToStyle` option provides a low-level API for adding styles to the computed style.
