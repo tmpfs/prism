@@ -132,6 +132,10 @@ export default ({colors, fonts}) => {
       alignItems: 'center'
     },
 
+    'ImageLabel.Label': {
+      color: colors.muted
+    },
+
     // Utils
     row: {
       flexDirection: 'row'
@@ -335,6 +339,28 @@ static mapPropsToStyleObject = {
   imageStyle: ['width', 'height']
 }
 ```
+
+A powerful feature of mapping properties in this way is that you can now define default styles for the child component with dot notation:
+
+```
+export default ({colors, fonts}) => {
+  return {
+    ImageLabel: {
+      flex: 1,
+      alignItems: 'center'
+    },
+    'ImageLabel.Image': {
+      borderColor: colors.cream,
+      borderWidth: 1
+    },
+    'ImageLabel.Label': {
+      color: colors.muted
+    }
+  }
+}
+```
+
+The child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
 #### mapPropsToStyle
 

@@ -13,6 +13,10 @@ export default ({colors, fonts}) => {
       alignItems: 'center'
     },
 
+    'ImageLabel.Label': {
+      color: colors.muted
+    },
+
     // Utils
     row: {
       flexDirection: 'row'
