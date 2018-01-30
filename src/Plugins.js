@@ -10,8 +10,9 @@ export default [
       let {propNames} = plugin
       colorNames = Array.isArray(colorNames) ? colorNames : []
       const sheet = {}
+      //&& ~colorNames.indexOf(propName)
       propNames.forEach((propName) => {
-        if (props[propName] && ~colorNames.indexOf(propName) && colors[props[propName]]) {
+        if (props[propName] && colors[props[propName]]) {
           //console.log('Setting color name: ' + propName)
           sheet[propName] = colors[props[propName]]
         }
@@ -33,7 +34,6 @@ export default [
           if (props[k] !== undefined) {
             const sheet = mapPropsToStyleDecl[k]
             if (sheet !== undefined) {
-              console.log('Adding style decl for: ' + k)
               sheets.push(sheet)
             } else {
               throw new Error(
