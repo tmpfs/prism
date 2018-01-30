@@ -23,21 +23,6 @@ class Label extends Component {
     size: PropTypes.number
   }
 
-  /*
-  static mapPropsToStyle = {
-    align: ({prop}) => {
-      if (prop) {
-        return {textAlign: prop}
-      }
-    },
-    size: ({prop}) => {
-      if (prop) {
-        return {fontSize: prop}
-      }
-    }
-  }
-  */
-
   render () {
     // Get the computed style sheet
     const {style} = this.props
@@ -47,5 +32,4 @@ class Label extends Component {
   }
 }
 
-//export default Prism(Label, 'com.fika.text')
 export default Prism(Label)

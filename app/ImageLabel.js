@@ -55,7 +55,6 @@ class ImageLabel extends Component {
       width,
       height
     } = this.props
-    console.log(imageStyle)
     return (
       <View style={style}>
         <Image
