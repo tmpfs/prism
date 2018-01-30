@@ -66,10 +66,6 @@ Then you can use all the built in (and extended) [style properties](#style-prope
 
 The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
 
-It is important to know that the `propTypes` and `defaultProps` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
-
-Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
-
 ## Components
 
 ### Mapping Properties To Styles
@@ -127,13 +123,11 @@ static mapPropsToStyle = {
 
 ### Property Type Validation
 
-Sometimes you have a property that you wish to pass to a child component that should conform to one of the built in property types.
+It is important to know that the `propTypes` and `defaultProps` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
 
-The `Prism.propTypes` field exposes the underlying configured property types.
+Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
 
-This is common when a component wraps several fixed child components.
-
-<? @source {javascript=s/\.\.\/src\/Prism/react-native-prism/} ../app/ImageLabel.js ?>
+If you need it `Prism.propTypes` field exposes the system property types.
 
 ### Namespaces
 
