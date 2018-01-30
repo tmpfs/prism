@@ -596,9 +596,9 @@ If the component is using [mapPropsToStyleObject](#mapPropsToStyleObject) and th
 
 If no style declaration matches the computed class name no action is taken.
 
-Global plugins in the default configuration handle the `className` property before processing options that map property to styles, so your component properties overwrite those in style declarations referenced by `className`.
+Global plugins in the default configuration handle the `className` property before processing plugins that map properties to styles, so your component properties overwrite those in style declarations referenced by `className`.
 
-Property plugins enabled with the `extendedProperties` option (or custom plugins) are executed next so they override property mappings and `className`,
+Property plugins enabled with the `extendedProperties` option (or custom plugins) are executed next so they override property mappings and `className`.
 
 Finally any styles given in the `style` property take precedence.
 
