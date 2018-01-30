@@ -129,6 +129,14 @@ export default ({colors, fonts}) => {
     },
     'ImageLabel.Label': {
       textAlign: 'center'
+    },
+
+    // Utils
+    row: {
+      flexDirection: 'row'
+    },
+    error: {
+      color: 'red'
     }
   }
 }
@@ -170,24 +178,39 @@ import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 class Label extends Component {
-  static styleOptions = () => {
+  static styleOptions = ({styleSheet}) => {
     return {
-      colorNames: ['color']
+      colorNames: ['color'],
+      mapPropsToStyleDecl: {
+        error: styleSheet.error
+      },
+      mapPropsToStyleProp: {
+        size: 'fontSize',
+        align: 'textAlign'
+      }
     }
   }
 
   static propTypes = {
     color: PropTypes.string,
-    align: PropTypes.oneOf(['left', 'center', 'right'])
+    align: PropTypes.oneOf(['left', 'center', 'right']),
+    size: PropTypes.number
   }
 
+  /*
   static mapPropsToStyle = {
-    align: ({prop, styleSheet}) => {
+    align: ({prop}) => {
       if (prop) {
         return {textAlign: prop}
       }
+    },
+    size: ({prop}) => {
+      if (prop) {
+        return {fontSize: prop}
+      }
     }
   }
+  */
 
   render () {
     // Get the computed style sheet
@@ -289,9 +312,19 @@ import Label from './Label'
 
 class ImageLabel extends Component {
 
-  static styleOptions = () => {
+  static styleOptions = ({styleSheet}) => {
     return {
       colorNames: ['color'],
+      mapPropsToObject: {
+        labelProps: {
+          size: 'size',
+          error: 'error'
+        },
+        imageProps: ['source']
+      },
+      mapPropsToStyleDecl: {
+        row: styleSheet.row
+      },
       styleProperties: {
         // Maps color -> labelStyle.color and space -> labelStyle.marginTop
         label: ['color', ['space', 'marginTop']],
@@ -302,27 +335,43 @@ class ImageLabel extends Component {
   }
 
   static propTypes = {
+    imageProps: PropTypes.object,
+    labelProps: PropTypes.object,
     source: Image.propTypes.source,
     color: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number,
-    space: PropTypes.number
+    space: PropTypes.number,
+    size: PropTypes.number
   }
 
   static defaultProps = {
-    space: 10
+    space: 10,
+    imageProps: {},
+    labelProps: {}
   }
 
   render () {
-    const {style, imageStyle, labelStyle, width, height, source} = this.props
+    const {
+      style,
+      imageStyle,
+      labelStyle,
+      imageProps,
+      labelProps,
+      width,
+      height
+    } = this.props
+    console.log(imageStyle)
     return (
       <View style={style}>
         <Image
           width={width}
           height={height}
-          source={source}
+          {...imageProps}
           style={imageStyle} />
-        <Label style={labelStyle}>{this.props.children}</Label>
+        <Label
+          {...labelProps}
+          style={labelStyle}>{this.props.children}</Label>
       </View>
     )
   }
