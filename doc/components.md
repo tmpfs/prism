@@ -149,36 +149,27 @@ You *must* ensure the child objects are prepared to receive the properties by in
 
 Use `mapPropsToStyleObject` when you need to *pluck* a property and place it in a particular style object. This is a powerful mechanism to ensure that properties are not inadvertently mapped to components that do not support the style property.
 
-Take a component that wraps an `Image` and `Label` in a `View`, if you pass a `color` property into the style associated with a `View` you will get an error as it is not supported for that component.
+Take a component that wraps an `Image` and `Label` in a `View`, the `ImageLabel` component JSX might look something like this:
 
-The component render might look something like this:
+```html
+<View style={style}>
+  <Image
+    source={source}
+    width={width}
+    height={height}
+    {...imageProps}
+    style={imageStyle} />
+  <Label
+    {...labelProps}
+    style={labelStyle}>{this.props.children}</Label>
+</View>
+```
 
-```javascript
-render () {
-  const {
-    style,
-    source,
-    width,
-    height,
-    imageProps,
-    imageStyle,
-    labelProps,
-    labelStyle
-  } = this.props
-  return {
-    <View style={style}>
-      <Image
-        source={source}
-        width={width}
-        height={height}
-        {...imageProps}
-        style={imageStyle} />
-      <Label
-        {...labelProps}
-        style={labelStyle}>{this.props.children}</Label>
-    </View>
-  }
-}
+If you pass a `color` property into the style associated with a `View` you will get an error as it is not supported for that component.
+
+```html
+// `color` is not supported for a View style
+<ImageLabel color='muted' />
 ```
 
 Define a `mapPropsToStyleObject` to route the `color` property to the `Label`:
