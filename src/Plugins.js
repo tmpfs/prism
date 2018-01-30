@@ -5,16 +5,22 @@ export default [
   // Color name handling
   [
     'colorNames',
-    ({plugin, props, colors, options}) => {
-      let {colorNames} = options
+    ({plugin, props, colors, options, definition}) => {
+      const {Type} = definition
+      //let {colorNames} = options
       let {propNames} = plugin
-      colorNames = Array.isArray(colorNames) ? colorNames : []
+      //colorNames = Array.isArray(colorNames) ? colorNames : []
       const sheet = {}
       //&& ~colorNames.indexOf(propName)
       propNames.forEach((propName) => {
-        if (props[propName] && colors[props[propName]]) {
+        const val = props[propName] || (Type.defaultProps && Type.defaultProps[propName])
+        if (val) {
           //console.log('Setting color name: ' + propName)
-          sheet[propName] = colors[props[propName]]
+          if (colors[val]) {
+            sheet[propName] = colors[val]
+          } else if (Type.defaultProps && Type.defaultProps[propName]) {
+            sheet[propName] = val
+          }
         }
       })
       return sheet
