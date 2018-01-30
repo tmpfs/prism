@@ -401,7 +401,7 @@ const registerComponent = (registry, definition, config) => {
     .filter((plugin) => plugin.propType)
     .map((plugin) => plugin.name)
 
-  let {mapPropsToStyleObject, merge} = options
+  let {mapPropsToStyleObject} = options
   // User defined style property names
   if (mapPropsToStyleObject !== undefined) {
     if (util.isFunction(mapPropsToStyleObject)) {
@@ -414,20 +414,16 @@ const registerComponent = (registry, definition, config) => {
         return list
       }, [])
 
-    // Configure handling for style property
-    // when not explicitly specified
-    if (!mapPropsToStyleObject.style) {
-      mapPropsToStyleObject.style = availablePropertyNames
-        .filter((propName) => !~assignedPropertyNames.indexOf(propName))
+    if (mapPropsToStyleObject.style !== undefined) {
+      throw new Error(
+        `Prism do not configure mappings for "style" in mapPropsToStyleObject. ` +
+        `It is an anti-pattern, use mapPropsToStyleProp or mapPropsToStyle instead.`)
     }
 
-    if (Array.isArray(merge)) {
-      for (let k in mapPropsToStyleObject) {
-        if (~merge.indexOf(k)) {
-          mapPropsToStyleObject[k] = availablePropertyNames.concat(mapPropsToStyleObject[k])
-        }
-      }
-    }
+    // Configure handling for style property
+    // when not explicitly specified
+    mapPropsToStyleObject.style = availablePropertyNames
+      .filter((propName) => !~assignedPropertyNames.indexOf(propName))
   }
 
   // Default style property support, all
