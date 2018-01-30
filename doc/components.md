@@ -141,7 +141,9 @@ static mapPropsToObject = {
 }
 ```
 
-This can save a lot of repetition passing properties to child components.
+This can save a lot of repetition passing properties to child components. When using this option you can specify an object (which allows aliasing the property name) or an array of strings, the example above illustrates both styles.
+
+You *must* ensure the child objects are prepared to receive the properties by initializing them in `defaultProps`.
 
 #### mapPropsToStyle
 
