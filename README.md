@@ -191,12 +191,6 @@ class Label extends Component {
     }
   }
 
-  static mapPropsToStyle = {
-    center: () => {
-      console.log('GOT CENTER PROP ON LABEL')
-    }
-  }
-
   static propTypes = {
     color: PropTypes.string,
     align: PropTypes.oneOf(['left', 'center', 'right']),
