@@ -226,14 +226,14 @@ const Prism = (Type, namespace = '') => {
 
       processStylePlugins (props, testFunc = () => true) {
         const {options} = definition
-        const {stylePropertyNames, styleProperties} = options
+        const {stylePropertyNames, mapPropsToStyleObject} = options
         const {globals, property} = options.plugins
         const {styleValues} = this.state
         let mutableStyleValues = Object.assign({}, styleValues)
         stylePropertyNames.forEach((attrName) => {
           if (testFunc({props, attrName})) {
             const fullAttrName = getStylePropertyName(attrName)
-            const availableProperties = styleProperties[attrName].slice()
+            const availableProperties = mapPropsToStyleObject[attrName].slice()
             const propertyStyleMap = {}
             const flatAvailableProperties =
               availableProperties.reduce((list, val) => {
@@ -400,31 +400,31 @@ const registerComponent = (registry, definition, config) => {
     .filter((plugin) => plugin.propType)
     .map((plugin) => plugin.name)
 
-  let {styleProperties, merge} = options
+  let {mapPropsToStyleObject, merge} = options
   // User defined style property names
-  if (styleProperties !== undefined) {
-    if (!isObject(styleProperties)) {
+  if (mapPropsToStyleObject !== undefined) {
+    if (!isObject(mapPropsToStyleObject)) {
       throw new Error(
-        'Prism: styleProperties should be a plain object')
+        'Prism: mapPropsToStyleObject should be a plain object')
     }
 
-    const assignedPropertyNames = Object.keys(styleProperties)
+    const assignedPropertyNames = Object.keys(mapPropsToStyleObject)
       .reduce((list, propName) => {
-        list = list.concat(styleProperties[propName])
+        list = list.concat(mapPropsToStyleObject[propName])
         return list
       }, [])
 
     // Configure handling for style property
     // when not explicitly specified
-    if (!styleProperties.style) {
-      styleProperties.style = availablePropertyNames
+    if (!mapPropsToStyleObject.style) {
+      mapPropsToStyleObject.style = availablePropertyNames
         .filter((propName) => !~assignedPropertyNames.indexOf(propName))
     }
 
     if (Array.isArray(merge)) {
-      for (let k in styleProperties) {
+      for (let k in mapPropsToStyleObject) {
         if (~merge.indexOf(k)) {
-          styleProperties[k] = availablePropertyNames.concat(styleProperties[k])
+          mapPropsToStyleObject[k] = availablePropertyNames.concat(mapPropsToStyleObject[k])
         }
       }
     }
@@ -432,14 +432,14 @@ const registerComponent = (registry, definition, config) => {
 
   // Default style property support, all
   // names are mapped to the default style object
-  if (!styleProperties) {
-    styleProperties = {
+  if (!mapPropsToStyleObject) {
+    mapPropsToStyleObject = {
       style: availablePropertyNames
     }
   }
 
-  options.styleProperties = styleProperties
-  options.stylePropertyNames = Object.keys(styleProperties)
+  options.mapPropsToStyleObject = mapPropsToStyleObject
+  options.stylePropertyNames = Object.keys(mapPropsToStyleObject)
 
   const globalPlugins = plugins.filter(
     (plugin) => plugin.isGlobal)

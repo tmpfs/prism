@@ -18,7 +18,7 @@ class ImageLabel extends Component {
       mapPropsToStyleDecl: () => {
         row: styleSheet.row
       },
-      styleProperties: {
+      mapPropsToStyleObject: {
         // Maps color -> labelStyle.color and space -> labelStyle.marginTop
         label: ['color', {space: 'marginTop'}],
         // Maps to imageStyle.width and imageStyle.height
