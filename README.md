@@ -313,13 +313,11 @@ static styleOptions = () => {
   return {
     mapPropsToStyle: {
       space: ({prop, props}) => {
-        if (prop) {
-          const {horizontal} = props
-          const styleProp = horizontal ? 'marginRight' : 'marginBottom'
-          const style = {}
-          style[styleProp] = prop
-          return style
-        }
+        const {horizontal} = props
+        const styleProp = horizontal ? 'marginRight' : 'marginBottom'
+        const style = {}
+        style[styleProp] = prop
+        return style
       }
     }
   }
