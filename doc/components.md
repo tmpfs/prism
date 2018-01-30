@@ -53,7 +53,7 @@ Prism.configure(registry, {extendedProperties: true})
 
 To create a styled component you just need to pass the component class to the `Prism` function which will return a HOC wrapper.
 
-<? @source {javascript} ../app/Label.js ?>
+<? @source {javascript=s/\.\.\/src\/Prism/react-native-prism/} ../app/Label.js ?>
 
 Then you can use all the built in (and extended) [style properties](#style-properties), for example:
 

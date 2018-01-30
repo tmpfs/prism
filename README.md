@@ -172,7 +172,7 @@ To create a styled component you just need to pass the component class to the `P
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Text} from 'react-native'
-import {Prism} from '../src/Prism'
+import {Prism} from 'react-native-prism'
 
 class Label extends Component {
   static styleOptions = ({styleSheet}) => {
