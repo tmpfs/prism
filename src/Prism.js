@@ -39,6 +39,7 @@ const mapPluginTypeTests = {
   mapPropsToStyleDecl: fnOrObj,
   mapPropsToStyleProp: fnOrObj,
   mapPropsToObject: fnOrObj,
+  mapPropsToStyleObject: fnOrObj,
   mapPropsToStyle: fnOrObj
 }
 
@@ -225,7 +226,7 @@ const Prism = (Type, namespace = '') => {
       }
 
       processStylePlugins (props, testFunc = () => true) {
-        const {options} = definition
+        const {registry, options, Type} = definition
         const {stylePropertyNames, mapPropsToStyleObject} = options
         const {globals, property} = options.plugins
         const {styleValues} = this.state
@@ -403,9 +404,8 @@ const registerComponent = (registry, definition, config) => {
   let {mapPropsToStyleObject, merge} = options
   // User defined style property names
   if (mapPropsToStyleObject !== undefined) {
-    if (!isObject(mapPropsToStyleObject)) {
-      throw new Error(
-        'Prism: mapPropsToStyleObject should be a plain object')
+    if (util.isFunction(mapPropsToStyleObject)) {
+      mapPropsToStyleObject = mapPropsToStyleObject(registry)
     }
 
     const assignedPropertyNames = Object.keys(mapPropsToStyleObject)

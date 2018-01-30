@@ -9,10 +9,7 @@ class ImageLabel extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
       mapPropsToObject: {
-        labelProps: {
-          size: 'size',
-          error: 'error'
-        },
+        labelProps: ['size', 'error'],
         imageProps: ['source']
       },
       mapPropsToStyleDecl: () => {
