@@ -70,7 +70,7 @@ The default styles for a component are extracted by class name so the stylesheet
 
 ### Mapping Properties To Styles
 
-It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. Functions declared in `mapPropsToStyles` *must* return either a compiled style declaration, plain object or undefined when no action should be taken.
+It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. Functions declared in `mapPropsToStyles` *must* return either a compiled style declaration, array of stylesheets, plain object or undefined when no action should be taken.
 
 For example to return a declaration from the compiled stylesheet:
 
@@ -156,7 +156,7 @@ Components can declare processing options at a class level by declaring a static
 
 #### Default Styles
 
-You can use `styleOptions` to override the default style behaviour (looking up a style declaration by class name) and supply alternative default styles.
+You can use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
 
 ```javascript
 static styleOptions = ({styleSheet}) => {
@@ -178,33 +178,20 @@ static styleOptions = ({compile}) => {
 
 The entire style registry is passed so you can access `colors` and `fonts` too if required.
 
-#### Default Style Inheritance
-
-Sometimes you may wish to distribute a collection of components intended to be reusable, in this case you may expect the consumer to declare the class level style for the component but wish to provide some default styles *before* the class level style is applied.
-
-To do so you can use the `inherit` option which will use the supplied `defaultStyles` array and append a class level style definition (eg: `Label`) when available.
-
-```javascript
-static styleOptions = ({compile}) => {
-  return {
-    inherit: true,
-    defaultStyles: [compile{{textAlign: 'center'}}]
-  }
-}
-```
-
 You can use `defaultStyles` to create simple inheritance patterns that can help to remove duplicate properties in your styles:
 
 ```javascript
 class BlockQuote extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
-      inherit: true,
       defaultStyles: [styleSheet.Label, styleSheet.Paragraph]
     }
   }
 }
+export default Prism(BlockQuote)
 ```
+
+Which would create initial styles for the component using the `Label`, `Paragraph` and `BlockQuote` style declarations (in that order).
 
 ### Color Names
 

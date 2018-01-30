@@ -8,6 +8,13 @@ import propTypes from './PropTypes'
 
 const STYLE = 'style'
 
+const mapPluginNames = [
+  'mapPropsToStyleDecl',
+  'mapPropsToStyleProp',
+  'mapPropsToObject',
+  'mapPropsToStyle'
+]
+
 class Plugin  {
   constructor (name, func, propType = null, isGlobal = false) {
     this.name = name
@@ -103,9 +110,9 @@ const getStyleSheet = (
   const defaultClassStyle = styleSheet[componentClassName] ?
     [styleSheet[componentClassName]] : []
 
-  let {defaultStyles, inherit} = options
+  let {defaultStyles} = options
 
-  if (defaultStyles && inherit) {
+  if (Array.isArray(defaultStyles)) {
     defaultStyles = defaultStyles.concat(defaultClassStyle)
   }
 
@@ -170,9 +177,10 @@ const getStyleSheet = (
 const Prism = (Type, namespace = '') => {
   const Name = Type.name
 
-  let styleOptions
-  if (Type.styleOptions instanceof Function) {
-    styleOptions = Type.styleOptions
+  let styleOptions = Type.styleOptions
+  if (styleOptions && !isFunction(styleOptions)) {
+    throw new Error(
+      `Prism styleOptions for ${Name} must be a function`)
   }
 
   // High order component wrapper
@@ -353,6 +361,18 @@ const registerComponent = (registry, definition, config) => {
     }
   }
 
+  // Allow declaring mapPropsToStyle etc. as static on the Type
+  mapPluginNames.forEach((name) => {
+    if (isObject(options[name]) && isObject(Type[name])) {
+      throw new Error(
+        `Prism you declared ${name} as static on ${Name} and also in styleOptions. ` +
+        `This is not allowed, choose one of the other declaration style.`)
+    }
+    if (!isObject(options[name]) && isObject(Type[name])) {
+      options[name] = Type[name]
+    }
+  })
+
   const availablePropertyNames = config.plugins
     .filter((plugin) => plugin.propType)
     .map((plugin) => plugin.name)
@@ -398,8 +418,10 @@ const registerComponent = (registry, definition, config) => {
   options.styleProperties = styleProperties
   options.stylePropertyNames = Object.keys(styleProperties)
 
-  const globalPlugins = plugins.filter((plugin) => plugin.isGlobal)
-  const propertyPlugins = plugins.filter((plugin) => !plugin.isGlobal)
+  const globalPlugins = plugins.filter(
+    (plugin) => plugin.isGlobal)
+  const propertyPlugins = plugins.filter(
+    (plugin) => !plugin.isGlobal)
 
   options.plugins = {
     property: propertyPlugins,
@@ -417,7 +439,8 @@ const registerComponent = (registry, definition, config) => {
       systemPropTypes[plugin.name] = plugin.propType
     }
   })
-  const propertyTypes = Object.assign({}, systemPropTypes, Type.propTypes)
+  const propertyTypes = Object.assign(
+    {}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
 
   // Automatic propTypes for style, labelStyle, imageStyle etc.
