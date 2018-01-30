@@ -12,10 +12,9 @@ Note that support for the `style` property cannot be disabled, it is not handled
 
 ### Default Plugins
 
-When no configuration object is given the following plugins are enabled:
+When no configuration object is given support for the `className` property is enabled, a `colorNames` plugin to translate from custom named colors and the global plugins to support mapping properties to styles.
 
-* `mapPropsToStyle`
-* `className`
+This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
 
 ### Extended Plugins
 
