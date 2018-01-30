@@ -4,9 +4,16 @@ import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 class Label extends Component {
-  static styleOptions = () => {
+  static styleOptions = ({styleSheet}) => {
     return {
-      colorNames: ['color']
+      colorNames: ['color'],
+      mapPropsToStyleDecl: {
+        error: styleSheet.error
+      },
+      mapPropsToStyleProp: {
+        size: 'fontSize',
+        align: 'textAlign'
+      }
     }
   }
 
@@ -16,6 +23,7 @@ class Label extends Component {
     size: PropTypes.number
   }
 
+  /*
   static mapPropsToStyle = {
     align: ({prop}) => {
       if (prop) {
@@ -28,6 +36,7 @@ class Label extends Component {
       }
     }
   }
+  */
 
   render () {
     // Get the computed style sheet

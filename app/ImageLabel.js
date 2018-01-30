@@ -9,25 +9,20 @@ class ImageLabel extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
       colorNames: ['color'],
-
       mapPropsToObject: {
         labelProps: {
-          size: 'size'
+          size: 'size',
+          error: 'error'
         },
         imageProps: ['source']
       },
 
-      //mapPropsToStyleSheet: {
-        //row: styleSheet.row,
-        //label: {
-          //error: styleSheet.error
-        //}
-      //},
+      mapPropsToStyleDecl: {
+        row: styleSheet.row
+      },
 
       styleProperties: {
         // Maps color -> labelStyle.color and space -> labelStyle.marginTop
-        //label: [
-          //'color', ['space', 'marginTop'], ['size', 'fontSize']],
         label: ['color', ['space', 'marginTop']],
         // Maps to imageStyle.width and imageStyle.height
         image: ['width', 'height']

@@ -39,6 +39,7 @@ export default class App extends Component<{}> {
               width={96}
               height={96}
               size={24}
+              error
               source={{uri: image}}>Prism</ImageLabel>
 
             <Label

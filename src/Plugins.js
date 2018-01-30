@@ -26,6 +26,52 @@ export default [
     }
   ],
 
+  // Support for mapPropsToStyleDecl
+  [
+    'mapPropsToStyleDecl',
+    ({props, options, definition}) => {
+      const {mapPropsToStyleDecl} = options
+      const {Name} = definition
+      if (mapPropsToStyleDecl) {
+        const sheets = []
+        for (let k in mapPropsToStyleDecl) {
+          if (props[k] !== undefined) {
+            const sheet = mapPropsToStyleDecl[k]
+            if (sheet !== undefined) {
+              sheets.push(sheet)
+            } else {
+              throw new Error(
+                `Prism mapPropsToStyleDecl missing style ` +
+                `declaration for "${k}" in component ${Name}`
+              )
+            }
+          }
+        }
+        return sheets
+      }
+    }
+  ],
+
+  // Support for mapPropsToStyleProp
+  [
+    'mapPropsToStyleProp',
+    ({props, options, definition}) => {
+      const {mapPropsToStyleProp} = options
+      const {Name} = definition
+      if (mapPropsToStyleProp) {
+        const sheets = []
+        for (let k in mapPropsToStyleProp) {
+          if (props[k] !== undefined) {
+            const sheet = {}
+            sheet[mapPropsToStyleProp[k]] = props[k]
+            sheets.push(sheet)
+          }
+        }
+        return sheets
+      }
+    }
+  ],
+
   // Support for mapping properties to child objects
   [
     'mapPropsToObject',
@@ -35,15 +81,21 @@ export default [
       if (mapPropsToObject) {
         for (let k in mapPropsToObject) {
           const def = mapPropsToObject[k]
-          props[k] = props[k] || {}
-          // Ensure the target prop exists
-          if (Array.isArray(def)) {
-            def.forEach((propName) => {
-              props[k][propName] = props[propName]
-            })
-          } else {
-            for (let z in def) {
-              props[k][z] = props[def[z]]
+          // NOTE: we take advantage of the fact
+          // NOTE: that Object.freeze() is shallow
+          // NOTE: here, would like to find a better
+          // NOTE: way to propagate these props
+
+          // Property object must already be declared
+          if (props[k]) {
+            if (Array.isArray(def)) {
+              def.forEach((propName) => {
+                props[k][propName] = props[propName]
+              })
+            } else {
+              for (let z in def) {
+                props[k][z] = props[def[z]]
+              }
             }
           }
         }

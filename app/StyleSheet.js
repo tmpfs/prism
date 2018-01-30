@@ -14,6 +14,14 @@ export default ({colors, fonts}) => {
     },
     'ImageLabel.Label': {
       textAlign: 'center'
+    },
+
+    // Utils
+    row: {
+      flexDirection: 'row'
+    },
+    error: {
+      color: 'red'
     }
   }
 }
