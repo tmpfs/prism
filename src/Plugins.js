@@ -135,10 +135,8 @@ export default [
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',
-    (pluginOptions) => {
-      const {props, definition, options, registry, util} = pluginOptions
+    ({props, options, registry, util}) => {
       const {mapPropsToStyle} = options
-      const {Type} = definition
       if (mapPropsToStyle !== undefined) {
         const sheets = []
         let map = mapPropsToStyle
@@ -147,7 +145,7 @@ export default [
         }
         for (let k in map) {
           const prop = props[k]
-          const mapOptions = {...pluginOptions, prop}
+          const mapOptions = {...registry, options, props, prop}
           if (props.hasOwnProperty(k) && prop !== undefined) {
             const fn = map[k]
             if (util.isFunction(fn)) {
