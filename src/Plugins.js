@@ -8,6 +8,7 @@ export default [
     ({plugin, props, colors, options}) => {
       let {colorNames} = options
       let {propNames} = plugin
+      colorNames = Array.isArray(colorNames) ? colorNames : []
       const sheet = {}
       propNames.forEach((propName) => {
         if (props[propName] && ~colorNames.indexOf(propName) && colors[props[propName]]) {
