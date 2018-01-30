@@ -36,11 +36,6 @@ const fnOrObj = {
   type: 'function'
 }
 
-//const obj = {
-  //fn: (o) => isObject(o),
-  //type: 'object'
-//}
-
 const mapPluginTypeTests = {
   mapPropsToStyleDecl: fnOrObj,
   mapPropsToStyleProp: fnOrObj,

@@ -70,37 +70,82 @@ The default styles for a component are extracted by class name so the stylesheet
 
 ### Mapping Properties To Styles
 
-It can be very convenient to map properties to stylesheets, this is achieved using `mapPropsToStyle`. Functions declared in `mapPropsToStyles` *must* return either a compiled style declaration, array of stylesheets, plain object or undefined when no action should be taken.
+Components have varied needs for mapping properties to style declarations so the library provides several ways to map properties depending upon the requirement.
 
-For example to return a declaration from the compiled stylesheet:
+Each of the mapping options may be either a function or object, when it is a function it is passed the style registry and should return an object.
+
+You may declare these options as `static` fields on your component or within the object returned by `styleOptions`, when using the `static` declaration if often makes more sense to use the function notation.
+
+```javascript
+static mapPropsToStyleDecl = ({styleSheet}) => {
+  return {
+    bold: styleSheet.bold
+  }
+}
+```
+
+Or using `styleOptions`:
 
 ```javascript
 static styleOptions = ({styleSheet}) => {
   return {
-    mapPropsToStyle: {
-      center: ({prop}) => {
-        return styleSheet.textCenter
-      }
+    mapPropsToStyleDecl: {
+      bold: styleSheet.bold
     }
   }
 }
 ```
 
-Or if you prefer you can return a plain object of style properties:
+#### mapPropsToStyleProp
+
+The simplest form is `mapPropsToStyleProp` which can be used to alias a property to a style sheet property, it is a map of property name to string.
 
 ```javascript
-static styleOptions = () => {
+static mapPropsToStyleProp = {
+  size: 'fontSize'
+}
+```
+
+Maps the `size` property to `style.fontSize`.
+
+#### mapPropsToStyleDecl
+
+Often you just want to include a style declaration when a property exists:
+
+```javascript
+static mapPropsToStyleDecl = ({styleSheet}) => {
   return {
-    mapPropsToStyle: {
-      center: ({prop}) => {
-        return {textAlign: 'center'}
-      }
-    }
+    error: styleSheet.error
   }
 }
 ```
 
-It is recommended to access pre-compiled stylesheets wherever possible.
+If the `error` property is defined the `error` style declaration is included in the computed styles. For more advanced logic use `mapPropsToStyle`.
+
+#### mapPropsToObject
+
+When designing composite components you often need to pass properties down to child components. Use `mapPropsToObject` to automatically route properties to objects that are passed to child components:
+
+```javascript
+static defaultProps = {
+  imageProps: {},
+  labelProps: {}
+}
+
+static mapPropsToObject = {
+  labelProps: {
+    size: 'size',
+    error: 'error'
+  },
+  imageProps: ['source']
+}
+```
+
+This can save a lot of repetition passing properties to child components.
+
+#### mapPropsToStyle
+
+If none of the above options suit your purposes the `mapPropsToStyle` option provides a low-level API for adding styles to the computed style.
 
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
