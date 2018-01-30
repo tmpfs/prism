@@ -6,7 +6,7 @@ import {Prism} from '../src/Prism'
 class Label extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
-      mapPropsToStyleDecl: {
+      mapPropsToStyleDecl: () => {
         error: styleSheet.error
       },
       mapPropsToStyleProp: {

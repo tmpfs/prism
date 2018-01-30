@@ -8,12 +8,47 @@ import propTypes from './PropTypes'
 
 const STYLE = 'style'
 
-const mapPluginNames = [
-  'mapPropsToStyleDecl',
-  'mapPropsToStyleProp',
-  'mapPropsToObject',
-  'mapPropsToStyle'
-]
+const isObject = (o) => {
+  return o && o.toString() === '[object Object]'
+}
+const isFunction = (fn) => (fn instanceof Function)
+const util = {isObject, isFunction}
+
+const compile = (decl) => {
+  const sheet = {decl}
+  const compiled = StyleSheet.create(sheet)
+  return compiled.decl
+}
+
+const getStylePropertyName = (name) => {
+  if (name !== STYLE && !/Style$/.test(name)) {
+    name += 'Style'
+  }
+  return name
+}
+
+const Configuration = {
+  plugins: null
+}
+
+const fnOrObj = {
+  fn: (o) => isFunction(o) || isObject(o),
+  type: 'function'
+}
+
+//const obj = {
+  //fn: (o) => isObject(o),
+  //type: 'object'
+//}
+
+const mapPluginTypeTests = {
+  mapPropsToStyleDecl: fnOrObj,
+  mapPropsToStyleProp: fnOrObj,
+  mapPropsToObject: fnOrObj,
+  mapPropsToStyle: fnOrObj
+}
+
+const mapPluginNames = Object.keys(mapPluginTypeTests)
 
 class Plugin  {
   constructor (name, func, propType = null, isGlobal = false) {
@@ -25,31 +60,6 @@ class Plugin  {
       this.propNames = Object.keys(propType)
     }
   }
-}
-
-const getStylePropertyName = (name) => {
-  if (name !== STYLE && !/Style$/.test(name)) {
-    name += 'Style'
-  }
-  return name
-}
-
-const isObject = (o) => {
-  return o && o.toString() === '[object Object]'
-}
-
-const isFunction = (fn) => (fn instanceof Function)
-
-const util = {isObject, isFunction}
-
-const compile = (decl) => {
-  const sheet = {decl}
-  const compiled = StyleSheet.create(sheet)
-  return compiled.decl
-}
-
-const Configuration = {
-  plugins: null
 }
 
 const registerPlugins = (plugins) => {
@@ -363,13 +373,23 @@ const registerComponent = (registry, definition, config) => {
 
   // Allow declaring mapPropsToStyle etc. as static on the Type
   mapPluginNames.forEach((name) => {
-    if (isObject(options[name]) && isObject(Type[name])) {
+    if (options[name] !== undefined && Type[name] !== undefined) {
       throw new Error(
         `Prism you declared ${name} as static on ${Name} and also in styleOptions. ` +
         `This is not allowed, choose one of the other declaration style.`)
     }
-    if (!isObject(options[name]) && isObject(Type[name])) {
+
+    if (Type[name] !== undefined) {
       options[name] = Type[name]
+    }
+
+    const test = mapPluginTypeTests[name]
+    // Got a declaration, validate it
+    if (options[name] !== undefined && !test.fn(options[name])) {
+      throw new Error(
+        `Prism you declared ${name} as an invalid type, expected ${test.type} ` +
+        `but got ${typeof(options[name])}`
+      )
     }
   })
 

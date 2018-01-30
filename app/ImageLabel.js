@@ -15,7 +15,7 @@ class ImageLabel extends Component {
         },
         imageProps: ['source']
       },
-      mapPropsToStyleDecl: {
+      mapPropsToStyleDecl: () => {
         row: styleSheet.row
       },
       styleProperties: {

@@ -47,14 +47,18 @@ export default [
   // Support for mapPropsToStyleDecl
   [
     'mapPropsToStyleDecl',
-    ({props, options, definition}) => {
+    ({props, options, definition, registry, util}) => {
       const {mapPropsToStyleDecl} = options
       const {Name} = definition
-      if (mapPropsToStyleDecl) {
+      if (mapPropsToStyleDecl !== undefined) {
         const sheets = []
-        for (let k in mapPropsToStyleDecl) {
+        let map = mapPropsToStyleDecl
+        if (util.isFunction(mapPropsToStyleDecl)) {
+          map = mapPropsToStyleDecl(registry)
+        }
+        for (let k in map) {
           if (props[k] !== undefined) {
-            const sheet = mapPropsToStyleDecl[k]
+            const sheet = map[k]
             if (sheet !== undefined) {
               sheets.push(sheet)
             } else {
@@ -73,15 +77,19 @@ export default [
   // Support for mapPropsToStyleProp
   [
     'mapPropsToStyleProp',
-    ({props, options, definition}) => {
+    ({props, options, definition, registry, util}) => {
       const {mapPropsToStyleProp} = options
       const {Name} = definition
-      if (mapPropsToStyleProp) {
+      if (mapPropsToStyleProp !== undefined) {
         const sheets = []
-        for (let k in mapPropsToStyleProp) {
+        let map = mapPropsToStyleProp
+        if (util.isFunction(map)) {
+          map = mapPropstoStyleProp(registry)
+        }
+        for (let k in map) {
           if (props[k] !== undefined) {
             const sheet = {}
-            sheet[mapPropsToStyleProp[k]] = props[k]
+            sheet[map[k]] = props[k]
             sheets.push(sheet)
           }
         }
@@ -93,12 +101,15 @@ export default [
   // Support for mapping properties to child objects
   [
     'mapPropsToObject',
-    (pluginOptions) => {
-      const {props, options} = pluginOptions
+    ({props, options, registry, util}) => {
       const {mapPropsToObject} = options
-      if (mapPropsToObject) {
-        for (let k in mapPropsToObject) {
-          const def = mapPropsToObject[k]
+      if (mapPropsToObject !== undefined) {
+        let map = mapPropsToObject
+        if (util.isFunction(map)) {
+          map = mapPropsToObject(registry)
+        }
+        for (let k in map) {
+          const def = map[k]
           // NOTE: we take advantage of the fact
           // NOTE: that Object.freeze() is shallow
           // NOTE: here, would like to find a better
@@ -125,16 +136,20 @@ export default [
   [
     'mapPropsToStyle',
     (pluginOptions) => {
-      const {props, definition, options, util} = pluginOptions
+      const {props, definition, options, registry, util} = pluginOptions
       const {mapPropsToStyle} = options
       const {Type} = definition
-      if (util.isObject(mapPropsToStyle)) {
+      if (mapPropsToStyle !== undefined) {
         const sheets = []
-        for (let k in mapPropsToStyle) {
+        let map = mapPropsToStyle
+        if (util.isFunction(map)) {
+          map = mapPropsToStyle(registry)
+        }
+        for (let k in map) {
           const prop = props[k]
           const mapOptions = {...pluginOptions, prop}
           if (props.hasOwnProperty(k) && prop !== undefined) {
-            const fn = mapPropsToStyle[k]
+            const fn = map[k]
             if (util.isFunction(fn)) {
               const sheet = fn(mapOptions)
               if (sheet !== undefined) {
