@@ -47,7 +47,7 @@ export default class App extends Component<{}> {
               align='center'
               color='muted'
               size={18}
-              error
+              //error
               margin={[10, 20]}>
                 Minimal, idiomatic style management for React Native.
               </Label>

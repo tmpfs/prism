@@ -129,7 +129,8 @@ const getStyleSheet = (
     propertyStyleMap
   }
 
-  console.log('Global plugin names: ' + plugins.globals.map((p) => p.name))
+  //console.log('Global plugin names: ' + plugins.globals.map((p) => p.name))
+
   plugins.globals.forEach((plugin) => {
     pluginOptions.plugin = plugin
     const style = plugin.func(pluginOptions)
@@ -395,8 +396,8 @@ const registerComponent = (registry, definition, config) => {
   options.styleProperties = styleProperties
   options.stylePropertyNames = Object.keys(styleProperties)
 
-  const globalPlugins = plugins.filter((plugin) => !plugin.propType)
-  const propertyPlugins = plugins.filter((plugin) => plugin.propType)
+  const globalPlugins = plugins.filter((plugin) => plugin.isGlobal)
+  const propertyPlugins = plugins.filter((plugin) => !plugin.isGlobal)
 
   options.plugins = {
     property: propertyPlugins,
@@ -478,7 +479,7 @@ Prism.configure = (registry, config = {}) => {
   if (config.debug) {
     console.log(`Prism configured with ${plugins.length} plugins`)
     plugins.forEach((plugin) => {
-      console.log(`Prism using plugin "${plugin.name}"`)
+      console.log(`Prism using plugin "${plugin.name}" (global: ${plugin.isGlobal})`)
     })
   }
 
