@@ -342,7 +342,7 @@ static mapPropsToStyleObject = {
 
 A powerful feature of mapping properties in this way is that you can now define default styles for the child component with dot notation:
 
-```
+```javascript
 export default ({colors, fonts}) => {
   return {
     ImageLabel: {
