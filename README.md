@@ -56,6 +56,7 @@
     - [styleSheet](#stylesheet)
     - [styleRegistry](#styleregistry)
     - [styleFlexRow](#styleflexrow)
+- [Bugs](#bugs)
 - [License](#license)
 
 ---
@@ -742,6 +743,8 @@ System properties are those passed to the underlying component implementation fr
 
 The computed stylesheet for the component.
 
+Note that when you assign to `style` in JSX declarations it may be an array or object but by the time `style` reaches your component render function it is guaranteed to be an array.
+
 #### styleSheet
 
 `Object`
@@ -759,6 +762,10 @@ The underlying registry of colors, fonts and stylesheets.
 `Boolean`
 
 Indicates whether the layout direction is horizontal or vertical, can be used by child components to determine the edge for intermediate space.
+
+## Bugs
+
+Some third-party components break the idiom of `style` being an array or object and enforce object only. There is currently no easy way to flatten the `style` array to an object for these component implementations.
 
 ## License
 

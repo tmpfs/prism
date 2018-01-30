@@ -31,6 +31,10 @@ For any non-trival RN application the question arises on how to manage styles fo
 <? @include cascade.md ?>
 <? @include properties.md ?>
 
+## Bugs
+
+Some third-party components break the idiom of `style` being an array or object and enforce object only. There is currently no easy way to flatten the `style` array to an object for these component implementations.
+
 ## License
 
 MIT
