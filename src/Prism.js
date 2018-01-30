@@ -9,16 +9,16 @@ import propTypes from './PropTypes'
 const STYLE = 'style'
 
 class Plugin  {
-  constructor (name, func, propType = null) {
+  constructor (name, func, propType = null, isGlobal = false) {
     this.name = name
     this.func = func
     this.propType = propType
+    this.isGlobal = isGlobal
+    if (propType) {
+      this.propNames = Object.keys(propType)
+    }
   }
 }
-
-//const mapPropsToObject = (propKey, propValue) => {
-
-//}
 
 const getStylePropertyName = (name) => {
   if (name !== STYLE && !/Style$/.test(name)) {
@@ -56,13 +56,13 @@ const registerPlugins = (plugins) => {
 const registerPlugin = (plugin) => {
   // Named plugin as array
   if (Array.isArray(plugin)) {
-    const isGlobal = plugin.length === 2 &&
+    const isGlobal = plugin.length >=2 &&
       typeof(plugin[0]) === 'string' && isFunction(plugin[1])
     const isProperty = plugin.length === 2 &&
       isFunction(plugin[0]) && isObject(plugin[1])
 
     if (isGlobal) {
-      return new Plugin(plugin[0], plugin[1])
+      return new Plugin(plugin[0], plugin[1], plugin[2], true)
     }
 
     if (isProperty) {
@@ -129,7 +129,9 @@ const getStyleSheet = (
     propertyStyleMap
   }
 
+  console.log('Global plugin names: ' + plugins.globals.map((p) => p.name))
   plugins.globals.forEach((plugin) => {
+    pluginOptions.plugin = plugin
     const style = plugin.func(pluginOptions)
     if (style) {
       sheets = sheets.concat(style)
@@ -140,6 +142,7 @@ const getStyleSheet = (
   keys.forEach((propName) => {
     if (props[propName] !== undefined) {
       const plugin = map[propName]
+      pluginOptions.plugin = plugin
       pluginOptions.propName = propName
       pluginOptions.prop = props[propName]
       const style = plugin.func(pluginOptions)
@@ -421,7 +424,7 @@ const registerComponent = (registry, definition, config) => {
   // On collision the underlying component propTypes win.
   const systemPropTypes = {}
   plugins.forEach((plugin) => {
-    if (plugin.propType) {
+    if (plugin.propType && !plugin.isGlobal) {
       systemPropTypes[plugin.name] = plugin.propType
     }
   })

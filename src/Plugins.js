@@ -26,6 +26,25 @@ export default [
     }
   ],
 
+  // Color name handling
+  [
+    'colorNames',
+    ({plugin, colors, options}) => {
+      //let {colorNames} = options
+      //colorNames = Array.isArray(colorNames) ? colorNames : []
+      //if (prop && ~colorNames.indexOf(propName)) {
+        //const colorValue = {}
+        //if (colors[prop]) {
+          //prop = colors[prop]
+          //console.log('Found color name: ' + propName)
+        //}
+        //colorValue[propName] = prop
+        //return colorValue
+      //}
+    },
+    propTypes.colorNames
+  ],
+
   // Support for mapPropsToStyleDecl
   [
     'mapPropsToStyleDecl',
@@ -38,6 +57,7 @@ export default [
           if (props[k] !== undefined) {
             const sheet = mapPropsToStyleDecl[k]
             if (sheet !== undefined) {
+              console.log('Adding style decl for: ' + k)
               sheets.push(sheet)
             } else {
               throw new Error(
@@ -122,20 +142,4 @@ export default [
     {className: propTypes.className}
   ],
 
-  // Color name handling
-  [
-    ({propName, prop, colors, options}) => {
-      let {colorNames} = options
-      colorNames = Array.isArray(colorNames) ? colorNames : []
-      if (prop && ~colorNames.indexOf(propName)) {
-        const colorValue = {}
-        if (colors[prop]) {
-          prop = colors[prop]
-        }
-        colorValue[propName] = prop
-        return colorValue
-      }
-    },
-    propTypes.colorNames
-  ]
 ]

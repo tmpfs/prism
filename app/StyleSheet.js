@@ -12,9 +12,6 @@ export default ({colors, fonts}) => {
       flex: 1,
       alignItems: 'center'
     },
-    'ImageLabel.Label': {
-      textAlign: 'center'
-    },
 
     // Utils
     row: {

@@ -39,7 +39,6 @@ export default class App extends Component<{}> {
               width={96}
               height={96}
               size={24}
-              error
               source={{uri: image}}>Prism</ImageLabel>
 
             <Label
@@ -48,6 +47,7 @@ export default class App extends Component<{}> {
               align='center'
               color='muted'
               size={18}
+              error
               margin={[10, 20]}>
                 Minimal, idiomatic style management for React Native.
               </Label>
