@@ -33,6 +33,8 @@ const isObject = (o) => {
 
 const isFunction = (fn) => (fn instanceof Function)
 
+const util = {isObject, isFunction}
+
 const compile = (decl) => {
   const sheet = {decl}
   const compiled = StyleSheet.create(sheet)
@@ -119,6 +121,7 @@ const getStyleSheet = (
 
   // Process plugins
   const pluginOptions = {
+    util,
     config,
     definition,
     registry,
@@ -168,7 +171,6 @@ const Prism = (Type, namespace = '') => {
   const Name = Type.name
 
   let styleOptions
-  let mapPropsToStyle = Type.mapPropsToStyle
   if (Type.styleOptions instanceof Function) {
     styleOptions = Type.styleOptions
   }
@@ -321,7 +323,7 @@ const Prism = (Type, namespace = '') => {
     return PrismComponent
   }
 
-  const definition = {Type, Name, styleOptions, mapPropsToStyle, namespace}
+  const definition = {Type, Name, styleOptions, namespace}
   const NewType = Wrapped(Type, definition)
   definition.NewType = NewType
 
@@ -338,7 +340,7 @@ const Prism = (Type, namespace = '') => {
 }
 
 const registerComponent = (registry, definition, config) => {
-  const {Type, Name, styleOptions, mapPropsToStyle} = definition
+  const {Type, Name, styleOptions} = definition
   const {plugins} = config
   //definition.options = {}
   let options = {}
@@ -405,20 +407,6 @@ const registerComponent = (registry, definition, config) => {
   }
 
   definition.options = options
-
-  // Validate mapPropsToStyle
-  if (mapPropsToStyle) {
-    if(!isObject(mapPropsToStyle)) {
-      throw new Error(
-        'Prism: static mapPropsToStyle must be a plain object')
-    }
-    for (let k in mapPropsToStyle) {
-      if (!(mapPropsToStyle[k] instanceof Function)) {
-        throw new Error(
-          `Prism: function for mapPropsToStyle field ${k} expected`)
-      }
-    }
-  }
 
   // Merge config propTypes into the Stylable propTypes.
   //

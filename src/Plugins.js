@@ -2,6 +2,26 @@ import PropTypes from 'prop-types'
 import propTypes from './PropTypes'
 
 export default [
+
+  // Support for className
+  [
+    ({prop, styleSheet}) => {
+      const className = prop
+      const find = (list) => {
+        return list
+          .filter((nm) => styleSheet.hasOwnProperty(nm))
+          .map((nm) => styleSheet[nm])
+      }
+
+      if (Array.isArray(className)) {
+        return find(className)
+      }
+
+      return find(className.split(/\s+/))
+    },
+    {className: propTypes.className}
+  ],
+
   // Color name handling
   [
     'colorNames',
@@ -101,41 +121,25 @@ export default [
     }
   ],
 
-  // Support for className
-  [
-    ({prop, styleSheet}) => {
-      const className = prop
-      const find = (list) => {
-        return list
-          .filter((nm) => styleSheet.hasOwnProperty(nm))
-          .map((nm) => styleSheet[nm])
-      }
-
-      if (Array.isArray(className)) {
-        return find(className)
-      }
-
-      return find(className.split(/\s+/))
-    },
-    {className: propTypes.className}
-  ],
-
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',
     (pluginOptions) => {
-      const {props, definition} = pluginOptions
-      const {mapPropsToStyle, Type} = definition
-      if (mapPropsToStyle) {
+      const {props, definition, options, util} = pluginOptions
+      const {mapPropsToStyle} = options
+      const {Type} = definition
+      if (util.isObject(mapPropsToStyle)) {
         const sheets = []
         for (let k in mapPropsToStyle) {
           const prop = props[k]
           const mapOptions = {...pluginOptions, prop}
           if (props.hasOwnProperty(k) && prop !== undefined) {
             const fn = mapPropsToStyle[k]
-            const sheet = fn(mapOptions)
-            if (sheet !== undefined) {
-              sheets.push(sheet)
+            if (util.isFunction(fn)) {
+              const sheet = fn(mapOptions)
+              if (sheet !== undefined) {
+                sheets.push(sheet)
+              }
             }
           }
         }

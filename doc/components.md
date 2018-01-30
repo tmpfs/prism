@@ -127,7 +127,7 @@ It is important to know that the `propTypes` and `defaultProps` you declare are 
 
 Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
 
-If you need it `Prism.propTypes` field exposes the system property types.
+If you need it the `Prism.propTypes` field exposes the system property types.
 
 ### Namespaces
 

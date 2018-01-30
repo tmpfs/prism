@@ -29,19 +29,17 @@ export default [
   [
     ({props, styleSheet}) => {
       const {radius} = props
-      if (radius !== undefined) {
-        if (typeof(radius) === 'number') {
-          return {borderRadius: radius}
-        }
-        let {top, bottom} = radius
-        top = top || {}
-        bottom = bottom || {}
-        return {
-          borderTopLeftRadius: top.left || 0,
-          borderTopRightRadius: top.right || 0,
-          borderBottomLeftRadius: bottom.left || 0,
-          borderBottomRightRadius: bottom.right || 0
-        }
+      if (typeof(radius) === 'number') {
+        return {borderRadius: radius}
+      }
+      let {top, bottom} = radius
+      top = top || {}
+      bottom = bottom || {}
+      return {
+        borderTopLeftRadius: top.left || 0,
+        borderTopRightRadius: top.right || 0,
+        borderBottomLeftRadius: bottom.left || 0,
+        borderBottomRightRadius: bottom.right || 0
       }
     },
     {radius: propTypes.radius}
@@ -51,9 +49,7 @@ export default [
   [
     ({props, styleSheet}) => {
       const {padding} = props
-      if (padding) {
-        return boxModel('padding', padding)
-      }
+      return boxModel('padding', padding)
     },
     {padding: propTypes.padding}
   ],
@@ -62,10 +58,8 @@ export default [
   [
     ({props, styleSheet}) => {
       const {position} = props
-      if (position) {
-        const {top, right, bottom, left} = position
-        return {top, right, bottom, left, position: 'absolute'}
-      }
+      const {top, right, bottom, left} = position
+      return {top, right, bottom, left, position: 'absolute'}
     },
     {position: propTypes.position}
   ],
@@ -74,9 +68,7 @@ export default [
   [
     ({props, styleSheet}) => {
       const {margin} = props
-      if (margin) {
-        return boxModel('margin', margin)
-      }
+      return boxModel('margin', margin)
     },
     {margin: propTypes.margin}
   ],
@@ -108,23 +100,21 @@ export default [
   [
     ({props, styleSheet}) => {
       let {flex} = props
-      if (flex !== undefined) {
-        if (typeof(flex) === 'boolean') {
-          flex = Number(flex)
-        }
-        if (typeof(flex) === 'number') {
-          return {flex}
-        }
-
-        const out = {
-          flexDirection: flex.row ? 'row' : 'column',
-          flexWrap: flex.wrap ? 'wrap' : 'nowrap'
-        }
-        if (flex.grow !== undefined) {
-          out.flex = flex.grow
-        }
-        return out
+      if (typeof(flex) === 'boolean') {
+        flex = Number(flex)
       }
+      if (typeof(flex) === 'number') {
+        return {flex}
+      }
+
+      const out = {
+        flexDirection: flex.row ? 'row' : 'column',
+        flexWrap: flex.wrap ? 'wrap' : 'nowrap'
+      }
+      if (flex.grow !== undefined) {
+        out.flex = flex.grow
+      }
+      return out
     },
     {flex: propTypes.flex}
   ],
@@ -133,9 +123,7 @@ export default [
   [
     ({props, styleSheet}) => {
       const {direction} = props
-      if (direction) {
-        return {flexDirection: direction}
-      }
+      return {flexDirection: direction}
     },
     {direction: propTypes.direction}
   ],
@@ -144,9 +132,7 @@ export default [
   [
     ({props, styleSheet}) => {
       const {wrap} = props
-      if (wrap !== undefined) {
-        return {flexWrap: wrap ? 'wrap' : 'nowrap'}
-      }
+      return {flexWrap: wrap ? 'wrap' : 'nowrap'}
     },
     {wrap: propTypes.wrap}
   ],
@@ -154,9 +140,7 @@ export default [
   // Justify
   [
     ({props}) => {
-      // Some handy property shortcuts
       const {justify} = props
-
       switch (justify) {
         case 'center':
           return {justifyContent: 'center'}
