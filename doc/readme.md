@@ -29,6 +29,7 @@ For any non-trival RN application the question arises on how to manage styles fo
 <? @include configuration.md ?>
 <? @include plugins.md ?>
 <? @include properties.md ?>
+<? @include cascade.md ?>
 
 ## License
 
