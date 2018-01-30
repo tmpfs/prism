@@ -71,7 +71,7 @@ Prism is a library that returns a HOC (Higher Order Component) which exposes acc
 
 It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
 
-For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~600 lines of code.
+For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~800 lines of code.
 
 ## Getting Started
 
@@ -225,13 +225,12 @@ It can be very convenient to map properties to stylesheets, this is achieved usi
 For example to return a declaration from the compiled stylesheet:
 
 ```javascript
-static propTypes = {
-  center: PropTypes.bool
-}
-static mapPropsToStyle = {
-  center: ({prop, styleSheet}) => {
-    if (prop) {
-      return styleSheet.textCenter
+static styleOptions = ({styleSheet}) => {
+  return {
+    mapPropsToStyle: {
+      center: ({prop}) => {
+        return styleSheet.textCenter
+      }
     }
   }
 }
@@ -240,10 +239,12 @@ static mapPropsToStyle = {
 Or if you prefer you can return a plain object of style properties:
 
 ```javascript
-static mapPropsToStyle = {
-  center: ({prop, styleSheet}) => {
-    if (prop) {
-      return {textAlign: 'center'}
+static styleOptions = () => {
+  return {
+    mapPropsToStyle: {
+      center: ({prop}) => {
+        return {textAlign: 'center'}
+      }
     }
   }
 }
@@ -254,18 +255,18 @@ It is recommended to access pre-compiled stylesheets wherever possible.
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
 ```javascript
-static propTypes = {
-  space: PropTypes.number,
-  horizontal: PropTypes.bool
-}
-static mapPropsToStyle = {
-  space: ({prop, props}) => {
-    if (prop) {
-      const {horizontal} = props
-      const styleProp = horizontal ? 'marginRight' : 'marginBottom'
-      const style = {}
-      style[styleProp] = prop
-      return style
+static styleOptions = () => {
+  return {
+    mapPropsToStyle: {
+      space: ({prop, props}) => {
+        if (prop) {
+          const {horizontal} = props
+          const styleProp = horizontal ? 'marginRight' : 'marginBottom'
+          const style = {}
+          style[styleProp] = prop
+          return style
+        }
+      }
     }
   }
 }
@@ -277,7 +278,7 @@ It is important to know that the `propTypes` and `defaultProps` you declare are 
 
 Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
 
-If you need it `Prism.propTypes` field exposes the system property types.
+If you need it the `Prism.propTypes` field exposes the system property types.
 
 ### Namespaces
 

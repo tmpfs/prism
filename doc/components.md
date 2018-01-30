@@ -75,13 +75,12 @@ It can be very convenient to map properties to stylesheets, this is achieved usi
 For example to return a declaration from the compiled stylesheet:
 
 ```javascript
-static propTypes = {
-  center: PropTypes.bool
-}
-static mapPropsToStyle = {
-  center: ({prop, styleSheet}) => {
-    if (prop) {
-      return styleSheet.textCenter
+static styleOptions = ({styleSheet}) => {
+  return {
+    mapPropsToStyle: {
+      center: ({prop}) => {
+        return styleSheet.textCenter
+      }
     }
   }
 }
@@ -90,10 +89,12 @@ static mapPropsToStyle = {
 Or if you prefer you can return a plain object of style properties:
 
 ```javascript
-static mapPropsToStyle = {
-  center: ({prop, styleSheet}) => {
-    if (prop) {
-      return {textAlign: 'center'}
+static styleOptions = () => {
+  return {
+    mapPropsToStyle: {
+      center: ({prop}) => {
+        return {textAlign: 'center'}
+      }
     }
   }
 }
@@ -104,18 +105,18 @@ It is recommended to access pre-compiled stylesheets wherever possible.
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
 ```javascript
-static propTypes = {
-  space: PropTypes.number,
-  horizontal: PropTypes.bool
-}
-static mapPropsToStyle = {
-  space: ({prop, props}) => {
-    if (prop) {
-      const {horizontal} = props
-      const styleProp = horizontal ? 'marginRight' : 'marginBottom'
-      const style = {}
-      style[styleProp] = prop
-      return style
+static styleOptions = () => {
+  return {
+    mapPropsToStyle: {
+      space: ({prop, props}) => {
+        if (prop) {
+          const {horizontal} = props
+          const styleProp = horizontal ? 'marginRight' : 'marginBottom'
+          const style = {}
+          style[styleProp] = prop
+          return style
+        }
+      }
     }
   }
 }
