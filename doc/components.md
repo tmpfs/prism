@@ -74,7 +74,7 @@ Components have varied needs for mapping properties to style declarations so the
 
 Each of the mapping options may be either a function or object, when it is a function it is passed the style registry and should return an object.
 
-You may declare these options as `static` fields on your component or within the object returned by `styleOptions`, when using the `static` declaration if often makes more sense to use the function notation.
+You may declare these options as `static` fields on your component or within the object returned by `styleOptions`, when using the `static` declaration if often makes more sense to use the function notation so you can access the style registry.
 
 ```javascript
 static mapPropsToStyleDecl = ({styleSheet}) => {
