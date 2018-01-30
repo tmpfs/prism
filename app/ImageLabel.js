@@ -20,7 +20,7 @@ class ImageLabel extends Component {
       },
       styleProperties: {
         // Maps color -> labelStyle.color and space -> labelStyle.marginTop
-        label: ['color', ['space', 'marginTop']],
+        label: ['color', {space: 'marginTop'}],
         // Maps to imageStyle.width and imageStyle.height
         image: ['width', 'height']
       }

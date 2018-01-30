@@ -8,11 +8,10 @@ import propTypes from './PropTypes'
 
 const STYLE = 'style'
 
-const isObject = (o) => {
-  return o && o.toString() === '[object Object]'
-}
+const isObject = (o) => o && o.toString() === '[object Object]'
+const isString = (o) => o && typeof(o) === 'string'
 const isFunction = (fn) => (fn instanceof Function)
-const util = {isObject, isFunction}
+const util = {isObject, isFunction, isString}
 
 const compile = (decl) => {
   const sheet = {decl}
@@ -237,13 +236,22 @@ const Prism = (Type, namespace = '') => {
             const availableProperties = styleProperties[attrName].slice()
             const propertyStyleMap = {}
             const flatAvailableProperties =
-              availableProperties.map((val) => {
-                if (Array.isArray(val)) {
-                  propertyStyleMap[val[0]] = val[1]
-                  return val[0]
+              availableProperties.reduce((list, val) => {
+                if (isObject(val)) {
+                  const keys = Object.keys(val)
+                  list.push(keys)
+                  keys.forEach((key) => {
+                    propertyStyleMap[key] = val[key]
+                  })
+                } else if (isString(val)) {
+                  list.push(val)
                 }
-                return val
-              })
+                //if (Array.isArray(val)) {
+                  //propertyStyleMap[val[0]] = val[1]
+                  //return val[0]
+                //}
+                return list
+              }, [])
 
             // TODO: only run global plugins once!
 
