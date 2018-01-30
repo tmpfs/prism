@@ -8,7 +8,6 @@ class ImageLabel extends Component {
 
   static styleOptions = ({styleSheet}) => {
     return {
-      colorNames: ['color'],
       mapPropsToObject: {
         labelProps: {
           size: 'size',

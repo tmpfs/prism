@@ -127,9 +127,6 @@ export default ({colors, fonts}) => {
       flex: 1,
       alignItems: 'center'
     },
-    'ImageLabel.Label': {
-      textAlign: 'center'
-    },
 
     // Utils
     row: {
@@ -180,7 +177,6 @@ import {Prism} from '../src/Prism'
 class Label extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
-      colorNames: ['color'],
       mapPropsToStyleDecl: {
         error: styleSheet.error
       },
@@ -298,7 +294,6 @@ class ImageLabel extends Component {
 
   static styleOptions = ({styleSheet}) => {
     return {
-      colorNames: ['color'],
       mapPropsToObject: {
         labelProps: {
           size: 'size',
