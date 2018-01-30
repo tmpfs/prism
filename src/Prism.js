@@ -8,6 +8,18 @@ import propTypes from './PropTypes'
 
 const STYLE = 'style'
 
+class Plugin  {
+  constructor (name, func, propType = null) {
+    this.name = name
+    this.func = func
+    this.propType = propType
+  }
+}
+
+//const mapPropsToObject = (propKey, propValue) => {
+
+//}
+
 const getStylePropertyName = (name) => {
   if (name !== STYLE && !/Style$/.test(name)) {
     name += 'Style'
@@ -29,14 +41,6 @@ const compile = (decl) => {
 
 const Configuration = {
   plugins: null
-}
-
-class Plugin  {
-  constructor (name, func, propType = null) {
-    this.name = name
-    this.func = func
-    this.propType = propType
-  }
 }
 
 const registerPlugins = (plugins) => {

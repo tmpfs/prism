@@ -26,6 +26,31 @@ export default [
     }
   ],
 
+  // Support for mapping properties to child objects
+  [
+    'mapPropsToObject',
+    (pluginOptions) => {
+      const {props, options} = pluginOptions
+      const {mapPropsToObject} = options
+      if (mapPropsToObject) {
+        for (let k in mapPropsToObject) {
+          const def = mapPropsToObject[k]
+          props[k] = props[k] || {}
+          // Ensure the target prop exists
+          if (Array.isArray(def)) {
+            def.forEach((propName) => {
+              props[k][propName] = props[propName]
+            })
+          } else {
+            for (let z in def) {
+              props[k][z] = props[def[z]]
+            }
+          }
+        }
+      }
+    }
+  ],
+
   // Support for className
   [
     ({prop, styleSheet}) => {

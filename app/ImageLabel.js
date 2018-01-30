@@ -6,12 +6,29 @@ import Label from './Label'
 
 class ImageLabel extends Component {
 
-  static styleOptions = () => {
+  static styleOptions = ({styleSheet}) => {
     return {
       colorNames: ['color'],
+
+      mapPropsToObject: {
+        labelProps: {
+          size: 'size'
+        },
+        imageProps: ['source']
+      },
+
+      //mapPropsToStyleSheet: {
+        //row: styleSheet.row,
+        //label: {
+          //error: styleSheet.error
+        //}
+      //},
+
       styleProperties: {
         // Maps color -> labelStyle.color and space -> labelStyle.marginTop
-        label: ['color', ['space', 'marginTop'], ['size', 'fontSize']],
+        //label: [
+          //'color', ['space', 'marginTop'], ['size', 'fontSize']],
+        label: ['color', ['space', 'marginTop']],
         // Maps to imageStyle.width and imageStyle.height
         image: ['width', 'height']
       }
@@ -19,6 +36,8 @@ class ImageLabel extends Component {
   }
 
   static propTypes = {
+    imageProps: PropTypes.object,
+    labelProps: PropTypes.object,
     source: Image.propTypes.source,
     color: PropTypes.string,
     width: PropTypes.number,
@@ -28,19 +47,32 @@ class ImageLabel extends Component {
   }
 
   static defaultProps = {
-    space: 10
+    space: 10,
+    imageProps: {},
+    labelProps: {}
   }
 
   render () {
-    const {style, imageStyle, labelStyle, width, height, source} = this.props
+    const {
+      style,
+      imageStyle,
+      labelStyle,
+      imageProps,
+      labelProps,
+      width,
+      height
+    } = this.props
+    console.log(imageStyle)
     return (
       <View style={style}>
         <Image
           width={width}
           height={height}
-          source={source}
+          {...imageProps}
           style={imageStyle} />
-        <Label style={labelStyle}>{this.props.children}</Label>
+        <Label
+          {...labelProps}
+          style={labelStyle}>{this.props.children}</Label>
       </View>
     )
   }
