@@ -485,7 +485,7 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `disabledPlugins` array of string plugin names to disable.
 * `debug` print configured plugins.
 
-Note that support for the `style` property cannot be disabled, it is not handled by a plugin.
+Note that support for the `style` property and `mapPropsToStyleObject` cannot be disabled, they are not handled by plugins.
 
 ### Default Plugins
 
