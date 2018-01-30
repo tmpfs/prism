@@ -24,8 +24,7 @@
     - [mapPropsToStyle](#mappropstostyle)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
-  - [Component Options](#component-options)
-    - [Default Styles](#default-styles)
+  - [Default Styles](#default-styles)
   - [Color Names](#color-names)
 - [Configuration](#configuration)
   - [Default Plugins](#default-plugins)
@@ -417,13 +416,11 @@ export default ({colors, fonts}) => {
 }
 ```
 
-### Component Options
+### Default Styles
 
-Components can declare processing options at a class level by declaring a static `styleOptions` function.
+Components can specify options at a class level by declaring a static `styleOptions` function which should return an object.
 
-#### Default Styles
-
-You can use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
+Use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
 
 ```javascript
 static styleOptions = ({styleSheet}) => {
@@ -458,7 +455,7 @@ class BlockQuote extends Component {
 export default Prism(BlockQuote)
 ```
 
-Which would create initial styles for the component using the `Label`, `Paragraph` and `BlockQuote` style declarations (in that order).
+Which would create default styles for the component using the `Label`, `Paragraph` and `BlockQuote` style declarations (in that order).
 
 ### Color Names
 
@@ -581,7 +578,7 @@ const plugins = [
 
 ## Cascade
 
-It is important to understand how styles are computed.
+It is useful to know the order in which styles are computed.
 
 1. Default styles are applied.
 2. Global plugins are executed.
@@ -596,7 +593,7 @@ If the component is using [mapPropsToStyleObject](#mapPropsToStyleObject) and th
 
 If no style declaration matches the computed class name no action is taken.
 
-Global plugins in the default configuration handle the `className` property before processing plugins that map properties to styles, so your component properties overwrite those in style declarations referenced by `className`.
+Global plugins in the default configuration handle the `className` property first before processing plugins that map properties to styles, so your component properties overwrite those in style declarations referenced by `className`.
 
 Property plugins enabled with the `extendedProperties` option (or custom plugins) are executed next so they override property mappings and `className`.
 

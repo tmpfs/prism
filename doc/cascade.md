@@ -1,6 +1,6 @@
 ## Cascade
 
-It is important to understand how styles are computed.
+It is useful to know the order in which styles are computed.
 
 1. Default styles are applied.
 2. Global plugins are executed.
@@ -15,7 +15,7 @@ If the component is using [mapPropsToStyleObject](#mapPropsToStyleObject) and th
 
 If no style declaration matches the computed class name no action is taken.
 
-Global plugins in the default configuration handle the `className` property before processing plugins that map properties to styles, so your component properties overwrite those in style declarations referenced by `className`.
+Global plugins in the default configuration handle the `className` property first before processing plugins that map properties to styles, so your component properties overwrite those in style declarations referenced by `className`.
 
 Property plugins enabled with the `extendedProperties` option (or custom plugins) are executed next so they override property mappings and `className`.
 

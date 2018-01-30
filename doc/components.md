@@ -258,13 +258,11 @@ export default ({colors, fonts}) => {
 }
 ```
 
-### Component Options
+### Default Styles
 
-Components can declare processing options at a class level by declaring a static `styleOptions` function.
+Components can specify options at a class level by declaring a static `styleOptions` function which should return an object.
 
-#### Default Styles
-
-You can use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
+Use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
 
 ```javascript
 static styleOptions = ({styleSheet}) => {
@@ -299,7 +297,7 @@ class BlockQuote extends Component {
 export default Prism(BlockQuote)
 ```
 
-Which would create initial styles for the component using the `Label`, `Paragraph` and `BlockQuote` style declarations (in that order).
+Which would create default styles for the component using the `Label`, `Paragraph` and `BlockQuote` style declarations (in that order).
 
 ### Color Names
 
