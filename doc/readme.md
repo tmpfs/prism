@@ -33,7 +33,7 @@ For any non-trival RN application the question arises on how to manage styles fo
 
 ## Bugs
 
-Some third-party components break the idiom of `style` being an array or object and enforce object only. There is currently no easy way to flatten the `style` array to an object for these component implementations.
+Some third-party components break the idiom of `style` being an array or object and enforce object only. There is currently no easy way to flatten the `style` array to an object for these component implementations. The best solution for now is to ask the author to fix the `propType`, otherwise just fork it and fix it.
 
 ## License
 
