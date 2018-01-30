@@ -145,11 +145,11 @@ export default [
         }
         for (let k in map) {
           const prop = props[k]
-          const mapOptions = {...registry, options, props, prop}
           if (props.hasOwnProperty(k) && prop !== undefined) {
             const fn = map[k]
+            // TODO: verify ahead of time?
             if (util.isFunction(fn)) {
-              const sheet = fn(mapOptions)
+              const sheet = fn({...registry, options, props, prop})
               if (sheet !== undefined) {
                 sheets.push(sheet)
               }
