@@ -182,6 +182,8 @@ static mapPropsToStyleObject = {
 }
 ```
 
+When using `mapPropsToStyleObject` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
+
 A powerful feature of mapping properties in this way is that you can now define default styles for the child component with dot notation:
 
 ```javascript
