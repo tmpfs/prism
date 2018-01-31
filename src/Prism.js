@@ -444,8 +444,11 @@ const registerComponent = (registry, definition, config) => {
   options.mapPropsToStyleObject = mapPropsToStyleObject
   options.stylePropertyNames = Object.keys(mapPropsToStyleObject)
 
-  const globalPlugins = plugins.filter(
-    (plugin) => plugin.isGlobal)
+  const globalPlugins = plugins
+    .filter((plugin) => {
+      plugin.isGlobal
+        && (options.hasOwnProperty(plugin.name) || plugin.name === 'colorNames')
+    )
   const propertyPlugins = plugins.filter(
     (plugin) => !plugin.isGlobal)
 
