@@ -103,8 +103,6 @@ export default [
     ({props, options, registry, util, ns}) => {
       const {mapPropsToState} = options
       const {styleSheet} = registry
-      const defaultTest = ({props, propName}) => props[propName] !== undefined
-
       if (mapPropsToState !== undefined) {
         let map = mapPropsToState
         if (util.isFunction(map)) {
@@ -114,14 +112,11 @@ export default [
         const sheets = []
         for (let k in map) {
           stateMap = map[k]
-          const test = util.isFunction(stateMap.test) ? stateMap.test : defaultTest
-          const className = stateMap.className || (k.charAt(0).toUpperCase() + k.slice(1))
-          for (let propName in props) {
-            if (test({propName, props})) {
-              const stateClassName = ns.componentClassName + '.' + className
-              if (styleSheet[stateClassName]) {
-                console.log('Adding state class for : ' + stateClassName)
-              }
+          if (props[k] !== undefined) {
+            const className = stateMap.className || (k.charAt(0).toUpperCase() + k.slice(1))
+            const stateClassName = ns.componentClassName + '.' + className
+            if (styleSheet[stateClassName]) {
+              console.log('Adding state class for : ' + stateClassName)
             }
           }
         }
