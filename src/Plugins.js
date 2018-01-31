@@ -102,6 +102,7 @@ export default [
     'mapPropsToState',
     ({props, options, registry, util, ns}) => {
       const {mapPropsToState} = options
+      const {styleSheet} = registry
       let stateStyle = mapPropsToState({...registry, props})
       const sheets = []
       if (stateStyle) {
