@@ -100,10 +100,10 @@ export default [
 
   [
     'mapPropsToState',
-    ({props, state, options, registry, util, ns}) => {
+    ({props, options, registry, util, ns}) => {
       const {mapPropsToState} = options
       const {styleSheet} = registry
-      let stateStyle = mapPropsToState({...registry, state, props})
+      let stateStyle = mapPropsToState({...registry, props})
       const sheets = []
       if (stateStyle) {
         if (typeof(stateStyle) === 'string') {
@@ -112,9 +112,7 @@ export default [
             stateStyle = styleSheet[stateClassName]
           }
         }
-        if (Array.isArray(stateStyle) || util.isObject(stateStyle)) {
-          sheets.push(stateStyle)
-        }
+        sheets.push(stateStyle)
       }
       return sheets
     }
