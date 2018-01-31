@@ -118,7 +118,7 @@ export default [
             if (stateStyle) {
               console.log('got state style: ' + stateStyle)
               if (typeof(stateStyle) === 'string') {
-                const stateClassName = ns.componentClassName + '.' + className
+                const stateClassName = ns.componentClassName + '.' + stateStyle
                 console.log('got state style: ' + stateClassName)
 
                 if (styleSheet[stateClassName]) {
