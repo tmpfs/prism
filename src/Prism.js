@@ -446,9 +446,9 @@ const registerComponent = (registry, definition, config) => {
 
   const globalPlugins = plugins
     .filter((plugin) => {
-      plugin.isGlobal
+      return plugin.isGlobal
         && (options.hasOwnProperty(plugin.name) || plugin.name === 'colorNames')
-    )
+    })
   const propertyPlugins = plugins.filter(
     (plugin) => !plugin.isGlobal)
 
