@@ -116,7 +116,8 @@ export default [
           stateMap = map[k]
           const test = util.isFunction(stateMap.test) || defaultTest
           const className = stateMap.className || (k.charAt(0).toUpperCase() + k.slice(1))
-          for (const prop of props) {
+          for (let z in props) {
+            const prop = props[z]
             if (test({prop, props})) {
               const stateClassName = ns.componentClassName + '.' + className
               if (styleSheet[stateClassName]) {
