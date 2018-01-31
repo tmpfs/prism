@@ -102,37 +102,39 @@ export default [
     'mapPropsToState',
     ({props, options, registry, util, ns}) => {
       const {mapPropsToState} = options
-      const {styleSheet} = registry
-      if (mapPropsToState !== undefined) {
-        let map = mapPropsToState
-        if (util.isFunction(map)) {
-          map = mapPropsToState(registry)
-        }
-        let stateFunc
-        const sheets = []
-        for (let k in map) {
-          stateFunc = map[k]
-          if (props[k] !== undefined && util.isFunction(stateFunc)) {
-            // TODO: pass actual state
-            let stateStyle = stateFunc({...registry, props})
-            if (stateStyle) {
-              console.log('got state style: ' + stateStyle)
-              if (typeof(stateStyle) === 'string') {
-                const stateClassName = ns.componentClassName + '.' + stateStyle
-                console.log('got state style: ' + stateClassName)
-
-                if (styleSheet[stateClassName]) {
-                  stateStyle = styleSheet[stateClassName]
-                  console.log('found state stylesheet')
-                }
-              }
-              sheets.push(stateStyle)
-            }
+      const stateStyle = mapPropsToState({...registry, props})
+      const sheets = []
+      if (stateStyle) {
+        console.log('got state style: ' + stateStyle)
+        if (typeof(stateStyle) === 'string') {
+          const stateClassName = ns.componentClassName + '.' + stateStyle
+          console.log('got state style: ' + stateClassName)
+          if (styleSheet[stateClassName]) {
+            stateStyle = styleSheet[stateClassName]
+            console.log('found state stylesheet')
           }
         }
-        return sheets
+        sheets.push(stateStyle)
       }
-    }
+      return sheets
+
+      //if (mapPropsToState !== undefined) {
+        //let map = mapPropsToState
+        //if (util.isFunction(map)) {
+          //map = mapPropsToState(registry)
+        //}
+        //let stateFunc
+        //const sheets = []
+        //for (let k in map) {
+          //stateFunc = map[k]
+          //if (props[k] !== undefined && util.isFunction(stateFunc)) {
+            //// TODO: pass actual state
+            //let stateStyle = stateFunc({...registry, props})
+          //}
+        //}
+        //return sheets
+      //}
+    //}
   ],
 
   // Support for mapping properties to child objects
