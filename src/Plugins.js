@@ -106,16 +106,15 @@ export default [
       let stateStyle = mapPropsToState({...registry, props})
       const sheets = []
       if (stateStyle) {
-        console.log('got state style: ' + stateStyle)
         if (typeof(stateStyle) === 'string') {
           const stateClassName = ns.componentClassName + '.' + stateStyle
-          console.log('got state style: ' + stateClassName)
           if (styleSheet[stateClassName]) {
             stateStyle = styleSheet[stateClassName]
-            console.log('found state stylesheet')
           }
         }
-        sheets.push(stateStyle)
+        if (Array.isArray(stateStyle) || util.isObject(stateStyle)) {
+          sheets.push(stateStyle)
+        }
       }
       return sheets
     }
