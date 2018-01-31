@@ -114,7 +114,7 @@ export default [
         const sheets = []
         for (let k in map) {
           stateMap = map[k]
-          const test = util.isFunction(stateMap.test) || defaultTest
+          const test = util.isFunction(stateMap.test) ? stateMap.test : defaultTest
           const className = stateMap.className || (k.charAt(0).toUpperCase() + k.slice(1))
           for (let z in props) {
             const prop = props[z]
