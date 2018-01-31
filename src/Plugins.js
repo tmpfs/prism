@@ -112,7 +112,7 @@ export default [
         const sheets = []
         for (let k in map) {
           stateFunc = map[k]
-          if (util.isFunction(stateFunc)) {
+          if (props[k] !== undefined && util.isFunction(stateFunc)) {
             // TODO: pass actual state
             let stateStyle = stateFunc({...registry, props})
             if (stateStyle) {
