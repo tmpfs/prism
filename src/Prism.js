@@ -30,15 +30,21 @@ const Configuration = {
   plugins: null
 }
 
+const func = {
+  fn: (o) => isFunction(o),
+  type: 'function'
+}
+
 const fnOrObj = {
   fn: (o) => isFunction(o) || isObject(o),
-  type: 'function'
+  type: 'function or object'
 }
 
 const mapPluginTypeTests = {
   mapPropsToStyleDecl: fnOrObj,
   mapPropsToStyleProp: fnOrObj,
   mapPropsToStyleObject: fnOrObj,
+  mapPropsToStyleState: func,
   mapPropsToStyle: fnOrObj
 }
 
