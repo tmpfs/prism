@@ -117,24 +117,7 @@ export default [
         sheets.push(stateStyle)
       }
       return sheets
-
-      //if (mapPropsToState !== undefined) {
-        //let map = mapPropsToState
-        //if (util.isFunction(map)) {
-          //map = mapPropsToState(registry)
-        //}
-        //let stateFunc
-        //const sheets = []
-        //for (let k in map) {
-          //stateFunc = map[k]
-          //if (props[k] !== undefined && util.isFunction(stateFunc)) {
-            //// TODO: pass actual state
-            //let stateStyle = stateFunc({...registry, props})
-          //}
-        //}
-        //return sheets
-      //}
-    //}
+    }
   ],
 
   // Support for mapping properties to child objects
