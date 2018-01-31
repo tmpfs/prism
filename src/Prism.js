@@ -107,7 +107,8 @@ const getStyleSheet = (
   const {styleSheet, colors} = registry
 
   let childClassName
-  let componentClassName = namespace ? `${namespace}.${Name}` : Name
+  let className = options.className || Name
+  let componentClassName = namespace ? `${namespace}.${className}` : className
 
   // Passing style to nested child component
   if (attrName && attrName !== STYLE) {
@@ -117,7 +118,8 @@ const getStyleSheet = (
   }
 
   const ns = {
-    className: Name,
+    typeName: Name,
+    className,
     componentClassName,
     childClassName,
     namespace
