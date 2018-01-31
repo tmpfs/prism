@@ -343,10 +343,7 @@ const Prism = (Type, namespace = '') => {
             ref='stylable'
             {...this.props}
             {...this.state.styleValues}
-            //style={this.state.style}
-            styleRegistry={definition.registry}
-            styleFlexRow={this.props.direction === 'row'}
-            styleSheet={definition.registry.styleSheet} />
+            styleFlexRow={this.props.direction === 'row'} />
         )
       }
     }

@@ -143,18 +143,6 @@ The computed stylesheet for the component.
 
 Note that when you assign to `style` in JSX declarations it may be an array or object but by the time `style` reaches your component render function it is guaranteed to be an array.
 
-#### styleSheet
-
-`Object`
-
-The compiled collection of stylesheets.
-
-#### styleRegistry
-
-`StyleRegistry`
-
-The underlying registry of colors, fonts and stylesheets.
-
 #### styleFlexRow
 
 `Boolean`
