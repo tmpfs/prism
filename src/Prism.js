@@ -95,7 +95,7 @@ const registerPlugin = (plugin) => {
 }
 
 const getStyleSheet = (
-  {props, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
+  {props, state, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
 
   const style = props[fullAttrName]
   const {config, options, registry, namespace, Name} = definition
@@ -139,12 +139,13 @@ const getStyleSheet = (
 
   // Process plugins
   const pluginOptions = {
+    props,
+    state,
     util,
     ns,
     config,
     definition,
     registry,
-    props,
     styleSheet,
     options,
     colors,
@@ -233,6 +234,7 @@ const Prism = (Type, namespace = '') => {
       }
 
       processStylePlugins (props, testFunc = () => true) {
+        const {state} = this
         const {registry, options, Type} = definition
         const {stylePropertyNames, mapPropsToStyleObject} = options
         const {globals, property} = options.plugins
@@ -286,6 +288,7 @@ const Prism = (Type, namespace = '') => {
             const computedStyle = getStyleSheet(
               {
                 props,
+                state,
                 definition,
                 attrName,
                 fullAttrName,
