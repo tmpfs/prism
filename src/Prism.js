@@ -98,18 +98,24 @@ const getStyleSheet = (
   {props, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
 
   const style = props[fullAttrName]
-
-  const {config, options, registry, namespace} = definition
+  const {config, options, registry, namespace, Name} = definition
   const {styleSheet, colors} = registry
 
-  let componentClassName = namespace ?
-    `${namespace}.${definition.Name}` : definition.Name
+  let childClassName
+  let componentClassName = namespace ? `${namespace}.${Name}` : Name
 
   // Passing style to nested child component
   if (attrName && attrName !== STYLE) {
-    const childClassName = attrName.charAt(0).toUpperCase() +
+    childClassName = attrName.charAt(0).toUpperCase() +
       attrName.slice(1)
     componentClassName += '.' + childClassName
+  }
+
+  const ns = {
+    className: Name,
+    componentClassName,
+    childClassName,
+    namespace
   }
 
   const defaultClassStyle = styleSheet[componentClassName] ?
@@ -134,6 +140,7 @@ const getStyleSheet = (
   // Process plugins
   const pluginOptions = {
     util,
+    ns,
     config,
     definition,
     registry,
