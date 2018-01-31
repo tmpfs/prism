@@ -108,15 +108,25 @@ export default [
         if (util.isFunction(map)) {
           map = mapPropsToState(registry)
         }
-        let stateMap
+        let stateFunc
         const sheets = []
         for (let k in map) {
-          stateMap = map[k]
-          if (props[k] !== undefined) {
-            const className = stateMap.className || (k.charAt(0).toUpperCase() + k.slice(1))
-            const stateClassName = ns.componentClassName + '.' + className
-            if (styleSheet[stateClassName]) {
-              console.log('Adding state class for : ' + stateClassName)
+          stateFunc = map[k]
+          if (util.isFunction(stateFunc)) {
+            // TODO: pass actual state
+            let stateStyle = stateFunc({...registry, props})
+            if (stateStyle) {
+              console.log('got state style: ' + stateStyle)
+              if (typeof(stateStyle) === 'string') {
+                const stateClassName = ns.componentClassName + '.' + className
+                console.log('got state style: ' + stateClassName)
+
+                if (styleSheet[stateClassName]) {
+                  stateStyle = styleSheet[stateClassName]
+                  console.log('found state stylesheet')
+                }
+              }
+              sheets.push(stateStyle)
             }
           }
         }
