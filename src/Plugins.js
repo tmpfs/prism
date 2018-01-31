@@ -98,6 +98,38 @@ export default [
     }
   ],
 
+  [
+    'mapPropsToState',
+    ({props, options, registry, util, ns}) => {
+      const {mapPropsToState} = options
+      const {styleSheet} = registry
+      const defaultTest = ({prop}) => prop !== undefined
+
+      if (mapPropsToState !== undefined) {
+        let map = mapPropsToState
+        if (util.isFunction(map)) {
+          map = mapPropsToState(registry)
+        }
+        let stateMap
+        const sheets = []
+        for (let k in map) {
+          stateMap = map[k]
+          const test = util.isFunction(stateMap.test) || defaultTest
+          const className = stateMap.className || (k.charAt(0).toUpperCase() + k.slice(1))
+          for (const prop of props) {
+            if (test({prop, props})) {
+              const stateClassName = ns.componentClassName + '.' + className
+              if (styleSheet[stateClassName]) {
+                console.log('Adding state class for : ' + stateClassName)
+              }
+            }
+          }
+        }
+        return sheets
+      }
+    }
+  ],
+
   // Support for mapping properties to child objects
   [
     'mapPropsToObject',
