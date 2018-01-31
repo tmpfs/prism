@@ -19,7 +19,6 @@
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyleProp](#mappropstostyleprop)
     - [mapPropsToStyleDecl](#mappropstostyledecl)
-    - [mapPropsToObject](#mappropstoobject)
     - [mapPropsToStyleObject](#mappropstostyleobject)
     - [mapPropsToStyle](#mappropstostyle)
   - [Property Type Validation](#property-type-validation)
@@ -280,29 +279,6 @@ static mapPropsToStyleDecl = ({styleSheet}) => {
 ```
 
 If the `error` property is defined the `error` style declaration is included in the computed styles. For more advanced logic use `mapPropsToStyle`.
-
-#### mapPropsToObject
-
-When designing composite components you often need to pass properties down to child components. Use `mapPropsToObject` to automatically route properties to objects that are passed to child components:
-
-```javascript
-static defaultProps = {
-  imageProps: {},
-  labelProps: {}
-}
-
-static mapPropsToObject = {
-  labelProps: {
-    size: 'size',
-    error: 'error'
-  },
-  imageProps: ['source']
-}
-```
-
-This can save a lot of repetition passing properties to child components. When using this option you can specify an object (which allows aliasing the property name) or an array of strings, the example above illustrates both styles.
-
-You *must* ensure the child objects are prepared to receive the properties by initializing them in `defaultProps`.
 
 #### mapPropsToStyleObject
 
@@ -775,5 +751,5 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 30, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 31, 2018
 

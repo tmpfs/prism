@@ -8,10 +8,6 @@ class ImageLabel extends Component {
 
   static styleOptions = ({styleSheet}) => {
     return {
-      mapPropsToObject: {
-        labelProps: ['size', 'error'],
-        imageProps: ['source']
-      },
       mapPropsToStyleDecl: () => {
         row: styleSheet.row
       },
@@ -54,6 +50,7 @@ class ImageLabel extends Component {
     return (
       <View style={style}>
         <Image
+          source={source}
           width={width}
           height={height}
           {...imageProps}

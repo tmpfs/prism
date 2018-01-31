@@ -38,7 +38,6 @@ const fnOrObj = {
 const mapPluginTypeTests = {
   mapPropsToStyleDecl: fnOrObj,
   mapPropsToStyleProp: fnOrObj,
-  mapPropsToObject: fnOrObj,
   mapPropsToStyleObject: fnOrObj,
   mapPropsToStyle: fnOrObj
 }

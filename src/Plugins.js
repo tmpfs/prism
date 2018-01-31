@@ -118,40 +118,6 @@ export default [
     }
   ],
 
-  // Support for mapping properties to child objects
-  [
-    'mapPropsToObject',
-    ({props, options, registry, util}) => {
-      const {mapPropsToObject} = options
-      if (mapPropsToObject !== undefined) {
-        let map = mapPropsToObject
-        if (util.isFunction(map)) {
-          map = mapPropsToObject(registry)
-        }
-        for (let k in map) {
-          const def = map[k]
-          // NOTE: we take advantage of the fact
-          // NOTE: that Object.freeze() is shallow
-          // NOTE: here, would like to find a better
-          // NOTE: way to propagate these props
-
-          // Property object must already be declared
-          if (props[k]) {
-            if (Array.isArray(def)) {
-              def.forEach((propName) => {
-                props[k][propName] = props[propName]
-              })
-            } else {
-              for (let z in def) {
-                props[k][z] = props[def[z]]
-              }
-            }
-          }
-        }
-      }
-    }
-  ],
-
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',

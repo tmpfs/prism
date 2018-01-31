@@ -122,29 +122,6 @@ static mapPropsToStyleDecl = ({styleSheet}) => {
 
 If the `error` property is defined the `error` style declaration is included in the computed styles. For more advanced logic use `mapPropsToStyle`.
 
-#### mapPropsToObject
-
-When designing composite components you often need to pass properties down to child components. Use `mapPropsToObject` to automatically route properties to objects that are passed to child components:
-
-```javascript
-static defaultProps = {
-  imageProps: {},
-  labelProps: {}
-}
-
-static mapPropsToObject = {
-  labelProps: {
-    size: 'size',
-    error: 'error'
-  },
-  imageProps: ['source']
-}
-```
-
-This can save a lot of repetition passing properties to child components. When using this option you can specify an object (which allows aliasing the property name) or an array of strings, the example above illustrates both styles.
-
-You *must* ensure the child objects are prepared to receive the properties by initializing them in `defaultProps`.
-
 #### mapPropsToStyleObject
 
 Use `mapPropsToStyleObject` when you need to *pluck* a property and place it in a particular style object. This is a powerful mechanism to ensure that properties are not inadvertently mapped to components that do not support the style property.
