@@ -230,6 +230,15 @@ const Prism = (Type, namespace = '') => {
         options.stylePropertyNames.forEach((name) => {
           name = getStylePropertyName(name)
           state.styleValues[name] = []
+
+          // Style object is in the default props
+          // so initialize using it and delete afterwards
+          // so inheritance is correct
+          if (PrismComponent.defaultProps &&
+            PrismComponent.defaultProps[name]) {
+            state.styleValues[name].push(PrismComponent.defaultProps[name])
+            delete PrismComponent.defaultProps[name]
+          }
         })
         this.state = state
       }
