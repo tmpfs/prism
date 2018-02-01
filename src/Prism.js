@@ -181,7 +181,9 @@ const getStyleSheet = (
 
   const {keys, map} = plugins.property
   keys.forEach((propName) => {
-    if (props[propName] !== undefined) {
+    //if (props[propName] !== undefined) {
+    if ((props && props[propName] !== undefined)
+        || (context && context[propName] !== undefined)) {
       const plugin = map[propName]
       pluginOptions.plugin = plugin
       pluginOptions.propName = propName
