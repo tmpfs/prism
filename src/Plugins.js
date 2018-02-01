@@ -23,27 +23,27 @@ export default [
   ],
 
   // Color name handling
-  [
-    'colorNames',
-    ({plugin, props, colors, options, util, definition}) => {
-      const {Type} = definition
-      let {propNames} = plugin
-      const sheet = {}
-      propNames.forEach((propName) => {
-        const val = props[propName] || (Type.defaultProps && Type.defaultProps[propName])
-        if (val && util.isArray(options.colorNames)
-            && ~options.colorNames.indexOf(propName)) {
-          if (colors[val]) {
-            sheet[propName] = colors[val]
-          } else if (Type.defaultProps && Type.defaultProps[propName]) {
-            sheet[propName] = val
-          }
-        }
-      })
-      return sheet
-    },
-    propTypes.colorNames
-  ],
+  //[
+    //'colorNames',
+    //({plugin, props, colors, options, util, definition}) => {
+      //const {Type} = definition
+      //let {propNames} = plugin
+      //const sheet = {}
+      //propNames.forEach((propName) => {
+        //const val = props[propName] || (Type.defaultProps && Type.defaultProps[propName])
+        //if (val && util.isArray(options.colorNames)
+            //&& ~options.colorNames.indexOf(propName)) {
+          //if (colors[val]) {
+            //sheet[propName] = colors[val]
+          //} else if (Type.defaultProps && Type.defaultProps[propName]) {
+            //sheet[propName] = val
+          //}
+        //}
+      //})
+      //return sheet
+    //},
+    //propTypes.colorNames
+  //],
 
   // Support for mapPropsToStyleProp
   [
