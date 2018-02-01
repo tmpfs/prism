@@ -30,6 +30,7 @@ const getStylePropertyName = (name) => {
 
 const Configuration = {
   plugins: null,
+  defaultFontSize: 16,
   sizes: {
     'xx-small': 12,
     'x-small': 13,

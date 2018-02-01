@@ -56,7 +56,7 @@ export default [
         // Handle string type - named font size
         if (style.fontSize && typeof(style.fontSize) === 'string') {
           const sizes = options.sizes || sizes || config.sizes || {}
-          const fontSize = sizes[style.fontSize] || 16
+          const fontSize = sizes[style.fontSize] || config.defaultFontSize
           style.fontSize = fontSize
         }
 
