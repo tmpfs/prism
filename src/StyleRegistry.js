@@ -8,6 +8,11 @@ export default class StyleRegistry {
   styles = {}
   styleSheet = null
 
+
+  mergeColors (colors) {
+    this.colors = Object.assign({}, colors, this.colors)
+  }
+
   addColors (colors) {
     this.colors =
       Object.assign(this.colors, colors)

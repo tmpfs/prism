@@ -387,6 +387,10 @@ const registerComponent = (registry, definition, config) => {
     }
   }
 
+  if (isObject(options.colors)) {
+    registry.mergeColors(options.colors)
+  }
+
   // Allow declaring mapPropsToStyle etc. as static on the Type
   mapPluginNames.forEach((name) => {
     if (options[name] !== undefined && Type[name] !== undefined) {
