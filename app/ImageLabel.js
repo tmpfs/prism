@@ -40,6 +40,7 @@ class ImageLabel extends Component {
   render () {
     const {
       style,
+      source,
       imageStyle,
       labelStyle,
       imageProps,

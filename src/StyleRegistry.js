@@ -1,7 +1,5 @@
 import {Platform, StyleSheet} from 'react-native'
 
-let registered = false
-
 export default class StyleRegistry {
   fonts = {}
   colors = {}
@@ -34,13 +32,5 @@ export default class StyleRegistry {
 
     // Compile the raw styles
     this.styleSheet = StyleSheet.create(this.styles)
-
-    if (!registered) {
-      StyleSheet.setStyleAttributePreprocessor('color', (propValue) => {
-        console.log('preprocessor for color prop: ' + propValue)
-        return this.colors[propValue] || propValue
-      })
-      registered = true
-    }
   }
 }
