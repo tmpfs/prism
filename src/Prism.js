@@ -115,7 +115,7 @@ const getStyleSheet = (
   // Passing style to nested child component
   if (attrName && attrName !== STYLE) {
     childClassName = attrName.charAt(0).toUpperCase() +
-      attrName.slice(1)
+      attrName.substr(1)
     componentClassName += '.' + childClassName
   }
 
