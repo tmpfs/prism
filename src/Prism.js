@@ -112,7 +112,7 @@ const registerPlugin = (plugin) => {
 }
 
 const getStyleSheet = (
-  {props, sheets, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
+  {context, props, sheets, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
 
   const style = props[fullAttrName]
   const {config, options, registry, namespace, Name} = definition
@@ -158,6 +158,7 @@ const getStyleSheet = (
 
   // Process plugins
   const pluginOptions = {
+    context,
     props,
     util,
     ns,
@@ -255,6 +256,7 @@ const Prism = (Type, namespace = '') => {
         const {stylePropertyNames, mapPropsToStyleObject} = options
         const {globals, property} = options.plugins
         const {styleValues} = this.state
+        const {context} = this
         let mutableStyleValues = Object.assign({}, styleValues)
         stylePropertyNames.forEach((attrName) => {
           if (testFunc({props, attrName})) {
@@ -305,6 +307,7 @@ const Prism = (Type, namespace = '') => {
 
             const computedStyle = getStyleSheet(
               {
+                context,
                 props,
                 sheets,
                 definition,
@@ -340,6 +343,21 @@ const Prism = (Type, namespace = '') => {
         this.setState({styleValues: mutableStyleValues})
       }
 
+      static childContextTypes = {
+        font: propTypes.fontPropType
+      }
+
+      static contextTypes = {
+        font: propTypes.fontPropType
+      }
+
+      getChildContext () {
+        const {options} = definition
+        if (!options.supportsText && this.props.font) {
+          return {font: this.props.font}
+        }
+      }
+
       // So that changes to style properties are
       // reflected in the stylable component
       componentWillReceiveProps (props) {
@@ -365,6 +383,10 @@ const Prism = (Type, namespace = '') => {
 
     PrismComponent.propTypes = Stylable.propTypes
     PrismComponent.defaultProps = Stylable.defaultProps
+
+    // Inject font contextType
+    Stylable.contextTypes = Stylable.contextTypes || {}
+    Stylable.contextTypes.font = propTypes.fontPropType
 
     return PrismComponent
   }

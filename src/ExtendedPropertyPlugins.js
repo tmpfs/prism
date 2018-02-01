@@ -40,8 +40,15 @@ export default [
 
   // Font
   [
-    ({prop, styleSheet, colors, sizes, config, options}) => {
+    ({context, prop, styleSheet, colors, sizes, config, options}) => {
+      //if (options.supportsText && (prop || (context && context.font))) {
       if (options.supportsText) {
+        // Inherited from the parent context
+        if (!prop && context) {
+          prop = context.font
+        } else {
+          prop = Object.assign({}, context.font, prop)
+        }
         const style = {}
         for (let k in prop) {
           if (prop[k] !== undefined) {

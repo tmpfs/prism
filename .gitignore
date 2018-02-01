@@ -54,5 +54,6 @@ buck-out/
 
 package
 *.bak
+*.new
 *.log
 *.tgz

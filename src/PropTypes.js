@@ -64,6 +64,8 @@ const fontShapeMap = {
   writingDirection: 'writingDirection'
 }
 
+const fontPropType = PropTypes.shape(fontShape)
+
 const fontShapeColors = ['color', 'decorationColor']
 
 const sides = {
@@ -101,7 +103,7 @@ const propTypes = {
   position: PropTypes.shape(position),
   background: colorType,
   color: colorType,
-  font: PropTypes.shape(fontShape),
+  font: fontPropType,
   border: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
@@ -127,5 +129,6 @@ const propTypes = {
 propTypes.fontShape = fontShape
 propTypes.fontShapeColors = fontShapeColors
 propTypes.fontShapeMap = fontShapeMap
+propTypes.fontPropType = fontPropType
 
 export default propTypes
