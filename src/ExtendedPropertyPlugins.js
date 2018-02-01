@@ -16,6 +16,9 @@ const boxModel = (key, value) => {
   return out
 }
 
+const fontStylePropertyNames = Object.keys(propTypes.fontShape)
+const fontShapeMap = propTypes.fontShapeMap
+
 export default [
   // Background
   [
@@ -33,6 +36,22 @@ export default [
       }
     },
     {color: propTypes.color}
+  ],
+
+  // Font
+  [
+    ({prop, styleSheet, colors, options}) => {
+      if (options.supportsText) {
+        const style = {}
+        for (let k in prop) {
+          if (prop[k] !== undefined) {
+            style[fontShapeMap[k]] = prop[k]
+          }
+        }
+        return style
+      }
+    },
+    {font: propTypes.font}
   ],
 
   // Radius

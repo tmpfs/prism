@@ -18,6 +18,34 @@ const boxModelType = PropTypes.oneOfType([
 
 const colorType = PropTypes.string
 
+const fontShape = {
+  // Common properties
+  family: PropTypes.string,
+  size: PropTypes.number,
+  lineHeight: PropTypes.number,
+  style: PropTypes.oneOf(['normal', 'italic']),
+  align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
+  weight: PropTypes.oneOf([
+    'normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900']),
+  decoration: PropTypes.oneOf([
+    'none', 'underline', 'line-through', 'underline line-through']),
+  // Android only
+  valign: PropTypes.oneOf(['normal', 'top', 'bottom', 'center']),
+  padding: PropTypes.bool,
+}
+
+const fontShapeMap = {
+  family: 'fontFamily',
+  size: 'fontSize',
+  lineHeight: 'lineHeight',
+  style: 'fontStyle',
+  align: 'textAlign',
+  weight: 'fontWeight',
+  decoration: 'textDecorationLine',
+  valign: 'textAlignVertical',
+  padding: 'includeFontPadding',
+}
+
 const sides = {
   left: PropTypes.number,
   right: PropTypes.number
@@ -53,6 +81,7 @@ const propTypes = {
   position: PropTypes.shape(position),
   background: colorType,
   color: colorType,
+  font: PropTypes.shape(fontShape),
   border: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
@@ -74,5 +103,8 @@ const propTypes = {
     borderColor: PropTypes.string
   }
 }
+
+propTypes.fontShape = fontShape
+propTypes.fontShapeMap = fontShapeMap
 
 export default propTypes
