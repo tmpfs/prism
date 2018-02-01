@@ -108,11 +108,12 @@ export default [
       if (stateStyle) {
         if (typeof(stateStyle) === 'string') {
           const stateClassName = ns.componentClassName + '.' + stateStyle
-          if (styleSheet[stateClassName]) {
-            stateStyle = styleSheet[stateClassName]
-          }
+          stateStyle = styleSheet[stateClassName]
         }
-        sheets.push(stateStyle)
+        // May be undefined if styleSheet does not exist
+        if (stateStyle && (Array.isArray(stateStyle) || util.isObject(stateStyle))) {
+          sheets.push(stateStyle)
+        }
       }
       return sheets
     }
