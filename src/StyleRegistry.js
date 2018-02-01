@@ -36,9 +36,9 @@ export default class StyleRegistry {
     this.styleSheet = StyleSheet.create(this.styles)
 
     if (!registered) {
-      StyleSheet.setStyleAttributePreprocessor('color', (propName, propValue) => {
-        console.log('preprocessor for color prop: ' + propName)
+      StyleSheet.setStyleAttributePreprocessor('color', (propValue) => {
         console.log('preprocessor for color prop: ' + propValue)
+        return this.colors[propValue] || propValue
       })
       registered = true
     }
