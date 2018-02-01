@@ -142,10 +142,3 @@ System properties are those passed to the underlying component implementation fr
 The computed stylesheet for the component.
 
 Note that when you assign to `style` in JSX declarations it may be an array or object but by the time `style` reaches your component render function it is guaranteed to be an array.
-
-#### styleFlexRow
-
-`Boolean`
-
-Indicates whether the layout direction is horizontal or vertical, can be used by child components to determine the edge for intermediate space.
-

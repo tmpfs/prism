@@ -52,7 +52,6 @@
     - [radius](#radius)
   - [System Properties](#system-properties)
     - [style](#style-1)
-    - [styleFlexRow](#styleflexrow)
 - [Bugs](#bugs)
 - [License](#license)
 
@@ -721,12 +720,6 @@ The computed stylesheet for the component.
 
 Note that when you assign to `style` in JSX declarations it may be an array or object but by the time `style` reaches your component render function it is guaranteed to be an array.
 
-#### styleFlexRow
-
-`Boolean`
-
-Indicates whether the layout direction is horizontal or vertical, can be used by child components to determine the edge for intermediate space.
-
 ## Bugs
 
 Some third-party components break the idiom of `style` being an array or object and enforce object only. There is currently no easy way to flatten the `style` array to an object for these component implementations. The best solution for now is to ask the author to fix the `propType`, otherwise just fork it and fix it.
@@ -737,5 +730,5 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on January 31, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 1, 2018
 

@@ -344,8 +344,7 @@ const Prism = (Type, namespace = '') => {
           <Stylable
             ref='stylable'
             {...this.props}
-            {...this.state.styleValues}
-            styleFlexRow={this.props.direction === 'row'} />
+            {...this.state.styleValues} />
         )
       }
     }
