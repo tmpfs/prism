@@ -16,7 +16,7 @@ const boxModel = (key, value) => {
   return out
 }
 
-const fontStylePropertyNames = Object.keys(propTypes.fontShape)
+const fontShapeColors = propTypes.fontShapeColors
 const fontShapeMap = propTypes.fontShapeMap
 
 export default [
