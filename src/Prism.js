@@ -102,7 +102,7 @@ const registerPlugin = (plugin) => {
 }
 
 const getStyleSheet = (
-  {props, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
+  {props, sheets, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
 
   const style = props[fullAttrName]
   const {config, options, registry, namespace, Name} = definition
@@ -141,7 +141,7 @@ const getStyleSheet = (
     defaultStyles = defaultClassStyle
   }
 
-  let sheets = []
+  //let sheets = []
 
   // Add default styles
   sheets = sheets.concat(defaultStyles)
@@ -159,8 +159,6 @@ const getStyleSheet = (
     colors,
     propertyStyleMap
   }
-
-  //console.log('Global plugin names: ' + plugins.globals.map((p) => p.name))
 
   plugins.globals.forEach((plugin) => {
     pluginOptions.plugin = plugin
@@ -229,16 +227,8 @@ const Prism = (Type, namespace = '') => {
         // Initialize empty styles, following the convention
         options.stylePropertyNames.forEach((name) => {
           name = getStylePropertyName(name)
-          state.styleValues[name] = []
-
-          // Style object is in the default props
-          // so initialize using it and delete afterwards
-          // so inheritance is correct
-          if (PrismComponent.defaultProps &&
-            PrismComponent.defaultProps[name]) {
-            state.styleValues[name].push(PrismComponent.defaultProps[name])
-            delete PrismComponent.defaultProps[name]
-          }
+          // Use initialStyles set by defaultProps
+          state.styleValues[name] = definition.Type.initialStyles[name].slice()
         })
         this.state = state
       }
@@ -301,9 +291,12 @@ const Prism = (Type, namespace = '') => {
               }
             }
 
+            const sheets = mutableStyleValues[fullAttrName]
+
             const computedStyle = getStyleSheet(
               {
                 props,
+                sheets,
                 definition,
                 attrName,
                 fullAttrName,
@@ -491,9 +484,21 @@ const registerComponent = (registry, definition, config) => {
   Type.propTypes = propertyTypes
 
   // Automatic propTypes for style, labelStyle, imageStyle etc.
+  Type.initialStyles = {}
   options.stylePropertyNames.forEach((name) => {
     name = getStylePropertyName(name)
     Type.propTypes[name] = propTypes.style
+
+    // Configure initial styles per attribute
+    // from defaultProps and cleanup so they
+    // don't mess with our inheritance
+    const list = []
+    if (Type.defaultProps &&
+      Type.defaultProps[name]) {
+      list.push(Type.defaultProps[name])
+      delete Type.defaultProps[name]
+    }
+    Type.initialStyles[name] = list
   })
 
   //console.log(Object.keys(Type.propTypes))
