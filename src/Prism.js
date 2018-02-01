@@ -39,8 +39,7 @@ const FontSizes = {
 }
 
 const Configuration = {
-  plugins: null,
-  sizes: FontSizes
+  plugins: null
 }
 
 const func = {
@@ -392,7 +391,11 @@ const registerComponent = (registry, definition, config) => {
   //definition.options = {}
   let options = {}
   if (styleOptions) {
-    options = styleOptions({...registry, compile})
+
+    // Pass named font sizes
+    const sizes = FontSizes
+
+    options = styleOptions({...registry, sizes, compile})
     const {defaultStyles} = options
     if (defaultStyles && !Array.isArray(defaultStyles)) {
       throw new Error(
@@ -569,8 +572,7 @@ Prism.configure = (registry, config = {}) => {
     registerComponent(registry, definition, Prism.config)
   })
 
-  // Inject default or custom sizes
-  registry.sizes = config.sizes
+  registry.sizes = FontSizes
 
   Prism.registry = registry
 }
