@@ -10,8 +10,10 @@ const STYLE = 'style'
 
 const isObject = (o) => o && o.toString() === '[object Object]'
 const isString = (o) => o && typeof(o) === 'string'
+const isNumber = (o) => typeof(o) === 'number'
 const isFunction = (fn) => (fn instanceof Function)
-const util = {isObject, isFunction, isString}
+const isArray = Array.isArray
+const util = {isObject, isFunction, isString, isArray, isNumber}
 
 const compile = (decl) => {
   const sheet = {decl}

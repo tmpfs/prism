@@ -111,7 +111,10 @@ export default [
           stateStyle = styleSheet[stateClassName]
         }
         // May be undefined if styleSheet does not exist
-        if (stateStyle && (Array.isArray(stateStyle) || util.isObject(stateStyle))) {
+        if (stateStyle &&
+            (util.isArray(stateStyle) ||
+             util.isObject(stateStyle) ||
+             util.isNumber(stateStyle))) {
           sheets.push(stateStyle)
         }
       }
