@@ -52,6 +52,7 @@ const propTypes = {
   margin: boxModelType,
   position: PropTypes.shape(position),
   background: colorType,
+  color: colorType,
   border: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,

@@ -25,6 +25,16 @@ export default [
     {background: propTypes.background}
   ],
 
+  // Color
+  [
+    ({prop, styleSheet, colors, options}) => {
+      if (options.supportsText) {
+        return {color: colors[prop] || prop}
+      }
+    },
+    {color: propTypes.color}
+  ],
+
   // Radius
   [
     ({props, styleSheet}) => {
