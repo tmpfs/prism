@@ -40,7 +40,7 @@ export default [
 
   // Font
   [
-    ({prop, styleSheet, colors, sizes, options}) => {
+    ({prop, styleSheet, colors, sizes, config, options}) => {
       if (options.supportsText) {
         const style = {}
         for (let k in prop) {
@@ -55,7 +55,7 @@ export default [
 
         // Handle string type - named font size
         if (style.fontSize && typeof(style.fontSize) === 'string') {
-          const sizes = options.sizes || sizes || {}
+          const sizes = options.sizes || sizes || config.sizes || {}
           const fontSize = sizes[style.fontSize] || 16
           style.fontSize = fontSize
         }
