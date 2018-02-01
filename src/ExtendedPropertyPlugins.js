@@ -45,7 +45,11 @@ export default [
         const style = {}
         for (let k in prop) {
           if (prop[k] !== undefined) {
-            style[fontShapeMap[k]] = prop[k]
+            let val = prop[k]
+            if (~fontShapeColors.indexOf(k)) {
+              val = colors[val] || val
+            }
+            style[fontShapeMap[k]] = val
           }
         }
         return style

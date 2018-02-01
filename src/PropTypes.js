@@ -21,6 +21,7 @@ const colorType = PropTypes.string
 const fontShape = {
   // Common properties
   family: PropTypes.string,
+  color: PropTypes.string,
   size: PropTypes.number,
   lineHeight: PropTypes.number,
   style: PropTypes.oneOf(['normal', 'italic']),
@@ -32,10 +33,19 @@ const fontShape = {
   // Android only
   valign: PropTypes.oneOf(['normal', 'top', 'bottom', 'center']),
   padding: PropTypes.bool,
+
+  // IOS only
+  variant: PropTypes.oneOf([
+    'small-caps', 'oldstyle-nums', 'lining-nums', 'tabular-nums', 'proportional-nums']),
+  letterSpacing: PropTypes.number,
+  decorationColor: PropTypes.string,
+  decorationStyle: PropTypes.oneOf(['solid', 'double', 'dotted', 'dashed']),
+  writingDirection: PropTypes.oneOf(['auto', 'ltr', 'rtl'])
 }
 
 const fontShapeMap = {
   family: 'fontFamily',
+  color: 'color',
   size: 'fontSize',
   lineHeight: 'lineHeight',
   style: 'fontStyle',
@@ -44,7 +54,14 @@ const fontShapeMap = {
   decoration: 'textDecorationLine',
   valign: 'textAlignVertical',
   padding: 'includeFontPadding',
+  variant: 'fontVariant',
+  letterSpacing: 'letterSpacing',
+  decorationColor: 'textDecorationColor',
+  decorationStyle: 'textDecorationStyle',
+  writingDirection: 'writingDirection'
 }
+
+const fontShapeColors = ['color', 'decorationColor']
 
 const sides = {
   left: PropTypes.number,
@@ -105,6 +122,7 @@ const propTypes = {
 }
 
 propTypes.fontShape = fontShape
+propTypes.fontShapeColors = fontShapeColors
 propTypes.fontShapeMap = fontShapeMap
 
 export default propTypes
