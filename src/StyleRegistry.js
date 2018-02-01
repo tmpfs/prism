@@ -2,6 +2,7 @@ import {Platform, StyleSheet} from 'react-native'
 
 export default class StyleRegistry {
   fonts = {}
+  sizes = {}
   colors = {}
   colorNames = []
   colorProperties = []

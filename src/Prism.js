@@ -28,8 +28,19 @@ const getStylePropertyName = (name) => {
   return name
 }
 
+const FontSizes = {
+  'xx-small': 'Mini',
+  'x-small': 'Tiny',
+  'small': 'Small',
+  'medium': 'Medium',
+  'large': 'Large',
+  'x-large': 'Big',
+  'xx-large': 'Huge'
+}
+
 const Configuration = {
-  plugins: null
+  plugins: null,
+  sizes: FontSizes
 }
 
 const func = {
@@ -512,7 +523,7 @@ const registerComponent = (registry, definition, config) => {
 Prism.components = []
 Prism.configure = (registry, config = {}) => {
   if (!(registry instanceof StyleRegistry)) {
-    throw new Error('Prism: you must pass a StyleRegistry to configure')
+    throw new Error('Prism expects a StyleRegistry for configure()')
   }
 
   let systemPlugins = Plugins
@@ -557,6 +568,9 @@ Prism.configure = (registry, config = {}) => {
   Prism.components.forEach((definition) => {
     registerComponent(registry, definition, Prism.config)
   })
+
+  // Inject default or custom sizes
+  registry.sizes = config.sizes
 
   Prism.registry = registry
 }
