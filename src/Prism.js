@@ -28,18 +28,17 @@ const getStylePropertyName = (name) => {
   return name
 }
 
-const FontSizes = {
-  'xx-small': 'Mini',
-  'x-small': 'Tiny',
-  'small': 'Small',
-  'medium': 'Medium',
-  'large': 'Large',
-  'x-large': 'Big',
-  'xx-large': 'Huge'
-}
-
 const Configuration = {
-  plugins: null
+  plugins: null,
+  sizes: {
+    'xx-small': 12,
+    'x-small': 13,
+    'small': 14,
+    'medium': 16,
+    'large': 18,
+    'x-large': 22,
+    'xx-large': 26
+  }
 }
 
 const func = {
@@ -392,10 +391,7 @@ const registerComponent = (registry, definition, config) => {
   let options = {}
   if (styleOptions) {
 
-    // Pass named font sizes
-    const sizes = FontSizes
-
-    options = styleOptions({...registry, sizes, compile})
+    options = styleOptions({...registry, compile})
     const {defaultStyles} = options
     if (defaultStyles && !Array.isArray(defaultStyles)) {
       throw new Error(
@@ -571,8 +567,6 @@ Prism.configure = (registry, config = {}) => {
   Prism.components.forEach((definition) => {
     registerComponent(registry, definition, Prism.config)
   })
-
-  registry.sizes = FontSizes
 
   Prism.registry = registry
 }

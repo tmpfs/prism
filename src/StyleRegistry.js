@@ -39,4 +39,14 @@ export default class StyleRegistry {
     // Compile the raw styles
     this.styleSheet = StyleSheet.create(this.styles)
   }
+
+
+  // Lookup for font sizes is:
+  //
+  // 1. Component options `sizes`
+  // 2. Style registry `sizes`
+  // 3. Config `sizes`
+  setFontSizes (sizes) {
+    this.sizes = sizes
+  }
 }

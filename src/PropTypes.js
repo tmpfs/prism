@@ -22,7 +22,10 @@ const fontShape = {
   // Common properties
   family: PropTypes.string,
   color: PropTypes.string,
-  size: PropTypes.number,
+  size: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(['xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'])
+  ]),
   lineHeight: PropTypes.number,
   style: PropTypes.oneOf(['normal', 'italic']),
   align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
