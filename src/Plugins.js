@@ -103,7 +103,7 @@ export default [
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',
-    ({props, options, registry, util}) => {
+    ({props, options, registry, util, ns}) => {
       const {mapPropsToStyle} = options
       if (mapPropsToStyle !== undefined) {
         const sheets = []
@@ -117,7 +117,7 @@ export default [
             const fn = map[k]
             // TODO: verify ahead of time?
             if (util.isFunction(fn)) {
-              const sheet = fn({...registry, options, props, prop})
+              const sheet = fn({...registry, options, ns, props, prop})
               if (sheet !== undefined) {
                 sheets.push(sheet)
               }
