@@ -24,7 +24,7 @@ export default class App extends Component<{}> {
     return (
       <Label
         margin={30}
-        text={{transform: 'upper'}}
+        text={{transform: 'uppercase'}}
         >
         Text
       </Label>

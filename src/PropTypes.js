@@ -149,7 +149,7 @@ const propTypes = {
   width: dimensionType,
   height: dimensionType,
   text: PropTypes.shape({
-    transform: PropTypes.oneOf(['upper', 'lower'])
+    transform: PropTypes.oneOf(['uppercase', 'lowercase', 'capitalize'])
   })
 }
 

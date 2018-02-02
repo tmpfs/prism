@@ -35,14 +35,14 @@ export default [
         let {children} = props
         if (typeof(children) === 'string') {
           switch(prop.transform) {
-            case 'upper':
+            case 'uppercase':
               children = children.toUpperCase()
               break;
-            case 'title':
-              children = util.ucword(children)
-              break;
-            case 'lower':
+            case 'lowercase':
               children = children.toLowerCase()
+              break;
+            case 'capitalize':
+              children = util.ucword(children)
               break;
           }
 
