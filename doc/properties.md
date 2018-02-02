@@ -61,11 +61,11 @@ Object notation supports the `grow`, `row` and `wrap` fields:
 
 The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets the `flex` property.
 
-#### direction
+#### row
 
-`Enum<String> (row|column)`
+`Boolean`
 
-Set the `flexDirection` style property.
+Set the `flexDirection` style property to `row`.
 
 #### wrap
 

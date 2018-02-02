@@ -42,7 +42,7 @@
   - [Extended Style Properties](#extended-style-properties)
     - [font](#font)
     - [flex](#flex)
-    - [direction](#direction)
+    - [row](#row)
     - [wrap](#wrap)
     - [justify](#justify)
     - [padding](#padding)
@@ -619,11 +619,11 @@ Object notation supports the `grow`, `row` and `wrap` fields:
 
 The `row` boolean sets `flexDirection`, `wrap` sets `flexWrap` and `grow` sets the `flex` property.
 
-#### direction
+#### row
 
-`Enum<String> (row|column)`
+`Boolean`
 
-Set the `flexDirection` style property.
+Set the `flexDirection` style property to `row`.
 
 #### wrap
 
@@ -730,7 +730,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 2, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 3, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
