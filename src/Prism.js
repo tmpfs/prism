@@ -112,10 +112,16 @@ const registerPlugin = (plugin) => {
 }
 
 const getStyleSheet = (
-  {context, props, sheets, definition, attrName, fullAttrName, plugins, propertyStyleMap}) => {
+  {
+    context,
+    props,
+    sheets,
+    definition,
+    attrName,
+    fullAttrName, plugins, propertyStyleMap}) => {
 
   const style = props[fullAttrName]
-  const {config, options, registry, namespace, Name} = definition
+  const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors} = registry
 
   let childClassName
@@ -354,8 +360,9 @@ const Prism = (Type, namespace = '') => {
 
       getChildContext () {
         const {options} = definition
-        if (!options.supportsText && this.props.font) {
-          return {font: this.props.font}
+        const {props} = this
+        if (!options.supportsText && props && props.font) {
+          return {font: props.font}
         }
       }
 
@@ -388,6 +395,8 @@ const Prism = (Type, namespace = '') => {
     // Inject font contextType
     Stylable.contextTypes = Stylable.contextTypes || {}
     Stylable.contextTypes.font = propTypes.fontPropType
+
+    PrismComponent.displayName = `Prism(${definition.Name})`
 
     return PrismComponent
   }
