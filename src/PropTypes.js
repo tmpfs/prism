@@ -115,7 +115,7 @@ const propTypes = {
       wrap: PropTypes.bool
     })
   ]),
-  direction: PropTypes.oneOf(['row', 'column']),
+  row: PropTypes.bool,
   wrap: PropTypes.bool,
   justify: PropTypes.oneOf([
     'center', 'start', 'end', 'between', 'around'

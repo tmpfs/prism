@@ -167,13 +167,15 @@ export default [
     {flex: propTypes.flex}
   ],
 
-  // Flex direction
+  // Flex direction row flag
   [
     ({props, styleSheet}) => {
-      const {direction} = props
-      return {flexDirection: direction}
+      const {row} = props
+      if (row === true) {
+        return {flexDirection: 'row'}
+      }
     },
-    {direction: propTypes.direction}
+    {row: propTypes.row}
   ],
 
   // Flex wrap
