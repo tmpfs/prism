@@ -18,6 +18,11 @@ const boxModelType = PropTypes.oneOfType([
 
 const colorType = PropTypes.string
 
+const dimensionType = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.number
+])
+
 const fontShape = {
   // Common properties
   family: PropTypes.string,
@@ -141,11 +146,8 @@ const propTypes = {
       bottom: PropTypes.shape(sides)
     })
   ]),
-  colorNames: {
-    color: PropTypes.string,
-    backgroundColor: PropTypes.string,
-    borderColor: PropTypes.string
-  }
+  width: dimensionType,
+  height: dimensionType
 }
 
 propTypes.fontShape = fontShape

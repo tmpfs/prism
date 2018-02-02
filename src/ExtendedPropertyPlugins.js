@@ -38,6 +38,22 @@ export default [
     {color: propTypes.color}
   ],
 
+  // Width
+  [
+    ({prop}) => {
+        return {width: prop}
+    },
+    {width: propTypes.width}
+  ],
+
+  // Height
+  [
+    ({prop}) => {
+        return {height: prop}
+    },
+    {height: propTypes.height}
+  ],
+
   // Font
   [
     ({context, prop, styleSheet, colors, sizes, config, options}) => {
