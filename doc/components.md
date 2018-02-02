@@ -252,6 +252,22 @@ The entire style registry is passed so you can access `colors` and `fonts` too i
 
 Use of `defaultStyles` is not advisable if you are designing components to be shared with others, use `defaultProps` instead.
 
+#### Style Class Name
+
+Sometimes you may wish to change the class name used when looking up default styles for a component:
+
+```
+class TouchButton extends Components {
+  static styleOptions = () => {
+    return {
+      className: 'Button'
+    }
+  }
+}
+```
+
+Will resolve to a `Button` style sheet rather than the default `TouchButton`.
+
 ### Color Names
 
 Styles are much easier to change if we can refer to our custom colors by name.
