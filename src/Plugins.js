@@ -22,60 +22,6 @@ export default [
     {className: propTypes.className}
   ],
 
-  // Support for mapPropsToStyleProp
-  //[
-    //'mapPropsToStyleProp',
-    //({props, options, definition, registry, util}) => {
-      //const {mapPropsToStyleProp} = options
-      //const {Name} = definition
-      //if (mapPropsToStyleProp !== undefined) {
-        //const sheets = []
-        //let map = mapPropsToStyleProp
-        //if (util.isFunction(map)) {
-          //map = mapPropstoStyleProp(registry)
-        //}
-        //for (let k in map) {
-          //if (props[k] !== undefined) {
-            //const sheet = {}
-            //sheet[map[k]] = props[k]
-            //sheets.push(sheet)
-          //}
-        //}
-        //return sheets
-      //}
-    //}
-  //],
-
-  // Support for mapPropsToStyleDecl
-  //[
-    //'mapPropsToStyleDecl',
-    //({props, options, definition, registry, util}) => {
-      //const {mapPropsToStyleDecl} = options
-      //const {Name} = definition
-      //if (mapPropsToStyleDecl !== undefined) {
-        //const sheets = []
-        //let map = mapPropsToStyleDecl
-        //if (util.isFunction(mapPropsToStyleDecl)) {
-          //map = mapPropsToStyleDecl(registry)
-        //}
-        //for (let k in map) {
-          //if (props[k] !== undefined) {
-            //const sheet = map[k]
-            //if (sheet !== undefined) {
-              //sheets.push(sheet)
-            //} else {
-              //throw new Error(
-                //`Prism mapPropsToStyleDecl missing style ` +
-                //`declaration for "${k}" in component ${Name}`
-              //)
-            //}
-          //}
-        //}
-        //return sheets
-      //}
-    //}
-  //],
-
   [
     'mapPropsToStyleState',
     ({props, options, registry, util, ns}) => {

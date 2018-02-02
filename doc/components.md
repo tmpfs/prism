@@ -77,9 +77,9 @@ Each of the mapping options may be either a function or object, when it is a fun
 You may declare these options as `static` fields on your component or within the object returned by `styleOptions`, when using the `static` declaration if often makes more sense to use the function notation so you can access the style registry.
 
 ```javascript
-static mapPropsToStyleDecl = ({styleSheet}) => {
-  return {
-    bold: styleSheet.bold
+static mapPropsToStyle = {
+  bold: ({styleSheet}) => {
+    return styleSheet.bold
   }
 }
 ```
@@ -89,38 +89,36 @@ Or using `styleOptions`:
 ```javascript
 static styleOptions = ({styleSheet}) => {
   return {
-    mapPropsToStyleDecl: {
-      bold: styleSheet.bold
+    mapPropsToStyle: {
+      bold: () => styleSheet.bold
     }
   }
 }
 ```
 
-#### mapPropsToStyleProp
+#### mapPropsToStyle
 
-The simplest form is `mapPropsToStyleProp` which can be used to alias a property to a style sheet property, it is a map of property name to string.
+If none of the above options suit your purposes the `mapPropsToStyle` option provides a low-level API for adding styles to the computed style.
 
-```javascript
-static mapPropsToStyleProp = {
-  size: 'fontSize'
-}
-```
-
-Maps the `size` property to `style.fontSize`.
-
-#### mapPropsToStyleDecl
-
-Often you just want to include a style declaration when a property exists:
+You have access to all the properties so you can apply styles conditionally based on other properties:
 
 ```javascript
-static mapPropsToStyleDecl = ({styleSheet}) => {
+static styleOptions = () => {
   return {
-    error: styleSheet.error
+    mapPropsToStyle: {
+      space: ({prop, props}) => {
+        const {horizontal} = props
+        const styleProp = horizontal ? 'marginRight' : 'marginBottom'
+        const style = {}
+        style[styleProp] = prop
+        return style
+      }
+    }
   }
 }
 ```
 
-If the `error` property is defined the `error` style declaration is included in the computed styles. For more advanced logic use `mapPropsToStyle`.
+Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`.
 
 #### mapPropsToStyleObject
 
@@ -184,30 +182,6 @@ export default ({colors, fonts}) => {
 The child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
 If the component is namespaced use the fully qualified name, eg: `com.fika.ImageLabel.Label`.
-
-#### mapPropsToStyle
-
-If none of the above options suit your purposes the `mapPropsToStyle` option provides a low-level API for adding styles to the computed style.
-
-You have access to all the properties so you can apply styles conditionally based on other properties:
-
-```javascript
-static styleOptions = () => {
-  return {
-    mapPropsToStyle: {
-      space: ({prop, props}) => {
-        const {horizontal} = props
-        const styleProp = horizontal ? 'marginRight' : 'marginBottom'
-        const style = {}
-        style[styleProp] = prop
-        return style
-      }
-    }
-  }
-}
-```
-
-Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`.
 
 ### Property Type Validation
 
