@@ -367,9 +367,22 @@ export default ({colors, fonts}) => {
 
 ### Default Styles
 
-Components can specify options at a class level by declaring a static `styleOptions` function which should return an object.
+When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
 
-Use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
+```javascript
+static defaultProps = {
+  style: {
+    backgroundColor: 'red'
+  },
+  labelStyle: {
+    color: 'white'
+  }
+}
+```
+
+This is the preferred method for reusable component sets as it allows them to supply default styles without any knowledge of the style sheet declarations.
+
+After the `defaultProps` are evaluated components can use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
 
 ```javascript
 static styleOptions = ({styleSheet}) => {
@@ -391,20 +404,7 @@ static styleOptions = ({compile}) => {
 
 The entire style registry is passed so you can access `colors` and `fonts` too if required.
 
-You can use `defaultStyles` to create simple inheritance patterns that can help to remove duplicate properties in your styles:
-
-```javascript
-class BlockQuote extends Component {
-  static styleOptions = ({styleSheet}) => {
-    return {
-      defaultStyles: [styleSheet.Label, styleSheet.Paragraph]
-    }
-  }
-}
-export default Prism(BlockQuote)
-```
-
-Which would create default styles for the component using the `Label`, `Paragraph` and `BlockQuote` style declarations (in that order).
+Use of `defaultStyles` is not advisable if you are designing components to be shared with others, use `defaultProps` instead.
 
 ### Color Names
 
