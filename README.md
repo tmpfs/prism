@@ -53,7 +53,6 @@
     - [radius](#radius)
   - [System Properties](#system-properties)
     - [style](#style-1)
-- [Bugs](#bugs)
 - [License](#license)
 
 ---
@@ -724,10 +723,6 @@ System properties are those passed to the underlying component implementation fr
 The computed stylesheet for the component.
 
 Note that when you assign to `style` in JSX declarations it may be an array or object but by the time `style` reaches your component render function it is guaranteed to be an array.
-
-## Bugs
-
-Some third-party components break the idiom of `style` being an array or object and enforce object only. There is currently no easy way to flatten the `style` array to an object for these component implementations. The best solution for now is to ask the author to fix the `propType`, otherwise just fork it and fix it.
 
 ## License
 
