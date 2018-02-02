@@ -30,8 +30,8 @@ export default [
 
   // Text
   [
-    ({prop, props, util}) => {
-      if (prop && prop.transform) {
+    ({prop, props, options, util}) => {
+      if (options.supportsText && prop && prop.transform) {
         let {children} = props
         if (typeof(children) === 'string') {
           switch(prop.transform) {
