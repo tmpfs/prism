@@ -203,6 +203,10 @@ const getStyleSheet = (
     sheets = sheets.concat(style)
   }
 
+  if (options.flat) {
+    return StyleSheet.flatten(sheets)
+  }
+
   return sheets
 }
 
@@ -304,7 +308,11 @@ const Prism = (Type, namespace = '') => {
               }
             }
 
-            const sheets = mutableStyleValues[fullAttrName]
+            let sheets = mutableStyleValues[fullAttrName]
+            // Must wrap in if flat is in use
+            if (sheets && !Array.isArray(sheets)) {
+              sheets = [sheets]
+            }
 
             const computedStyle = getStyleSheet(
               {
@@ -340,14 +348,6 @@ const Prism = (Type, namespace = '') => {
             mutableStyleValues[fullAttrName] = computedStyle
           }
         })
-
-        if (options.flat) {
-          //return StyleSheet.flatten(sheets)
-          for (let k in mutableStyleValues) {
-            mutableStyleValues[k] = StyleSheet.flatten(mutableStyleValues[k])
-          }
-        }
-
         this.setState({styleValues: mutableStyleValues})
       }
 
