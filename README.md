@@ -123,22 +123,6 @@ export default ({colors, fonts}) => {
       fontSize: 16,
       fontFamily: fonts.regular,
       color: colors.cream
-    },
-    ImageLabel: {
-      flex: 1,
-      alignItems: 'center'
-    },
-
-    'ImageLabel.Label': {
-      color: colors.muted
-    },
-
-    // Utils
-    row: {
-      flexDirection: 'row'
-    },
-    error: {
-      color: 'red'
     }
   }
 }
@@ -180,24 +164,6 @@ import {Text} from 'react-native'
 import {Prism} from 'react-native-prism'
 
 class Label extends Component {
-  static styleOptions = ({styleSheet}) => {
-    return {
-      mapPropsToStyleDecl: () => {
-        error: styleSheet.error
-      },
-      mapPropsToStyleProp: {
-        size: 'fontSize',
-        align: 'textAlign'
-      }
-    }
-  }
-
-  static propTypes = {
-    color: PropTypes.string,
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-    size: PropTypes.number
-  }
-
   render () {
     // Get the computed style sheet
     const {style} = this.props
