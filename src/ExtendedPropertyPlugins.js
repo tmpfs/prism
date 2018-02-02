@@ -32,7 +32,7 @@ export default [
   [
     ({prop, props}) => {
       if (prop && prop.transform) {
-        const {children} = props
+        let {children} = props
         if (typeof(children) === 'string') {
           switch(prop.transform) {
             case 'upper':
@@ -42,7 +42,13 @@ export default [
               children = children.toLowerCase()
               break;
           }
-          props.children = children
+
+          // NOTE: implementations need to test for:
+          // NOTE: this.props.text.transformedText
+          // NOTE: and use when available
+          //
+          // FIXME: taking advantage of shallow Object.freeze
+          prop.transformedText = children
         }
       }
     },
