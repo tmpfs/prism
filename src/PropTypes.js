@@ -147,7 +147,10 @@ const propTypes = {
     })
   ]),
   width: dimensionType,
-  height: dimensionType
+  height: dimensionType,
+  text: PropTypes.shape({
+    transform: PropTypes.oneOf(['upper', 'lower'])
+  })
 }
 
 propTypes.fontShape = fontShape

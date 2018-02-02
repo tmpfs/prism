@@ -28,6 +28,27 @@ export default [
     {background: propTypes.background}
   ],
 
+  // Text
+  [
+    ({prop, props}) => {
+      if (prop && prop.transform) {
+        const {children} = props
+        if (typeof(children) === 'string') {
+          switch(prop.transform) {
+            case 'upper':
+              children = children.toUpperCase()
+              break;
+            case 'lower':
+              children = children.toLowerCase()
+              break;
+          }
+          props.children = children
+        }
+      }
+    },
+    {text: propTypes.text}
+  ],
+
   // Color
   [
     ({prop, styleSheet, colors, options}) => {
