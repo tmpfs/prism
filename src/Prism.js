@@ -106,7 +106,7 @@ const registerPlugin = (plugin) => {
       return new Plugin(name, plugin[1], plugin[2])
     }
   }
-  throw new Error('Prism: invalid plugin definition')
+  throw new Error('Prism invalid plugin definition')
 }
 
 const getStyleSheet = (
@@ -116,7 +116,8 @@ const getStyleSheet = (
     sheets,
     definition,
     attrName,
-    fullAttrName, plugins, propertyStyleMap}) => {
+    fullAttrName,
+    plugins}) => {
 
   const style = props[fullAttrName]
   const {config, options, registry, namespace, Name, Type} = definition
@@ -171,8 +172,7 @@ const getStyleSheet = (
     registry,
     styleSheet,
     options,
-    colors,
-    propertyStyleMap
+    colors
   }
 
   plugins.globals.forEach((plugin) => {
@@ -279,10 +279,6 @@ const Prism = (Type, namespace = '') => {
                 } else if (isString(val)) {
                   list.push(val)
                 }
-                //if (Array.isArray(val)) {
-                  //propertyStyleMap[val[0]] = val[1]
-                  //return val[0]
-                //}
                 return list
               }, [])
 
@@ -318,8 +314,7 @@ const Prism = (Type, namespace = '') => {
                 definition,
                 attrName,
                 fullAttrName,
-                plugins,
-                propertyStyleMap
+                plugins
               })
 
             // It's possible for a component to declare style
@@ -359,7 +354,10 @@ const Prism = (Type, namespace = '') => {
       getChildContext () {
         const {options} = definition
         const {props} = this
-        if (!options.supportsText && props !== undefined && props.font) {
+        // NOTE: we only propagate to children
+        // NOTE: until a component that supportsText
+        // NOTE: is found
+        if (!options.supportsText && props.font) {
           return {font: props.font}
         }
         return {}
@@ -399,8 +397,24 @@ const Prism = (Type, namespace = '') => {
     Stylable.childContextTypes.font = propTypes.fontPropType
 
     // TODO: INHERIT ORIGINAL getChildContext
-    Stylable.prototype.getChildContext = PrismComponent.prototype.getChildContext
+    if (Stylable.prototype.getChildContext) {
+      Stylable.prototype._getChildContext = Stylable.prototype.getChildContext
+    }
+    Stylable.prototype.getChildContext = function () {
+      let context = PrismComponent.prototype.getChildContext.call(this)
+      // Call original getChildContext which wins over our
+      // pre-defined child context so if there is a collision
+      // I sure hope you know what you are doing
+      if (this._getChildContext) {
+        // NOTE: it's important we always have a context so guard
+        // NOTE: against an implementation not returning an object
+        const originalContext = this._getChildContext()
+        context = Object.assign(context, isObject(originalContext) ? originalContext : {})
+      }
+      return context
+    }
 
+    // So we can easily see the underlying component name in errors
     PrismComponent.displayName = `Prism(${definition.Name})`
 
     return PrismComponent
