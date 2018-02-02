@@ -9,6 +9,14 @@ class Layout extends Component {
     background: PropTypes.string
   }
 
+  static childContextTypes = {
+    font: PropTypes.object
+  }
+
+  getChildContext () {
+    return {}
+  }
+
   render () {
     // Get the computed style sheet
     const {style} = this.props

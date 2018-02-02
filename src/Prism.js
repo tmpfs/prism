@@ -361,9 +361,10 @@ const Prism = (Type, namespace = '') => {
       getChildContext () {
         const {options} = definition
         const {props} = this
-        if (!options.supportsText && props && props.font) {
+        if (!options.supportsText && props !== undefined && props.font) {
           return {font: props.font}
         }
+        return {}
       }
 
       // So that changes to style properties are
@@ -394,7 +395,13 @@ const Prism = (Type, namespace = '') => {
 
     // Inject font contextType
     Stylable.contextTypes = Stylable.contextTypes || {}
+    Stylable.childContextTypes = Stylable.childContextTypes || {}
+
     Stylable.contextTypes.font = propTypes.fontPropType
+    Stylable.childContextTypes.font = propTypes.fontPropType
+
+    // TODO: INHERIT ORIGINAL getChildContext
+    Stylable.prototype.getChildContext = PrismComponent.prototype.getChildContext
 
     PrismComponent.displayName = `Prism(${definition.Name})`
 
