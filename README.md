@@ -88,9 +88,6 @@ Colors are a map from color name to value.
 export default {
   cream: '#fdfbdf',
   muted: '#9a9a9a',
-  green: '#023926',
-  backgroundGreen: '#16a085',
-  lightGreen: '#045B1E',
   orange: '#ff6600'
 }
 ```
@@ -105,6 +102,9 @@ Each font function is passed the value of `Platform.OS`.
 export default {
   regular: (os) => {
     return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
+  },
+  medium: (os) => {
+    return os === 'ios' ? 'WorkSans-Medium' : 'worksans_medium'
   }
 }
 ```
@@ -116,13 +116,13 @@ Styles are declared as a function that is passed the style registry, typically y
 ```javascript
 export default ({colors, fonts}) => {
   return {
-    Layout: {
-      flex: 1
-    },
     Label: {
       fontSize: 16,
       fontFamily: fonts.regular,
       color: colors.cream
+    },
+    bold: {
+      fontFamily: fonts.medium
     }
   }
 }
