@@ -38,3 +38,5 @@ Some third-party components break the idiom of `style` being an array or object 
 ## License
 
 MIT
+
+<? @include links.md ?>

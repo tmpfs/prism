@@ -20,6 +20,29 @@ Assign stylesheets to the component. When a string is given separate stylesheet 
 
 When the `extendedProperties` option is enabled plugins that handle these properties are configured.
 
+#### font
+
+The `font` property provides a convenient shortcut for all the [Text Style Props][].
+
+Only `Text` and `TextInput` components can accept these style properties so components that wish to recieve them in their computed stylesheet must specify the `supportsText` option.
+
+Unlike the other extended properties this property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
+
+A simple declaration might look:
+
+```html
+<Layout font={{size: 'large', color: 'red'}}>
+  <Layout>
+    <Label>Red text</Label>
+    <Label font={{color: 'green'}}>
+      Font style properties combined with those inherited from the grandparent
+    </Label>
+  </Layout>
+</Layout>
+```
+
+The shape of the font object is described in [PropTypes.js](/src/PropTypes.js).
+
 #### flex
 
 `Number | Boolean | Object`

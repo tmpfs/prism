@@ -24,13 +24,31 @@ const fontShape = {
   color: PropTypes.string,
   size: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.oneOf(['xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large'])
+    PropTypes.oneOf([
+      'xx-small',
+      'x-small',
+      'small',
+      'medium',
+      'large',
+      'x-large',
+      'xx-large'])
   ]),
   lineHeight: PropTypes.number,
   style: PropTypes.oneOf(['normal', 'italic']),
   align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
   weight: PropTypes.oneOf([
-    'normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900']),
+    'normal',
+    'bold',
+    '100',
+    '200',
+    '300',
+    '400',
+    '500',
+    '600',
+    '700',
+    '800',
+    '900'
+  ]),
   decoration: PropTypes.oneOf([
     'none', 'underline', 'line-through', 'underline line-through']),
   // Android only
@@ -39,7 +57,11 @@ const fontShape = {
 
   // IOS only
   variant: PropTypes.oneOf([
-    'small-caps', 'oldstyle-nums', 'lining-nums', 'tabular-nums', 'proportional-nums']),
+    'small-caps',
+    'oldstyle-nums',
+    'lining-nums',
+    'tabular-nums',
+    'proportional-nums']),
   letterSpacing: PropTypes.number,
   decorationColor: PropTypes.string,
   decorationStyle: PropTypes.oneOf(['solid', 'double', 'dotted', 'dashed']),
