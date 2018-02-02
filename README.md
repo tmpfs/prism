@@ -411,7 +411,7 @@ Use of `defaultStyles` is not advisable if you are designing components to be sh
 
 Sometimes you may wish to change the class name used when looking up default styles for a component:
 
-```
+```javascript
 class TouchButton extends Components {
   static styleOptions = () => {
     return {
@@ -551,7 +551,7 @@ It is useful to know the order in which styles are computed.
 3. Property plugins are executed.
 4. Inline styles are applied.
 
-Default styles start with an array specified using `styleOptions` when given and append a style declaration inferred using the component class name, eg: `Label`.
+Default styles start with any values in `defaultProps` followed by an array specified using `defaultStyles` and then a style declaration inferred using the component class name, eg: `Label`.
 
 If the component is namespaced it is prefixed with the namespace and a period, eg: `com.fika.text.Label`.
 

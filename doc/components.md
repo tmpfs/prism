@@ -256,7 +256,7 @@ Use of `defaultStyles` is not advisable if you are designing components to be sh
 
 Sometimes you may wish to change the class name used when looking up default styles for a component:
 
-```
+```javascript
 class TouchButton extends Components {
   static styleOptions = () => {
     return {
