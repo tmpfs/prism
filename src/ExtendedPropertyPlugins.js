@@ -40,16 +40,20 @@ export default [
 
   // Width
   [
-    ({prop}) => {
+    ({prop, options}) => {
+      if (options.supportsDimension || options.supportsWidth) {
         return {width: prop}
+      }
     },
     {width: propTypes.width}
   ],
 
   // Height
   [
-    ({prop}) => {
+    ({prop, options}) => {
+      if (options.supportsDimension || options.supportsHeight) {
         return {height: prop}
+      }
     },
     {height: propTypes.height}
   ],
