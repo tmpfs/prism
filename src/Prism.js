@@ -13,7 +13,22 @@ const isString = (o) => o && typeof(o) === 'string'
 const isNumber = (o) => typeof(o) === 'number'
 const isFunction = (fn) => (fn instanceof Function)
 const isArray = Array.isArray
-const util = {isObject, isFunction, isString, isArray, isNumber}
+const ucfirst = (s) => {
+  if (s && s.length) {
+    return s.charAt(0).toUpperCase() + s.substr(1)
+  }
+  return s
+}
+// FIXME: naive implementation
+const ucword = (s) => {
+  if (s) {
+    return s.split(' ').map((word) => {
+      return ucfirst(word)
+    }).join(' ')
+  }
+  return s
+}
+const util = {isObject, isFunction, isString, isArray, isNumber, ucfirst, ucword}
 
 const compile = (decl) => {
   const sheet = {decl}

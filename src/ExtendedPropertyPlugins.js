@@ -30,13 +30,16 @@ export default [
 
   // Text
   [
-    ({prop, props}) => {
+    ({prop, props, util}) => {
       if (prop && prop.transform) {
         let {children} = props
         if (typeof(children) === 'string') {
           switch(prop.transform) {
             case 'upper':
               children = children.toUpperCase()
+              break;
+            case 'title':
+              children = util.ucword(children)
               break;
             case 'lower':
               children = children.toLowerCase()
