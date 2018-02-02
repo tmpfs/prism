@@ -561,7 +561,7 @@ Only `Text` and `TextInput` components can accept these style properties so comp
 
 Unlike the other extended properties this property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
 
-A simple declaration might look:
+A simple declaration might look like:
 
 ```html
 <Layout font={{size: 'large', color: 'red'}}>

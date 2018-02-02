@@ -203,6 +203,10 @@ const getStyleSheet = (
     sheets = sheets.concat(style)
   }
 
+  if (options.flat) {
+    return StyleSheet.flatten(sheets)
+  }
+
   return sheets
 }
 
