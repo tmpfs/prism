@@ -85,10 +85,16 @@ const fnOrObj = {
   type: 'function or object'
 }
 
+const obj = {
+  fn: (o) => isObject(o),
+  type: 'object'
+}
+
 const mapPluginTypeTests = {
   mapPropsToStyleObject: fnOrObj,
   mapPropsToStyleState: func,
-  mapPropsToStyle: fnOrObj
+  mapPropsToStyle: fnOrObj,
+  mapStyleToProp: obj
 }
 
 const mapPluginNames = Object.keys(mapPluginTypeTests)
@@ -268,7 +274,7 @@ const registerComponent = (registry, definition, config) => {
   const globalPlugins = plugins
     .filter((plugin) => {
       return plugin.isGlobal
-        && (options.hasOwnProperty(plugin.name) || plugin.name === 'mapStyleToProps')
+        && (options.hasOwnProperty(plugin.name) || plugin.name === 'mapStyleToProp')
     })
   const propertyPlugins = plugins.filter(
     (plugin) => !plugin.isGlobal)

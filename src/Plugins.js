@@ -25,11 +25,11 @@ export default [
   ],
 
   [
-    'mapStyleToProps',
+    'mapStyleToProp',
     ({sheets, options, util, mutableStyleValues}) => {
-      const {mapStyleToProps} = options
+      const {mapStyleToProp} = options
       const {isObject, isString} = util
-      const map = mapStyleToProps || {}
+      const map = mapStyleToProp || {}
 
       if (isObject(map)) {
         const flat = StyleSheet.flatten(sheets)

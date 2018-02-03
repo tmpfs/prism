@@ -7,7 +7,7 @@ class Label extends Component {
 
   static styleOptions = () => {
     return {
-      //mapStyleToProps: {
+      //mapStyleToProp: {
         //tintColor: true,
         ////textTransform: {text: 'transform'}
       //},
