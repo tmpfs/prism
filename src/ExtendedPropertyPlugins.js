@@ -28,9 +28,19 @@ export default [
     {background: propTypes.background}
   ],
 
+  // Color
+  [
+    ({prop, styleSheet, colors, options}) => {
+      if (options.supportsText) {
+        return {color: colors[prop] || prop}
+      }
+    },
+    {color: propTypes.color}
+  ],
+
   // Text
   [
-    ({prop, props, state, options, util}) => {
+    ({prop, props, state, util}) => {
       const transformer = (prop, s) => {
         switch(prop.transform) {
           case 'uppercase':
@@ -45,16 +55,12 @@ export default [
         }
         return s
       }
-
       const it = (children) => {
         if (typeof(children) === 'string') {
           children = transformer(prop, children)
         } else if (Array.isArray(children)) {
-          children.map((child) => {
-            let {children} = child.children
-            child.children = it(children)
-            return child
-            //return it(children)
+          children = children.map((child) => {
+            return it(child)
           })
         }
         return children
@@ -62,21 +68,14 @@ export default [
 
       if (prop && prop.transform) {
         let {children} = props
-        children = it(children)
+        children = it(children.slice())
+        // NOTE: we push children on to the state
+        // NOTE: the HOC will prefer children in state
+        // NOTE: to the original
         state.children = children
       }
     },
     {text: propTypes.text}
-  ],
-
-  // Color
-  [
-    ({prop, styleSheet, colors, options}) => {
-      if (options.supportsText) {
-        return {color: colors[prop] || prop}
-      }
-    },
-    {color: propTypes.color}
   ],
 
   // Width
