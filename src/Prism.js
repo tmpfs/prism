@@ -61,10 +61,9 @@ const Configuration = {
     {
       stylePropName: 'textTransform',
       plugin: ({value, values, options, ns}) => {
-        //console.log('invariant plugin running: ' + value)
-        //console.log('invariant plugin running: ' + values)
         let propName = 'text'
         if (ns.childClassName) {
+          // TODO: lcfirst
           propName = ns.childClassName.charAt(0).toLowerCase() +
             ns.childClassName.substr(1) +
             'Text'
@@ -140,7 +139,6 @@ const registerPlugin = (plugin) => {
       return new Plugin(name, plugin[1], plugin[2])
     }
   }
-  console.log(plugin)
   throw new Error('Prism invalid plugin definition')
 }
 
