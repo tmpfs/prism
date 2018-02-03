@@ -243,6 +243,8 @@ const requirements = ({registry}) => {
 }
 ```
 
+If you want to specify requirements for a component that does not have a namespace pass the empty string for the `namespace` argument.
+
 ### Default Styles
 
 When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
