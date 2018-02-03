@@ -4,8 +4,8 @@ export default ({colors, fonts}) => {
       fontSize: 16,
       fontFamily: fonts.regular,
       color: colors.cream,
-      tintColor: colors.orange,
-      //textTransform: 'uppercase'
+      //tintColor: colors.orange,
+      textTransform: 'uppercase'
     },
     bold: {
       fontFamily: fonts.medium

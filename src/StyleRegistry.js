@@ -8,7 +8,7 @@ export default class StyleRegistry {
   colorProperties = []
   styles = {}
   styleSheet = null
-
+  styleInvariants = {}
 
   mergeColors (colors) {
     this.colors = Object.assign({}, colors, this.colors)
@@ -40,9 +40,8 @@ export default class StyleRegistry {
 
 
     // NOTE: cannot compile for invariants like textTransform
-    //this.styleSheet = StyleSheet.create(this.styles)
 
-    this.styleSheet = this.styles
+    //this.styleSheet = this.styles
   }
 
 
@@ -53,5 +52,28 @@ export default class StyleRegistry {
   // 3. Config `sizes`
   setFontSizes (sizes) {
     this.sizes = sizes
+  }
+
+  // Called to finalize the registry internally
+  // do not call this directly
+  compile ({config}) {
+    const {invariants} = config
+    //console.log('style registry compiling...')
+    if (invariants) {
+      for (let decl in this.styles) {
+        for (let styleProp in this.styles[decl]) {
+          invariants.forEach((invariant) => {
+            if (styleProp === invariant.stylePropName) {
+              const value = this.styles[decl][styleProp]
+              //console.log('FOUND STYLE INVARIANT: ' + value)
+              this.styleInvariants[decl] = Object.assign({}, invariant, {value})
+              // Must delete to avoid StyleSheet.create() type validation error
+              delete this.styles[decl][styleProp]
+            }
+          })
+        }
+      }
+    }
+    this.styleSheet = StyleSheet.create(this.styles)
   }
 }

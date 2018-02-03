@@ -56,7 +56,18 @@ const Configuration = {
     'large': 18,
     'x-large': 22,
     'xx-large': 26
-  }
+  },
+  invariants: [
+    {
+      stylePropName: 'textTransform',
+      plugin: ({value, values}) => {
+        console.log('invariant plugin running: ' + value)
+        console.log('invariant plugin running: ' + values)
+        values.text = values.text || {}
+        values.text.transform = value
+      }
+    }
+  ]
 }
 
 const func = {
@@ -253,7 +264,7 @@ const registerComponent = (registry, definition, config) => {
   const globalPlugins = plugins
     .filter((plugin) => {
       return plugin.isGlobal
-        && (options.hasOwnProperty(plugin.name) || plugin.name === 'colorNames')
+        && (options.hasOwnProperty(plugin.name) || plugin.name === 'mapStyleToProps')
     })
   const propertyPlugins = plugins.filter(
     (plugin) => !plugin.isGlobal)
@@ -339,7 +350,8 @@ Prism.configure = (registry, config = {}) => {
     })
   }
 
-  Prism.config = Object.assign({}, Configuration, config)
+  config = Object.assign({}, Configuration, config)
+  Prism.config = config
 
   if (config.debug) {
     console.log(`Prism configured with ${plugins.length} plugins`)
@@ -371,6 +383,8 @@ Prism.configure = (registry, config = {}) => {
       }
     }
   })
+
+  registry.compile({config})
 
   Prism.registry = registry
 }

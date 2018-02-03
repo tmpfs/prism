@@ -53,6 +53,14 @@ const getStyleSheet = (
     defaultStyles = defaultClassStyle
   }
 
+  const invariant = registry.styleInvariants[componentClassName]
+  if (invariant) {
+    const {value} = invariant
+    const values = mutableStyleValues
+    console.log('got style invariant for class name')
+    invariant.plugin({value, values})
+  }
+
   //let sheets = []
 
   // Add default styles
