@@ -221,23 +221,20 @@ const registerComponent = (registry, definition, config) => {
     if (mapPropsToComponent.style !== undefined) {
       throw new Error(
         `Prism do not configure mappings for "style" in mapPropsToComponent. ` +
-        `It is an anti-pattern, use mapPropsToStyleProp or mapPropsToStyle instead.`)
+        `It is an anti-pattern, use mapPropsToStyle instead.`)
     }
 
     // Configure handling for style property
     // when not explicitly specified
-    mapPropsToComponent.style = availablePropertyNames
-      .filter((propName) => !~assignedPropertyNames.indexOf(propName))
+      //.filter((propName) => !~assignedPropertyNames.indexOf(propName))
   }
 
-  // Default style property support, all
-  // names are mapped to the default style object
   if (!mapPropsToComponent) {
-    mapPropsToComponent = {
-      style: availablePropertyNames
-    }
+    mapPropsToComponent = {}
   }
 
+  // Default style property support
+  mapPropsToComponent.style = true
   options.mapPropsToComponent = mapPropsToComponent
   options.stylePropertyNames = Object.keys(mapPropsToComponent)
 

@@ -2,6 +2,9 @@ import PropTypes from 'prop-types'
 import propTypes from './PropTypes'
 
 import {StyleSheet} from 'react-native'
+import util from './util'
+
+const {isString} = util
 
 export default [
 
@@ -25,9 +28,32 @@ export default [
   ],
 
   [
-    'mapStyleToComponent',
-    ({sheets, options, util, mutableStyleValues}) => {
-      console.log('mapStyleToComponent called!')
+    'mapPropsToComponent',
+    ({props, options, util, mutableStyleValues, attrName, fullAttrName}) => {
+      const {mapPropsToComponent} = options
+      const source = mapPropsToComponent[attrName]
+      let target = mutableStyleValues[fullAttrName]
+      //console.log('mapStyleToComponent CALLED!: ' + attrName)
+      //console.log(source)
+      //console.log(target)
+      if (Array.isArray(target)) {
+        target = StyleSheet.flatten(target)
+      }
+      if (Array.isArray(source)) {
+        source.forEach((val) => {
+          //console.log(val)
+          if (isString(val) && props[val] !== undefined) {
+            //console.log('setting target: ' + val)
+            //console.log('setting target: ' + props[val])
+            target[val] = props[val]
+          }
+        })
+      }
+
+      const res = Array.isArray(target) ? target : [target]
+      res.overwrite = true
+      return res
+      //console.log(fullAttrName)
       //const {mapStyleToProp} = options
       //const {isString} = util
       //if (mapStyleToProp) {

@@ -26,6 +26,8 @@ export default class App extends Component<{}> {
       <Label
         margin={30}
         text={{transform: 'uppercase'}}
+        color='blue'
+        style={{color: 'red'}}
         >
         Text
       </Label>

@@ -24,6 +24,7 @@ const getStyleSheet = (
     mutableStyleValues,
     attrName,
     fullAttrName,
+    callGlobals,
     plugins}) => {
 
   const style = props[fullAttrName]
@@ -66,22 +67,28 @@ const getStyleSheet = (
     styleSheet,
     options,
     colors,
-    mutableStyleValues
+    mutableStyleValues,
+    attrName,
+    fullAttrName
   }
 
-  plugins.globals.forEach((plugin) => {
-    pluginOptions.plugin = plugin
-    const style = plugin.func(pluginOptions)
-    if (style) {
-      if (!style.overwrite) {
-        sheets = sheets.concat(style)
-      // Global plugins can rewrite the entire list of styles
-      } else {
-        delete style.overwrite
-        sheets = Array.isArray(style) ? style : [style]
+  //console.log('got plugins length: ' + plugins.globals.length)
+
+  if (callGlobals) {
+    plugins.globals.forEach((plugin) => {
+      pluginOptions.plugin = plugin
+      const style = plugin.func(pluginOptions)
+      if (style) {
+        if (!style.overwrite) {
+          sheets = sheets.concat(style)
+        // Global plugins can rewrite the entire list of styles
+        } else {
+          delete style.overwrite
+          sheets = Array.isArray(style) ? style : [style]
+        }
       }
-    }
-  })
+    })
+  }
 
   plugins.property.forEach((plugin) => {
     const propNames = Object.keys(plugin.propType)
@@ -173,6 +180,7 @@ const withPrism = (Stylable, definition) => {
       const {styleValues} = this.state
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
+      let callGlobals = true
       stylePropertyNames.forEach((attrName) => {
         if (testFunc({props, attrName})) {
           const fullAttrName = getStylePropertyName(attrName)
@@ -192,10 +200,12 @@ const withPrism = (Stylable, definition) => {
               attrName,
               fullAttrName,
               mutableStyleValues,
-              plugins
+              plugins,
+              callGlobals
             })
 
           mutableStyleValues[fullAttrName] = computedStyle
+          callGlobals = false
         }
       })
       this.setState({styleValues: mutableStyleValues})
