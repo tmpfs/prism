@@ -24,60 +24,56 @@ export default [
     {className: propTypes.className}
   ],
 
-  //[
-    //'mapStyleToProps',
-    //({sheets, options, util, mutableStyleValues}) => {
-      //const {mapStyleToProps} = options
-      //const {isObject, isString} = util
-      //const map = mapStyleToProps || {}
+  [
+    'mapStyleToProps',
+    ({sheets, options, util, mutableStyleValues}) => {
+      const {mapStyleToProps} = options
+      const {isObject, isString} = util
+      const map = mapStyleToProps || {}
 
-      //map.textTransform = {text: 'transform'}
+      if (isObject(map)) {
+        const flat = StyleSheet.flatten(sheets)
+        let k
+        let v
+        let key
+        for (k in map) {
+          key = k
+          v = map[k]
+          if (v) {
 
-      //if (isObject(map)) {
-        ////const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
-        ////if (map !== undefined) {
-          //const flat = StyleSheet.flatten(sheets)
-          //let k
-          //let v
-          //let key
-          //for (k in map) {
-            //key = k
-            //v = map[k]
-            //if (v) {
-              //// Rewrite prop name
-              //if (isString(v)) {
-                //key = v
-              //}
-              //// Prevent overwriting, style, childStyle etc.
-              ////if (mutableStyleValues[key] !== undefined) {
-                ////throw new Error(
-                  ////`Prism you mapped ${key} as a prop but the property is already defined`)
-              ////}
-              //if (isObject(v)) {
-                //mutableStyleValues[key] = mutableStyleValues[key] || {}
-                //for (let z in v) {
-                  //if (flat[z] !== undefined) {
-                    //mutableStyleValues[key][z] = flat[z]
-                  //}
-                //}
-                //delete flat[k]
-              //} else {
-                //if (flat[k] !== undefined) {
-                  //mutableStyleValues[key] = flat[k]
-                  //delete flat[k]
-                //}
-              //}
-            //}
-          //}
-          //console.log(flat)
-          //const res = [flat]
-          //res.overwrite = true
-          //return res
-          ////computedStyle = options.flat ? flat : [flat]
-        ////}
-      //}
-    //}
-  //],
+            // Rewrite prop name
+            if (isString(v)) {
+              key = v
+            }
+
+            // Prevent overwriting, style, childStyle etc.
+            if (mutableStyleValues[key] !== undefined) {
+              throw new Error(
+                `Prism you mapped ${key} as a prop but the property is already defined`)
+            }
+
+            if (isObject(v)) {
+              mutableStyleValues[key] = mutableStyleValues[key] || {}
+              for (let z in v) {
+                if (flat[z] !== undefined) {
+                  mutableStyleValues[key][z] = flat[z]
+                }
+              }
+              delete flat[k]
+            } else {
+              if (flat[k] !== undefined) {
+                mutableStyleValues[key] = flat[k]
+                delete flat[k]
+              }
+            }
+          }
+        }
+        const res = [flat]
+        res.overwrite = true
+        return res
+      }
+    }
+  ],
 
   [
     'mapPropsToStyleState',
