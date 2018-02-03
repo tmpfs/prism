@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native'
 import StyleRegistry from './StyleRegistry'
 import Plugins from './Plugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
-import ExperimentalPropertyPlugins from './ExperimentalPropertyPlugins'
+import ExperimentalPlugins from './ExperimentalPlugins'
 import propTypes from './PropTypes'
 
 const STYLE = 'style'
@@ -122,6 +122,7 @@ const registerPlugin = (plugin) => {
       return new Plugin(name, plugin[1], plugin[2])
     }
   }
+  console.log(plugin)
   throw new Error('Prism invalid plugin definition')
 }
 
@@ -667,12 +668,13 @@ Prism.configure = (registry, config = {}) => {
   }
 
   let systemPlugins = Plugins
-  if (config.extendedProperties) {
-    systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
+
+  if (config.experimentalPlugins) {
+    systemPlugins = systemPlugins.concat(ExperimentalPlugins)
   }
 
-  if (config.experimentalProperties) {
-    systemPlugins = systemPlugins.concat(ExperimentalPropertyPlugins)
+  if (config.extendedProperties) {
+    systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
   }
 
   let plugins = Array.isArray(config.plugins) ? config.plugins : systemPlugins

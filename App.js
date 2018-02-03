@@ -15,7 +15,8 @@ Prism.configure(
   registry,
   {
     debug: true,
-    extendedProperties: true
+    extendedProperties: true,
+    experimentalPlugins: true
   }
 )
 
