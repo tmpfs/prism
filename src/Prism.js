@@ -370,6 +370,35 @@ const Prism = (Type, namespace = '', requirements = null) => {
               computedStyle.push(verbatim)
             }
 
+            const {mapStyleToProps} = options
+            if (isObject(mapStyleToProps)) {
+              const flat = options.flat
+                ? computedStyle : StyleSheet.flatten(computedStyle)
+              let k
+              let v
+              let key
+              for (k in mapStyleToProps) {
+                key = k
+                v = mapStyleToProps[k]
+                if (v) {
+                  // Rewrite prop name
+                  if (isString(v)) {
+                    key = v
+                  }
+                  // Prevent overwriting, style, childStyle etc.
+                  if (mutableStyleValues[key] !== undefined) {
+                    throw new Error(
+                      `Prism you mapped ${key} as a prop but the property is already defined`)
+                  }
+                  if (flat[k] !== undefined) {
+                    mutableStyleValues[key] = flat[k]
+                    delete flat[k]
+                  }
+                }
+              }
+              computedStyle = options.flat ? flat : [flat]
+            }
+
             mutableStyleValues[fullAttrName] = computedStyle
           }
         })
