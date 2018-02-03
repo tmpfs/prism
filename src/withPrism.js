@@ -57,7 +57,7 @@ const getStyleSheet = (
   if (invariant) {
     const {value} = invariant
     const values = mutableStyleValues
-    invariant.plugin({value, values, options, registry})
+    invariant.plugin({value, values, options, registry, ns})
   }
 
   //let sheets = []

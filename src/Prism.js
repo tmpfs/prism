@@ -60,10 +60,13 @@ const Configuration = {
   invariants: [
     {
       stylePropName: 'textTransform',
-      plugin: ({value, values, options}) => {
+      plugin: ({value, values, options, ns}) => {
         //console.log('invariant plugin running: ' + value)
         //console.log('invariant plugin running: ' + values)
-        const propName = options.textTransformProp || 'text'
+        const propName = 'text'
+        if (ns.childClassName) {
+          propName = ns.childName.charAt(0).toLowerCase() + 'Text'
+        }
         values[propName] = values[propName] || {}
         values[propName].transform = value
       }
