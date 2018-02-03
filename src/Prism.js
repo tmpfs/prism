@@ -273,9 +273,9 @@ const registerComponent = (registry, definition, config) => {
 
   const globalPlugins = plugins
     .filter((plugin) => {
-      return plugin.isGlobal
-        && (options.hasOwnProperty(plugin.name) || plugin.name === 'mapStyleToProp')
+      return plugin.isGlobal && options.hasOwnProperty(plugin.name)
     })
+
   const propertyPlugins = plugins.filter(
     (plugin) => !plugin.isGlobal)
 
