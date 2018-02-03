@@ -83,20 +83,37 @@ const getStyleSheet = (
     }
   })
 
-  const {keys, map} = plugins.property
-  keys.forEach((propName) => {
-    if ((props && props[propName] !== undefined)
-        || (context && context[propName] !== undefined)) {
-      const plugin = map[propName]
-      pluginOptions.plugin = plugin
-      pluginOptions.propName = propName
-      pluginOptions.prop = props[propName]
-      const style = plugin.func(pluginOptions)
-      if (style) {
-        sheets = sheets.concat(style)
+  plugins.property.forEach((plugin) => {
+    const propNames = Object.keys(plugin.propType)
+    for (let propName in propNames) {
+      if ((props && props[propName] !== undefined)
+          || (context && context[propName] !== undefined)) {
+        pluginOptions.plugin = plugin
+        pluginOptions.propName = propName
+        pluginOptions.prop = props[propName]
+        const style = plugin.func(pluginOptions)
+        if (style) {
+          sheets = sheets.concat(style)
+        }
       }
     }
   })
+
+    //if ((props && props[propName] !== undefined)
+        //|| (context && context[propName] !== undefined)) {
+      //const plugin = map[propName]
+      //pluginOptions.plugin = plugin
+      //pluginOptions.propName = propName
+      //pluginOptions.prop = props[propName]
+      //const style = plugin.func(pluginOptions)
+      //if (style) {
+        //sheets = sheets.concat(style)
+      //}
+    //}
+
+  //const {keys, map} = plugins.property
+  //keys.forEach((propName) => {
+  //})
 
   // Add inline `style` property
   if (style) {
@@ -152,59 +169,18 @@ const withPrism = (Stylable, definition) => {
     processStylePlugins (props, testFunc = () => true) {
       const {registry, options, Type} = definition
       const {stylePropertyNames, mapPropsToComponent} = options
-      const {globals, property} = options.plugins
+      const {plugins} = options
       const {styleValues} = this.state
-      const {context} = this
+      const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
       stylePropertyNames.forEach((attrName) => {
         if (testFunc({props, attrName})) {
           const fullAttrName = getStylePropertyName(attrName)
-          const availableProperties = mapPropsToComponent[attrName].slice()
-          const propertyStyleMap = {}
-          const flatAvailableProperties =
-            availableProperties.reduce((list, val) => {
-              if (isObject(val)) {
-                const keys = Object.keys(val)
-                list.push(keys)
-                keys.forEach((key) => {
-                  propertyStyleMap[key] = val[key]
-                })
-              } else if (isString(val)) {
-                list.push(val)
-              }
-              return list
-            }, [])
-
-          // TODO: only run global plugins once!
-
-          // Filter to properties available for this property attribute
-          // Eg: style, labelStyle, imageStyle etc
-          let propertyMap = {}
-          let propertyPlugins = property.reduce((list, plugin) => {
-            const ind = flatAvailableProperties.indexOf(plugin.name)
-            if (~ind) {
-              propertyMap[plugin.name] = plugin
-              list.push(plugin.name)
-              flatAvailableProperties.splice(ind, 1)
-            }
-            return list
-          }, [])
-          const plugins = {
-            globals: globals,
-            property: {
-              keys: propertyPlugins,
-              map: propertyMap
-            }
-          }
-
           let sheets = mutableStyleValues[fullAttrName]
           // Must wrap in if flat is in use
           if (sheets && !Array.isArray(sheets)) {
             sheets = [sheets]
           }
-
-          const {state} = this
-
           const computedStyle = getStyleSheet(
             {
               context,
@@ -218,26 +194,6 @@ const withPrism = (Stylable, definition) => {
               mutableStyleValues,
               plugins
             })
-
-          // It's possible for a component to declare style
-          // properties not mapped to a plugin, in this case
-          // we pass the properties through verbatim
-          // TODO: provide a default handler for these properties?
-          // NOTE: currently this is the last computed style so overrides
-          // NOTE: values in the target attribute eg: `labelStyle`
-          if (flatAvailableProperties.length) {
-            const verbatim = {}
-            flatAvailableProperties.forEach((name) => {
-              let styleProp = name
-              if (propertyStyleMap[name]) {
-                styleProp = propertyStyleMap[name]
-              }
-              if (props[name] !== undefined) {
-                verbatim[styleProp] = props[name]
-              }
-            })
-            computedStyle.push(verbatim)
-          }
 
           mutableStyleValues[fullAttrName] = computedStyle
         }

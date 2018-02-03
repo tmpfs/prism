@@ -25,6 +25,40 @@ export default [
   ],
 
   [
+    'mapStyleToComponent',
+    ({sheets, options, util, mutableStyleValues}) => {
+      console.log('mapStyleToComponent called!')
+      //const {mapStyleToProp} = options
+      //const {isString} = util
+      //if (mapStyleToProp) {
+        //const flat = StyleSheet.flatten(sheets)
+        //let k
+        //let v
+        //let key
+        //for (k in mapStyleToProp) {
+          //key = k
+          //v = mapStyleToProp[k]
+          //if (v) {
+            //// Rewrite prop name
+            //if (isString(v)) {
+              //key = v
+            //}
+            //if (flat[k] !== undefined) {
+              //mutableStyleValues[key] = flat[k]
+            //}
+          //}
+          //// Must always remove the style prop
+          //// likely an invariant
+          //delete flat[k]
+        //}
+        //const res = [flat]
+        //res.overwrite = true
+        //return res
+      //}
+    }
+  ],
+
+  [
     'mapStyleToProp',
     ({sheets, options, util, mutableStyleValues}) => {
       const {mapStyleToProp} = options
