@@ -151,7 +151,7 @@ const withPrism = (Stylable, definition) => {
 
     processStylePlugins (props, testFunc = () => true) {
       const {registry, options, Type} = definition
-      const {stylePropertyNames, mapPropsToStyleObject} = options
+      const {stylePropertyNames, mapPropsToComponent} = options
       const {globals, property} = options.plugins
       const {styleValues} = this.state
       const {context} = this
@@ -159,7 +159,7 @@ const withPrism = (Stylable, definition) => {
       stylePropertyNames.forEach((attrName) => {
         if (testFunc({props, attrName})) {
           const fullAttrName = getStylePropertyName(attrName)
-          const availableProperties = mapPropsToStyleObject[attrName].slice()
+          const availableProperties = mapPropsToComponent[attrName].slice()
           const propertyStyleMap = {}
           const flatAvailableProperties =
             availableProperties.reduce((list, val) => {

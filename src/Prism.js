@@ -79,7 +79,7 @@ const obj = {
 }
 
 const mapPluginTypeTests = {
-  mapPropsToStyleObject: fnOrObj,
+  mapPropsToComponent: fnOrObj,
   mapPropsToStyleState: func,
   mapPropsToStyle: fnOrObj,
   mapStyleToProp: obj
@@ -205,41 +205,41 @@ const registerComponent = (registry, definition, config) => {
     .filter((plugin) => plugin.propType)
     .map((plugin) => plugin.name)
 
-  let {mapPropsToStyleObject} = options
+  let {mapPropsToComponent} = options
   // User defined style property names
-  if (mapPropsToStyleObject !== undefined) {
-    if (util.isFunction(mapPropsToStyleObject)) {
-      mapPropsToStyleObject = mapPropsToStyleObject(registry)
+  if (mapPropsToComponent !== undefined) {
+    if (util.isFunction(mapPropsToComponent)) {
+      mapPropsToComponent = mapPropsToComponent(registry)
     }
 
-    const assignedPropertyNames = Object.keys(mapPropsToStyleObject)
+    const assignedPropertyNames = Object.keys(mapPropsToComponent)
       .reduce((list, propName) => {
-        list = list.concat(mapPropsToStyleObject[propName])
+        list = list.concat(mapPropsToComponent[propName])
         return list
       }, [])
 
-    if (mapPropsToStyleObject.style !== undefined) {
+    if (mapPropsToComponent.style !== undefined) {
       throw new Error(
-        `Prism do not configure mappings for "style" in mapPropsToStyleObject. ` +
+        `Prism do not configure mappings for "style" in mapPropsToComponent. ` +
         `It is an anti-pattern, use mapPropsToStyleProp or mapPropsToStyle instead.`)
     }
 
     // Configure handling for style property
     // when not explicitly specified
-    mapPropsToStyleObject.style = availablePropertyNames
+    mapPropsToComponent.style = availablePropertyNames
       .filter((propName) => !~assignedPropertyNames.indexOf(propName))
   }
 
   // Default style property support, all
   // names are mapped to the default style object
-  if (!mapPropsToStyleObject) {
-    mapPropsToStyleObject = {
+  if (!mapPropsToComponent) {
+    mapPropsToComponent = {
       style: availablePropertyNames
     }
   }
 
-  options.mapPropsToStyleObject = mapPropsToStyleObject
-  options.stylePropertyNames = Object.keys(mapPropsToStyleObject)
+  options.mapPropsToComponent = mapPropsToComponent
+  options.stylePropertyNames = Object.keys(mapPropsToComponent)
 
   const globalPlugins = plugins
     .filter((plugin) => {
