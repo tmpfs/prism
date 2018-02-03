@@ -230,7 +230,7 @@ const getStyleSheet = (
 // Register a stylable component type.
 //
 // Likely the registry has not been set yet.
-const Prism = (Type, namespace = '') => {
+const Prism = (Type, namespace = '', requirements = null) => {
   const Name = Type.name
 
   let styleOptions = Type.styleOptions
@@ -461,7 +461,7 @@ const Prism = (Type, namespace = '') => {
     return PrismComponent
   }
 
-  const definition = {Type, Name, styleOptions, namespace}
+  const definition = {Type, Name, styleOptions, namespace, requirements}
   const NewType = Wrapped(Type, definition)
   definition.NewType = NewType
 
@@ -478,9 +478,17 @@ const Prism = (Type, namespace = '') => {
 }
 
 const registerComponent = (registry, definition, config) => {
-  const {Type, Name, styleOptions} = definition
+  const {Type, Name, styleOptions, requirements} = definition
   const {plugins} = config
-  //definition.options = {}
+
+  if (requirements && !isFunction(requirements)) {
+    throw new Error('Prism component requirements must be a function')
+  }
+
+  if (requirements) {
+    Prism.requirements.push(requirements)
+  }
+
   let options = {}
   if (styleOptions) {
 
@@ -488,7 +496,7 @@ const registerComponent = (registry, definition, config) => {
     const {defaultStyles} = options
     if (defaultStyles && !Array.isArray(defaultStyles)) {
       throw new Error(
-        'Prism: default styles should be an array of objects')
+        'Prism default styles should be an array of objects')
     }
   }
 
@@ -613,6 +621,8 @@ const registerComponent = (registry, definition, config) => {
 }
 
 Prism.components = []
+Prism.requirements = []
+
 Prism.configure = (registry, config = {}) => {
   if (!(registry instanceof StyleRegistry)) {
     throw new Error('Prism expects a StyleRegistry for configure()')
@@ -659,6 +669,18 @@ Prism.configure = (registry, config = {}) => {
   // Components exported before the registry was configured
   Prism.components.forEach((definition) => {
     registerComponent(registry, definition, Prism.config)
+  })
+
+  Prism.requirements.forEach((requirement) => {
+    const err = requirement({registry, config})
+    if (err !== undefined) {
+      if ((err instanceof Error)) {
+        throw err
+      } else if(isString(err)) {
+        throw new Error(
+          `Prism component requirements not met: ${err}`)
+      }
+    }
   })
 
   Prism.registry = registry
