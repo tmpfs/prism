@@ -5,7 +5,6 @@ export default class StyleRegistry {
   sizes = {}
   colors = {}
   colorNames = []
-  colorProperties = []
   styles = {}
   styleSheet = null
   styleInvariants = {}
@@ -28,20 +27,12 @@ export default class StyleRegistry {
   }
 
   addStyleSheet (styleSheet) {
-    const {colors, fonts, colorNames, colorProperties} = this
-
+    const {colors, fonts, colorNames} = this
     // styleSheet should be a function
     this.styles = Object.assign(
       {},
-      styleSheet({colors, fonts, colorNames, colorProperties})
+      styleSheet({colors, fonts, colorNames})
     )
-
-    // Compile the raw styles
-
-
-    // NOTE: cannot compile for invariants like textTransform
-
-    //this.styleSheet = this.styles
   }
 
 
