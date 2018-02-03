@@ -21,6 +21,7 @@
     - [mapPropsToStyleObject](#mappropstostyleobject)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
+  - [Requirements](#requirements)
   - [Default Styles](#default-styles)
     - [Style Class Name](#style-class-name)
   - [Color Names](#color-names)
@@ -328,6 +329,38 @@ export default ({colors, fonts}) => {
     'com.fika.text.Label': {
       color: colors.orange
     }
+  }
+}
+```
+
+### Requirements
+
+Sometimes a component or library of components needs certain conditions to be met to be able to work correctly.
+
+You may pass a *third* argument to `Prism()` which is a function passed the `registry` and `config` and can be used to validate the component requirements.
+
+Here is an example from the `com.prism.ui` components:
+
+```javascript
+const requirements = ({config}) => {
+  if (config.extendedProperties !== true) {
+    return `extendedProperties must be set in config ` +
+      `to use the ${Namespace} component library`
+  }
+}
+
+export default Prism(Layout, Namespace, requirements)
+```
+
+If the component requirements are not met you can throw an error or return an error or a string. When a string is returned it is wrapped in an error and thrown.
+
+Note that you can use this technique to validate style declarations exist, for example:
+
+```javascript
+const requirements = ({registry}) => {
+  const {styleSheet} = registry
+  if (!styleSheet.bold) {
+    return `bold style declaration is required`
   }
 }
 ```
