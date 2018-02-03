@@ -2,35 +2,27 @@ import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
 
 import StyleRegistry from './StyleRegistry'
-import Plugins from './Plugins'
+import Namespace from './Namespace'
+import Plugin from './Plugin'
+import Plugins from './DefaultPlugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import ExperimentalPlugins from './ExperimentalPlugins'
+
 import propTypes from './PropTypes'
 import withPrism from './withPrism'
+import util from './util'
 
 const STYLE = 'style'
 
-const isObject = (o) => o && o.toString() === '[object Object]'
-const isString = (o) => o && typeof(o) === 'string'
-const isNumber = (o) => typeof(o) === 'number'
-const isFunction = (fn) => (fn instanceof Function)
-const isArray = Array.isArray
-const ucfirst = (s) => {
-  if (s && s.length) {
-    return s.charAt(0).toUpperCase() + s.substr(1)
-  }
-  return s
-}
-// FIXME: naive implementation
-const ucword = (s) => {
-  if (s) {
-    return s.split(' ').map((word) => {
-      return ucfirst(word)
-    }).join(' ')
-  }
-  return s
-}
-const util = {isObject, isFunction, isString, isArray, isNumber, ucfirst, ucword}
+const {
+  isObject,
+  isFunction,
+  isString,
+  isArray,
+  isNumber,
+  ucfirst,
+  ucword,
+  lcfirst} = util
 
 const compile = (decl) => {
   const sheet = {decl}
@@ -62,11 +54,13 @@ const Configuration = {
       stylePropName: 'textTransform',
       plugin: ({value, values, options, ns}) => {
         let propName = 'text'
+        // Rewrite to child component prefix, eg: headerText
         if (ns.childClassName) {
           // TODO: lcfirst
-          propName = ns.childClassName.charAt(0).toLowerCase() +
-            ns.childClassName.substr(1) +
-            'Text'
+          //propName = ns.childClassName.charAt(0).toLowerCase() +
+            //ns.childClassName.substr(1) +
+            //'Text'
+          propName = lcfirst(ns.childClassName) + 'Text'
         }
         values[propName] = values[propName] || {}
         values[propName].transform = value
@@ -98,18 +92,6 @@ const mapPluginTypeTests = {
 }
 
 const mapPluginNames = Object.keys(mapPluginTypeTests)
-
-class Plugin  {
-  constructor (name, func, propType = null, isGlobal = false) {
-    this.name = name
-    this.func = func
-    this.propType = propType
-    this.isGlobal = isGlobal
-    if (propType) {
-      this.propNames = Object.keys(propType)
-    }
-  }
-}
 
 const registerPlugins = (plugins) => {
   if (!Array.isArray(plugins)) {

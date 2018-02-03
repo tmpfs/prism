@@ -22,29 +22,17 @@ const getStyleSheet = (
   const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors} = registry
 
-  //let className = options.className || Name
-  //let componentClassName = namespace ? `${namespace}.${className}` : className
-
   // Passing style to nested child component
   let childClassName
   if (attrName && attrName !== 'style') {
     // TODO: use util
     childClassName = attrName.charAt(0).toUpperCase() +
       attrName.substr(1)
-    //componentClassName += '.' + childClassName
   }
 
   const ns = new Namespace(
     {namespace, childClassName, className: options.className, typeName: Name})
-  console.log(ns.componentClassName)
-
-  //const ns = {
-    //typeName: Name,
-    //className,
-    //componentClassName,
-    //childClassName,
-    //namespace
-  //}
+  //console.log(ns.componentClassName)
 
   const defaultClassStyle = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
