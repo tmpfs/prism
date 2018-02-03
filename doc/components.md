@@ -96,6 +96,39 @@ static styleOptions = ({styleSheet}) => {
 }
 ```
 
+#### mapPropsToStyleState
+
+`Function`
+
+Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaraion name using the familiar `a:hover` syntax.
+
+For a component called `Notice`:
+
+```javascript
+static styleOptions = () => {
+  return {
+    mapPropsToStyleState: ({props}) => {
+      if (props.error) {
+        return 'error'
+      }
+    }
+  }
+}
+```
+
+Would result in including the class declaration lookup for `Notice:error` (the `Notice` style is also included for property inheritance):
+
+```javascript
+{
+  'Notice:error': {
+    backgroundColor: 'red',
+    color: 'white'
+  }
+}
+```
+
+You can also return a style object, array of style objects or a compiled style declaration.
+
 #### mapStyleToProp
 
 Use `mapStyleToProp` when you want to delete a style property from the computed style and assign it to a property.

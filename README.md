@@ -17,6 +17,7 @@
   - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
+    - [mapPropsToStyleState](#mappropstostylestate)
     - [mapStyleToProp](#mapstyletoprop)
     - [mapPropsToStyle](#mappropstostyle)
     - [mapPropsToStyleObject](#mappropstostyleobject)
@@ -220,6 +221,39 @@ static styleOptions = ({styleSheet}) => {
   }
 }
 ```
+
+#### mapPropsToStyleState
+
+`Function`
+
+Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaraion name using the familiar `a:hover` syntax.
+
+For a component called `Notice`:
+
+```javascript
+static styleOptions = () => {
+  return {
+    mapPropsToStyleState: ({props}) => {
+      if (props.error) {
+        return 'error'
+      }
+    }
+  }
+}
+```
+
+Would result in including the class declaration lookup for `Notice:error` (the `Notice` style is also included for property inheritance):
+
+```javascript
+{
+  'Notice:error': {
+    backgroundColor: 'red',
+    color: 'white'
+  }
+}
+```
+
+You can also return a style object, array of style objects or a compiled style declaration.
 
 #### mapStyleToProp
 
@@ -819,7 +853,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 3, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 4, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
