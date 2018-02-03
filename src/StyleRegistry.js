@@ -23,6 +23,7 @@ export default class StyleRegistry {
       registry.styleInvariants = Object.assign(
         registry.styleInvariants, reg.styleInvariants)
     })
+    return registry
   }
 
   mergeColors (colors) {
