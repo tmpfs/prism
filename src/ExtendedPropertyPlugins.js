@@ -45,22 +45,24 @@ export default [
         }
         return s
       }
-      if (prop && prop.transform) {
-        let {children} = props
+
+      const it = (children) => {
         if (typeof(children) === 'string') {
           children = transformer(prop, children)
         } else if (Array.isArray(children)) {
-          //children.forEach((child) => {
-            //const {children} = child.children
-            //if (typeof(children) === 'string') {
-              //console.log('TRANSFORMING ON CHILD')
-              //child.props.text = {
-                //transformedText: transformer(children)
-              //}
-              //console.log(child.props.text)
-            //}
-          //})
+          children.map((child) => {
+            let {children} = child.children
+            child.children = it(children)
+            return child
+            //return it(children)
+          })
         }
+        return children
+      }
+
+      if (prop && prop.transform) {
+        let {children} = props
+        children = it(children)
         state.children = children
       }
     },
