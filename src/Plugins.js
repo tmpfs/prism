@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import propTypes from './PropTypes'
 
+import {StyleSheet} from 'react-native'
+
 export default [
 
   // Support for className
@@ -20,6 +22,58 @@ export default [
       return find(className.split(/\s+/))
     },
     {className: propTypes.className}
+  ],
+
+  [
+    'mapStyleToProps',
+    ({sheets, options, util, mutableStyleValues}) => {
+      const {mapStyleToProps} = options
+      const {isObject, isString} = util
+      if (isObject(mapStyleToProps)) {
+        const map = mapStyleToProps
+        //const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
+        //if (map !== undefined) {
+          const flat = StyleSheet.flatten(sheets)
+          let k
+          let v
+          let key
+          for (k in map) {
+            key = k
+            v = map[k]
+            if (v) {
+              // Rewrite prop name
+              if (isString(v)) {
+                key = v
+              }
+              // Prevent overwriting, style, childStyle etc.
+              //if (mutableStyleValues[key] !== undefined) {
+                //throw new Error(
+                  //`Prism you mapped ${key} as a prop but the property is already defined`)
+              //}
+              if (isObject(v)) {
+                mutableStyleValues[key] = mutableStyleValues[key] || {}
+                for (let z in v) {
+                  if (flat[z] !== undefined) {
+                    mutableStyleValues[key][z] = flat[z]
+                  }
+                }
+                delete flat[k]
+              } else {
+                if (flat[k] !== undefined) {
+                  mutableStyleValues[key] = flat[k]
+                  delete flat[k]
+                }
+              }
+            }
+          }
+          console.log(flat)
+          const res = [flat]
+          res.overwrite = true
+          return res
+          //computedStyle = options.flat ? flat : [flat]
+        //}
+      }
+    }
   ],
 
   [

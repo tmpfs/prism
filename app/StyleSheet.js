@@ -5,7 +5,7 @@ export default ({colors, fonts}) => {
       fontFamily: fonts.regular,
       color: colors.cream,
       tintColor: colors.orange,
-      //textTransform: 'uppercase'
+      textTransform: 'uppercase'
     },
     bold: {
       fontFamily: fonts.medium

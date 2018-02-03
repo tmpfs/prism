@@ -127,109 +127,6 @@ const registerPlugin = (plugin) => {
   throw new Error('Prism invalid plugin definition')
 }
 
-const getStyleSheet = (
-  {
-    context,
-    props,
-    state,
-    sheets,
-    definition,
-    attrName,
-    fullAttrName,
-    plugins}) => {
-
-  const style = props[fullAttrName]
-  const {config, options, registry, namespace, Name, Type} = definition
-  const {styleSheet, colors} = registry
-
-  let childClassName
-  let className = options.className || Name
-  let componentClassName = namespace ? `${namespace}.${className}` : className
-
-  // Passing style to nested child component
-  if (attrName && attrName !== STYLE) {
-    childClassName = attrName.charAt(0).toUpperCase() +
-      attrName.substr(1)
-    componentClassName += '.' + childClassName
-  }
-
-  const ns = {
-    typeName: Name,
-    className,
-    componentClassName,
-    childClassName,
-    namespace
-  }
-
-  const defaultClassStyle = styleSheet[componentClassName] ?
-    [styleSheet[componentClassName]] : []
-
-  let {defaultStyles} = options
-
-  if (Array.isArray(defaultStyles)) {
-    defaultStyles = defaultStyles.concat(defaultClassStyle)
-  }
-
-  // Use default component class style
-  if (!defaultStyles) {
-    defaultStyles = defaultClassStyle
-  }
-
-  //let sheets = []
-
-  // Add default styles
-  sheets = sheets.concat(defaultStyles)
-
-  // Process plugins
-  const pluginOptions = {
-    context,
-    props,
-    state,
-    util,
-    ns,
-    config,
-    definition,
-    registry,
-    styleSheet,
-    options,
-    colors
-  }
-
-  plugins.globals.forEach((plugin) => {
-    pluginOptions.plugin = plugin
-    const style = plugin.func(pluginOptions)
-    if (style) {
-      sheets = sheets.concat(style)
-    }
-  })
-
-  const {keys, map} = plugins.property
-  keys.forEach((propName) => {
-    if ((props && props[propName] !== undefined)
-        || (context && context[propName] !== undefined)) {
-      const plugin = map[propName]
-      pluginOptions.plugin = plugin
-      pluginOptions.propName = propName
-      pluginOptions.prop = props[propName]
-      const style = plugin.func(pluginOptions)
-      if (style) {
-        sheets = sheets.concat(style)
-      }
-    }
-  })
-
-  // Add inline `style` property
-  if (style) {
-    sheets = sheets.concat(style)
-  }
-
-  if (options.flat) {
-    return StyleSheet.flatten(sheets)
-  }
-
-  return sheets
-}
-
 // Register a stylable component type.
 //
 // Likely the registry has not been set yet.
@@ -249,7 +146,7 @@ const Prism = (Type, namespace = '', requirements = null) => {
 
   const definition = {Type, Name, styleOptions, namespace, requirements}
   const NewType = withPrism(
-    Type, definition, {getStyleSheet, getStylePropertyName, ...util})
+    Type, definition, {getStylePropertyName, ...util})
   definition.NewType = NewType
 
   if (!Prism.registry) {

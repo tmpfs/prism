@@ -9,9 +9,6 @@ class Label extends Component {
     return {
       mapStyleToProps: {
         tintColor: true,
-        labelStyle: {
-          tintColor: true
-        },
         textTransform: {text: 'transform'}
       },
       mapPropsToStyleObject: {

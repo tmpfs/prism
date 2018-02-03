@@ -3,10 +3,123 @@ import {StyleSheet} from 'react-native'
 
 import propTypes from './PropTypes'
 
+const getStyleSheet = (
+  {
+    context,
+    props,
+    state,
+    sheets,
+    definition,
+    util,
+    mutableStyleValues,
+    attrName,
+    fullAttrName,
+    plugins}) => {
+
+  const style = props[fullAttrName]
+  const {config, options, registry, namespace, Name, Type} = definition
+  const {styleSheet, colors} = registry
+
+  let childClassName
+  let className = options.className || Name
+  let componentClassName = namespace ? `${namespace}.${className}` : className
+
+  // Passing style to nested child component
+  if (attrName && attrName !== 'style') {
+    childClassName = attrName.charAt(0).toUpperCase() +
+      attrName.substr(1)
+    componentClassName += '.' + childClassName
+  }
+
+  const ns = {
+    typeName: Name,
+    className,
+    componentClassName,
+    childClassName,
+    namespace
+  }
+
+  const defaultClassStyle = styleSheet[componentClassName] ?
+    [styleSheet[componentClassName]] : []
+
+  let {defaultStyles} = options
+
+  if (Array.isArray(defaultStyles)) {
+    defaultStyles = defaultStyles.concat(defaultClassStyle)
+  }
+
+  // Use default component class style
+  if (!defaultStyles) {
+    defaultStyles = defaultClassStyle
+  }
+
+  //let sheets = []
+
+  // Add default styles
+  sheets = sheets.concat(defaultStyles)
+
+  // Process plugins
+  const pluginOptions = {
+    context,
+    props,
+    state,
+    util,
+    ns,
+    config,
+    definition,
+    sheets,
+    registry,
+    styleSheet,
+    options,
+    colors,
+    mutableStyleValues
+  }
+
+  plugins.globals.forEach((plugin) => {
+    pluginOptions.plugin = plugin
+    const style = plugin.func(pluginOptions)
+    if (style) {
+      if (!style.overwrite) {
+        sheets = sheets.concat(style)
+      // Global plugins can rewrite the entire list of styles
+      } else {
+        delete style.overwrite
+        sheets = Array.isArray(style) ? style : [style]
+      }
+    }
+  })
+
+  const {keys, map} = plugins.property
+  keys.forEach((propName) => {
+    if ((props && props[propName] !== undefined)
+        || (context && context[propName] !== undefined)) {
+      const plugin = map[propName]
+      pluginOptions.plugin = plugin
+      pluginOptions.propName = propName
+      pluginOptions.prop = props[propName]
+      const style = plugin.func(pluginOptions)
+      if (style) {
+        sheets = sheets.concat(style)
+      }
+    }
+  })
+
+  // Add inline `style` property
+  if (style) {
+    sheets = sheets.concat(style)
+  }
+
+  if (options.flat) {
+    return StyleSheet.flatten(sheets)
+  }
+
+  return sheets
+}
+
+
 // High order component wrapper
 const withPrism = (Stylable, definition, util) => {
   const {
-    getStyleSheet,
     getStylePropertyName,
     isObject,
     isString
@@ -109,9 +222,11 @@ const withPrism = (Stylable, definition, util) => {
               props,
               state,
               sheets,
+              util,
               definition,
               attrName,
               fullAttrName,
+              mutableStyleValues,
               plugins
             })
 
@@ -133,49 +248,6 @@ const withPrism = (Stylable, definition, util) => {
               }
             })
             computedStyle.push(verbatim)
-          }
-
-          const {mapStyleToProps} = options
-          if (isObject(mapStyleToProps)) {
-            const map = mapStyleToProps
-            //const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
-            //if (map !== undefined) {
-              const flat = options.flat
-                ? computedStyle : StyleSheet.flatten(computedStyle)
-              let k
-              let v
-              let key
-              for (k in map) {
-                key = k
-                v = map[k]
-                if (v) {
-                  // Rewrite prop name
-                  if (isString(v)) {
-                    key = v
-                  }
-                  // Prevent overwriting, style, childStyle etc.
-                  //if (mutableStyleValues[key] !== undefined) {
-                    //throw new Error(
-                      //`Prism you mapped ${key} as a prop but the property is already defined`)
-                  //}
-                  if (isObject(v)) {
-                    mutableStyleValues[key] = mutableStyleValues[key] || {}
-                    for (let z in v) {
-                      if (flat[z] !== undefined) {
-                        mutableStyleValues[key][z] = flat[z]
-                      }
-                    }
-                    delete flat[k]
-                  } else {
-                    if (flat[k] !== undefined) {
-                      mutableStyleValues[key] = flat[k]
-                      delete flat[k]
-                    }
-                  }
-                }
-              }
-              computedStyle = options.flat ? flat : [flat]
-            //}
           }
 
           mutableStyleValues[fullAttrName] = computedStyle
