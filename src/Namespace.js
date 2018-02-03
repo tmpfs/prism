@@ -21,7 +21,7 @@ class Namespace {
     let styleDeclName = namespace ? `${namespace}.${className}` : className
     // Passing style to nested child component
     if (childClassName) {
-      styleClassName += '.' + childClassName
+      styleDeclName += '.' + childClassName
     }
     return styleDeclName
   }
