@@ -29,8 +29,11 @@ export default [
     ({sheets, options, util, mutableStyleValues}) => {
       const {mapStyleToProps} = options
       const {isObject, isString} = util
-      if (isObject(mapStyleToProps)) {
-        const map = mapStyleToProps
+      const map = mapStyleToProps || {}
+
+      map.textTransform = {text: 'transform'}
+
+      if (isObject(map)) {
         //const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
         //if (map !== undefined) {
           const flat = StyleSheet.flatten(sheets)
