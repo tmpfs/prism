@@ -239,6 +239,11 @@ const Prism = (Type, namespace = '', requirements = null) => {
       `Prism styleOptions for ${Name} must be a function`)
   }
 
+  if (namespace && !isString(namespace)) {
+    throw new Error(
+      `Prism namespace for ${Name} is not a string, got type ${typeof(namespace)}`)
+  }
+
   // High order component wrapper
   const Wrapped = (Stylable, definition) => {
     class PrismComponent extends Component {
