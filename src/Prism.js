@@ -4,6 +4,7 @@ import {StyleSheet} from 'react-native'
 import StyleRegistry from './StyleRegistry'
 import Plugins from './Plugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
+import ExperimentalPropertyPlugins from './ExperimentalPropertyPlugins'
 import propTypes from './PropTypes'
 
 const STYLE = 'style'
@@ -372,31 +373,34 @@ const Prism = (Type, namespace = '', requirements = null) => {
 
             const {mapStyleToProps} = options
             if (isObject(mapStyleToProps)) {
-              const flat = options.flat
-                ? computedStyle : StyleSheet.flatten(computedStyle)
-              let k
-              let v
-              let key
-              for (k in mapStyleToProps) {
-                key = k
-                v = mapStyleToProps[k]
-                if (v) {
-                  // Rewrite prop name
-                  if (isString(v)) {
-                    key = v
-                  }
-                  // Prevent overwriting, style, childStyle etc.
-                  if (mutableStyleValues[key] !== undefined) {
-                    throw new Error(
-                      `Prism you mapped ${key} as a prop but the property is already defined`)
-                  }
-                  if (flat[k] !== undefined) {
-                    mutableStyleValues[key] = flat[k]
-                    delete flat[k]
+              const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
+              if (map !== undefined) {
+                const flat = options.flat
+                  ? computedStyle : StyleSheet.flatten(computedStyle)
+                let k
+                let v
+                let key
+                for (k in map) {
+                  key = k
+                  v = map[k]
+                  if (v) {
+                    // Rewrite prop name
+                    if (isString(v)) {
+                      key = v
+                    }
+                    // Prevent overwriting, style, childStyle etc.
+                    if (mutableStyleValues[key] !== undefined) {
+                      throw new Error(
+                        `Prism you mapped ${key} as a prop but the property is already defined`)
+                    }
+                    if (flat[k] !== undefined) {
+                      mutableStyleValues[key] = flat[k]
+                      delete flat[k]
+                    }
                   }
                 }
+                computedStyle = options.flat ? flat : [flat]
               }
-              computedStyle = options.flat ? flat : [flat]
             }
 
             mutableStyleValues[fullAttrName] = computedStyle
@@ -665,6 +669,10 @@ Prism.configure = (registry, config = {}) => {
   let systemPlugins = Plugins
   if (config.extendedProperties) {
     systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
+  }
+
+  if (config.experimentalProperties) {
+    systemPlugins = systemPlugins.concat(ExperimentalPropertyPlugins)
   }
 
   let plugins = Array.isArray(config.plugins) ? config.plugins : systemPlugins
