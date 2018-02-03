@@ -1,5 +1,5 @@
 export default {
   cream: '#fdfbdf',
   muted: '#9a9a9a',
-  orange: '#ff6600'
+  orange: '#ff3300'
 }

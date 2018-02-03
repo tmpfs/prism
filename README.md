@@ -41,7 +41,6 @@
     - [style](#style)
     - [className](#classname)
   - [Extended Style Properties](#extended-style-properties)
-    - [font](#font)
     - [flex](#flex)
     - [row](#row)
     - [wrap](#wrap)
@@ -52,8 +51,8 @@
     - [background](#background)
     - [border](#border)
     - [radius](#radius)
-  - [System Properties](#system-properties)
-    - [style](#style-1)
+  - [Experimental Properties](#experimental-properties)
+    - [font](#font)
 - [License](#license)
 
 ---
@@ -89,7 +88,7 @@ Colors are a map from color name to value.
 export default {
   cream: '#fdfbdf',
   muted: '#9a9a9a',
-  orange: '#ff6600'
+  orange: '#ff3300'
 }
 ```
 
@@ -625,30 +624,7 @@ Assign stylesheets to the component. When a string is given separate stylesheet 
 
 ### Extended Style Properties
 
-When the `extendedProperties` option is enabled plugins that handle these properties are configured.
-
-#### font
-
-The `font` property provides a convenient shortcut for all the [Text Style Props][].
-
-Only `Text` and `TextInput` components can accept these style properties so components that wish to recieve them in their computed stylesheet must specify the `supportsText` option.
-
-Unlike the other extended properties this property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
-
-A simple declaration might look like:
-
-```html
-<Layout font={{size: 'large', color: 'red'}}>
-  <Layout>
-    <Label>Red text</Label>
-    <Label font={{color: 'green'}}>
-      Font style properties combined with those inherited from the grandparent
-    </Label>
-  </Layout>
-</Layout>
-```
-
-The shape of the font object is described in [PropTypes.js](https://github.com/fika-community/prism/blob/master/src/PropTypes.js).
+When the `extendedProperties` option is given plugins that handle these properties are configured.
 
 #### flex
 
@@ -761,17 +737,32 @@ Sets border radius style properties.
 }
 ```
 
-### System Properties
+### Experimental Properties
 
-System properties are those passed to the underlying component implementation from the HOC component. They allow access to the colors, fonts and compiled stylesheet.
+When the `experimentalPlugins` option is given plugins that handle these properties are configured.
 
-#### style
+#### font
 
-`Array`
+The `font` property provides a convenient shortcut for all the [Text Style Props][].
 
-The computed stylesheet for the component.
+Only `Text` and `TextInput` components can accept these style properties so components that wish to recieve them in their computed stylesheet must specify the `supportsText` option.
 
-Note that when you assign to `style` in JSX declarations it may be an array or object but by the time `style` reaches your component render function it is guaranteed to be an array.
+Unlike the other extended properties this property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
+
+A simple declaration might look like:
+
+```html
+<Layout font={{size: 'large', color: 'red'}}>
+  <Layout>
+    <Label>Red text</Label>
+    <Label font={{color: 'green'}}>
+      Font style properties combined with those inherited from the grandparent
+    </Label>
+  </Layout>
+</Layout>
+```
+
+The shape of the font object is described in [PropTypes.js](https://github.com/fika-community/prism/blob/master/src/PropTypes.js).
 
 ## License
 

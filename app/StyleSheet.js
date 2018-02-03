@@ -3,9 +3,7 @@ export default ({colors, fonts}) => {
     Label: {
       fontSize: 16,
       fontFamily: fonts.regular,
-      color: colors.cream,
-      //tintColor: colors.orange,
-      textTransform: 'uppercase'
+      color: colors.cream
     },
     bold: {
       fontFamily: fonts.medium
