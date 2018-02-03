@@ -63,7 +63,7 @@ const Configuration = {
       plugin: ({value, values, options, ns}) => {
         //console.log('invariant plugin running: ' + value)
         //console.log('invariant plugin running: ' + values)
-        const propName = 'text'
+        let propName = 'text'
         if (ns.childClassName) {
           propName = ns.childName.charAt(0).toLowerCase() + 'Text'
         }
