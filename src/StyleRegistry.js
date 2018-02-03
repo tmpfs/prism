@@ -12,22 +12,28 @@ export default class StyleRegistry {
   styleSheet = {}
   styleInvariants = {}
 
-  static assign (...registries) {
-    const registry = new StyleRegistry()
-    registries.forEach((reg) => {
-      registry.addFonts(reg.fonts)
-      registry.addColors(reg.colors)
-      registry.addStyleSheet(reg.styles)
-
-      registry.sizes = Object.assign(registry.sizes, reg.sizes)
-      registry.styleInvariants = Object.assign(
-        registry.styleInvariants, reg.styleInvariants)
-    })
-    return registry
+  assign (registry) {
+    this.mergeColors(registry.colors)
+    this.mergeFonts(registry.fonts)
+    this.mergeStyles(registry.styles)
+    this.mergeStyleInvariants(registry.styleInvariants)
   }
 
   mergeColors (colors) {
     this.colors = Object.assign({}, colors, this.colors)
+    this.colorNames = Object.keys(this.colors)
+  }
+
+  mergeFonts (fonts) {
+    this.fonts = Object.assign({}, fonts, this.fonts)
+  }
+
+  mergeStyles (styles) {
+    this.styles = Object.assign({}, styles, this.styles)
+  }
+
+  mergeStyleInvariants (styleInvariants) {
+    this.styleInvariants = Object.assign({}, styleInvariants, this.styleInvariants)
   }
 
   addColors (colors) {

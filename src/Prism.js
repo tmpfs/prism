@@ -189,9 +189,9 @@ const registerComponent = (registry, definition, config) => {
 
   if ((options.registry instanceof StyleRegistry)) {
     console.log('GOT COMPONENT REGISTRY CONFIGURATION')
-    console.log(options.registry)
     // Merge component style registries
-    registry = StyleRegistry.assign(options.registry, registry)
+    registry.assign(options.registry)
+    console.log(registry)
   }
 
   // TODO: merge style registry
