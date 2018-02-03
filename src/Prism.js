@@ -128,6 +128,7 @@ const getStyleSheet = (
   {
     context,
     props,
+    state,
     sheets,
     definition,
     attrName,
@@ -180,6 +181,7 @@ const getStyleSheet = (
   const pluginOptions = {
     context,
     props,
+    state,
     util,
     ns,
     config,
@@ -329,10 +331,13 @@ const Prism = (Type, namespace = '') => {
               sheets = [sheets]
             }
 
+            const {state} = this
+
             const computedStyle = getStyleSheet(
               {
                 context,
                 props,
+                state,
                 sheets,
                 definition,
                 attrName,
@@ -400,11 +405,14 @@ const Prism = (Type, namespace = '') => {
       }
 
       render () {
+        const children = this.state.children || this.props.children
         return (
           <Stylable
             ref='stylable'
             {...this.props}
-            {...this.state.styleValues} />
+            {...this.state.styleValues}>
+            {children}
+          </Stylable>
         )
       }
     }

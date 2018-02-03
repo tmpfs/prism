@@ -30,29 +30,38 @@ export default [
 
   // Text
   [
-    ({prop, props, options, util}) => {
-      if (options.supportsText && prop && prop.transform) {
+    ({prop, props, state, options, util}) => {
+      const transformer = (prop, s) => {
+        switch(prop.transform) {
+          case 'uppercase':
+            s = s.toUpperCase()
+            break;
+          case 'lowercase':
+            s = s.toLowerCase()
+            break;
+          case 'capitalize':
+            s = util.ucword(s)
+            break;
+        }
+        return s
+      }
+      if (prop && prop.transform) {
         let {children} = props
         if (typeof(children) === 'string') {
-          switch(prop.transform) {
-            case 'uppercase':
-              children = children.toUpperCase()
-              break;
-            case 'lowercase':
-              children = children.toLowerCase()
-              break;
-            case 'capitalize':
-              children = util.ucword(children)
-              break;
-          }
-
-          // NOTE: implementations need to test for:
-          // NOTE: this.props.text.transformedText
-          // NOTE: and use when available
-          //
-          // FIXME: taking advantage of shallow Object.freeze
-          prop.transformedText = children
+          children = transformer(prop, children)
+        } else if (Array.isArray(children)) {
+          //children.forEach((child) => {
+            //const {children} = child.children
+            //if (typeof(children) === 'string') {
+              //console.log('TRANSFORMING ON CHILD')
+              //child.props.text = {
+                //transformedText: transformer(children)
+              //}
+              //console.log(child.props.text)
+            //}
+          //})
         }
+        state.children = children
       }
     },
     {text: propTypes.text}
