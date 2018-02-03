@@ -372,23 +372,31 @@ const Prism = (Type, namespace = '') => {
       }
 
       static childContextTypes = {
-        font: propTypes.fontPropType
+        font: propTypes.fontPropType,
+        text: propTypes.textPropType
       }
 
       static contextTypes = {
-        font: propTypes.fontPropType
+        font: propTypes.fontPropType,
+        text: propTypes.textPropType
       }
 
       getChildContext () {
         const {options} = definition
         const {props} = this
+        const context = {}
         // NOTE: we only propagate to children
         // NOTE: until a component that supportsText
         // NOTE: is found
-        if (!options.supportsText && props.font) {
-          return {font: props.font}
+        if (!options.supportsText) {
+          if (props.font) {
+            context.font = props.font
+          }
+          if (props.text) {
+            context.text = props.text
+          }
         }
-        return {}
+        return context
       }
 
       // So that changes to style properties are
@@ -427,10 +435,10 @@ const Prism = (Type, namespace = '') => {
     Stylable.contextTypes.font = propTypes.fontPropType
     Stylable.childContextTypes.font = propTypes.fontPropType
 
-    // TODO: INHERIT ORIGINAL getChildContext
     if (Stylable.prototype.getChildContext) {
       Stylable.prototype._getChildContext = Stylable.prototype.getChildContext
     }
+
     Stylable.prototype.getChildContext = function () {
       let context = PrismComponent.prototype.getChildContext.call(this)
       // Call original getChildContext which wins over our
