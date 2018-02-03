@@ -434,6 +434,8 @@ const Prism = (Type, namespace = '') => {
 
     Stylable.contextTypes.font = propTypes.fontPropType
     Stylable.childContextTypes.font = propTypes.fontPropType
+    Stylable.contextTypes.text = propTypes.textPropType
+    Stylable.childContextTypes.text = propTypes.textPropType
 
     if (Stylable.prototype.getChildContext) {
       Stylable.prototype._getChildContext = Stylable.prototype.getChildContext
