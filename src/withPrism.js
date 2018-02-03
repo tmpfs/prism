@@ -6,7 +6,12 @@ import Namespace from './Namespace'
 
 import util from './util'
 
-const {ucfirst} = util
+const {
+  ucfirst,
+  getStylePropertyName,
+  isObject,
+  isString
+} = util
 
 const getStyleSheet = (
   {
@@ -29,9 +34,6 @@ const getStyleSheet = (
   let childClassName
   if (attrName && attrName !== 'style') {
     childClassName = ucfirst(attrName)
-    // TODO: use util
-    //childClassName = attrName.charAt(0).toUpperCase() +
-      //attrName.substr(1)
   }
 
   const ns = new Namespace(
@@ -110,12 +112,7 @@ const getStyleSheet = (
 
 
 // High order component wrapper
-const withPrism = (Stylable, definition, util) => {
-  const {
-    getStylePropertyName,
-    isObject,
-    isString
-  } = util
+const withPrism = (Stylable, definition) => {
   class PrismComponent extends Component {
 
     constructor (props) {

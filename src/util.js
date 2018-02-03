@@ -4,6 +4,13 @@ const isNumber = (o) => typeof(o) === 'number'
 const isFunction = (fn) => (fn instanceof Function)
 const isArray = Array.isArray
 
+const getStylePropertyName = (name) => {
+  if (name !== 'style' && !/Style$/.test(name)) {
+    name += 'Style'
+  }
+  return name
+}
+
 const ucfirst = (s) => {
   if (s && s.length) {
     return s.charAt(0).toUpperCase() + s.substr(1)
@@ -27,4 +34,13 @@ const ucword = (s) => {
   return s
 }
 
-export default {isObject, isFunction, isString, isArray, isNumber, ucfirst, ucword, lcfirst}
+export default {
+  getStylePropertyName,
+  isObject,
+  isFunction,
+  isString,
+  isArray,
+  isNumber,
+  ucfirst,
+  ucword,
+  lcfirst}

@@ -15,6 +15,7 @@ import util from './util'
 const STYLE = 'style'
 
 const {
+  getStylePropertyName,
   isObject,
   isFunction,
   isString,
@@ -28,13 +29,6 @@ const compile = (decl) => {
   const sheet = {decl}
   const compiled = StyleSheet.create(sheet)
   return compiled.decl
-}
-
-const getStylePropertyName = (name) => {
-  if (name !== STYLE && !/Style$/.test(name)) {
-    name += 'Style'
-  }
-  return name
 }
 
 const Configuration = {
@@ -148,8 +142,7 @@ const Prism = (Type, namespace = '', requirements = null) => {
   }
 
   const definition = {Type, Name, styleOptions, namespace, requirements}
-  const NewType = withPrism(
-    Type, definition, {getStylePropertyName, ...util})
+  const NewType = withPrism(Type, definition)
   definition.NewType = NewType
 
   if (!Prism.registry) {
