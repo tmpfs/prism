@@ -187,17 +187,10 @@ const registerComponent = (registry, definition, config) => {
     }
   }
 
+  // Merge component-specific style registries
   if ((options.registry instanceof StyleRegistry)) {
-    console.log('GOT COMPONENT REGISTRY CONFIGURATION')
-    // Merge component style registries
     registry.assign(options.registry)
-    console.log(registry)
   }
-
-  // TODO: merge style registry
-  //if (isObject(options.colors)) {
-    //registry.mergeColors(options.colors)
-  //}
 
   // Allow declaring mapPropsToStyle etc. as static on the Type
   mapPluginNames.forEach((name) => {
