@@ -137,8 +137,9 @@ const withPrism = (Stylable, definition, util) => {
 
           const {mapStyleToProps} = options
           if (isObject(mapStyleToProps)) {
-            const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
-            if (map !== undefined) {
+            const map = mapStyleToProps
+            //const map = mapStyleToProps[fullAttrName] || mapStyleToProps[attrName]
+            //if (map !== undefined) {
               const flat = options.flat
                 ? computedStyle : StyleSheet.flatten(computedStyle)
               let k
@@ -153,18 +154,28 @@ const withPrism = (Stylable, definition, util) => {
                     key = v
                   }
                   // Prevent overwriting, style, childStyle etc.
-                  if (mutableStyleValues[key] !== undefined) {
-                    throw new Error(
-                      `Prism you mapped ${key} as a prop but the property is already defined`)
-                  }
-                  if (flat[k] !== undefined) {
-                    mutableStyleValues[key] = flat[k]
+                  //if (mutableStyleValues[key] !== undefined) {
+                    //throw new Error(
+                      //`Prism you mapped ${key} as a prop but the property is already defined`)
+                  //}
+                  if (isObject(v)) {
+                    mutableStyleValues[key] = mutableStyleValues[key] || {}
+                    for (let z in v) {
+                      if (flat[z] !== undefined) {
+                        mutableStyleValues[key][z] = flat[z]
+                      }
+                    }
                     delete flat[k]
+                  } else {
+                    if (flat[k] !== undefined) {
+                      mutableStyleValues[key] = flat[k]
+                      delete flat[k]
+                    }
                   }
                 }
               }
               computedStyle = options.flat ? flat : [flat]
-            }
+            //}
           }
 
           mutableStyleValues[fullAttrName] = computedStyle

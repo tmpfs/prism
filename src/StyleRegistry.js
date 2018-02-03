@@ -37,7 +37,12 @@ export default class StyleRegistry {
     )
 
     // Compile the raw styles
-    this.styleSheet = StyleSheet.create(this.styles)
+
+
+    // NOTE: cannot compile for invariants like textTransform
+    //this.styleSheet = StyleSheet.create(this.styles)
+
+    this.styleSheet = this.styles
   }
 
 
