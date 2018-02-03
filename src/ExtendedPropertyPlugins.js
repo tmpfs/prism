@@ -41,8 +41,16 @@ export default [
 
   // Text
   [
-    ({prop, props, state, util}) => {
-      const transformer = (s) => {
+    ({context, prop, props, state, util, options}) => {
+
+      // Inherited from the parent context
+      if (!prop && context) {
+        prop = context.text
+      } else {
+        prop = Object.assign({}, context.text, prop)
+      }
+
+      const transformer = (prop, s) => {
         switch(prop.transform) {
           case 'uppercase':
             s = s.toUpperCase()
@@ -59,26 +67,21 @@ export default [
 
       const it = (children) => {
         if (util.isString(children)) {
-          children = transformer(children)
-        } else if (Array.isArray(children)) {
-          children = React.Children.map(children, (child) => {
-            child.children = it(child.children)
-            return it(child)
-          })
+          //console.log(`Applying transform ${prop.transform} to "${children}"`)
+          children = transformer(prop, children)
         }
         return children
       }
 
-      if (prop && prop.transform) {
+      if (prop && prop.transform && options.supportsTextTransform) {
         let {children} = props
+        children = it(children)
         children = React.Children.map(children, (child) => {
-          //console.log(typeof(child))
           return it(child)
         })
-
         // NOTE: we push children on to the state
         // NOTE: the HOC will prefer children in state
-        // NOTE: to the original
+        // NOTE: to the original children in props
         state.children = children
       }
     },
