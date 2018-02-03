@@ -65,8 +65,8 @@ export default [
       let stateStyle = mapPropsToStyleState({...registry, props})
       const sheets = []
       if (stateStyle) {
-        if (typeof(stateStyle) === 'string') {
-          const stateClassName = ns.componentClassName + '.' + stateStyle
+        if (util.isString(stateStyle)) {
+          const stateClassName = ns.getStateClassName(stateStyle)
           stateStyle = styleSheet[stateClassName]
         }
         // May be undefined if styleSheet does not exist
