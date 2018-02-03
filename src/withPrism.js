@@ -3,6 +3,8 @@ import {StyleSheet} from 'react-native'
 
 import propTypes from './PropTypes'
 
+import Namespace from './Namespace'
+
 const getStyleSheet = (
   {
     context,
@@ -20,27 +22,32 @@ const getStyleSheet = (
   const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors} = registry
 
-  let childClassName
-  let className = options.className || Name
-  let componentClassName = namespace ? `${namespace}.${className}` : className
+  //let className = options.className || Name
+  //let componentClassName = namespace ? `${namespace}.${className}` : className
 
   // Passing style to nested child component
+  let childClassName
   if (attrName && attrName !== 'style') {
+    // TODO: use util
     childClassName = attrName.charAt(0).toUpperCase() +
       attrName.substr(1)
-    componentClassName += '.' + childClassName
+    //componentClassName += '.' + childClassName
   }
 
-  const ns = {
-    typeName: Name,
-    className,
-    componentClassName,
-    childClassName,
-    namespace
-  }
+  const ns = new Namespace(
+    {namespace, childClassName, className: options.className, typeName: Name})
+  console.log(ns.componentClassName)
 
-  const defaultClassStyle = styleSheet[componentClassName] ?
-    [styleSheet[componentClassName]] : []
+  //const ns = {
+    //typeName: Name,
+    //className,
+    //componentClassName,
+    //childClassName,
+    //namespace
+  //}
+
+  const defaultClassStyle = styleSheet[ns.componentClassName] ?
+    [styleSheet[ns.componentClassName]] : []
 
   let {defaultStyles} = options
 
@@ -53,14 +60,12 @@ const getStyleSheet = (
     defaultStyles = defaultClassStyle
   }
 
-  const invariant = registry.styleInvariants[componentClassName]
+  const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {
     const {value} = invariant
     const values = mutableStyleValues
     invariant.plugin({value, values, options, registry, ns})
   }
-
-  //let sheets = []
 
   // Add default styles
   sheets = sheets.concat(defaultStyles)
