@@ -156,7 +156,7 @@ static styleOptions = () => {
 }
 ```
 
-Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`.
+Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
 
 #### mapPropsToStyleObject
 

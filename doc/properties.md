@@ -135,13 +135,15 @@ Sets border radius style properties.
 
 When the `experimentalPlugins` option is given plugins that handle these properties are configured.
 
+Note that enabling these properties makes use of the `context` object to propagate values down to child components.
+
 #### font
 
 The `font` property provides a convenient shortcut for all the [Text Style Props][].
 
 Only `Text` and `TextInput` components can accept these style properties so components that wish to recieve them in their computed stylesheet must specify the `supportsText` option.
 
-Unlike the other extended properties this property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
+This property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
 
 A simple declaration might look like:
 
@@ -157,3 +159,29 @@ A simple declaration might look like:
 ```
 
 The shape of the font object is described in [PropTypes.js](/src/PropTypes.js).
+
+#### text
+
+The `text` property provides a means to apply text transformations to components.
+
+This property is distinct from the `font` property as it's behaviour is very different, instead of injecting values into a style sheet it *modifies a component's children*.
+
+It is an object with a single `transform` property:
+
+```javascript
+{transform: 'lowercase|uppercase|capitalize'}
+```
+
+Example usage:
+
+```html
+<List space={5} text={{transform: 'uppercase'}}>
+  <List space={10}>
+    <Paragraph>
+      This is some uppercase text <Label text={{transform: 'lowercase'}}>including some lowercase text in a Label</Label> in a paragraph. <Label text={{transform: 'capitalize'}}>We can capitalize too</Label>.
+    </Paragraph>
+  </List>
+</List>
+```
+
+Components can also support `textTransform` in their style sheets but note that for child components the property will not be `text` but `childNameText` so that components can direct text transformations accordingly.
