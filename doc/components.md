@@ -285,47 +285,6 @@ If you want to specify requirements for a component that does not have a namespa
 
 ### Initializing Styles
 
-#### defaultProps
-
-When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
-
-```javascript
-static defaultProps = {
-  style: {
-    backgroundColor: 'red'
-  },
-  labelStyle: {
-    color: 'white'
-  }
-}
-```
-
-#### defaultStyles
-
-After the `defaultProps` are evaluated components can use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
-
-```javascript
-static styleOptions = ({styleSheet}) => {
-  return {
-    defaultStyles: [styleSheet.textCenter]
-  }
-}
-```
-
-Or if you want to compile a style declaration:
-
-```javascript
-static styleOptions = ({compile}) => {
-  return {
-    defaultStyles: [compile{{textAlign: 'center'}}]
-  }
-}
-```
-
-The entire style registry is passed so you can access `colors` and `fonts` too if required.
-
-Use of `defaultStyles` is not advisable if you are designing components to be shared with others, use `defaultProps` or a component style registry instead.
-
 #### registry
 
 Component libraries of any size will find it easiest to supply an entire style registry which is merged with the user-supplied registry.
@@ -337,6 +296,21 @@ const registry = new StyleRegistry()
 static styleOptions = () => {
   return {
     registry: registry
+  }
+}
+```
+
+#### defaultProps
+
+When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
+
+```javascript
+static defaultProps = {
+  style: {
+    backgroundColor: 'red'
+  },
+  labelStyle: {
+    color: 'white'
   }
 }
 ```

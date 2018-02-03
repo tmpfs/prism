@@ -23,7 +23,9 @@
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
-  - [Default Styles](#default-styles)
+  - [Initializing Styles](#initializing-styles)
+    - [registry](#registry)
+    - [defaultProps](#defaultprops)
     - [Style Class Name](#style-class-name)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
@@ -406,7 +408,24 @@ const requirements = ({registry}) => {
 
 If you want to specify requirements for a component that does not have a namespace pass the empty string for the `namespace` argument.
 
-### Default Styles
+### Initializing Styles
+
+#### registry
+
+Component libraries of any size will find it easiest to supply an entire style registry which is merged with the user-supplied registry.
+
+```javascript
+import {StyleRegistry} from 'react-native-prism'
+const registry = new StyleRegistry()
+// Configure the colors, fonts and styles for your components
+static styleOptions = () => {
+  return {
+    registry: registry
+  }
+}
+```
+
+#### defaultProps
 
 When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
 
@@ -420,32 +439,6 @@ static defaultProps = {
   }
 }
 ```
-
-This is the preferred method for reusable component sets as it allows them to supply default styles without any knowledge of the style sheet declarations.
-
-After the `defaultProps` are evaluated components can use `defaultStyles` to extend the default style behaviour (looking up a style declaration by class name) and supply default styles that are applied *before* the class level style.
-
-```javascript
-static styleOptions = ({styleSheet}) => {
-  return {
-    defaultStyles: [styleSheet.textCenter]
-  }
-}
-```
-
-Or if you want to compile a style declaration:
-
-```javascript
-static styleOptions = ({compile}) => {
-  return {
-    defaultStyles: [compile{{textAlign: 'center'}}]
-  }
-}
-```
-
-The entire style registry is passed so you can access `colors` and `fonts` too if required.
-
-Use of `defaultStyles` is not advisable if you are designing components to be shared with others, use `defaultProps` instead.
 
 #### Style Class Name
 
@@ -467,19 +460,7 @@ Will resolve to a `Button` style sheet rather than the default `TouchButton`.
 
 Styles are much easier to change if we can refer to our custom colors by name.
 
-Components can declare their own color names by defining a `colors` map:
-
-```javascript
-static styleOptions = () => {
-  return {
-    colors: {
-      orange: '#ff3300'
-    }
-  }
-}
-```
-
-They are merged with the registry colors before the used-supplied colors so precedence is correct.
+Components can declare their own color names by defining a style registry in the component style options.
 
 The bundled plugins handle color name lookup but if you are writing your own plugins and want to support color name lookup for color values you need to test the `colors` map:
 
