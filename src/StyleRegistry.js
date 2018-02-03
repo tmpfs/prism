@@ -28,6 +28,7 @@ export default class StyleRegistry {
 
   addStyleSheet (styleSheet) {
     const {colors, fonts, colorNames} = this
+    // TODO: validate style sheet is a function
     // styleSheet should be a function
     this.styles = Object.assign(
       {},
