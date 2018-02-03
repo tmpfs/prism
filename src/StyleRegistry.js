@@ -1,13 +1,29 @@
 import {Platform, StyleSheet} from 'react-native'
 
+import util from './util'
+const {isFunction, isObject} = util
+
 export default class StyleRegistry {
   fonts = {}
   sizes = {}
   colors = {}
   colorNames = []
   styles = {}
-  styleSheet = null
+  styleSheet = {}
   styleInvariants = {}
+
+  static assign (...registries) {
+    const registry = new StyleRegistry()
+    registries.forEach((reg) => {
+      registry.addFonts(reg.fonts)
+      registry.addColors(reg.colors)
+      registry.addStyleSheet(reg.styles)
+
+      registry.sizes = Object.assign(registry.sizes, reg.sizes)
+      registry.styleInvariants = Object.assign(
+        registry.styleInvariants, reg.styleInvariants)
+    })
+  }
 
   mergeColors (colors) {
     this.colors = Object.assign({}, colors, this.colors)
@@ -30,10 +46,14 @@ export default class StyleRegistry {
     const {colors, fonts, colorNames} = this
     // TODO: validate style sheet is a function
     // styleSheet should be a function
-    this.styles = Object.assign(
-      {},
-      styleSheet({colors, fonts, colorNames})
-    )
+    if (isFunction(styleSheet)) {
+      this.styles = Object.assign(
+        {},
+        styleSheet({colors, fonts, colorNames})
+      )
+    } else if (isObject(styleSheet)) {
+      this.styles = styleSheet
+    }
   }
 
 

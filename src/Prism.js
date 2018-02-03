@@ -187,9 +187,17 @@ const registerComponent = (registry, definition, config) => {
     }
   }
 
-  if (isObject(options.colors)) {
-    registry.mergeColors(options.colors)
+  if ((options.registry instanceof StyleRegistry)) {
+    console.log('GOT COMPONENT REGISTRY CONFIGURATION')
+    console.log(options.registry)
+    // Merge component style registries
+    registry = StyleRegistry.assign(options.registry, registry)
   }
+
+  // TODO: merge style registry
+  //if (isObject(options.colors)) {
+    //registry.mergeColors(options.colors)
+  //}
 
   // Allow declaring mapPropsToStyle etc. as static on the Type
   mapPluginNames.forEach((name) => {
@@ -356,7 +364,7 @@ Prism.configure = (registry, config = {}) => {
   Prism.config.plugins = plugins
 
   if (!Array.isArray(Prism.config.plugins)) {
-    throw new Error('Prism: array expected for plugins list')
+    throw new Error('Prism array expected for plugins list')
   }
 
   // Components exported before the registry was configured
