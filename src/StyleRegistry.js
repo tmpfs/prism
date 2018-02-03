@@ -58,14 +58,12 @@ export default class StyleRegistry {
   // do not call this directly
   compile ({config}) {
     const {invariants} = config
-    //console.log('style registry compiling...')
     if (invariants) {
       for (let decl in this.styles) {
         for (let styleProp in this.styles[decl]) {
           invariants.forEach((invariant) => {
             if (styleProp === invariant.stylePropName) {
               const value = this.styles[decl][styleProp]
-              //console.log('FOUND STYLE INVARIANT: ' + value)
               this.styleInvariants[decl] = Object.assign({}, invariant, {value})
               // Must delete to avoid StyleSheet.create() type validation error
               delete this.styles[decl][styleProp]

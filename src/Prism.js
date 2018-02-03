@@ -60,11 +60,12 @@ const Configuration = {
   invariants: [
     {
       stylePropName: 'textTransform',
-      plugin: ({value, values}) => {
-        console.log('invariant plugin running: ' + value)
-        console.log('invariant plugin running: ' + values)
-        values.text = values.text || {}
-        values.text.transform = value
+      plugin: ({value, values, options}) => {
+        //console.log('invariant plugin running: ' + value)
+        //console.log('invariant plugin running: ' + values)
+        const propName = options.textTransformProp || 'text'
+        values[propName] = values[propName] || {}
+        values[propName].transform = value
       }
     }
   ]
