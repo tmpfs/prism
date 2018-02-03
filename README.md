@@ -17,6 +17,7 @@
   - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
+    - [mapStyleToProp](#mapstyletoprop)
     - [mapPropsToStyle](#mappropstostyle)
     - [mapPropsToStyleObject](#mappropstostyleobject)
   - [Property Type Validation](#property-type-validation)
@@ -72,7 +73,7 @@ Prism is a library that returns a HOC (Higher Order Component) which exposes acc
 
 It provides a simple yet flexible mechanism for mapping properties to styles and finding style declarations in the registry.
 
-For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques in ~1000 lines of code.
+For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques.
 
 ## Getting Started
 
@@ -217,9 +218,47 @@ static styleOptions = ({styleSheet}) => {
 }
 ```
 
+#### mapStyleToProp
+
+Use `mapStyleToProp` when you want to delete a style property from the computed style and assign it to a property.
+
+This is useful when a child component expects a property but it is better suited to being in a style declaration. For example, the RN `ActivityIndicator` component accepts a `tintColor` property and it cannot be assigned as a style.
+
+Assuming a style like:
+
+```css
+ActivityIndicator: {
+  tintColor: '#ff6600'
+}
+```
+
+To map the style to a property:
+
+```javascript
+  static styleOptions = () => {
+    return {
+      mapStyleToProp: {
+        tintColor: true
+      }
+    }
+  }
+```
+
+Your component will then receive a `tintColor` property from the style declaration and the declaration will be removed.
+
+If you want to map to an alternative property name use a string value:
+
+```javascript
+mapStyleToProp: {
+  tintColor: 'highlightColor'
+}
+```
+
+The fact that the style declaration is removed is very useful for dealing with *invariants*. The RN `StyleSheet` will validate your style declarations so this feature allows you to declare non-standard style declaration names (eg: `textTransform`) and have your style sheets validate correctly.
+
 #### mapPropsToStyle
 
-If none of the above options suit your purposes the `mapPropsToStyle` option provides a low-level API for adding styles to the computed style.
+Use `mapPropsToStyle` when you want a property to trigger inclusion of styles into the final computed style. Each object key maps to a property name and the corresponding function is called when the property is defined on the component.
 
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
