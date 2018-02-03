@@ -8,7 +8,7 @@ export default [
 
   // Text
   [
-    'mapTextProp',
+    //'mapTextProp',
     ({context, prop, props, state, util, options}) => {
 
       // Inherited from the parent context
@@ -58,7 +58,7 @@ export default [
 
   // Font
   [
-    'mapFontProp',
+    //'mapFontProp',
     ({context, prop, styleSheet, colors, sizes, config, options}) => {
       //if (options.supportsText && (prop || (context && context.font))) {
       if (options.supportsText) {
