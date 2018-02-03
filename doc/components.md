@@ -306,6 +306,20 @@ Will resolve to a `Button` style sheet rather than the default `TouchButton`.
 
 Styles are much easier to change if we can refer to our custom colors by name.
 
+Components can declare their own color names by defining a `colors` map:
+
+```javascript
+static styleOptions = () => {
+  return {
+    colors: {
+      orange: '#ff3300'
+    }
+  }
+}
+```
+
+They are merged with the registry colors before the used-supplied colors so precedence is correct.
+
 The bundled plugins handle color name lookup but if you are writing your own plugins and want to support color name lookup for color values you need to test the `colors` map:
 
 ```javascript
