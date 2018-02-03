@@ -2,8 +2,11 @@ import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
 
 import propTypes from './PropTypes'
-
 import Namespace from './Namespace'
+
+import util from './util'
+
+const {ucfirst} = util
 
 const getStyleSheet = (
   {
@@ -25,28 +28,17 @@ const getStyleSheet = (
   // Passing style to nested child component
   let childClassName
   if (attrName && attrName !== 'style') {
+    childClassName = ucfirst(attrName)
     // TODO: use util
-    childClassName = attrName.charAt(0).toUpperCase() +
-      attrName.substr(1)
+    //childClassName = attrName.charAt(0).toUpperCase() +
+      //attrName.substr(1)
   }
 
   const ns = new Namespace(
     {namespace, childClassName, className: options.className, typeName: Name})
-  //console.log(ns.componentClassName)
 
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
-
-  //let {defaultStyles} = options
-
-  //if (Array.isArray(defaultStyles)) {
-    //defaultStyles = defaultStyles.concat(defaultClassStyle)
-  //}
-
-  //// Use default component class style
-  //if (!defaultStyles) {
-    //defaultStyles = defaultClassStyle
-  //}
 
   const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {
