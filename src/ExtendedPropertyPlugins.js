@@ -41,7 +41,7 @@ export default [
   // Text
   [
     ({prop, props, state, util}) => {
-      const transformer = (prop, s) => {
+      const transformer = (s) => {
         switch(prop.transform) {
           case 'uppercase':
             s = s.toUpperCase()
@@ -55,11 +55,13 @@ export default [
         }
         return s
       }
+
       const it = (children) => {
-        if (typeof(children) === 'string') {
-          children = transformer(prop, children)
+        if (util.isString(children)) {
+          children = transformer(children)
         } else if (Array.isArray(children)) {
           children = children.map((child) => {
+            child.children = it(child.children)
             return it(child)
           })
         }
@@ -68,7 +70,10 @@ export default [
 
       if (prop && prop.transform) {
         let {children} = props
-        children = it(children.slice())
+        if (util.isArray(children)) {
+          children = children.slice()
+        }
+        children = it(children)
         // NOTE: we push children on to the state
         // NOTE: the HOC will prefer children in state
         // NOTE: to the original
