@@ -1,7 +1,7 @@
 import {Platform, StyleSheet} from 'react-native'
 
 import util from './util'
-const {isFunction, isObject} = util
+const {isFunction, isObject, isString} = util
 
 export default class StyleRegistry {
   fonts = {}
@@ -38,7 +38,11 @@ export default class StyleRegistry {
   addFonts (map) {
     for (let k in map) {
       const fn = map[k]
-      this.fonts[k] = fn(Platform.OS)
+      if (isFunction(fn)) {
+        this.fonts[k] = fn(Platform.OS)
+      } else if(isString(fn)) {
+        this.fonts[k] = fn
+      }
     }
   }
 
