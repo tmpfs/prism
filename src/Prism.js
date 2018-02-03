@@ -201,10 +201,6 @@ const registerComponent = (registry, definition, config) => {
     }
   })
 
-  const availablePropertyNames = config.plugins
-    .filter((plugin) => plugin.propType)
-    .map((plugin) => plugin.name)
-
   let {mapPropsToComponent} = options
   // User defined style property names
   if (mapPropsToComponent !== undefined) {
@@ -212,11 +208,11 @@ const registerComponent = (registry, definition, config) => {
       mapPropsToComponent = mapPropsToComponent(registry)
     }
 
-    const assignedPropertyNames = Object.keys(mapPropsToComponent)
-      .reduce((list, propName) => {
-        list = list.concat(mapPropsToComponent[propName])
-        return list
-      }, [])
+    //const assignedPropertyNames = Object.keys(mapPropsToComponent)
+      //.reduce((list, propName) => {
+        //list = list.concat(mapPropsToComponent[propName])
+        //return list
+      //}, [])
 
     if (mapPropsToComponent.style !== undefined) {
       throw new Error(
@@ -229,14 +225,16 @@ const registerComponent = (registry, definition, config) => {
       //.filter((propName) => !~assignedPropertyNames.indexOf(propName))
   }
 
+  //console.log(availablePropertyNames)
+
   if (!mapPropsToComponent) {
     mapPropsToComponent = {}
   }
 
   // Default style property support
-  mapPropsToComponent.style = true
+  //mapPropsToComponent.style = true
   options.mapPropsToComponent = mapPropsToComponent
-  options.stylePropertyNames = Object.keys(mapPropsToComponent)
+  options.stylePropertyNames = ['style'].concat(Object.keys(mapPropsToComponent))
 
   const globalPlugins = plugins
     .filter((plugin) => {
@@ -360,6 +358,18 @@ Prism.configure = (registry, config = {}) => {
       }
     }
   })
+
+  const availablePropertyNames = []
+  const availablePropertyPlugins = {}
+  config.plugins.forEach((plugin) => {
+    if (!plugin.isGlobal && plugin.propType) {
+      availablePropertyNames.push(plugin.name)
+      availablePropertyPlugins[plugin.name] = plugin
+    }
+  })
+
+  config.availablePropertyNames = availablePropertyNames
+  config.availablePropertyPlugins = availablePropertyPlugins
 
   registry.compile({config})
 

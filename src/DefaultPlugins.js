@@ -34,53 +34,30 @@ export default [
       const source = mapPropsToComponent[attrName]
       let target = mutableStyleValues[fullAttrName]
       //console.log('mapStyleToComponent CALLED!: ' + attrName)
-      //console.log(source)
-      //console.log(target)
-      if (Array.isArray(target)) {
-        target = StyleSheet.flatten(target)
-      }
-      if (Array.isArray(source)) {
-        source.forEach((val) => {
-          //console.log(val)
-          if (isString(val) && props[val] !== undefined) {
-            //console.log('setting target: ' + val)
-            //console.log('setting target: ' + props[val])
-            target[val] = props[val]
-          }
-        })
+
+      // This is only for child components
+      if (attrName !== 'style') {
+        //console.log(source)
+        //console.log(target)
+        if (Array.isArray(target)) {
+          target = StyleSheet.flatten(target)
+        }
+        if (Array.isArray(source)) {
+          source.forEach((val) => {
+            //console.log(val)
+            if (isString(val) && props[val] !== undefined) {
+              //console.log('setting target: ' + val)
+              //console.log('setting target: ' + props[val])
+              target[val] = props[val]
+            }
+          })
+        }
+
+        const res = Array.isArray(target) ? target : [target]
+        res.overwrite = true
+        return res
       }
 
-      const res = Array.isArray(target) ? target : [target]
-      res.overwrite = true
-      return res
-      //console.log(fullAttrName)
-      //const {mapStyleToProp} = options
-      //const {isString} = util
-      //if (mapStyleToProp) {
-        //const flat = StyleSheet.flatten(sheets)
-        //let k
-        //let v
-        //let key
-        //for (k in mapStyleToProp) {
-          //key = k
-          //v = mapStyleToProp[k]
-          //if (v) {
-            //// Rewrite prop name
-            //if (isString(v)) {
-              //key = v
-            //}
-            //if (flat[k] !== undefined) {
-              //mutableStyleValues[key] = flat[k]
-            //}
-          //}
-          //// Must always remove the style prop
-          //// likely an invariant
-          //delete flat[k]
-        //}
-        //const res = [flat]
-        //res.overwrite = true
-        //return res
-      //}
     }
   ],
 

@@ -90,21 +90,40 @@ const getStyleSheet = (
     })
   }
 
-  plugins.property.forEach((plugin) => {
-    const propNames = Object.keys(plugin.propType)
-    for (let propName in propNames) {
-      if ((props && props[propName] !== undefined)
-          || (context && context[propName] !== undefined)) {
-        pluginOptions.plugin = plugin
-        pluginOptions.propName = propName
-        pluginOptions.prop = props[propName]
-        const style = plugin.func(pluginOptions)
-        if (style) {
-          sheets = sheets.concat(style)
-        }
+  console.log(config.availablePropertyNames)
+  const keys = config.availablePropertyNames
+  const map = config.availablePropertyPlugins
+
+  //const {keys, map} = config.propertyPlugins
+  keys.forEach((propName) => {
+    if ((props && props[propName] !== undefined)
+        || (context && context[propName] !== undefined)) {
+      const plugin = map[propName]
+      pluginOptions.plugin = plugin
+      pluginOptions.propName = propName
+      pluginOptions.prop = props[propName]
+      const style = plugin.func(pluginOptions)
+      if (style) {
+        sheets = sheets.concat(style)
       }
     }
   })
+
+  //plugins.property.forEach((plugin) => {
+    //const propNames = Object.keys(plugin.propType)
+    //for (let propName in propNames) {
+      //if ((props && props[propName] !== undefined)
+          //|| (context && context[propName] !== undefined)) {
+        //pluginOptions.plugin = plugin
+        //pluginOptions.propName = propName
+        //pluginOptions.prop = props[propName]
+        //const style = plugin.func(pluginOptions)
+        //if (style) {
+          //sheets = sheets.concat(style)
+        //}
+      //}
+    //}
+  //})
 
     //if ((props && props[propName] !== undefined)
         //|| (context && context[propName] !== undefined)) {
@@ -181,6 +200,7 @@ const withPrism = (Stylable, definition) => {
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
       let callGlobals = true
+      console.log(stylePropertyNames)
       stylePropertyNames.forEach((attrName) => {
         if (testFunc({props, attrName})) {
           const fullAttrName = getStylePropertyName(attrName)
@@ -205,7 +225,7 @@ const withPrism = (Stylable, definition) => {
             })
 
           mutableStyleValues[fullAttrName] = computedStyle
-          callGlobals = false
+          //callGlobals = false
         }
       })
       this.setState({styleValues: mutableStyleValues})
