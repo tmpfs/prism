@@ -1,3 +1,4 @@
+import React from 'react'
 import propTypes from './PropTypes'
 
 const boxModel = (key, value) => {
@@ -60,7 +61,7 @@ export default [
         if (util.isString(children)) {
           children = transformer(children)
         } else if (Array.isArray(children)) {
-          children = children.map((child) => {
+          children = React.Children.map(children, (child) => {
             child.children = it(child.children)
             return it(child)
           })
@@ -70,10 +71,11 @@ export default [
 
       if (prop && prop.transform) {
         let {children} = props
-        if (util.isArray(children)) {
-          children = children.slice()
-        }
-        children = it(children)
+        children = React.Children.map(children, (child) => {
+          //console.log(typeof(child))
+          return it(child)
+        })
+
         // NOTE: we push children on to the state
         // NOTE: the HOC will prefer children in state
         // NOTE: to the original
