@@ -34,19 +34,19 @@ const getStyleSheet = (
     {namespace, childClassName, className: options.className, typeName: Name})
   //console.log(ns.componentClassName)
 
-  const defaultClassStyle = styleSheet[ns.componentClassName] ?
+  const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
 
-  let {defaultStyles} = options
+  //let {defaultStyles} = options
 
-  if (Array.isArray(defaultStyles)) {
-    defaultStyles = defaultStyles.concat(defaultClassStyle)
-  }
+  //if (Array.isArray(defaultStyles)) {
+    //defaultStyles = defaultStyles.concat(defaultClassStyle)
+  //}
 
-  // Use default component class style
-  if (!defaultStyles) {
-    defaultStyles = defaultClassStyle
-  }
+  //// Use default component class style
+  //if (!defaultStyles) {
+    //defaultStyles = defaultClassStyle
+  //}
 
   const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {

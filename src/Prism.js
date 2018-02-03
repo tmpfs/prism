@@ -178,13 +178,7 @@ const registerComponent = (registry, definition, config) => {
 
   let options = {}
   if (styleOptions) {
-
     options = styleOptions({...registry, compile})
-    const {defaultStyles} = options
-    if (defaultStyles && !Array.isArray(defaultStyles)) {
-      throw new Error(
-        'Prism default styles should be an array of objects')
-    }
   }
 
   // Merge component-specific style registries
