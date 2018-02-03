@@ -47,10 +47,10 @@ export default [
             }
 
             // Prevent overwriting, style, childStyle etc.
-            if (mutableStyleValues[key] !== undefined) {
-              throw new Error(
-                `Prism you mapped ${key} as a prop but the property is already defined`)
-            }
+            //if (mutableStyleValues[key] !== undefined) {
+              //throw new Error(
+                //`Prism you mapped ${key} as a prop but the property is already defined`)
+            //}
 
             if (isObject(v)) {
               mutableStyleValues[key] = mutableStyleValues[key] || {}
