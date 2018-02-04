@@ -70,6 +70,32 @@ When an array is given it takes the form `[width, color]`.
 
 Note that not all RN components will set borders as expected when different widths are given for each side, if you experience problems with this syntax ensure the style is applied to a `View` rather than `Image` etc.
 
+#### padding
+
+`Number | Object | Array`
+
+Sets padding properties, a number sets all edges to be equal.
+
+Arrays are a shorthand for setting vertical and horizontal values and take the form: `[vertical, horizontal]`.
+
+```javascript
+{top: 0, right: 0, bottom: 0, top:0}
+[5,10]
+```
+
+#### margin
+
+`Number | Object | Array`
+
+Sets margin properties, a number sets all edges to be equal.
+
+Arrays are a shorthand for setting vertical and horizontal values and take the form: `[vertical, horizontal]`.
+
+```javascript
+{top: 0, right: 0, bottom: 0, top:0}
+[5,10]
+```
+
 #### flex
 
 `Number | Boolean | Object`
@@ -105,32 +131,6 @@ Set the `flexWrap` style property.
 `Enum<String> (center|start|end|between|around)`
 
 Set the `justifyContent` style property, note that the `flex-` prefixes are omitted.
-
-#### padding
-
-`Number | Object | Array`
-
-Sets padding properties, a number sets all edges to be equal.
-
-Arrays are a shorthand for setting vertical and horizontal values and take the form: `[vertical, horizontal]`.
-
-```javascript
-{top: 0, right: 0, bottom: 0, top:0}
-[5,10]
-```
-
-#### margin
-
-`Number | Object | Array`
-
-Sets margin properties, a number sets all edges to be equal.
-
-Arrays are a shorthand for setting vertical and horizontal values and take the form: `[vertical, horizontal]`.
-
-```javascript
-{top: 0, right: 0, bottom: 0, top:0}
-[5,10]
-```
 
 #### position
 
