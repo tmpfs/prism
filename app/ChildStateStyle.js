@@ -9,7 +9,7 @@ class ChildStateStyle extends Component {
 
   static styleOptions = () => {
     return {
-      mapPropsToComponent: {
+      mapStyleToComponent: {
         titleStyle: ['color'],
         numberStyle: ['color']
       },

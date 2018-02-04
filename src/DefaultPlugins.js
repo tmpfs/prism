@@ -42,7 +42,7 @@ const mapState = ({props, options, registry, util, ns, attrName}) => {
 export default [
 
   [
-    'mapPropsToComponent',
+    'mapStyleToComponent',
     (pluginOptions) => {
       const {
         props,
@@ -53,7 +53,7 @@ export default [
         styleSheet,
         childComponentNames,
         mutableStyleValues} = pluginOptions
-      const {mapPropsToComponent} = options
+      const {mapStyleToComponent} = options
       const {Type, initialStyles} = definition
       const target = {}
 
@@ -82,7 +82,7 @@ export default [
 
         // TODO: handle state!!?
 
-        const source = mapPropsToComponent[attrName]
+        const source = mapStyleToComponent[attrName]
         const target = {}
         let matched = false
         // NOTE: child component style objects are initialized in PrismComponent

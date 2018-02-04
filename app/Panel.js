@@ -6,7 +6,7 @@ import Label from './SimpleLabel'
 
 class Panel extends Component {
 
-  static mapPropsToComponent = {
+  static mapStyleToComponent = {
     //headerStyle: ['background'],
     //bodyStyle: ['background'],
     labelStyle: [],

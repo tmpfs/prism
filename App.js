@@ -70,7 +70,7 @@ export default class App extends Component<{}> {
           label='Composite label example'
           footerColor='purple'
           footer='Footer text with property routing and rewriting footerColor -> footerStyle.color'>
-          This is some body text for the composite label which should be red because we assigned it to the parent component which routes the property to bodyStyle. The header is styled green from a style sheet declaration and the footer uses a mapPropsToComponent to map footerColor -> footerStyle.color.
+          This is some body text for the composite label which should be red because we assigned it to the parent component which routes the property to bodyStyle. The header is styled green from a style sheet declaration and the footer uses a mapStyleToComponent to map footerColor -> footerStyle.color.
         </CompositeLabel>
         <View justify='center' padding={15}>
           <Activity />

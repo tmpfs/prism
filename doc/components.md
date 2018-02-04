@@ -91,16 +91,16 @@ static mapPropsToStyleState = ({props}) => {
 
 To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:medium` or `Notice:large`.
 
-#### mapPropsToComponent
+#### mapStyleToComponent
 
-When you start creating composite components it becomes very useful to route properties to style objects for the child components, use `mapPropsToComponent` to define styles for these child components.
+When you start creating composite components it becomes very useful to route properties to style objects for the child components, use `mapStyleToComponent` to define styles for these child components.
 
 Take the case of a `Panel` component with child components for the header and body.
 
 You can declare child computed styles with:
 
 ```javascript
-static mapPropsToComponent = {
+static mapStyleToComponent = {
   headerStyle: [],
   bodyStyle: []
 }
@@ -151,7 +151,7 @@ The immediate benefit is that you can now declare styles using dot notation for 
 But you can also use this functionality to route properties into the child style object:
 
 ```javascript
-static mapPropsToComponent = {
+static mapStyleToComponent = {
   headerStyle: [{space: 'marginBottom'}],
   bodyStyle: ['background']
 }
@@ -166,14 +166,14 @@ static mapPropsToComponent = {
 Often you want to pass a `color` property to a component which is not a text component and route it to the components that handle text:
 
 ```javascript
-static mapPropsToComponent = {
+static mapStyleToComponent = {
   // Maps color -> labelStyle.color and space -> labelStyle.marginTop
   labelStyle: ['color', {space: 'marginTop'}],
   imageStyle: ['width', 'height']
 }
 ```
 
-When using `mapPropsToComponent` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
+When using `mapStyleToComponent` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
 
 For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
@@ -306,7 +306,7 @@ Users of the library can then selectively override style declarations where nece
 When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
 
 ```javascript
-static mapPropsToComponent = {
+static mapStyleToComponent = {
   labelStyle: []
 }
 static defaultProps = {
@@ -319,7 +319,7 @@ static defaultProps = {
 }
 ```
 
-Note that for child default styles to be recognised you need to specify the child component style with `mapPropsToComponent`.
+Note that for child default styles to be recognised you need to specify the child component style with `mapStyleToComponent`.
 
 There is a special case here that in order for style inheritance to function correctly styles in `defaultProps` are collated and then **deleted**, you should not reference them at runtime.
 

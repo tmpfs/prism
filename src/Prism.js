@@ -79,7 +79,7 @@ const obj = {
 }
 
 const mapPluginTypeTests = {
-  mapPropsToComponent: fnOrObj,
+  mapStyleToComponent: fnOrObj,
   mapPropsToStyleState: func,
   mapPropsToStyle: fnOrObj,
   mapStyleToProp: obj
@@ -201,29 +201,29 @@ const registerComponent = (registry, definition, config) => {
     }
   })
 
-  let {mapPropsToComponent} = options
+  let {mapStyleToComponent} = options
   // User defined style property names
-  if (mapPropsToComponent !== undefined) {
-    if (util.isFunction(mapPropsToComponent)) {
-      mapPropsToComponent = mapPropsToComponent(registry)
+  if (mapStyleToComponent !== undefined) {
+    if (util.isFunction(mapStyleToComponent)) {
+      mapStyleToComponent = mapStyleToComponent(registry)
     }
 
-    if (mapPropsToComponent.style !== undefined) {
+    if (mapStyleToComponent.style !== undefined) {
       throw new Error(
-        `Prism do not configure mappings for "style" in mapPropsToComponent. ` +
+        `Prism do not configure mappings for "style" in mapStyleToComponent. ` +
         `It is an anti-pattern, use mapPropsToStyle instead.`)
     }
 
   }
 
-  if (!mapPropsToComponent) {
-    mapPropsToComponent = {}
+  if (!mapStyleToComponent) {
+    mapStyleToComponent = {}
   }
 
   // Default style property support
-  //mapPropsToComponent.style = true
-  options.mapPropsToComponent = mapPropsToComponent
-  options.childComponentNames = Object.keys(mapPropsToComponent)
+  //mapStyleToComponent.style = true
+  options.mapStyleToComponent = mapStyleToComponent
+  options.childComponentNames = Object.keys(mapStyleToComponent)
 
   const globalPlugins = plugins
     .filter((plugin) => {

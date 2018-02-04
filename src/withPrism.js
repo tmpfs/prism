@@ -52,10 +52,10 @@ const computeStyles = (
   // Build the map of child properties that we should put
   // into extractedStyles so  that properties assigned to child
   // components are not applied to the parent style
-  const {mapPropsToComponent} = options
-  const mappedChildProperties = Object.keys(mapPropsToComponent)
+  const {mapStyleToComponent} = options
+  const mappedChildProperties = Object.keys(mapStyleToComponent)
     .reduce((list, childName) => {
-        const v = mapPropsToComponent[childName]
+        const v = mapStyleToComponent[childName]
         if (Array.isArray(v)) {
           const names = v.reduce((propNames, nm) => {
             const seen = (nm) => {
@@ -219,7 +219,7 @@ const withPrism = (Stylable, definition) => {
 
     processStylePlugins (props, testFunc = () => true) {
       const {registry, options, Type} = definition
-      const {childComponentNames, mapPropsToComponent} = options
+      const {childComponentNames, mapStyleToComponent} = options
       const {plugins} = options
       const {styleValues} = this.state
       const {state, context} = this
