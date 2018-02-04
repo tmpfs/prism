@@ -264,40 +264,13 @@ const withPrism = (Stylable, definition) => {
       this.setState({styleValues: mutableStyleValues})
     }
 
-    //static childContextTypes = {
-      //font: propTypes.fontPropType,
-      //text: propTypes.textPropType
-    //}
-
-    //static contextTypes = {
-      //font: propTypes.fontPropType,
-      //text: propTypes.textPropType
-    //}
-
-    //getChildContext () {
-      //const {options} = definition
-      //const {props} = this
-      //const context = {}
-      //// NOTE: we only propagate to children
-      //// NOTE: until a component that supportsText
-      //// NOTE: is found
-      //if (!options.supportsText) {
-        //if (props.font) {
-          //context.font = props.font
-        //}
-        //if (props.text) {
-          //context.text = props.text
-        //}
-      //}
-      //return context
-    //}
-
     // So that changes to style properties are
     // reflected in the stylable component
     componentWillReceiveProps (props) {
       this.processStylePlugins(props, ({attrName}) => {
         // TODO: proper invalidation
-        return props[attrName] && this.props[attrName]
+        //return props[attrName] && this.props[attrName]
+        return true
       })
     }
 
@@ -327,8 +300,6 @@ const withPrism = (Stylable, definition) => {
 
   definition.Type = Stylable
   definition.NewType = PrismComponent
-
-  //withContext(definition)
 
   return PrismComponent
 }
