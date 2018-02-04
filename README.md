@@ -17,10 +17,10 @@
   - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
-    - [mapPropsToStyleState](#mappropstostylestate)
-    - [mapStyleToProp](#mapstyletoprop)
     - [mapPropsToStyle](#mappropstostyle)
+    - [mapPropsToStyleState](#mappropstostylestate)
     - [mapPropsToStyleObject](#mappropstostyleobject)
+    - [mapStyleToProp](#mapstyletoprop)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
@@ -254,77 +254,6 @@ static styleOptions = ({styleSheet}) => {
 }
 ```
 
-#### mapPropsToStyleState
-
-`Function`
-
-Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaraion name using the familiar `a:hover` syntax.
-
-For a component called `Notice`:
-
-```javascript
-static styleOptions = () => {
-  return {
-    mapPropsToStyleState: ({props}) => {
-      if (props.error) {
-        return 'error'
-      }
-    }
-  }
-}
-```
-
-Would result in including the class declaration lookup for `Notice:error` (the `Notice` style is also included for property inheritance):
-
-```javascript
-{
-  'Notice:error': {
-    backgroundColor: 'red',
-    color: 'white'
-  }
-}
-```
-
-You can also return a style object, array of style objects or a compiled style declaration.
-
-#### mapStyleToProp
-
-Use `mapStyleToProp` when you want to delete a style property from the computed style and assign it to a property.
-
-This is useful when a child component expects a property but it is better suited to being in a style declaration. For example, the RN `ActivityIndicator` component accepts a `tintColor` property and it cannot be assigned as a style.
-
-Assuming a style like:
-
-```css
-ActivityIndicator: {
-  tintColor: '#ff6600'
-}
-```
-
-To map the style to a property:
-
-```javascript
-  static styleOptions = () => {
-    return {
-      mapStyleToProp: {
-        tintColor: true
-      }
-    }
-  }
-```
-
-Your component will then receive a `tintColor` property from the style declaration and the declaration will be removed.
-
-If you want to map to an alternative property name use a string value:
-
-```javascript
-mapStyleToProp: {
-  tintColor: 'highlightColor'
-}
-```
-
-The fact that the style declaration is removed is very useful for dealing with *invariants*. The RN `StyleSheet` will validate your style declarations so this feature allows you to declare non-standard style declaration names (eg: `textTransform`) and have your style sheets validate correctly.
-
 #### mapPropsToStyle
 
 Use `mapPropsToStyle` when you want a property to trigger inclusion of styles into the final computed style. Each object key maps to a property name and the corresponding function is called when the property is defined on the component.
@@ -348,6 +277,45 @@ static styleOptions = () => {
 ```
 
 Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
+
+#### mapPropsToStyleState
+
+Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaraion name using the familiar `a:hover` syntax.
+
+For a component called `Notice`:
+
+```javascript
+static mapPropsToStyleState = ({props}) => {
+  if (props.error) {
+    return 'error'
+  }
+}
+```
+
+Would result in including the class declaration lookup for `Notice:error` (the `Notice` style is also included for property inheritance):
+
+```javascript
+{
+  'Notice:error': {
+    backgroundColor: 'red',
+    color: 'white'
+  }
+}
+```
+
+You can also return a style object, array of style objects or a compiled style declaration.
+
+This can be an easy way to trigger style variations that are resolved from the style sheet based on a property value. For example, if you have a `size` property that accepts `small|medium|large` you can do:
+
+```javascript
+static mapPropsToStyleState = ({props}) => {
+  if (props.size) {
+    return props.size
+  }
+}
+```
+
+To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:medium` or `Notice:large`.
 
 #### mapPropsToStyleObject
 
@@ -411,6 +379,44 @@ export default ({colors, fonts}) => {
 The child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
 If the component is namespaced use the fully qualified name, eg: `com.fika.ImageLabel.Label`.
+
+#### mapStyleToProp
+
+Use `mapStyleToProp` when you want to delete a style property from the computed style and assign it to a property.
+
+This is useful when a child component expects a property but it is better suited to being in a style declaration. For example, the RN `ActivityIndicator` component accepts a `tintColor` property and it cannot be assigned as a style.
+
+Assuming a style like:
+
+```css
+ActivityIndicator: {
+  tintColor: '#ff6600'
+}
+```
+
+To map the style to a property:
+
+```javascript
+  static styleOptions = () => {
+    return {
+      mapStyleToProp: {
+        tintColor: true
+      }
+    }
+  }
+```
+
+Your component will then receive a `tintColor` property from the style declaration and the declaration will be removed.
+
+If you want to map to an alternative property name use a string value:
+
+```javascript
+mapStyleToProp: {
+  tintColor: 'highlightColor'
+}
+```
+
+The fact that the style declaration is removed is very useful for dealing with *invariants*. The RN `StyleSheet` will validate your style declarations so this feature allows you to declare non-standard style declaration names (eg: `textTransform`) and have your style sheets validate correctly.
 
 ### Property Type Validation
 

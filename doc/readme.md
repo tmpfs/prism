@@ -25,6 +25,7 @@ It provides a simple yet flexible mechanism for mapping properties to styles and
 
 For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques that will leave your JSX clean and serene allowing you to more easily focus on your application's state and logic.
 
+<? @include getting-started.md ?>
 <? @include components.md ?>
 <? @include configuration.md ?>
 <? @include plugins.md ?>
