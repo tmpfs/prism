@@ -231,15 +231,15 @@ If you need it the `Prism.propTypes` field exposes the system property types.
 The `Prism` function accepts a second argument which can be used to specify a namespace for your component. This is useful (and recommended) when designing reusable component sets.
 
 ```javascript
-export default Prism(Label, 'com.fika.text')
+export default Prism(Label, 'com.prism.ui')
 ```
 
-Now the default component style declaration name is `com.fika.text.Label` and a consumer needs to declare the style using the fully qualified name:
+Now the default component style declaration name is `com.prism.ui.Label` and a consumer needs to declare the style using the fully qualified name:
 
 ```javascript
 export default ({colors, fonts}) => {
   return {
-    'com.fika.text.Label': {
+    'com.prism.ui.Label': {
       color: colors.orange
     }
   }

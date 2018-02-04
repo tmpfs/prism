@@ -1,22 +1,21 @@
 ## Cascade
 
-It is useful to know the order in which styles are computed.
+It can be useful to know some of the internals of how styles are computed.
+
+Generally speaking these are the actions taken:
 
 1. Default styles are applied.
 2. Global plugins are executed.
 3. Property plugins are executed.
-4. Inline styles are applied.
+4. Child component styles are computed.
+5. Inline styles are applied.
 
-Default styles start with any values in `defaultProps` followed by an array specified using `defaultStyles` and then a style declaration inferred using the component class name, eg: `Label`.
+Default styles start with any values in [defaultProps](#defaultprops) followed by a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
 
-If the component is namespaced it is prefixed with the namespace and a period, eg: `com.fika.text.Label`.
+At this point, global plugins that handle [mapping properties to styles](mapping-properties-to-styles) are executed.
 
-If the component is using [mapPropsToStyleObject](#mapPropsToStyleObject) and the target property is not the default `style` property then a child component class name is inferred and appended, eg: `com.fika.ImageLabel.Label`.
+Then the property plugins which handle the extended and experimental properties are executed as well as any custom property plugins.
 
-If no style declaration matches the computed class name no action is taken.
-
-Global plugins in the default configuration handle the `className` property first before processing plugins that map properties to styles, so your component properties overwrite those in style declarations referenced by `className`.
-
-Property plugins enabled with the `extendedProperties` option (or custom plugins) are executed next so they override property mappings and `className`.
+Subsequently the [mapStyleToComponent](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
 
 Finally any styles given in the `style` property take precedence.
