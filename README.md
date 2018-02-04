@@ -757,9 +757,7 @@ Assign stylesheets to the component. When a string is given separate stylesheet 
 
 ### Extended Style Properties
 
-As a convenience the `extendedProperties` allow for rapidly mocking layouts with a variety of convenient shortcuts for common style properties.
-
-Enable the `extendedProperties` option to use these properties.
+Extended properties allow for rapidly mocking layouts with a variety of convenient shortcuts for common style properties. Enable the `extendedProperties` option to use these properties.
 
 Some extended properties require a component *opt-in* using `styleOptions` for the style to be applied, for example to receive the `color` property:
 
@@ -908,19 +906,17 @@ Pass the `height` property into the computed style, requires the `supportsDimens
 
 ### Experimental Properties
 
-When the `experimentalPlugins` option is given plugins that handle these properties are configured.
+When the `experimentalPlugins` option is given these properties are configured.
 
-These properties are considered experimental as they make use of `context` to propagate values to child components and the behaviour is undefined when components wrapped by `Prism()` make use of the `context`.
+They are considered experimental due to use of `context` to propagate values to child components and the behaviour is undefined when components wrapped by `Prism()` make use of the `context`.
 
 #### font
 
-The `font` property provides a convenient shortcut for all the [Text Style Props][].
+The `font` property provides a convenient shortcut for all the [Text Style Props][] and can be useful if you have a lot of inline text styling.
 
-Only `Text` and `TextInput` components can accept these style properties so components that wish to recieve them in their computed stylesheet must specify the `supportsText` option.
+Only `Text` and `TextInput` components can accept these style properties so components that wish to receive them in their computed stylesheet must specify the `supportsText` option.
 
-This property is propagated via the context which allows us to declare text styles on parent elements that do not support text and override them in child components.
-
-A simple declaration might look like:
+An example using [Prism Components][]:
 
 ```html
 <Layout font={{size: 'large', color: 'red'}}>
@@ -937,7 +933,7 @@ The shape of the font object is described in [PropTypes.js](https://github.com/f
 
 #### text
 
-The `text` property provides a means to apply text transformations to components.
+The `text` property provides a means to apply text transformations to components, it requires the `supportsTextTransform` flag on receiving components.
 
 This property is distinct from the `font` property as it's behaviour is very different, instead of injecting values into a style sheet it *modifies a component's children*.
 
