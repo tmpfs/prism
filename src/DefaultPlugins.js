@@ -8,25 +8,6 @@ const {isObject, isString, getStylePropertyName} = util
 
 export default [
 
-  // Support for className
-  [
-    ({prop, styleSheet}) => {
-      const className = prop
-      const find = (list) => {
-        return list
-          .filter((nm) => styleSheet.hasOwnProperty(nm))
-          .map((nm) => styleSheet[nm])
-      }
-
-      if (Array.isArray(className)) {
-        return find(className)
-      }
-
-      return find(className.split(/\s+/))
-    },
-    {className: propTypes.className}
-  ],
-
   [
     'mapPropsToComponent',
     (pluginOptions) => {
@@ -219,5 +200,25 @@ export default [
       }
     }
   ],
+
+  // Support for className
+  [
+    ({prop, styleSheet}) => {
+      const className = prop
+      const find = (list) => {
+        return list
+          .filter((nm) => styleSheet.hasOwnProperty(nm))
+          .map((nm) => styleSheet[nm])
+      }
+
+      if (Array.isArray(className)) {
+        return find(className)
+      }
+
+      return find(className.split(/\s+/))
+    },
+    {className: propTypes.className}
+  ],
+
 
 ]
