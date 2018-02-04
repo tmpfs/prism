@@ -754,7 +754,23 @@ Assign stylesheets to the component. When a string is given separate stylesheet 
 
 ### Extended Style Properties
 
-When the `extendedProperties` option is given plugins that handle these properties are configured.
+As a convenience the `extendedProperties` allow for rapidly mocking layouts with a variety of convenient shortcuts for common style properties.
+
+Enable the `extendedProperties` option to use these properties.
+
+Some extended properties require components *opt-in* using `styleOptions`, for example to receive the `color` property:
+
+```javascript
+static styleOptions = () => {
+  return {
+    supportsText: true
+  }
+}
+```
+
+* `supportsText`: Component can receive text style props.
+* `supportsTextTransform`: Component allows text transformations.
+* `supportsDimension`: Component can receive `width` and `height`.
 
 #### flex
 
@@ -871,7 +887,7 @@ Sets border radius style properties.
 
 When the `experimentalPlugins` option is given plugins that handle these properties are configured.
 
-Note that enabling these properties makes use of the `context` object to propagate values down to child components.
+These properties are considered experimental as they make use of `context` to propagate values to child components and the behaviour is undefined when components wrapped by `Prism()` make use of the `context`.
 
 #### font
 
