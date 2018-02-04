@@ -315,49 +315,17 @@ const withPrism = (Stylable, definition) => {
     }
   }
 
+  // So we can easily see the underlying component name in errors
+  PrismComponent.displayName = `Prism(${definition.Name})`
+
+  // Proxy propTypes
   PrismComponent.propTypes = Stylable.propTypes
   PrismComponent.defaultProps = Stylable.defaultProps
 
   definition.Type = Stylable
   definition.NewType = PrismComponent
 
-  //console.log(config.experimentalPlugins)
-
-  withContext(definition)
-
-  //// BEGIN CHILD CONTEXT
-
-  // Inject font contextType
-  //Stylable.contextTypes = Stylable.contextTypes || {}
-  //Stylable.childContextTypes = Stylable.childContextTypes || {}
-
-  //Stylable.contextTypes.font = propTypes.fontPropType
-  //Stylable.childContextTypes.font = propTypes.fontPropType
-  //Stylable.contextTypes.text = propTypes.textPropType
-  //Stylable.childContextTypes.text = propTypes.textPropType
-
-  //if (Stylable.prototype.getChildContext) {
-    //Stylable.prototype._getChildContext = Stylable.prototype.getChildContext
-  //}
-
-  //Stylable.prototype.getChildContext = function () {
-    //let context = PrismComponent.prototype.getChildContext.call(this)
-    //// Call original getChildContext which wins over our
-    //// pre-defined child context so if there is a collision
-    //// I sure hope you know what you are doing
-    //if (this._getChildContext) {
-      //// NOTE: it's important we always have a context so guard
-      //// NOTE: against an implementation not returning an object
-      //const originalContext = this._getChildContext()
-      //context = Object.assign(context, isObject(originalContext) ? originalContext : {})
-    //}
-    //return context
-  //}
-
-  //// END CHILD CONTEXT
-
-  // So we can easily see the underlying component name in errors
-  PrismComponent.displayName = `Prism(${definition.Name})`
+  //withContext(definition)
 
   return PrismComponent
 }

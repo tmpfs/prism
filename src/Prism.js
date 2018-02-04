@@ -10,6 +10,7 @@ import ExperimentalPlugins from './ExperimentalPlugins'
 
 import propTypes from './PropTypes'
 import withPrism from './withPrism'
+import withContext from './withContext'
 import util from './util'
 
 const STYLE = 'style'
@@ -276,10 +277,16 @@ const registerComponent = (registry, definition, config) => {
   // TODO: merge if we have an existing registry?
   definition.config = config
   definition.registry = registry
+
+  Prism.defined.push(definition)
 }
 
+// This keeps track of components initialized before configure()
 Prism.components = []
+// Components with requirements that need to be enforced
 Prism.requirements = []
+// All registered components definitions
+Prism.defined = []
 
 Prism.configure = (registry, config = {}) => {
   if (!(registry instanceof StyleRegistry)) {
@@ -346,6 +353,12 @@ Prism.configure = (registry, config = {}) => {
       }
     }
   })
+
+  if (config.experimentalPlugins) {
+    Prism.defined.forEach((definition) => {
+      withContext(definition)
+    })
+  }
 
   const availablePropertyNames = []
   const availablePropertyPlugins = {}

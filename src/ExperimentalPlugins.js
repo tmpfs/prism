@@ -8,7 +8,6 @@ export default [
 
   // Text
   [
-    //'mapTextProp',
     ({context, prop, props, state, util, options}) => {
 
       // Inherited from the parent context
