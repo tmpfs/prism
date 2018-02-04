@@ -537,6 +537,10 @@ static styleOptions = () => {
 }
 ```
 
+An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
+
+Users of the library can then selectively override style declarations where necessary.
+
 #### defaultProps
 
 When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
