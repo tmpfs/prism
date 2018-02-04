@@ -40,7 +40,6 @@ export default [
 
         // Add child class name style sheet
         const styleRuleName = ns.getChildClassName(attrName)
-        console.log(styleRuleName)
         if (styleSheet[styleRuleName]) {
           sheets.push(styleSheet[styleRuleName])
         }
@@ -55,17 +54,12 @@ export default [
         if (Array.isArray(source) && source.length) {
 
           const addMatched = (propName, propValue) => {
-            console.log('adding child property: ' + propName)
-            console.log('adding child property: ' + plugins.property.map[propName])
             const plugin = plugins.property.map[propName]
             if (plugin) {
-              console.log('add child property via plugin')
               const prop = propValue
               const style = plugin.func({...pluginOptions, prop, propName})
               if (style !== undefined) {
-                console.log('got returned styled: ' )
-                console.log(style)
-                //sheets = sheets.concat(style)
+                sheets = sheets.concat(style)
               }
             } else {
               target[propName] = propValue
@@ -74,7 +68,6 @@ export default [
           }
 
           source.forEach((propName) => {
-            //console.log(propName)
             if (isString(propName) && props[propName] !== undefined) {
               // Get from the processed property so we can respect color names
               addMatched(propName, props[propName])
@@ -98,6 +91,8 @@ export default [
         if (matched) {
           sheets.push(target)
         }
+        //console.log('Final sheets for:' + attrName)
+        //console.log(StyleSheet.flatten(sheets))
         mutableStyleValues[attrName] = sheets
       })
     },
