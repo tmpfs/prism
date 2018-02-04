@@ -18,7 +18,7 @@ Each font function is passed the value of `Platform.OS`.
 
 Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
 
-File: [theme.js](/doc/examples/themes.js)
+File: [theme.js](/doc/examples/theme.js)
 
 <? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
 

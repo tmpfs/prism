@@ -99,7 +99,7 @@ Each font function is passed the value of `Platform.OS`.
 
 Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
 
-File: [theme.js](https://github.com/fika-community/prism/blob/master/doc/examples/themes.js)
+File: [theme.js](https://github.com/fika-community/prism/blob/master/doc/examples/theme.js)
 
 ```javascript
 export default {
