@@ -4,8 +4,6 @@
 
 To configure your application stylesheets first create some colors, fonts and styles.
 
-<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
-
 #### Colors
 
 Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
@@ -20,9 +18,15 @@ Each font function is passed the value of `Platform.OS`.
 
 Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
 
-### Create Style Registry
+File: [theme.js](/doc/examples/themes.js)
 
-Now you can create a registry for your style definitions and instruct your components to use the registry:
+<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
+
+### Configure Prism
+
+Now you can create a style registry and instruct your components to use it:
+
+File: [App.js](/doc/examples/App.js)
 
 <? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/App.js ?>
 
@@ -30,7 +34,17 @@ With the `extendedProperties` option all the built in and extended [style proper
 
 ### Defining Styled Components
 
-To create a styled component you just need to pass the component class to the `Prism` function which will return a HOC wrapper.
+To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
+
+```javascript
+import {Prism} from 'react-native-prism'
+// Define your Label component
+export default Prism(Label)
+```
+
+Here is a working example for the application shown above.
+
+File: [Label.js](/doc/examples/Label.js)
 
 <? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/Label.js ?>
 
@@ -318,7 +332,7 @@ static defaultProps = {
 }
 ```
 
-#### Style Class Name
+#### className
 
 Sometimes you may wish to change the class name used when looking up default styles for a component:
 

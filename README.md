@@ -13,7 +13,7 @@
     - [Colors](#colors)
     - [Fonts](#fonts)
     - [Styles](#styles)
-  - [Create Style Registry](#create-style-registry)
+  - [Configure Prism](#configure-prism)
   - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
@@ -27,7 +27,7 @@
   - [Initializing Styles](#initializing-styles)
     - [registry](#registry)
     - [defaultProps](#defaultprops)
-    - [Style Class Name](#style-class-name)
+    - [className](#classname)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
 - [Configuration](#configuration)
@@ -43,7 +43,7 @@
 - [Properties](#properties)
   - [Style Properties](#style-properties)
     - [style](#style)
-    - [className](#classname)
+    - [className](#classname-1)
   - [Extended Style Properties](#extended-style-properties)
     - [flex](#flex)
     - [row](#row)
@@ -85,6 +85,22 @@ For any non-trival RN application the question arises on how to manage styles fo
 
 To configure your application stylesheets first create some colors, fonts and styles.
 
+#### Colors
+
+Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
+
+#### Fonts
+
+Fonts are declared as functions that may return a different string per platform if necessary as iOS uses the PostScript name and Android uses the file name.
+
+Each font function is passed the value of `Platform.OS`.
+
+#### Styles
+
+Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
+
+File: [theme.js](https://github.com/fika-community/prism/blob/master/doc/examples/themes.js)
+
 ```javascript
 export default {
   colors: {
@@ -114,23 +130,11 @@ export default {
 }
 ```
 
-#### Colors
+### Configure Prism
 
-Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
+Now you can create a style registry and instruct your components to use it:
 
-#### Fonts
-
-Fonts are declared as functions that may return a different string per platform if necessary as iOS uses the PostScript name and Android uses the file name.
-
-Each font function is passed the value of `Platform.OS`.
-
-#### Styles
-
-Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
-
-### Create Style Registry
-
-Now you can create a registry for your style definitions and instruct your components to use the registry:
+File: [App.js](https://github.com/fika-community/prism/blob/master/doc/examples/App.js)
 
 ```javascript
 import React, {Component} from 'react';
@@ -169,7 +173,17 @@ With the `extendedProperties` option all the built in and extended [style proper
 
 ### Defining Styled Components
 
-To create a styled component you just need to pass the component class to the `Prism` function which will return a HOC wrapper.
+To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
+
+```javascript
+import {Prism} from 'react-native-prism'
+// Define your Label component
+export default Prism(Label)
+```
+
+Here is a working example for the application shown above.
+
+File: [Label.js](https://github.com/fika-community/prism/blob/master/doc/examples/Label.js)
 
 ```javascript
 import React, {Component} from 'react'
@@ -492,7 +506,7 @@ static defaultProps = {
 }
 ```
 
-#### Style Class Name
+#### className
 
 Sometimes you may wish to change the class name used when looking up default styles for a component:
 
