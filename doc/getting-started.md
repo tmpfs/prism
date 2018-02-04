@@ -10,9 +10,23 @@ Colors are a map from color name to value. Use of custom color names is optional
 
 #### Fonts
 
-Fonts are declared as functions that may return a different string per platform if necessary as iOS uses the PostScript name and Android uses the file name.
+Fonts are a map from font identifier to string font family name.
 
-Each font function is passed the value of `Platform.OS`.
+```javascript
+{regular: 'WorkSans-Regular'}
+```
+
+Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name.
+
+If you need a conditional use a function which will be passed the value of `Platform.OS` and should return a platform-specific font family name.
+
+```javascript
+{
+  regular: (os) => {
+    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
+  }
+}
+```
 
 #### Styles
 
