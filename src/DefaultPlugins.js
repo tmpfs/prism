@@ -74,6 +74,9 @@ export default [
           source.forEach((propName) => {
             //console.log(propName)
             if (isString(propName) && props[propName] !== undefined) {
+              //if (extractedStyles) {
+
+              //}
               target[propName] = props[propName]
               matched = true
             } else if (isObject(propName)) {
@@ -109,8 +112,10 @@ export default [
 
   [
     'mapStyleToProp',
-    ({sheets, options, util, mutableStyleValues}) => {
+    ({props, sheets, options, util, definition, mutableStyleValues}) => {
       const {mapStyleToProp} = options
+      const {Type} = definition
+      const defaultProps = Type.defaultProps || {}
       const {isString} = util
       if (mapStyleToProp) {
         const flat = StyleSheet.flatten(sheets)
@@ -125,8 +130,11 @@ export default [
             if (isString(v)) {
               key = v
             }
-            if (flat[k] !== undefined) {
-              mutableStyleValues[key] = flat[k]
+            // Note look up in the props before the style sheet
+            console.log(props[k])
+            const value = (props[k] && defaultProps[k] !== props[k]) ? props[k] : flat[k]
+            if (value !== undefined) {
+              mutableStyleValues[key] = value
             }
           }
           // Must always remove the style prop

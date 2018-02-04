@@ -15,10 +15,17 @@ export default ({colors, fonts}) => {
       margin: 20
     },
     'CompositeLabel.Header': {
-      color: 'green'
+      color: 'green',
+      marginBottom: 5
     },
     'CompositeLabel.Body': {
-      color: 'blue'
+      color: 'blue',
+    },
+    'CompositeLabel.Footer': {
+      marginTop: 10
+    },
+    'Activity': {
+      tintColor: 'blue'
     },
     bold: {
       fontFamily: fonts.medium
