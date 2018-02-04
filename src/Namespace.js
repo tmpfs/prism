@@ -24,6 +24,7 @@ class Namespace {
   }
 
   getChildClassName (childClassName) {
+    childClassName = childClassName.replace(/Style$/, '')
     childClassName = ucfirst(childClassName)
     return this.componentClassName + '.' + childClassName
   }
@@ -32,18 +33,8 @@ class Namespace {
     const className = this.getClassName()
     const {namespace, childClassName} = this
     let styleDeclName = namespace ? `${namespace}.${className}` : className
-    // Passing style to nested child component
-    //if (childClassName) {
-      //styleDeclName += '.' + childClassName
-    //}
     return styleDeclName
   }
 }
-
-    //typeName: Name,
-    //className,
-    //componentClassName,
-    //childClassName,
-    //namespace
 
 export default Namespace

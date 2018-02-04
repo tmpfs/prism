@@ -44,6 +44,7 @@ export default [
 
         // Add child class name style sheet
         const styleRuleName = ns.getChildClassName(attrName)
+        console.log(styleRuleName)
         if (styleSheet[styleRuleName]) {
           sheets.push(styleSheet[styleRuleName])
         }
