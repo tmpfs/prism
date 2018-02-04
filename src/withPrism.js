@@ -52,7 +52,6 @@ const computeStyles = (
   // into extractedStyles so  that properties assigned to child
   // components are not applied to the parent style
   const {mapPropsToComponent} = options
-  const extractedStyles = {}
   const mappedChildProperties = Object.keys(mapPropsToComponent)
     .reduce((list, childName) => {
         const v = mapPropsToComponent[childName]
@@ -121,8 +120,7 @@ const computeStyles = (
     plugins,
     mutableStyleValues,
     childComponentNames,
-    attrName,
-    extractedStyles
+    attrName
   }
 
   const runGlobalPlugins = (globals) => {
@@ -158,9 +156,11 @@ const computeStyles = (
     pluginOptions.prop = props[propName]
     const style = plugin.func(pluginOptions)
     if (style) {
+      // TODO: force inclusion on {style: ['color']}
+      //
       if (~mappedChildProperties.indexOf(plugin.name)) {
         //console.log('got mapped child property!!!!')
-        extractedStyles[plugin.name] = style
+        //extractedStyles[plugin.name] = style
       } else {
         sheets = sheets.concat(style)
       }
