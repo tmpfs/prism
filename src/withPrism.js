@@ -43,6 +43,9 @@ const getStyleSheet = (
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
 
+  //console.log(ns.componentClassName)
+  //console.log(StyleSheet.flatten(defaultStyles))
+
   const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {
     const {value} = invariant
@@ -89,7 +92,6 @@ const getStyleSheet = (
     })
   }
 
-  //console.log(config.availablePropertyNames)
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
 
@@ -101,9 +103,7 @@ const getStyleSheet = (
     )
   })
 
-  //const {keys, map} = config.propertyPlugins
   keys.forEach((propName) => {
-    //console.log('running property plugin: ' + propName)
     const plugin = map[propName]
     pluginOptions.plugin = plugin
     pluginOptions.propName = propName
@@ -114,42 +114,12 @@ const getStyleSheet = (
     }
   })
 
-  //plugins.property.forEach((plugin) => {
-    //const propNames = Object.keys(plugin.propType)
-    //for (let propName in propNames) {
-      //if ((props && props[propName] !== undefined)
-          //|| (context && context[propName] !== undefined)) {
-        //pluginOptions.plugin = plugin
-        //pluginOptions.propName = propName
-        //pluginOptions.prop = props[propName]
-        //const style = plugin.func(pluginOptions)
-        //if (style) {
-          //sheets = sheets.concat(style)
-        //}
-      //}
-    //}
-  //})
-
-    //if ((props && props[propName] !== undefined)
-        //|| (context && context[propName] !== undefined)) {
-      //const plugin = map[propName]
-      //pluginOptions.plugin = plugin
-      //pluginOptions.propName = propName
-      //pluginOptions.prop = props[propName]
-      //const style = plugin.func(pluginOptions)
-      //if (style) {
-        //sheets = sheets.concat(style)
-      //}
-    //}
-
-  //const {keys, map} = plugins.property
-  //keys.forEach((propName) => {
-  //})
-
   // Add inline `style` property
   if (style) {
     sheets = sheets.concat(style)
   }
+
+  console.log(StyleSheet.flatten(sheets))
 
   if (options.flat) {
     return StyleSheet.flatten(sheets)
@@ -295,6 +265,8 @@ const withPrism = (Stylable, definition) => {
   PrismComponent.propTypes = Stylable.propTypes
   PrismComponent.defaultProps = Stylable.defaultProps
 
+  //// BEGIN CHILD CONTEXT
+
   // Inject font contextType
   Stylable.contextTypes = Stylable.contextTypes || {}
   Stylable.childContextTypes = Stylable.childContextTypes || {}
@@ -321,6 +293,8 @@ const withPrism = (Stylable, definition) => {
     }
     return context
   }
+
+  //// END CHILD CONTEXT
 
   // So we can easily see the underlying component name in errors
   PrismComponent.displayName = `Prism(${definition.Name})`

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 import SimpleLabel from './SimpleLabel'

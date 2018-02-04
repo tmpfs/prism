@@ -4,7 +4,7 @@ import propTypes from './PropTypes'
 import {StyleSheet} from 'react-native'
 import util from './util'
 
-const {isString} = util
+const {isObject, isString} = util
 
 export default [
 
@@ -29,29 +29,40 @@ export default [
 
   [
     'mapPropsToComponent',
-    ({props, options, util, mutableStyleValues, attrName, fullAttrName}) => {
+    ({props, options, util, attrName}) => {
       const {mapPropsToComponent} = options
       const source = mapPropsToComponent[attrName]
-      let target = mutableStyleValues[fullAttrName]
-
-      // This is only for child components
-      // TODO: restore: {space: 'marginTop'} syntax
+      const target = {}
+      // This is only for child component objects
       if (attrName !== 'style') {
-        if (Array.isArray(target)) {
-          target = StyleSheet.flatten(target)
-        }
         if (Array.isArray(source)) {
-          source.forEach((val) => {
-            if (isString(val) && props[val] !== undefined) {
-              target[val] = props[val]
+          let matched = false
+          source.forEach((propName) => {
+            if (isString(propName) && props[propName] !== undefined) {
+              target[propName] = props[propName]
+              matched = true
+            // Handle object definition: {space: marginTop}
+            } else if (isObject(propName)) {
+              const propertyNames = Object.keys(propName)
+              propertyNames.forEach((childPropName) => {
+                let stylePropName = childPropName
+                // Rewriting the style property name
+                if (isString(propName[childPropName])) {
+                  stylePropName = propName[childPropName]
+                }
+                if (props[childPropName] !== undefined) {
+                  target[stylePropName] = props[childPropName]
+                  matched = true
+                }
+              })
             }
           })
+          // Save adding empty objects to the list of style sheets
+          if (matched) {
+            return target
+          }
         }
-        const res = Array.isArray(target) ? target : [target]
-        res.overwrite = true
-        return res
       }
-
     }
   ],
 

@@ -8,6 +8,7 @@ import StyleSheet from './app/StyleSheet'
 import Label from './app/Label'
 import SimpleLabel from './app/SimpleLabel'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
+import CompositeLabel from './app/CompositeLabel'
 
 const registry = new StyleRegistry()
 registry.addColors(Colors)
@@ -54,6 +55,15 @@ export default class App extends Component<{}> {
         <DefaultStyleLabel margin={10}>
           This is label with whose color is set from the DefaultStyleLabel css declaration which overrides the defaultProps for the wrapped SimpleLabel
         </DefaultStyleLabel>
+
+        <CompositeLabel
+          color='red'
+          margin={10}
+          label='Composite label example'
+          footerColor='purple'
+          footer='Footer text with property routing and rewriting footerColor -> footerStyle.color'>
+          This is some body text for the composite label which should be red because we assigned it to the parent components which routes the property to bodyStyle.
+        </CompositeLabel>
       </View>
     )
   }

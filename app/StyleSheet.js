@@ -11,6 +11,12 @@ export default ({colors, fonts}) => {
     DefaultStyleLabel: {
       color: 'orange'
     },
+    'CompositeLabel.Header': {
+      color: 'green'
+    },
+    'CompositeLabel.Body': {
+      color: 'blue'
+    },
     bold: {
       fontFamily: fonts.medium
     }
