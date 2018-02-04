@@ -27,8 +27,8 @@ export default [
 
   // Color
   [
-    ({prop, styleSheet, colors, options, supportsColor}) => {
-      if (options.supportsColor || options.supportsText) {
+    ({prop, styleSheet, colors, options}) => {
+      if (options.supportsText) {
         return {color: colors[prop] || prop}
       }
     },
@@ -38,7 +38,7 @@ export default [
   // Width
   [
     ({prop, options}) => {
-      if (options.supportsDimension || options.supportsWidth) {
+      if (options.supportsDimension) {
         return {width: prop}
       }
     },
@@ -48,7 +48,7 @@ export default [
   // Height
   [
     ({prop, options}) => {
-      if (options.supportsDimension || options.supportsHeight) {
+      if (options.supportsDimension) {
         return {height: prop}
       }
     },
