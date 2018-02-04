@@ -11,9 +11,9 @@ class Activity extends Component {
 
   static styleOptions = () => {
     return {
-      //mapPropsToComponent: {
-        //activityIndicator: []
-      //},
+      mapPropsToComponent: {
+        activityIndicator: []
+      },
       mapStyleToProp: {
         tintColor: true,
       }
@@ -45,6 +45,7 @@ class Activity extends Component {
 
     console.log('default tint color: ' + Activity.defaultProps.tintColor)
     console.log('final tint color: ' + tintColor)
+    console.log(activityIndicatorStyle)
 
     const activitySize = large ? 'large' : 'small'
 

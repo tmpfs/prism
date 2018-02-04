@@ -33,6 +33,7 @@ export default [
       const {
         props,
         options,
+        extractedStyles,
         //sheets,
         ns,
         styleSheet,
@@ -46,7 +47,7 @@ export default [
 
       stylePropertyNames.forEach((attrName) => {
         const fullAttrName = getStylePropertyName(attrName)
-        const sheets = []
+        let sheets = []
 
         // Add base class name (parent component)
         // style sheet
@@ -74,11 +75,13 @@ export default [
           source.forEach((propName) => {
             //console.log(propName)
             if (isString(propName) && props[propName] !== undefined) {
-              //if (extractedStyles) {
-
-              //}
-              target[propName] = props[propName]
-              matched = true
+              // Get from the processed property so we can respect color names
+              if (extractedStyles[propName]) {
+                sheets = sheets.concat(extractedStyles[propName])
+              } else {
+                target[propName] = props[propName]
+                matched = true
+              }
             } else if (isObject(propName)) {
               const propertyNames = Object.keys(propName)
               propertyNames.forEach((childPropName) => {
@@ -89,9 +92,14 @@ export default [
                 }
 
                 if (props[childPropName] !== undefined) {
-                  target[stylePropName] = props[childPropName]
-                  //console.log('using prop value: ' + props[childPropName])
-                  matched = true
+                  // Get from the processed property so we can respect color names
+                  if (extractedStyles[childPropName]) {
+                    sheets = sheets.concat(extractedStyles[childPropName])
+                  } else {
+                    target[stylePropName] = props[childPropName]
+                    //console.log('using prop value: ' + props[childPropName])
+                    matched = true
+                  }
                 }
               })
             }
