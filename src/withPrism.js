@@ -215,7 +215,7 @@ const withPrism = (Stylable, definition) => {
         // Use initialStyles set by defaultProps
         // TODO: do not store initialStyles on the Types
         // TODO: we can store them on the definition
-        state.styleValues[name] = definition.Type.initialStyles[name].slice()
+        state.styleValues[name] = definition.initialStyles[name].slice()
       })
       this.state = state
     }

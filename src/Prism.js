@@ -254,7 +254,7 @@ const registerComponent = (registry, definition, config) => {
   Type.propTypes = propertyTypes
 
   // Automatic propTypes for style, labelStyle, imageStyle etc.
-  Type.initialStyles = {}
+  definition.initialStyles = {}
   const stylePropertyNames = [STYLE].concat(options.stylePropertyNames)
   stylePropertyNames.forEach((name) => {
     name = getStylePropertyName(name)
@@ -267,9 +267,9 @@ const registerComponent = (registry, definition, config) => {
     if (Type.defaultProps &&
       Type.defaultProps[name]) {
       list.push(Type.defaultProps[name])
-      //delete Type.defaultProps[name]
+      delete Type.defaultProps[name]
     }
-    Type.initialStyles[name] = list
+    definition.initialStyles[name] = list
   })
 
   //console.log(Object.keys(Type.propTypes))
