@@ -755,6 +755,8 @@ Inline styles for the component.
 
 Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
 
+The property mapping API and these properties should be sufficient for most applications and indeed it might be considered best practice not to use the extended and experimental properties.
+
 ### Extended Style Properties
 
 Extended properties allow for rapidly mocking layouts with a variety of convenient shortcuts for common style properties. Enable the `extendedProperties` option to use these properties.
