@@ -546,6 +546,9 @@ Users of the library can then selectively override style declarations where nece
 When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
 
 ```javascript
+static mapPropsToComponent = {
+  labelStyle: []
+}
 static defaultProps = {
   style: {
     backgroundColor: 'red'
@@ -555,6 +558,10 @@ static defaultProps = {
   }
 }
 ```
+
+Note that for child default styles to be recognised you need to specify the child component style with `mapPropsToComponent`.
+
+There is a special case here that in order for style inheritance to function correctly styles in `defaultProps` are collated and then **deleted**, you should not reference them at runtime.
 
 #### className
 
