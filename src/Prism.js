@@ -267,7 +267,7 @@ const registerComponent = (registry, definition, config) => {
     if (Type.defaultProps &&
       Type.defaultProps[name]) {
       list.push(Type.defaultProps[name])
-      delete Type.defaultProps[name]
+      //delete Type.defaultProps[name]
     }
     Type.initialStyles[name] = list
   })
