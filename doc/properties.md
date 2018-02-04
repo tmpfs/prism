@@ -22,7 +22,7 @@ As a convenience the `extendedProperties` allow for rapidly mocking layouts with
 
 Enable the `extendedProperties` option to use these properties.
 
-Some extended properties require components *opt-in* using `styleOptions`, for example to receive the `color` property:
+Some extended properties require a component *opt-in* using `styleOptions` for the style to be applied, for example to receive the `color` property:
 
 ```javascript
 static styleOptions = () => {
@@ -35,6 +35,40 @@ static styleOptions = () => {
 * `supportsText`: Component can receive text style props.
 * `supportsTextTransform`: Component allows text transformations.
 * `supportsDimension`: Component can receive `width` and `height`.
+
+#### background
+
+`String`
+
+Set the `backgroundColor` style property.
+
+#### color
+
+`String`
+
+Set the `color` style property, requires the `supportsText` flag.
+
+#### border
+
+`String | Array | Object`
+
+Enables a border for the component, this shortcut is great for quickly visualizing component dimensions.
+
+When a string is given `borderColor` is set and a default `borderWidth` is used.
+
+When an array is given it takes the form `[width, color]`.
+
+```javascript
+{
+  color: 'red',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0
+}
+```
+
+Note that not all RN components will set borders as expected when different widths are given for each side, if you experience problems with this syntax ensure the style is applied to a `View` rather than `Image` etc.
 
 #### flex
 
@@ -108,32 +142,6 @@ Makes a component absolutely positioned (relative to the parent as is the RN way
 {top: 0, right: 0, bottom: 0, top:0}
 ```
 
-#### background
-
-`String`
-
-Set the `backgroundColor` style property.
-
-#### border
-
-`String | Array | Object`
-
-Enables a border for the component. When a string is given `borderColor` is set and a default `borderWidth` is used.
-
-When an array is given it takes the form `[width, color]`.
-
-```javascript
-{
-  color: 'red',
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0
-}
-```
-
-Note that not all RN components will set borders as expected when different widths are given for each side, if you experience problems with this syntax ensure the style is applied to a `View` rather than `Image` etc.
-
 #### radius
 
 `Number | Object`
@@ -146,6 +154,19 @@ Sets border radius style properties.
   bottom: {left: 0, right: 0}
 }
 ```
+
+#### width
+
+`Number | String`
+
+Pass the `width` property into the computed style, requires the `supportsDimension` flag.
+
+#### height
+
+`Number | String`
+
+Pass the `height` property into the computed style, requires the `supportsDimension` flag.
+
 
 ### Experimental Properties
 
