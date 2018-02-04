@@ -2,6 +2,9 @@ import PropTypes from 'prop-types'
 import propTypes from './PropTypes'
 
 import {StyleSheet} from 'react-native'
+import util from './util'
+
+const {isObject, isString} = util
 
 export default [
 
@@ -22,6 +25,45 @@ export default [
       return find(className.split(/\s+/))
     },
     {className: propTypes.className}
+  ],
+
+  [
+    'mapPropsToComponent',
+    ({props, options, util, attrName}) => {
+      const {mapPropsToComponent} = options
+      const source = mapPropsToComponent[attrName]
+      const target = {}
+      // This is only for child component objects
+      if (attrName !== 'style') {
+        if (Array.isArray(source)) {
+          let matched = false
+          source.forEach((propName) => {
+            if (isString(propName) && props[propName] !== undefined) {
+              target[propName] = props[propName]
+              matched = true
+            // Handle object definition: {space: marginTop}
+            } else if (isObject(propName)) {
+              const propertyNames = Object.keys(propName)
+              propertyNames.forEach((childPropName) => {
+                let stylePropName = childPropName
+                // Rewriting the style property name
+                if (isString(propName[childPropName])) {
+                  stylePropName = propName[childPropName]
+                }
+                if (props[childPropName] !== undefined) {
+                  target[stylePropName] = props[childPropName]
+                  matched = true
+                }
+              })
+            }
+          })
+          // Save adding empty objects to the list of style sheets
+          if (matched) {
+            return target
+          }
+        }
+      }
+    }
   ],
 
   [

@@ -24,6 +24,7 @@ const getStyleSheet = (
     mutableStyleValues,
     attrName,
     fullAttrName,
+    callGlobals,
     plugins}) => {
 
   const style = props[fullAttrName]
@@ -41,6 +42,9 @@ const getStyleSheet = (
 
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
+
+  //console.log(ns.componentClassName)
+  //console.log(StyleSheet.flatten(defaultStyles))
 
   const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {
@@ -66,35 +70,47 @@ const getStyleSheet = (
     styleSheet,
     options,
     colors,
-    mutableStyleValues
+    mutableStyleValues,
+    attrName,
+    fullAttrName
   }
 
-  plugins.globals.forEach((plugin) => {
-    pluginOptions.plugin = plugin
-    const style = plugin.func(pluginOptions)
-    if (style) {
-      if (!style.overwrite) {
-        sheets = sheets.concat(style)
-      // Global plugins can rewrite the entire list of styles
-      } else {
-        delete style.overwrite
-        sheets = Array.isArray(style) ? style : [style]
-      }
-    }
-  })
-
-  const {keys, map} = plugins.property
-  keys.forEach((propName) => {
-    if ((props && props[propName] !== undefined)
-        || (context && context[propName] !== undefined)) {
-      const plugin = map[propName]
+  // TODO: improve globals handling
+  if (callGlobals) {
+    plugins.globals.forEach((plugin) => {
       pluginOptions.plugin = plugin
-      pluginOptions.propName = propName
-      pluginOptions.prop = props[propName]
       const style = plugin.func(pluginOptions)
       if (style) {
-        sheets = sheets.concat(style)
+        if (!style.overwrite) {
+          sheets = sheets.concat(style)
+        // Global plugins can rewrite the entire list of styles
+        } else {
+          delete style.overwrite
+          sheets = Array.isArray(style) ? style : [style]
+        }
       }
+    })
+  }
+
+  let keys = config.availablePropertyNames.slice()
+  const map = config.availablePropertyPlugins
+
+  // Only run plugins when we have a defined property
+  keys = keys.filter((propName) => {
+    return (
+      (props && props[propName] !== undefined) ||
+      (context && context[propName] !== undefined)
+    )
+  })
+
+  keys.forEach((propName) => {
+    const plugin = map[propName]
+    pluginOptions.plugin = plugin
+    pluginOptions.propName = propName
+    pluginOptions.prop = props[propName]
+    const style = plugin.func(pluginOptions)
+    if (style) {
+      sheets = sheets.concat(style)
     }
   })
 
@@ -102,6 +118,8 @@ const getStyleSheet = (
   if (style) {
     sheets = sheets.concat(style)
   }
+
+  console.log(StyleSheet.flatten(sheets))
 
   if (options.flat) {
     return StyleSheet.flatten(sheets)
@@ -137,6 +155,8 @@ const withPrism = (Stylable, definition) => {
       options.stylePropertyNames.forEach((name) => {
         name = getStylePropertyName(name)
         // Use initialStyles set by defaultProps
+        // TODO: do not store initialStyles on the Types
+        // TODO: we can store them on the definition
         state.styleValues[name] = definition.Type.initialStyles[name].slice()
       })
       this.state = state
@@ -152,59 +172,20 @@ const withPrism = (Stylable, definition) => {
     processStylePlugins (props, testFunc = () => true) {
       const {registry, options, Type} = definition
       const {stylePropertyNames, mapPropsToComponent} = options
-      const {globals, property} = options.plugins
+      const {plugins} = options
       const {styleValues} = this.state
-      const {context} = this
+      const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
+      let callGlobals = true
+      //console.log(stylePropertyNames)
       stylePropertyNames.forEach((attrName) => {
         if (testFunc({props, attrName})) {
           const fullAttrName = getStylePropertyName(attrName)
-          const availableProperties = mapPropsToComponent[attrName].slice()
-          const propertyStyleMap = {}
-          const flatAvailableProperties =
-            availableProperties.reduce((list, val) => {
-              if (isObject(val)) {
-                const keys = Object.keys(val)
-                list.push(keys)
-                keys.forEach((key) => {
-                  propertyStyleMap[key] = val[key]
-                })
-              } else if (isString(val)) {
-                list.push(val)
-              }
-              return list
-            }, [])
-
-          // TODO: only run global plugins once!
-
-          // Filter to properties available for this property attribute
-          // Eg: style, labelStyle, imageStyle etc
-          let propertyMap = {}
-          let propertyPlugins = property.reduce((list, plugin) => {
-            const ind = flatAvailableProperties.indexOf(plugin.name)
-            if (~ind) {
-              propertyMap[plugin.name] = plugin
-              list.push(plugin.name)
-              flatAvailableProperties.splice(ind, 1)
-            }
-            return list
-          }, [])
-          const plugins = {
-            globals: globals,
-            property: {
-              keys: propertyPlugins,
-              map: propertyMap
-            }
-          }
-
           let sheets = mutableStyleValues[fullAttrName]
           // Must wrap in if flat is in use
           if (sheets && !Array.isArray(sheets)) {
             sheets = [sheets]
           }
-
-          const {state} = this
-
           const computedStyle = getStyleSheet(
             {
               context,
@@ -216,30 +197,12 @@ const withPrism = (Stylable, definition) => {
               attrName,
               fullAttrName,
               mutableStyleValues,
-              plugins
+              plugins,
+              callGlobals
             })
-
-          // It's possible for a component to declare style
-          // properties not mapped to a plugin, in this case
-          // we pass the properties through verbatim
-          // TODO: provide a default handler for these properties?
-          // NOTE: currently this is the last computed style so overrides
-          // NOTE: values in the target attribute eg: `labelStyle`
-          if (flatAvailableProperties.length) {
-            const verbatim = {}
-            flatAvailableProperties.forEach((name) => {
-              let styleProp = name
-              if (propertyStyleMap[name]) {
-                styleProp = propertyStyleMap[name]
-              }
-              if (props[name] !== undefined) {
-                verbatim[styleProp] = props[name]
-              }
-            })
-            computedStyle.push(verbatim)
-          }
 
           mutableStyleValues[fullAttrName] = computedStyle
+          //callGlobals = false
         }
       })
       this.setState({styleValues: mutableStyleValues})
@@ -302,6 +265,8 @@ const withPrism = (Stylable, definition) => {
   PrismComponent.propTypes = Stylable.propTypes
   PrismComponent.defaultProps = Stylable.defaultProps
 
+  //// BEGIN CHILD CONTEXT
+
   // Inject font contextType
   Stylable.contextTypes = Stylable.contextTypes || {}
   Stylable.childContextTypes = Stylable.childContextTypes || {}
@@ -328,6 +293,8 @@ const withPrism = (Stylable, definition) => {
     }
     return context
   }
+
+  //// END CHILD CONTEXT
 
   // So we can easily see the underlying component name in errors
   PrismComponent.displayName = `Prism(${definition.Name})`
