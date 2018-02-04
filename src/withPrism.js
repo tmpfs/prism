@@ -44,6 +44,7 @@ const getStyleSheet = (
     [styleSheet[ns.componentClassName]] : []
 
   //console.log(ns.componentClassName)
+  //console.log(defaultStyles.length)
   //console.log(StyleSheet.flatten(defaultStyles))
 
   const invariant = registry.styleInvariants[ns.componentClassName]
@@ -55,6 +56,27 @@ const getStyleSheet = (
 
   // Add default styles
   sheets = sheets.concat(defaultStyles)
+
+  let keys = config.availablePropertyNames.slice()
+  const map = config.availablePropertyPlugins
+
+  // Only run plugins when we have a defined property
+  keys = keys.filter((propName) => {
+    return (
+      (props && props[propName] !== undefined) ||
+      (context && context[propName] !== undefined)
+    )
+  })
+
+  // We pass the computed plugins too
+  plugins = {
+    globals: plugins.globals,
+    property: {
+      keys: keys,
+      map: map,
+      processed: []
+    }
+  }
 
   // Process plugins
   const pluginOptions = {
@@ -70,13 +92,14 @@ const getStyleSheet = (
     styleSheet,
     options,
     colors,
+    plugins,
     mutableStyleValues,
     attrName,
     fullAttrName
   }
 
   // TODO: improve globals handling
-  if (callGlobals) {
+  //if (callGlobals) {
     plugins.globals.forEach((plugin) => {
       pluginOptions.plugin = plugin
       const style = plugin.func(pluginOptions)
@@ -90,21 +113,13 @@ const getStyleSheet = (
         }
       }
     })
-  }
-
-  let keys = config.availablePropertyNames.slice()
-  const map = config.availablePropertyPlugins
-
-  // Only run plugins when we have a defined property
-  keys = keys.filter((propName) => {
-    return (
-      (props && props[propName] !== undefined) ||
-      (context && context[propName] !== undefined)
-    )
-  })
+  //}
 
   keys.forEach((propName) => {
     const plugin = map[propName]
+    if (~plugins.property.processed.indexOf(plugin.name)) {
+      return
+    }
     pluginOptions.plugin = plugin
     pluginOptions.propName = propName
     pluginOptions.prop = props[propName]
@@ -118,8 +133,6 @@ const getStyleSheet = (
   if (style) {
     sheets = sheets.concat(style)
   }
-
-  console.log(StyleSheet.flatten(sheets))
 
   if (options.flat) {
     return StyleSheet.flatten(sheets)

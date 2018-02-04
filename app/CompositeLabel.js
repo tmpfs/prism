@@ -7,6 +7,12 @@ import SimpleLabel from './SimpleLabel'
 
 class CompositeLabel extends Component {
 
+  //static styleOptions = () => {
+    //return {
+      //supportsText: true
+    //}
+  //}
+
   static mapPropsToComponent = {
     header: true,
     body: ['color'],
@@ -16,6 +22,11 @@ class CompositeLabel extends Component {
   render () {
     // Get the computed style sheet
     const {style, label, footer, headerStyle, bodyStyle, footerStyle} = this.props
+    //console.log('FOOTER')
+    //console.log(footerStyle)
+    //console.log('HEADER')
+    //console.log(headerStyle)
+
     return (
       <View>
         <SimpleLabel style={headerStyle}>{label}</SimpleLabel>

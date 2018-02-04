@@ -27,8 +27,8 @@ export default [
 
   // Color
   [
-    ({prop, styleSheet, colors, options}) => {
-      if (options.supportsText) {
+    ({prop, styleSheet, colors, options, supportsColor}) => {
+      if (supportsColor || options.supportsText) {
         return {color: colors[prop] || prop}
       }
     },

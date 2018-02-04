@@ -29,9 +29,11 @@ export default [
 
   [
     'mapPropsToComponent',
-    ({props, options, util, attrName}) => {
+    (pluginOptions) => {
+      const {props, options, util, attrName, plugins} = pluginOptions
       const {mapPropsToComponent} = options
       const source = mapPropsToComponent[attrName]
+      const sheets = []
       const target = {}
       // This is only for child component objects
       if (attrName !== 'style') {
@@ -51,16 +53,33 @@ export default [
                   stylePropName = propName[childPropName]
                 }
                 if (props[childPropName] !== undefined) {
-                  target[stylePropName] = props[childPropName]
-                  matched = true
+                  // Call property plugins for color name handling etc.
+                  const propPlugin = plugins.property.map[stylePropName]
+                  if (propPlugin) {
+                    const prop = props[childPropName]
+                    // Force supportsText for color name lookup
+                    const supportsColor = true
+                    const propPluginOptions = {...pluginOptions, prop, supportsColor}
+                    const style = propPlugin.func(propPluginOptions)
+                    if (style !== undefined) {
+                      sheets.push(style)
+                    }
+                    // Mark as processed so later property processing for stylePropName
+                    // plugin does not override this invocation
+                    plugins.property.processed.push(propPlugin.name)
+                  } else {
+                    target[stylePropName] = props[childPropName]
+                    matched = true
+                  }
                 }
               })
             }
           })
           // Save adding empty objects to the list of style sheets
           if (matched) {
-            return target
+            sheets.push(target)
           }
+          return sheets
         }
       }
     }
