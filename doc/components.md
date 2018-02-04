@@ -91,9 +91,9 @@ static mapPropsToStyleState = ({props}) => {
 
 To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:medium` or `Notice:large`.
 
-#### mapPropsToStyleObject
+#### mapPropsToComponent
 
-Use `mapPropsToStyleObject` when you need to *pluck* a property and place it in a particular style object. This is a powerful mechanism to ensure that properties are not inadvertently mapped to components that do not support the style property.
+Use `mapPropsToComponent` when you need to *pluck* a property and place it in a style object for a child component. This is a powerful mechanism to ensure that properties are not inadvertently mapped to components that do not support the style property.
 
 Take a component that wraps an `Image` and `Label` in a `View`, the `ImageLabel` component JSX might look something like this:
 
@@ -118,17 +118,17 @@ If you pass a `color` property into the style associated with a `View` you will 
 <ImageLabel color='muted' />
 ```
 
-Define a `mapPropsToStyleObject` to route the `color` property to the `Label`:
+Define a `mapPropsToComponent` to route the `color` property to the `Label`:
 
 ```javascript
-static mapPropsToStyleObject = {
+static mapPropsToComponent = {
   // Maps color -> labelStyle.color and space -> labelStyle.marginTop
   labelStyle: ['color', {space: 'marginTop'}],
   imageStyle: ['width', 'height']
 }
 ```
 
-When using `mapPropsToStyleObject` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
+When using `mapPropsToComponent` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
 
 A powerful feature of mapping properties in this way is that you can now define default styles for the child component with dot notation:
 
