@@ -22,16 +22,13 @@ export default [
         mutableStyleValues} = pluginOptions
       //console.log('mapPropsToComponent: ' + stylePropertyNames)
       const {mapPropsToComponent} = options
-      const {Type} = definition
-      let defaultProps = Type.defaultProps || {}
-      //const sheets = []
-      //const originalSheets = sheets
+      const {Type, initialStyles} = definition
       const target = {}
 
       stylePropertyNames.forEach((attrName) => {
         let sheets = []
 
-        const defaults = defaultProps[attrName]
+        const defaults = initialStyles[attrName]
         if (isObject(defaults)) {
           sheets.push(defaults)
         }
@@ -109,8 +106,8 @@ export default [
     'mapStyleToProp',
     ({props, sheets, options, util, definition, mutableStyleValues}) => {
       const {mapStyleToProp} = options
-      const {Type} = definition
-      const defaultProps = Type.defaultProps || {}
+      const {Type, initialStyles} = definition
+      //const defaultProps = initialStyles.style
       const {isString} = util
       if (mapStyleToProp) {
         const flat = StyleSheet.flatten(sheets)
@@ -127,7 +124,8 @@ export default [
             }
             // Note look up in the props before the style sheet
             console.log(props[k])
-            const value = (props[k] && defaultProps[k] !== props[k]) ? props[k] : flat[k]
+            //const value = (props[k] && defaultProps[k] !== props[k]) ? props[k] : flat[k]
+            const value = flat[k]
             if (value !== undefined) {
               mutableStyleValues[key] = value
             }
