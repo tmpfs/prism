@@ -328,7 +328,7 @@ There is a special case here that in order for style inheritance to function cor
 Sometimes you may wish to change the class name used when looking up default styles for a component:
 
 ```javascript
-class TouchButton extends Components {
+class TouchButton extends Component {
   static styleOptions = () => {
     return {
       className: 'Button'
@@ -375,8 +375,8 @@ Now you can just proxy it to the child component knowing it will be an object:
 ```javascript
 render () {
   const {style} = this.props
-  return {
+  return (
     <NonIdiomaticComponent style={style} />
-  }
+  )
 }
 ```
