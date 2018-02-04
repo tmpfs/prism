@@ -87,7 +87,7 @@ To configure your application stylesheets first create some colors, fonts and st
 
 #### Colors
 
-Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
+Colors are a map from color name to string value. Use of custom color names is optional but it can help make your styles more semantic.
 
 #### Fonts
 
@@ -266,7 +266,7 @@ static styleOptions = ({styleSheet}) => {
 
 #### mapPropsToStyle
 
-Use `mapPropsToStyle` when you want a property to trigger inclusion of styles into the final computed style. Each object key maps to a property name and the corresponding function is called when the property is defined on the component.
+Use `mapPropsToStyle` when you want presence of a property to trigger inclusion of styles into the final computed style. Each object key maps to a property name and the corresponding function is called when the property is defined on the component.
 
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
@@ -290,7 +290,7 @@ Functions declared in this way have access to the style registry (`styleSheet`, 
 
 #### mapPropsToStyleState
 
-Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaraion name using the familiar `a:hover` syntax.
+Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaration name using the familiar `a:hover` syntax.
 
 For a component called `Notice`:
 
@@ -329,32 +329,77 @@ To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:me
 
 #### mapPropsToComponent
 
-Use `mapPropsToComponent` when you need to *pluck* a property and place it in a style object for a child component. This is a powerful mechanism to ensure that properties are not inadvertently mapped to components that do not support the style property.
+When you start creating composite components it becomes very useful to route properties to style objects for the child components, use `mapPropsToComponent` to define styles for these child components.
 
-Take a component that wraps an `Image` and `Label` in a `View`, the `ImageLabel` component JSX might look something like this:
+Take the case of a `Panel` component with child components for the header and body.
 
-```html
-<View style={style}>
-  <Image
-    source={source}
-    width={width}
-    height={height}
-    {...imageProps}
-    style={imageStyle} />
-  <Label
-    {...labelProps}
-    style={labelStyle}>{this.props.children}</Label>
-</View>
+You can declare child computed styles with:
+
+```javascript
+static mapPropsToComponent = {
+  headerStyle: [],
+  bodyStyle: []
+}
 ```
 
-If you pass a `color` property into the style associated with a `View` you will get an error as it is not supported for that component.
+At it's simplest level the empty array just declares that your component requires some child styles.
 
-```html
-// `color` is not supported for a View style
-<ImageLabel color='muted' />
+Your render can then pass the computed styles to child components:
+
+```javascript
+render () {
+  const {
+    style,
+    headerStyle,
+    bodyStyle,
+    header
+  } = this.props
+
+  return (
+    <View style={style}>
+      <View style={headerStyle}>
+        {header}
+      </View>
+      <View style={bodyStyle}>
+        {this.props.children}
+      </View>
+    </View>
+  )
+}
 ```
 
-Define a `mapPropsToComponent` to route the `color` property to the `Label`:
+The immediate benefit is that you can now declare styles using dot notation for the child components, for example:
+
+```javascript
+'Panel': {
+  flex: 1
+},
+'Panel.Header': {
+  backgroundColor: 'blue',
+  padding: 5
+},
+'Panel.Body': {
+  backgroundColor: 'red',
+  padding: 10
+}
+```
+
+But you can also use this functionality to route properties into the child style object:
+
+```javascript
+static mapPropsToComponent = {
+  headerStyle: [{space: 'marginBottom'}],
+  bodyStyle: ['background']
+}
+```
+
+```javascript
+// Set distance between header and body
+// and the background color of the body
+<Panel space={10} background='blue' />
+```
+
+Often you want to pass a `color` property to a component which is not a text component and route it to the components that handle text:
 
 ```javascript
 static mapPropsToComponent = {
@@ -366,29 +411,9 @@ static mapPropsToComponent = {
 
 When using `mapPropsToComponent` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
 
-A powerful feature of mapping properties in this way is that you can now define default styles for the child component with dot notation:
+For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
-```javascript
-export default ({colors, fonts}) => {
-  return {
-    ImageLabel: {
-      flex: 1,
-      alignItems: 'center'
-    },
-    'ImageLabel.Image': {
-      borderColor: colors.cream,
-      borderWidth: 1
-    },
-    'ImageLabel.Label': {
-      color: colors.muted
-    }
-  }
-}
-```
-
-The child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
-
-If the component is namespaced use the fully qualified name, eg: `com.fika.ImageLabel.Label`.
+If the component is namespaced use the fully qualified name, eg: `com.prism.ui.Panel.Header`.
 
 #### mapStyleToProp
 

@@ -16,7 +16,7 @@ export default {
         fontFamily: fonts.regular
       },
       mySimpleLabel: {
-        fontFamily: fonts.medium,
+        //fontFamily: fonts.medium,
         fontSize: 18,
         color: 'green'
       },

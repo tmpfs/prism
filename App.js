@@ -3,6 +3,7 @@ import {ScrollView} from 'react-native'
 import {Prism, StyleRegistry} from './src/Prism'
 
 import View from './app/View'
+import Panel from './app/Panel'
 import Activity from './app/Activity'
 import SimpleLabel from './app/SimpleLabel'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
@@ -25,13 +26,15 @@ export default class App extends Component<{}> {
   render () {
     return (
       <ScrollView>
-        <ChildStateStyle
-          value={21}
-          color='textColor'
-          size='large'
-        >
-        Statistic
-        </ChildStateStyle>
+        <Panel label='Basic number stack' background='pink' separation={10}>
+          <ChildStateStyle
+            value={21}
+            color='textColor'
+            size='large'
+          >
+          Statistic
+          </ChildStateStyle>
+        </Panel>
         <SimpleLabel margin={10}>
           This is label with color from defaultProps
         </SimpleLabel>

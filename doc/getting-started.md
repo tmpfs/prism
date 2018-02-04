@@ -6,7 +6,7 @@ To configure your application stylesheets first create some colors, fonts and st
 
 #### Colors
 
-Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
+Colors are a map from color name to string value. Use of custom color names is optional but it can help make your styles more semantic.
 
 #### Fonts
 
