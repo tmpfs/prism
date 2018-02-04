@@ -67,6 +67,29 @@ export default class StyleRegistry {
     }
   }
 
+  addTheme (theme) {
+    if (!isObject(theme)) {
+      throw new Error('Prism theme should be an object')
+    }
+    if (theme.colors && !isObject(theme.colors)) {
+      throw new Error('Prism theme colors should be an object')
+    }
+    if (theme.fonts && !isObject(theme.fonts)) {
+      throw new Error('Prism theme fonts should be an object')
+    }
+    if (theme.styles && !isFunction(theme.styles)) {
+      throw new Error('Prism theme styles should be a function')
+    }
+    if (theme.colors) {
+      this.addColors(theme.colors)
+    }
+    if (theme.fonts) {
+      this.addFonts(theme.fonts)
+    }
+    if (theme.styles) {
+      this.addStyleSheet(theme.styles)
+    }
+  }
 
   // Lookup for font sizes is:
   //

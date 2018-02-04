@@ -85,78 +85,87 @@ For any non-trival RN application the question arises on how to manage styles fo
 
 To configure your application stylesheets first create some colors, fonts and styles.
 
-#### Colors
-
-Colors are a map from color name to value.
-
 ```javascript
 export default {
-  cream: '#fdfbdf',
-  muted: '#9a9a9a',
-  orange: '#ff3300'
-}
-```
-
-#### Fonts
-
-Fonts are declared as functions that return a different string per platform as iOS uses the PostScript name and Android uses the file name.
-
-Each font function is passed the value of `Platform.OS`.
-
-```javascript
-export default {
-  regular: (os) => {
-    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
+  colors: {
+    cream: '#fdfbdf',
+    muted: '#9a9a9a'
   },
-  medium: (os) => {
-    return os === 'ios' ? 'WorkSans-Medium' : 'worksans_medium'
-  }
-}
-```
-
-#### Styles
-
-Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts so this signature is common:
-
-```javascript
-export default ({colors, fonts}) => {
-  return {
-    Label: {
-      fontSize: 16,
-      fontFamily: fonts.regular,
-      color: colors.cream
+  fonts: {
+    regular: (os) => {
+      return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
     },
-    bold: {
-      fontFamily: fonts.medium
+    medium: (os) => {
+      return os === 'ios' ? 'WorkSans-Medium' : 'worksans_medium'
+    }
+  },
+  styles: ({colors, fonts}) => {
+    return {
+      Label: {
+        fontSize: 16,
+        fontFamily: fonts.regular,
+        color: colors.cream
+      },
+      bold: {
+        fontFamily: fonts.medium
+      }
     }
   }
 }
 ```
+
+#### Colors
+
+Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
+
+#### Fonts
+
+Fonts are declared as functions that may return a different string per platform if necessary as iOS uses the PostScript name and Android uses the file name.
+
+Each font function is passed the value of `Platform.OS`.
+
+#### Styles
+
+Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
 
 ### Create Style Registry
 
 Now you can create a registry for your style definitions and instruct your components to use the registry:
 
 ```javascript
-// Import all your routes, views or components
-
+import React, {Component} from 'react';
 import {Prism, StyleRegistry} from 'react-native-prism'
-import Colors from './Colors'
-import Fonts from './Fonts'
-import StyleSheet from './StyleSheet'
+import theme from './theme'
+import Label from './Label'
 
-// Create the style registry
 const registry = new StyleRegistry()
-registry.addColors(Colors)
-registry.addFonts(Fonts)
-registry.addStyleSheet(StyleSheet)
-
-// Use this registry for styled components and
-// enable the extended properties (padding, margin etc)
-Prism.configure(registry, {extendedProperties: true})
-
-// Initialize your application
+registry.addTheme(theme)
+Prism.configure(
+  registry,
+  {
+    debug: true,
+    extendedProperties: true,
+    experimentalPlugins: true
+  }
+)
+export default class Application extends Component {
+  render () {
+    return (
+      <Label
+        background='steelblue'
+        color='white'
+        bold
+        align='center'
+        text={{transform: 'capitalize'}}
+        padding={15}>
+        Prism example application
+      </Label>
+    )
+  }
+}
 ```
+
+With the `extendedProperties` option all the built in and extended [style properties](#style-properties) are available.
 
 ### Defining Styled Components
 
@@ -169,6 +178,24 @@ import {Text} from 'react-native'
 import {Prism} from 'react-native-prism'
 
 class Label extends Component {
+  static styleOptions = ({styleSheet}) => {
+    return {
+      supportsText: true,
+      supportsTextTransform: true,
+      mapPropsToStyle: {
+        align: ({prop, styleSheet}) => {
+          return {textAlign: prop}
+        },
+        bold: ({prop, styleSheet}) => {
+          if (styleSheet.bold !== undefined) {
+            return styleSheet.bold
+          }
+          return {fontWeight: 'bold'}
+        }
+      }
+    }
+  }
+
   render () {
     // Get the computed style sheet
     const {style} = this.props
@@ -179,15 +206,6 @@ class Label extends Component {
 }
 
 export default Prism(Label)
-```
-
-Then you can use all the built in (and extended) [style properties](#style-properties), for example:
-
-```html
-  <Label
-    padding={5}
-    margin={[10, 20]}
-    color='muted'>Text</Label>
 ```
 
 The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!

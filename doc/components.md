@@ -4,65 +4,35 @@
 
 To configure your application stylesheets first create some colors, fonts and styles.
 
+<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
+
 #### Colors
 
-Colors are a map from color name to value.
-
-<? @source {javascript} ../app/Colors.js ?>
+Colors are a map from color name to value. Use of custom color names is optional but it can help make your styles more semantic.
 
 #### Fonts
 
-Fonts are declared as functions that return a different string per platform as iOS uses the PostScript name and Android uses the file name.
+Fonts are declared as functions that may return a different string per platform if necessary as iOS uses the PostScript name and Android uses the file name.
 
 Each font function is passed the value of `Platform.OS`.
 
-<? @source {javascript} ../app/Fonts.js ?>
-
 #### Styles
 
-Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts so this signature is common:
-
-<? @source {javascript} ../app/StyleSheet.js ?>
+Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
 
 ### Create Style Registry
 
 Now you can create a registry for your style definitions and instruct your components to use the registry:
 
-```javascript
-// Import all your routes, views or components
+<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/App.js ?>
 
-import {Prism, StyleRegistry} from 'react-native-prism'
-import Colors from './Colors'
-import Fonts from './Fonts'
-import StyleSheet from './StyleSheet'
-
-// Create the style registry
-const registry = new StyleRegistry()
-registry.addColors(Colors)
-registry.addFonts(Fonts)
-registry.addStyleSheet(StyleSheet)
-
-// Use this registry for styled components and
-// enable the extended properties (padding, margin etc)
-Prism.configure(registry, {extendedProperties: true})
-
-// Initialize your application
-```
+With the `extendedProperties` option all the built in and extended [style properties](#style-properties) are available.
 
 ### Defining Styled Components
 
 To create a styled component you just need to pass the component class to the `Prism` function which will return a HOC wrapper.
 
-<? @source {javascript=s/\.\.\/src\/Prism/react-native-prism/} ../app/Label.js ?>
-
-Then you can use all the built in (and extended) [style properties](#style-properties), for example:
-
-```html
-  <Label
-    padding={5}
-    margin={[10, 20]}
-    color='muted'>Text</Label>
-```
+<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/Label.js ?>
 
 The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
 

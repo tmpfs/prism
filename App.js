@@ -81,5 +81,3 @@ export default class App extends Component<{}> {
     )
   }
 }
-
-          //<Activity tintColor='green' />
