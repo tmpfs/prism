@@ -29,10 +29,10 @@ If you want to migrate an existing application you should start with [Prism Prim
 
 <? @include getting-started.md ?>
 <? @include components.md ?>
+<? @include properties.md ?>
 <? @include configuration.md ?>
 <? @include plugins.md ?>
 <? @include cascade.md ?>
-<? @include properties.md ?>
 
 ## License
 
