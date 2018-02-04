@@ -4,7 +4,7 @@ import propTypes from './PropTypes'
 import {StyleSheet} from 'react-native'
 import util from './util'
 
-const {isObject, isString, getStylePropertyName} = util
+const {isObject, isString} = util
 
 export default [
 
@@ -29,17 +29,12 @@ export default [
       const target = {}
 
       stylePropertyNames.forEach((attrName) => {
-        const fullAttrName = getStylePropertyName(attrName)
         let sheets = []
 
-        const defaults = defaultProps[fullAttrName] || defaultProps[attrName]
+        const defaults = defaultProps[attrName]
         if (isObject(defaults)) {
           sheets.push(defaults)
         }
-
-        //if (defaultProps[fullAttrName]) {
-
-        //}
 
         // Add base class name (parent component)
         // style sheet
@@ -59,7 +54,6 @@ export default [
         const target = {}
         let matched = false
         //console.log('mapPropsToComponent: ' + attrName)
-        //console.log('mapPropsToComponent: ' + fullAttrName)
         //console.log(source)
         // NOTE: child component style objects are initialized in PrismComponent
         // NOTE: based on stylePropertyNames
@@ -100,10 +94,10 @@ export default [
         if (matched) {
           sheets.push(target)
         }
-        //console.log('Assigning child object sheets: ' + fullAttrName)
+        //console.log('Assigning child object sheets: ' + attrName)
         //console.log('Assigning child object sheets: ' + sheets.length)
         //console.log(StyleSheet.flatten(sheets))
-        mutableStyleValues[fullAttrName] = sheets
+        mutableStyleValues[attrName] = sheets
       })
     },
     {},

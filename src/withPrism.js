@@ -8,7 +8,6 @@ import util from './util'
 
 const {
   ucfirst,
-  getStylePropertyName,
   isObject,
   isString
 } = util
@@ -24,10 +23,9 @@ const computeStyles = (
     mutableStyleValues,
     stylePropertyNames,
     attrName,
-    fullAttrName,
     plugins}) => {
 
-  const style = props[fullAttrName]
+  const style = props[attrName]
   const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors} = registry
 
@@ -124,7 +122,6 @@ const computeStyles = (
     mutableStyleValues,
     stylePropertyNames,
     attrName,
-    fullAttrName,
     extractedStyles
   }
 
@@ -211,7 +208,6 @@ const withPrism = (Stylable, definition) => {
       const stylePropertyNames = ['style'].concat(options.stylePropertyNames)
       // Initialize empty styles, following the convention
       stylePropertyNames.forEach((name) => {
-        name = getStylePropertyName(name)
         // Use initialStyles set by defaultProps
         // TODO: do not store initialStyles on the Types
         // TODO: we can store them on the definition
@@ -237,8 +233,7 @@ const withPrism = (Stylable, definition) => {
       const styleAttrName = 'style'
       //console.log(stylePropertyNames)
       const compute = (attrName) => {
-        const fullAttrName = getStylePropertyName(attrName)
-        let sheets = mutableStyleValues[fullAttrName]
+        let sheets = mutableStyleValues[attrName]
         // Must wrap in if flat is in use
         if (sheets && !Array.isArray(sheets)) {
           sheets = [sheets]
@@ -252,13 +247,12 @@ const withPrism = (Stylable, definition) => {
             util,
             definition,
             attrName,
-            fullAttrName,
             mutableStyleValues,
             plugins,
             stylePropertyNames
           })
 
-        //mutableStyleValues[fullAttrName] = computedStyle
+        //mutableStyleValues[attrName] = computedStyle
 
         return computedStyle
       }

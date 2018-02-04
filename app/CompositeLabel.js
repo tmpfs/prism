@@ -14,9 +14,9 @@ class CompositeLabel extends Component {
   }
 
   static mapPropsToComponent = {
-    header: true,
-    body: ['color'],
-    footer: [{footerColor: 'color'}]
+    headerStyle: true,
+    bodyStyle: ['color'],
+    footerStyle: [{footerColor: 'color'}]
   }
 
   render () {

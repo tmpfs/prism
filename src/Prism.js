@@ -15,7 +15,6 @@ import util from './util'
 const STYLE = 'style'
 
 const {
-  getStylePropertyName,
   isObject,
   isFunction,
   isString,
@@ -257,7 +256,6 @@ const registerComponent = (registry, definition, config) => {
   definition.initialStyles = {}
   const stylePropertyNames = [STYLE].concat(options.stylePropertyNames)
   stylePropertyNames.forEach((name) => {
-    name = getStylePropertyName(name)
     Type.propTypes[name] = propTypes.style
 
     // Configure initial styles per attribute
