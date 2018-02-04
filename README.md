@@ -79,6 +79,8 @@ It provides a simple yet flexible mechanism for mapping properties to styles and
 
 For any non-trival RN application the question arises on how to manage styles for your components. The Prism library provides a solution using idiomatic techniques that will leave your JSX clean and serene allowing you to more easily focus on your application's state and logic.
 
+If you want to migrate an existing application you should start with [Prism Primitives][] which provides a drop-in replacement for the RN visual components. See [Prism Components][] for some *slightly* more advanced components; if you want to see a running application clone and run the RN app in the [Prism Components][] repository.
+
 ## Getting Started
 
 ### Defining Styles
