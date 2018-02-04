@@ -1,22 +1,17 @@
 import React, {Component} from 'react';
 import {ScrollView} from 'react-native'
 import {Prism, StyleRegistry} from './src/Prism'
-import Colors from './app/Colors'
-import Fonts from './app/Fonts'
-import StyleSheet from './app/StyleSheet'
 
 import View from './app/View'
 import Activity from './app/Activity'
-//import Label from './app/Label'
 import SimpleLabel from './app/SimpleLabel'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
 import CompositeLabel from './app/CompositeLabel'
 import ChildStateStyle from './app/ChildStateStyle'
 
+import theme from './app/theme'
 const registry = new StyleRegistry()
-registry.addColors(Colors)
-registry.addFonts(Fonts)
-registry.addStyleSheet(StyleSheet)
+registry.addTheme(theme)
 Prism.configure(
   registry,
   {

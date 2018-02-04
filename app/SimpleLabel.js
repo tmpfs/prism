@@ -24,7 +24,8 @@ class SimpleLabel extends Component {
 
   static defaultProps = {
     style: {
-      color: 'red'
+      color: 'red',
+      fontSize: 16
     }
   }
 
