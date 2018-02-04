@@ -72,8 +72,7 @@ const getStyleSheet = (
     fullAttrName
   }
 
-  //console.log('got plugins length: ' + plugins.globals.length)
-
+  // TODO: improve globals handling
   if (callGlobals) {
     plugins.globals.forEach((plugin) => {
       pluginOptions.plugin = plugin
@@ -90,22 +89,28 @@ const getStyleSheet = (
     })
   }
 
-  console.log(config.availablePropertyNames)
-  const keys = config.availablePropertyNames
+  //console.log(config.availablePropertyNames)
+  let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
+
+  // Only run plugins when we have a defined property
+  keys = keys.filter((propName) => {
+    return (
+      (props && props[propName] !== undefined) ||
+      (context && context[propName] !== undefined)
+    )
+  })
 
   //const {keys, map} = config.propertyPlugins
   keys.forEach((propName) => {
-    if ((props && props[propName] !== undefined)
-        || (context && context[propName] !== undefined)) {
-      const plugin = map[propName]
-      pluginOptions.plugin = plugin
-      pluginOptions.propName = propName
-      pluginOptions.prop = props[propName]
-      const style = plugin.func(pluginOptions)
-      if (style) {
-        sheets = sheets.concat(style)
-      }
+    //console.log('running property plugin: ' + propName)
+    const plugin = map[propName]
+    pluginOptions.plugin = plugin
+    pluginOptions.propName = propName
+    pluginOptions.prop = props[propName]
+    const style = plugin.func(pluginOptions)
+    if (style) {
+      sheets = sheets.concat(style)
     }
   })
 
@@ -180,6 +185,8 @@ const withPrism = (Stylable, definition) => {
       options.stylePropertyNames.forEach((name) => {
         name = getStylePropertyName(name)
         // Use initialStyles set by defaultProps
+        // TODO: do not store initialStyles on the Types
+        // TODO: we can store them on the definition
         state.styleValues[name] = definition.Type.initialStyles[name].slice()
       })
       this.state = state
@@ -200,7 +207,7 @@ const withPrism = (Stylable, definition) => {
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
       let callGlobals = true
-      console.log(stylePropertyNames)
+      //console.log(stylePropertyNames)
       stylePropertyNames.forEach((attrName) => {
         if (testFunc({props, attrName})) {
           const fullAttrName = getStylePropertyName(attrName)

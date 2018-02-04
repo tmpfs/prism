@@ -208,24 +208,13 @@ const registerComponent = (registry, definition, config) => {
       mapPropsToComponent = mapPropsToComponent(registry)
     }
 
-    //const assignedPropertyNames = Object.keys(mapPropsToComponent)
-      //.reduce((list, propName) => {
-        //list = list.concat(mapPropsToComponent[propName])
-        //return list
-      //}, [])
-
     if (mapPropsToComponent.style !== undefined) {
       throw new Error(
         `Prism do not configure mappings for "style" in mapPropsToComponent. ` +
         `It is an anti-pattern, use mapPropsToStyle instead.`)
     }
 
-    // Configure handling for style property
-    // when not explicitly specified
-      //.filter((propName) => !~assignedPropertyNames.indexOf(propName))
   }
-
-  //console.log(availablePropertyNames)
 
   if (!mapPropsToComponent) {
     mapPropsToComponent = {}

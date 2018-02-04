@@ -5,6 +5,12 @@ export default ({colors, fonts}) => {
       fontFamily: fonts.regular,
       color: colors.cream
     },
+    mySimpleLabel: {
+      color: 'green'
+    },
+    DefaultStyleLabel: {
+      color: 'orange'
+    },
     bold: {
       fontFamily: fonts.medium
     }

@@ -33,26 +33,20 @@ export default [
       const {mapPropsToComponent} = options
       const source = mapPropsToComponent[attrName]
       let target = mutableStyleValues[fullAttrName]
-      //console.log('mapStyleToComponent CALLED!: ' + attrName)
 
       // This is only for child components
+      // TODO: restore: {space: 'marginTop'} syntax
       if (attrName !== 'style') {
-        //console.log(source)
-        //console.log(target)
         if (Array.isArray(target)) {
           target = StyleSheet.flatten(target)
         }
         if (Array.isArray(source)) {
           source.forEach((val) => {
-            //console.log(val)
             if (isString(val) && props[val] !== undefined) {
-              //console.log('setting target: ' + val)
-              //console.log('setting target: ' + props[val])
               target[val] = props[val]
             }
           })
         }
-
         const res = Array.isArray(target) ? target : [target]
         res.overwrite = true
         return res
