@@ -41,6 +41,25 @@ const mapState = ({props, options, registry, util, ns, attrName}) => {
 
 export default [
 
+  // Support for className
+  [
+    ({prop, styleSheet}) => {
+      const className = prop
+      const find = (list) => {
+        return list
+          .filter((nm) => styleSheet.hasOwnProperty(nm))
+          .map((nm) => styleSheet[nm])
+      }
+      if (Array.isArray(className)) {
+        return find(className)
+      }
+      return find(className.split(/\s+/))
+    },
+    {className: propTypes.className}
+  ],
+
+
+
   [
     'mapStyleToComponent',
     (pluginOptions) => {
@@ -210,25 +229,5 @@ export default [
       }
     }
   ],
-
-  // Support for className
-  [
-    ({prop, styleSheet}) => {
-      const className = prop
-      const find = (list) => {
-        return list
-          .filter((nm) => styleSheet.hasOwnProperty(nm))
-          .map((nm) => styleSheet[nm])
-      }
-
-      if (Array.isArray(className)) {
-        return find(className)
-      }
-
-      return find(className.split(/\s+/))
-    },
-    {className: propTypes.className}
-  ],
-
 
 ]

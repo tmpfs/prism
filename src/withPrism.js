@@ -36,6 +36,9 @@ const computeStyles = (
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
 
+  // FIXME
+  // TODO: expose registry.getStyleWithInvariants()
+  // TODO: and call in mapStyleToComponent logic
   const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {
     const {value} = invariant
