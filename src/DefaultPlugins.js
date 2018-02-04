@@ -34,13 +34,15 @@ export default [
         props,
         options,
         extractedStyles,
-        //sheets,
+        definition,
         ns,
         styleSheet,
         stylePropertyNames,
         mutableStyleValues} = pluginOptions
       //console.log('mapPropsToComponent: ' + stylePropertyNames)
       const {mapPropsToComponent} = options
+      const {Type} = definition
+      let defaultProps = Type.defaultProps || {}
       //const sheets = []
       //const originalSheets = sheets
       const target = {}
@@ -48,6 +50,15 @@ export default [
       stylePropertyNames.forEach((attrName) => {
         const fullAttrName = getStylePropertyName(attrName)
         let sheets = []
+
+        const defaults = defaultProps[fullAttrName] || defaultProps[attrName]
+        if (isObject(defaults)) {
+          sheets.push(defaults)
+        }
+
+        //if (defaultProps[fullAttrName]) {
+
+        //}
 
         // Add base class name (parent component)
         // style sheet
