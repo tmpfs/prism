@@ -43,6 +43,9 @@ export default class StyleRegistry {
   }
 
   addFonts (map) {
+    if (!isObject(map)) {
+      throw new Error('Prism registry fonts must be an object')
+    }
     for (let k in map) {
       const fn = map[k]
       if (isFunction(fn)) {
@@ -55,14 +58,15 @@ export default class StyleRegistry {
 
   addStyleSheet (styleSheet) {
     const {colors, fonts, colorNames} = this
-    // TODO: validate style sheet is a function
-    // styleSheet should be a function
+    if (!isFunction(styleSheet) && !isObject(styleSheet)) {
+      throw new Error('Prism registry styles must be a function or object')
+    }
     if (isFunction(styleSheet)) {
       this.styles = Object.assign(
         {},
         styleSheet({colors, fonts, colorNames})
       )
-    } else if (isObject(styleSheet)) {
+    } else {
       this.styles = styleSheet
     }
   }

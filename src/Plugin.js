@@ -1,5 +1,5 @@
 class Plugin  {
-  constructor (name, func, propType = null, isGlobal = false, isAfter = false) {
+  constructor (name, func, propType, isGlobal, isAfter) {
     this.name = name
     this.func = func
     this.propType = propType

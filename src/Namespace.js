@@ -1,5 +1,4 @@
 import util from './util'
-
 const {ucfirst} = util
 
 class Namespace {
