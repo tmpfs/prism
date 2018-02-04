@@ -138,22 +138,36 @@ export default [
 
   [
     'mapPropsToStyleState',
-    ({props, options, registry, util, ns}) => {
+    ({props, options, registry, util, ns, childComponentNames}) => {
       const {mapPropsToStyleState} = options
       const {styleSheet} = registry
       let stateStyle = mapPropsToStyleState({...registry, props})
       const sheets = []
       if (stateStyle) {
+        let stateStyleDeclName
+        let stateStyleSheet = stateStyle
         if (util.isString(stateStyle)) {
-          const stateClassName = ns.getStateClassName(stateStyle)
-          stateStyle = styleSheet[stateClassName]
+          // This gives us the top-level component
+          stateStyleDeclName = ns.getStateClassName(stateStyle)
+          stateStyleSheet = styleSheet[stateStyleDeclName]
         }
         // May be undefined if styleSheet does not exist
-        if (stateStyle &&
-            (util.isArray(stateStyle) ||
-             util.isObject(stateStyle) ||
-             util.isNumber(stateStyle))) {
-          sheets.push(stateStyle)
+        if (stateStyleSheet &&
+            (util.isArray(stateStyleSheet) ||
+             util.isObject(stateStyleSheet) ||
+             util.isNumber(stateStyleSheet))) {
+          sheets.push(stateStyleSheet)
+        }
+
+        // Handle adding state styles for child components
+        if (util.isString(stateStyle)) {
+          childComponentNames.forEach((attrName) => {
+            stateStyleDeclName = ns.getChildStateClassName(attrName, stateStyle)
+            stateStyleSheet = styleSheet[stateStyleDeclName]
+            if (stateStyleSheet) {
+              sheets.push(stateStyleSheet)
+            }
+          })
         }
       }
       return sheets

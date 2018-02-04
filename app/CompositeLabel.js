@@ -22,16 +22,6 @@ class CompositeLabel extends Component {
   render () {
     // Get the computed style sheet
     const {style, label, footer, headerStyle, bodyStyle, footerStyle} = this.props
-    //console.log('FOOTER')
-    //console.log(footerStyle)
-
-    //console.log('STYLE')
-    //console.log(StyleSheet.flatten(style))
-    //console.log('HEADER')
-    //console.log(StyleSheet.flatten(headerStyle))
-
-    console.log('BODY')
-    console.log(StyleSheet.flatten(bodyStyle))
     return (
       <View style={style}>
         <SimpleLabel style={headerStyle}>{label}</SimpleLabel>

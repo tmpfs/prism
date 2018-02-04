@@ -43,10 +43,6 @@ class Activity extends Component {
       labelProps
     } = this.props
 
-    console.log('default tint color: ' + Activity.defaultProps.tintColor)
-    console.log('final tint color: ' + tintColor)
-    console.log(activityIndicatorStyle)
-
     const activitySize = large ? 'large' : 'small'
 
     // Default is no label

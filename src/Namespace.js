@@ -19,6 +19,10 @@ class Namespace {
     return this.componentClassName + ':' + state
   }
 
+  getChildStateClassName (child, state) {
+    return this.getChildClassName(child) + ':' + state
+  }
+
   getClassName () {
     return this.className || this.typeName
   }
