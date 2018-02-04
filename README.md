@@ -271,7 +271,7 @@ static styleOptions = ({styleSheet}) => {
 
 #### mapPropsToStyle
 
-Use `mapPropsToStyle` when you want presence of a property to trigger inclusion of styles into the final computed style. Each object key maps to a property name and the corresponding function is called when the property is defined on the component.
+Use `mapPropsToStyle` when you want the presence of a property to trigger inclusion of styles into the computed style. Each object key maps to a property name and the corresponding function is called when the property is defined on the component.
 
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
