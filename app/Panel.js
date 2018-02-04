@@ -7,10 +7,8 @@ import Label from './SimpleLabel'
 class Panel extends Component {
 
   static mapStyleToComponent = {
-    //headerStyle: ['background'],
-    //bodyStyle: ['background'],
-    labelStyle: [],
-    headerStyle: [{space: 'marginBottom'}],
+    labelStyle: ['color'],
+    headerStyle: [{space: 'marginBottom', bg: 'backgroundColor'}],
     bodyStyle: ['background']
   }
 
@@ -24,6 +22,7 @@ class Panel extends Component {
     let {
       labelStyle,
       headerStyle,
+      headerText,
       bodyStyle,
     } = this.props
 
@@ -38,7 +37,7 @@ class Panel extends Component {
 
     return (
       <View style={style}>
-        <View style={headerStyle}>
+        <View text={headerText} style={headerStyle}>
           {header}
         </View>
         <View style={bodyStyle}>

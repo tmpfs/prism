@@ -12,6 +12,10 @@ export default {
   },
   styles: ({colors, fonts}) => {
     return {
+      'Panel.Header': {
+        padding: 10,
+        textTransform: 'uppercase'
+      },
       SimpleLabel: {
         fontFamily: fonts.regular
       },

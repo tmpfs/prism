@@ -26,10 +26,16 @@ export default class App extends Component<{}> {
   render () {
     return (
       <ScrollView>
-        <Panel label='Basic number stack' background='pink' separation={10}>
+        <Panel label='Basic number stack'
+          background='grey'
+          separation={10}
+          color='white'
+          bg='black'
+          margin={20}
+          >
           <ChildStateStyle
             value={21}
-            color='textColor'
+            color='cream'
             size='large'
           >
           Statistic

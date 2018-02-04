@@ -127,6 +127,11 @@ export default [
         if (matched) {
           sheets.push(target)
         }
+
+        if (props[attrName]) {
+          sheets.push(props[attrName])
+        }
+
         //console.log('Final sheets for:' + attrName)
         //console.log(StyleSheet.flatten(sheets))
         mutableStyleValues[attrName] = sheets
