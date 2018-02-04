@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {ScrollView} from 'react-native'
 import {Prism, StyleRegistry} from './src/Prism'
 import Colors from './app/Colors'
 import Fonts from './app/Fonts'
@@ -6,10 +7,11 @@ import StyleSheet from './app/StyleSheet'
 
 import View from './app/View'
 import Activity from './app/Activity'
-import Label from './app/Label'
+//import Label from './app/Label'
 import SimpleLabel from './app/SimpleLabel'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
 import CompositeLabel from './app/CompositeLabel'
+import ChildStateStyle from './app/ChildStateStyle'
 
 const registry = new StyleRegistry()
 registry.addColors(Colors)
@@ -27,7 +29,14 @@ Prism.configure(
 export default class App extends Component<{}> {
   render () {
     return (
-      <View>
+      <ScrollView>
+        <ChildStateStyle
+          value={21}
+          color='textColor'
+          size='large'
+        >
+        Statistic
+        </ChildStateStyle>
         <SimpleLabel margin={10}>
           This is label with color from defaultProps
         </SimpleLabel>
@@ -68,7 +77,7 @@ export default class App extends Component<{}> {
         <View justify='center' padding={15}>
           <Activity />
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }

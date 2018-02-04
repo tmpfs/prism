@@ -27,6 +27,25 @@ export default ({colors, fonts}) => {
     'Activity': {
       tintColor: 'blue'
     },
+
+    'ChildStateStyle.Title:small': {
+      fontSize: 16
+    },
+    'ChildStateStyle.Number:small': {
+      fontSize: 40
+    },
+    'ChildStateStyle.Title:medium': {
+      fontSize: 20
+    },
+    'ChildStateStyle.Number:medium': {
+      fontSize: 55
+    },
+    'ChildStateStyle.Title:large': {
+      fontSize: 24
+    },
+    'ChildStateStyle.Number:large': {
+      fontSize: 70
+    },
     bold: {
       fontFamily: fonts.medium
     }

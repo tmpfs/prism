@@ -4,12 +4,9 @@ import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
 class Label extends Component {
-  static mapPropsToComponent = {
-    foo: ['color']
-  }
   render () {
     // Get the computed style sheet
-    const {style, fooStyle} = this.props
+    const {style} = this.props
     return (
       <Text style={style}>{this.props.children}</Text>
     )

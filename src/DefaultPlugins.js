@@ -4,14 +4,16 @@ import propTypes from './PropTypes'
 import {StyleSheet} from 'react-native'
 import util from './util'
 
-const {isObject, isString} = util
+const {isObject, isString, isFunction} = util
 
-const mapPropsToStyleState = ({props, options, registry, util, ns, attrName}) => {
+const mapState = ({props, options, registry, util, ns, attrName}) => {
   const {mapPropsToStyleState} = options
   const {styleSheet} = registry
+  if (!isFunction(mapPropsToStyleState)) {
+    return
+  }
   let stateStyle = mapPropsToStyleState({...registry, props})
-  const isStyle = attrName
-  console.log('mapping props to state style: ' + attrName)
+  const isStyle = attrName === 'style'
   const sheets = []
   if (stateStyle) {
     let stateStyleDeclName
@@ -33,17 +35,6 @@ const mapPropsToStyleState = ({props, options, registry, util, ns, attrName}) =>
          util.isNumber(stateStyleSheet))) {
       sheets.push(stateStyleSheet)
     }
-
-    // Handle adding state styles for child components
-    //if (util.isString(stateStyle)) {
-      //childComponentNames.forEach((attrName) => {
-        //stateStyleDeclName = ns.getChildStateClassName(attrName, stateStyle)
-        //stateStyleSheet = styleSheet[stateStyleDeclName]
-        //if (stateStyleSheet) {
-          //sheets.push(stateStyleSheet)
-        //}
-      //})
-    //}
   }
   return sheets
 }
@@ -86,7 +77,7 @@ export default [
           sheets.push(styleSheet[styleRuleName])
         }
 
-        const stateSheets = mapPropsToStateStyle({...pluginOptions, attrName})
+        const stateSheets = mapState({...pluginOptions, attrName})
         sheets = sheets.concat(stateSheets)
 
         // TODO: handle state!!?
@@ -183,7 +174,7 @@ export default [
 
   [
     'mapPropsToStyleState',
-    mapPropsToStyleState
+    mapState
   ],
 
   // Support for mapPropsToStyle
