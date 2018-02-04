@@ -18,14 +18,14 @@ export default [
         definition,
         ns,
         styleSheet,
-        stylePropertyNames,
+        childComponentNames,
         mutableStyleValues} = pluginOptions
-      //console.log('mapPropsToComponent: ' + stylePropertyNames)
+      //console.log('mapPropsToComponent: ' + childComponentNames)
       const {mapPropsToComponent} = options
       const {Type, initialStyles} = definition
       const target = {}
 
-      stylePropertyNames.forEach((attrName) => {
+      childComponentNames.forEach((attrName) => {
         let sheets = []
 
         const defaults = initialStyles[attrName]
@@ -54,7 +54,7 @@ export default [
         //console.log('mapPropsToComponent: ' + attrName)
         //console.log(source)
         // NOTE: child component style objects are initialized in PrismComponent
-        // NOTE: based on stylePropertyNames
+        // NOTE: based on childComponentNames
         if (Array.isArray(source) && source.length) {
           source.forEach((propName) => {
             //console.log(propName)

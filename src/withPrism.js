@@ -21,7 +21,7 @@ const computeStyles = (
     definition,
     util,
     mutableStyleValues,
-    stylePropertyNames,
+    childComponentNames,
     attrName,
     plugins}) => {
 
@@ -120,7 +120,7 @@ const computeStyles = (
     colors,
     plugins,
     mutableStyleValues,
-    stylePropertyNames,
+    childComponentNames,
     attrName,
     extractedStyles
   }
@@ -205,9 +205,9 @@ const withPrism = (Stylable, definition) => {
         styleValues: {}
       }
 
-      const stylePropertyNames = ['style'].concat(options.stylePropertyNames)
+      const childComponentNames = ['style'].concat(options.childComponentNames)
       // Initialize empty styles, following the convention
-      stylePropertyNames.forEach((name) => {
+      childComponentNames.forEach((name) => {
         // Use initialStyles set by defaultProps
         // TODO: do not store initialStyles on the Types
         // TODO: we can store them on the definition
@@ -225,13 +225,13 @@ const withPrism = (Stylable, definition) => {
 
     processStylePlugins (props, testFunc = () => true) {
       const {registry, options, Type} = definition
-      const {stylePropertyNames, mapPropsToComponent} = options
+      const {childComponentNames, mapPropsToComponent} = options
       const {plugins} = options
       const {styleValues} = this.state
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
       const styleAttrName = 'style'
-      //console.log(stylePropertyNames)
+      //console.log(childComponentNames)
       const compute = (attrName) => {
         let sheets = mutableStyleValues[attrName]
         // Must wrap in if flat is in use
@@ -249,7 +249,7 @@ const withPrism = (Stylable, definition) => {
             attrName,
             mutableStyleValues,
             plugins,
-            stylePropertyNames
+            childComponentNames
           })
 
         //mutableStyleValues[attrName] = computedStyle

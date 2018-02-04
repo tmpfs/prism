@@ -222,7 +222,7 @@ const registerComponent = (registry, definition, config) => {
   // Default style property support
   //mapPropsToComponent.style = true
   options.mapPropsToComponent = mapPropsToComponent
-  options.stylePropertyNames = Object.keys(mapPropsToComponent)
+  options.childComponentNames = Object.keys(mapPropsToComponent)
 
   const globalPlugins = plugins
     .filter((plugin) => {
@@ -254,8 +254,8 @@ const registerComponent = (registry, definition, config) => {
 
   // Automatic propTypes for style, labelStyle, imageStyle etc.
   definition.initialStyles = {}
-  const stylePropertyNames = [STYLE].concat(options.stylePropertyNames)
-  stylePropertyNames.forEach((name) => {
+  const childComponentNames = [STYLE].concat(options.childComponentNames)
+  childComponentNames.forEach((name) => {
     Type.propTypes[name] = propTypes.style
 
     // Configure initial styles per attribute
