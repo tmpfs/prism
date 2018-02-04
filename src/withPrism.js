@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
 
 import propTypes from './PropTypes'
+import withContext from './withContext'
 import Namespace from './Namespace'
 
 import util from './util'
@@ -83,9 +84,6 @@ const computeStyles = (
       return list
     }, [])
 
-  //console.log('mappedChildProperties')
-  //console.log(mappedChildProperties)
-
   // Only run plugins when we have a defined property
   keys = keys.filter((propName) => {
     return (
@@ -142,9 +140,6 @@ const computeStyles = (
   const before = plugins.globals.filter((plugin) => !plugin.isAfter)
   const after = plugins.globals.filter((plugin) => plugin.isAfter)
 
-  //console.log(before.map((p) => p.name))
-  //console.log(after.map((p) => p.name))
-
   // Run before global plugins
   runGlobalPlugins(before)
 
@@ -185,6 +180,7 @@ const computeStyles = (
 
 // High order component wrapper
 const withPrism = (Stylable, definition) => {
+  const {config} = definition
   class PrismComponent extends Component {
 
     constructor (props) {
@@ -206,11 +202,9 @@ const withPrism = (Stylable, definition) => {
       }
 
       const childComponentNames = ['style'].concat(options.childComponentNames)
-      // Initialize empty styles, following the convention
+      // Initialize a style object for each child component style
       childComponentNames.forEach((name) => {
         // Use initialStyles set by defaultProps
-        // TODO: do not store initialStyles on the Types
-        // TODO: we can store them on the definition
         state.styleValues[name] = definition.initialStyles[name].slice()
       })
       this.state = state
@@ -231,7 +225,6 @@ const withPrism = (Stylable, definition) => {
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
       const styleAttrName = 'style'
-      //console.log(childComponentNames)
       const compute = (attrName) => {
         let sheets = mutableStyleValues[attrName]
         // Must wrap in if flat is in use
@@ -268,33 +261,33 @@ const withPrism = (Stylable, definition) => {
       this.setState({styleValues: mutableStyleValues})
     }
 
-    static childContextTypes = {
-      font: propTypes.fontPropType,
-      text: propTypes.textPropType
-    }
+    //static childContextTypes = {
+      //font: propTypes.fontPropType,
+      //text: propTypes.textPropType
+    //}
 
-    static contextTypes = {
-      font: propTypes.fontPropType,
-      text: propTypes.textPropType
-    }
+    //static contextTypes = {
+      //font: propTypes.fontPropType,
+      //text: propTypes.textPropType
+    //}
 
-    getChildContext () {
-      const {options} = definition
-      const {props} = this
-      const context = {}
-      // NOTE: we only propagate to children
-      // NOTE: until a component that supportsText
-      // NOTE: is found
-      if (!options.supportsText) {
-        if (props.font) {
-          context.font = props.font
-        }
-        if (props.text) {
-          context.text = props.text
-        }
-      }
-      return context
-    }
+    //getChildContext () {
+      //const {options} = definition
+      //const {props} = this
+      //const context = {}
+      //// NOTE: we only propagate to children
+      //// NOTE: until a component that supportsText
+      //// NOTE: is found
+      //if (!options.supportsText) {
+        //if (props.font) {
+          //context.font = props.font
+        //}
+        //if (props.text) {
+          //context.text = props.text
+        //}
+      //}
+      //return context
+    //}
 
     // So that changes to style properties are
     // reflected in the stylable component
@@ -325,34 +318,41 @@ const withPrism = (Stylable, definition) => {
   PrismComponent.propTypes = Stylable.propTypes
   PrismComponent.defaultProps = Stylable.defaultProps
 
+  definition.Type = Stylable
+  definition.NewType = PrismComponent
+
+  //console.log(config.experimentalPlugins)
+
+  withContext(definition)
+
   //// BEGIN CHILD CONTEXT
 
   // Inject font contextType
-  Stylable.contextTypes = Stylable.contextTypes || {}
-  Stylable.childContextTypes = Stylable.childContextTypes || {}
+  //Stylable.contextTypes = Stylable.contextTypes || {}
+  //Stylable.childContextTypes = Stylable.childContextTypes || {}
 
-  Stylable.contextTypes.font = propTypes.fontPropType
-  Stylable.childContextTypes.font = propTypes.fontPropType
-  Stylable.contextTypes.text = propTypes.textPropType
-  Stylable.childContextTypes.text = propTypes.textPropType
+  //Stylable.contextTypes.font = propTypes.fontPropType
+  //Stylable.childContextTypes.font = propTypes.fontPropType
+  //Stylable.contextTypes.text = propTypes.textPropType
+  //Stylable.childContextTypes.text = propTypes.textPropType
 
-  if (Stylable.prototype.getChildContext) {
-    Stylable.prototype._getChildContext = Stylable.prototype.getChildContext
-  }
+  //if (Stylable.prototype.getChildContext) {
+    //Stylable.prototype._getChildContext = Stylable.prototype.getChildContext
+  //}
 
-  Stylable.prototype.getChildContext = function () {
-    let context = PrismComponent.prototype.getChildContext.call(this)
-    // Call original getChildContext which wins over our
-    // pre-defined child context so if there is a collision
-    // I sure hope you know what you are doing
-    if (this._getChildContext) {
-      // NOTE: it's important we always have a context so guard
-      // NOTE: against an implementation not returning an object
-      const originalContext = this._getChildContext()
-      context = Object.assign(context, isObject(originalContext) ? originalContext : {})
-    }
-    return context
-  }
+  //Stylable.prototype.getChildContext = function () {
+    //let context = PrismComponent.prototype.getChildContext.call(this)
+    //// Call original getChildContext which wins over our
+    //// pre-defined child context so if there is a collision
+    //// I sure hope you know what you are doing
+    //if (this._getChildContext) {
+      //// NOTE: it's important we always have a context so guard
+      //// NOTE: against an implementation not returning an object
+      //const originalContext = this._getChildContext()
+      //context = Object.assign(context, isObject(originalContext) ? originalContext : {})
+    //}
+    //return context
+  //}
 
   //// END CHILD CONTEXT
 
