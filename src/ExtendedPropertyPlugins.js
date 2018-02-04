@@ -28,7 +28,10 @@ export default [
   // Color
   [
     ({prop, styleSheet, colors, options, supportsColor}) => {
+      console.log('getting color style: ' + options.supportsColor)
+      console.log('getting color style: ' + prop)
       if (options.supportsColor || options.supportsText) {
+        console.log('returning color style: ' + colors[prop])
         return {color: colors[prop] || prop}
       }
     },

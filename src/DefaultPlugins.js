@@ -14,13 +14,12 @@ export default [
       const {
         props,
         options,
-        extractedStyles,
         definition,
+        plugins,
         ns,
         styleSheet,
         childComponentNames,
         mutableStyleValues} = pluginOptions
-      //console.log('mapPropsToComponent: ' + childComponentNames)
       const {mapPropsToComponent} = options
       const {Type, initialStyles} = definition
       const target = {}
@@ -46,26 +45,39 @@ export default [
           sheets.push(styleSheet[styleRuleName])
         }
 
-        // TODO: handle state!!
+        // TODO: handle state!!?
 
         const source = mapPropsToComponent[attrName]
         const target = {}
         let matched = false
-        //console.log('mapPropsToComponent: ' + attrName)
-        //console.log(source)
         // NOTE: child component style objects are initialized in PrismComponent
         // NOTE: based on childComponentNames
         if (Array.isArray(source) && source.length) {
+
+          const addMatched = (propName, propValue) => {
+            console.log('adding child property: ' + propName)
+            console.log('adding child property: ' + plugins.property.map[propName])
+            const plugin = plugins.property.map[propName]
+            if (plugin) {
+              console.log('add child property via plugin')
+              const prop = propValue
+              const style = plugin.func({...pluginOptions, prop, propName})
+              if (style !== undefined) {
+                console.log('got returned styled: ' )
+                console.log(style)
+                //sheets = sheets.concat(style)
+              }
+            } else {
+              target[propName] = propValue
+              matched = true
+            }
+          }
+
           source.forEach((propName) => {
             //console.log(propName)
             if (isString(propName) && props[propName] !== undefined) {
               // Get from the processed property so we can respect color names
-              if (extractedStyles[propName]) {
-                sheets = sheets.concat(extractedStyles[propName])
-              } else {
-                target[propName] = props[propName]
-                matched = true
-              }
+              addMatched(propName, props[propName])
             } else if (isObject(propName)) {
               const propertyNames = Object.keys(propName)
               propertyNames.forEach((childPropName) => {
@@ -77,13 +89,7 @@ export default [
 
                 if (props[childPropName] !== undefined) {
                   // Get from the processed property so we can respect color names
-                  if (extractedStyles[childPropName]) {
-                    sheets = sheets.concat(extractedStyles[childPropName])
-                  } else {
-                    target[stylePropName] = props[childPropName]
-                    //console.log('using prop value: ' + props[childPropName])
-                    matched = true
-                  }
+                  addMatched(stylePropName, props[childPropName])
                 }
               })
             }
@@ -92,9 +98,6 @@ export default [
         if (matched) {
           sheets.push(target)
         }
-        //console.log('Assigning child object sheets: ' + attrName)
-        //console.log('Assigning child object sheets: ' + sheets.length)
-        //console.log(StyleSheet.flatten(sheets))
         mutableStyleValues[attrName] = sheets
       })
     },
@@ -106,8 +109,7 @@ export default [
     'mapStyleToProp',
     ({props, sheets, options, util, definition, mutableStyleValues}) => {
       const {mapStyleToProp} = options
-      const {Type, initialStyles} = definition
-      //const defaultProps = initialStyles.style
+      const {Type} = definition
       const {isString} = util
       if (mapStyleToProp) {
         const flat = StyleSheet.flatten(sheets)
@@ -123,8 +125,6 @@ export default [
               key = v
             }
             // Note look up in the props before the style sheet
-            console.log(props[k])
-            //const value = (props[k] && defaultProps[k] !== props[k]) ? props[k] : flat[k]
             const value = flat[k]
             if (value !== undefined) {
               mutableStyleValues[key] = value

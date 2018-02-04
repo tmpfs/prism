@@ -19,7 +19,7 @@ export default ({colors, fonts}) => {
       marginBottom: 5
     },
     'CompositeLabel.Body': {
-      color: 'blue',
+      color: colors.textColor
     },
     'CompositeLabel.Footer': {
       marginTop: 10

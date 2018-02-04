@@ -12,9 +12,9 @@ class SimpleLabel extends Component {
         align: ({prop, styleSheet}) => {
           return {textAlign: prop}
         },
-        color: ({prop, styleSheet}) => {
-          return {color: prop}
-        },
+        //color: ({prop, styleSheet}) => {
+          //return {color: prop}
+        //},
         bold: ({prop, styleSheet}) => {
           if (styleSheet.bold !== undefined) {
             return styleSheet.bold

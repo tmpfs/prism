@@ -35,7 +35,6 @@ export default [
 
       const it = (children) => {
         if (util.isString(children)) {
-          //console.log(`Applying transform ${prop.transform} to "${children}"`)
           children = transformer(prop, children)
         }
         return children

@@ -58,7 +58,7 @@ export default class App extends Component<{}> {
         </DefaultStyleLabel>
 
         <CompositeLabel
-          color='red'
+          color='bodyTextColor'
           margin={10}
           label='Composite label example'
           footerColor='purple'
