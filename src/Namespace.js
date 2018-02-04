@@ -1,3 +1,7 @@
+import util from './util'
+
+const {ucfirst} = util
+
 class Namespace {
   constructor ({namespace, typeName, className, childClassName}) {
     this.namespace = namespace || ''
@@ -19,14 +23,19 @@ class Namespace {
     return this.className || this.typeName
   }
 
+  getChildClassName (childClassName) {
+    childClassName = ucfirst(childClassName)
+    return this.componentClassName + '.' + childClassName
+  }
+
   get componentClassName () {
     const className = this.getClassName()
     const {namespace, childClassName} = this
     let styleDeclName = namespace ? `${namespace}.${className}` : className
     // Passing style to nested child component
-    if (childClassName) {
-      styleDeclName += '.' + childClassName
-    }
+    //if (childClassName) {
+      //styleDeclName += '.' + childClassName
+    //}
     return styleDeclName
   }
 }

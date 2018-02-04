@@ -11,6 +11,9 @@ export default ({colors, fonts}) => {
     DefaultStyleLabel: {
       color: 'orange'
     },
+    'CompositeLabel': {
+      margin: 20
+    },
     'CompositeLabel.Header': {
       color: 'green'
     },

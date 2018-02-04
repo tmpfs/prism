@@ -106,7 +106,7 @@ const registerPlugin = (plugin) => {
       isFunction(plugin[0]) && isObject(plugin[1])
 
     if (isGlobal) {
-      return new Plugin(plugin[0], plugin[1], plugin[2], true)
+      return new Plugin(plugin[0], plugin[1], plugin[2], true, plugin[3])
     }
 
     if (isProperty) {
@@ -223,7 +223,7 @@ const registerComponent = (registry, definition, config) => {
   // Default style property support
   //mapPropsToComponent.style = true
   options.mapPropsToComponent = mapPropsToComponent
-  options.stylePropertyNames = ['style'].concat(Object.keys(mapPropsToComponent))
+  options.stylePropertyNames = Object.keys(mapPropsToComponent)
 
   const globalPlugins = plugins
     .filter((plugin) => {
@@ -255,7 +255,8 @@ const registerComponent = (registry, definition, config) => {
 
   // Automatic propTypes for style, labelStyle, imageStyle etc.
   Type.initialStyles = {}
-  options.stylePropertyNames.forEach((name) => {
+  const stylePropertyNames = [STYLE].concat(options.stylePropertyNames)
+  stylePropertyNames.forEach((name) => {
     name = getStylePropertyName(name)
     Type.propTypes[name] = propTypes.style
 

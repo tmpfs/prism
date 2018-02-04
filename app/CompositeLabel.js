@@ -1,17 +1,17 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {View} from 'react-native'
+import {StyleSheet, View} from 'react-native'
 import {Prism} from '../src/Prism'
 
 import SimpleLabel from './SimpleLabel'
 
 class CompositeLabel extends Component {
 
-  //static styleOptions = () => {
-    //return {
-      //supportsText: true
-    //}
-  //}
+  static styleOptions = () => {
+    return {
+      supportsColor: true
+    }
+  }
 
   static mapPropsToComponent = {
     header: true,
@@ -24,11 +24,14 @@ class CompositeLabel extends Component {
     const {style, label, footer, headerStyle, bodyStyle, footerStyle} = this.props
     //console.log('FOOTER')
     //console.log(footerStyle)
-    //console.log('HEADER')
-    //console.log(headerStyle)
+
+    console.log('STYLE')
+    console.log(StyleSheet.flatten(style))
+    console.log('HEADER')
+    console.log(StyleSheet.flatten(headerStyle))
 
     return (
-      <View>
+      <View style={style}>
         <SimpleLabel style={headerStyle}>{label}</SimpleLabel>
         <SimpleLabel style={bodyStyle}>{this.props.children}</SimpleLabel>
         <SimpleLabel style={footerStyle}>{footer}</SimpleLabel>

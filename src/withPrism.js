@@ -13,7 +13,7 @@ const {
   isString
 } = util
 
-const getStyleSheet = (
+const computeStyles = (
   {
     context,
     props,
@@ -22,30 +22,20 @@ const getStyleSheet = (
     definition,
     util,
     mutableStyleValues,
+    stylePropertyNames,
     attrName,
     fullAttrName,
-    callGlobals,
     plugins}) => {
 
   const style = props[fullAttrName]
   const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors} = registry
 
-  // Passing style to nested child component
-  let childClassName
-  if (attrName && attrName !== 'style') {
-    childClassName = ucfirst(attrName)
-  }
-
   const ns = new Namespace(
-    {namespace, childClassName, className: options.className, typeName: Name})
+    {namespace, className: options.className, typeName: Name})
 
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
-
-  //console.log(ns.componentClassName)
-  //console.log(defaultStyles.length)
-  //console.log(StyleSheet.flatten(defaultStyles))
 
   const invariant = registry.styleInvariants[ns.componentClassName]
   if (invariant) {
@@ -59,6 +49,45 @@ const getStyleSheet = (
 
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
+
+  // Build the map of child properties that we should put
+  // into extractedStyles so  that properties assigned to child
+  // components are not applied to the parent style
+  const {mapPropsToComponent} = options
+  const extractedStyles = {}
+  const mappedChildProperties = Object.keys(mapPropsToComponent)
+    .reduce((list, childName) => {
+        const v = mapPropsToComponent[childName]
+        if (Array.isArray(v)) {
+          const names = v.reduce((propNames, nm) => {
+            const seen = (nm) => {
+              return ~list.indexOf(nm) || ~propNames.indexOf(nm)
+            }
+            if (isString(nm)) {
+              if (!seen(nm)) {
+                propNames.push(nm)
+              }
+            } else if(isObject(nm)) {
+              for (let z in nm) {
+                //if (isString(nm[z])) {
+                  //z = nm[z]
+                //}
+                //console.log('getting object property name: ' + z)
+                if (!seen(z)) {
+                  propNames.push(z)
+                }
+              }
+            }
+            return propNames
+          }, [])
+          // Flatten the array
+          list = list.concat(names)
+        }
+      return list
+    }, [])
+
+  //console.log('mappedChildProperties')
+  //console.log(mappedChildProperties)
 
   // Only run plugins when we have a defined property
   keys = keys.filter((propName) => {
@@ -74,7 +103,6 @@ const getStyleSheet = (
     property: {
       keys: keys,
       map: map,
-      processed: []
     }
   }
 
@@ -94,13 +122,14 @@ const getStyleSheet = (
     colors,
     plugins,
     mutableStyleValues,
+    stylePropertyNames,
     attrName,
-    fullAttrName
+    fullAttrName,
+    extractedStyles
   }
 
-  // TODO: improve globals handling
-  //if (callGlobals) {
-    plugins.globals.forEach((plugin) => {
+  const runGlobalPlugins = (globals) => {
+    globals.forEach((plugin) => {
       pluginOptions.plugin = plugin
       const style = plugin.func(pluginOptions)
       if (style) {
@@ -113,21 +142,36 @@ const getStyleSheet = (
         }
       }
     })
-  //}
+  }
 
+  const before = plugins.globals.filter((plugin) => !plugin.isAfter)
+  const after = plugins.globals.filter((plugin) => plugin.isAfter)
+
+  //console.log(before.map((p) => p.name))
+  //console.log(after.map((p) => p.name))
+
+  // Run before global plugins
+  runGlobalPlugins(before)
+
+  // Run property plugins
   keys.forEach((propName) => {
     const plugin = map[propName]
-    if (~plugins.property.processed.indexOf(plugin.name)) {
-      return
-    }
     pluginOptions.plugin = plugin
     pluginOptions.propName = propName
     pluginOptions.prop = props[propName]
     const style = plugin.func(pluginOptions)
     if (style) {
-      sheets = sheets.concat(style)
+      if (~mappedChildProperties.indexOf(plugin.name)) {
+        //console.log('got mapped child property!!!!')
+        extractedStyles[plugin.name] = style
+      } else {
+        sheets = sheets.concat(style)
+      }
     }
   })
+
+  // Run after global plugins
+  runGlobalPlugins(after)
 
   // Add inline `style` property
   if (style) {
@@ -164,8 +208,9 @@ const withPrism = (Stylable, definition) => {
         styleValues: {}
       }
 
+      const stylePropertyNames = ['style'].concat(options.stylePropertyNames)
       // Initialize empty styles, following the convention
-      options.stylePropertyNames.forEach((name) => {
+      stylePropertyNames.forEach((name) => {
         name = getStylePropertyName(name)
         // Use initialStyles set by defaultProps
         // TODO: do not store initialStyles on the Types
@@ -189,35 +234,43 @@ const withPrism = (Stylable, definition) => {
       const {styleValues} = this.state
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
-      let callGlobals = true
+      const styleAttrName = 'style'
       //console.log(stylePropertyNames)
-      stylePropertyNames.forEach((attrName) => {
-        if (testFunc({props, attrName})) {
-          const fullAttrName = getStylePropertyName(attrName)
-          let sheets = mutableStyleValues[fullAttrName]
-          // Must wrap in if flat is in use
-          if (sheets && !Array.isArray(sheets)) {
-            sheets = [sheets]
-          }
-          const computedStyle = getStyleSheet(
-            {
-              context,
-              props,
-              state,
-              sheets,
-              util,
-              definition,
-              attrName,
-              fullAttrName,
-              mutableStyleValues,
-              plugins,
-              callGlobals
-            })
-
-          mutableStyleValues[fullAttrName] = computedStyle
-          //callGlobals = false
+      const compute = (attrName) => {
+        const fullAttrName = getStylePropertyName(attrName)
+        let sheets = mutableStyleValues[fullAttrName]
+        // Must wrap in if flat is in use
+        if (sheets && !Array.isArray(sheets)) {
+          sheets = [sheets]
         }
-      })
+        const computedStyle = computeStyles(
+          {
+            context,
+            props,
+            state,
+            sheets,
+            util,
+            definition,
+            attrName,
+            fullAttrName,
+            mutableStyleValues,
+            plugins,
+            stylePropertyNames
+          })
+
+        //mutableStyleValues[fullAttrName] = computedStyle
+
+        return computedStyle
+      }
+
+      // Compute style property
+      if (testFunc({props, styleAttrName})) {
+        // This assigns the style property to the state values
+        // which in turn will get passed to the wrapped component
+        // via props
+        mutableStyleValues.style = compute(styleAttrName)
+      }
+
       this.setState({styleValues: mutableStyleValues})
     }
 

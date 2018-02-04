@@ -4,7 +4,7 @@ import propTypes from './PropTypes'
 import {StyleSheet} from 'react-native'
 import util from './util'
 
-const {isObject, isString} = util
+const {isObject, isString, getStylePropertyName} = util
 
 export default [
 
@@ -30,20 +30,52 @@ export default [
   [
     'mapPropsToComponent',
     (pluginOptions) => {
-      const {props, options, util, attrName, plugins} = pluginOptions
+      const {
+        props,
+        options,
+        //sheets,
+        ns,
+        styleSheet,
+        stylePropertyNames,
+        mutableStyleValues} = pluginOptions
+      //console.log('mapPropsToComponent: ' + stylePropertyNames)
       const {mapPropsToComponent} = options
-      const source = mapPropsToComponent[attrName]
-      const sheets = []
+      //const sheets = []
+      //const originalSheets = sheets
       const target = {}
-      // This is only for child component objects
-      if (attrName !== 'style') {
-        if (Array.isArray(source)) {
-          let matched = false
+
+      stylePropertyNames.forEach((attrName) => {
+        const fullAttrName = getStylePropertyName(attrName)
+        const sheets = []
+
+        // Add base class name (parent component)
+        // style sheet
+        //if (styleSheet[ns.componentClassName]) {
+          //sheets.push(styleSheet[ns.componentClassName])
+        //}
+
+        // Add child class name style sheet
+        const styleRuleName = ns.getChildClassName(attrName)
+        if (styleSheet[styleRuleName]) {
+          sheets.push(styleSheet[styleRuleName])
+        }
+
+        // TODO: handle state!!
+
+        const source = mapPropsToComponent[attrName]
+        const target = {}
+        let matched = false
+        //console.log('mapPropsToComponent: ' + attrName)
+        //console.log('mapPropsToComponent: ' + fullAttrName)
+        //console.log(source)
+        // NOTE: child component style objects are initialized in PrismComponent
+        // NOTE: based on stylePropertyNames
+        if (Array.isArray(source) && source.length) {
           source.forEach((propName) => {
+            //console.log(propName)
             if (isString(propName) && props[propName] !== undefined) {
               target[propName] = props[propName]
               matched = true
-            // Handle object definition: {space: marginTop}
             } else if (isObject(propName)) {
               const propertyNames = Object.keys(propName)
               propertyNames.forEach((childPropName) => {
@@ -52,37 +84,27 @@ export default [
                 if (isString(propName[childPropName])) {
                   stylePropName = propName[childPropName]
                 }
+
                 if (props[childPropName] !== undefined) {
-                  // Call property plugins for color name handling etc.
-                  const propPlugin = plugins.property.map[stylePropName]
-                  if (propPlugin) {
-                    const prop = props[childPropName]
-                    // Force supportsText for color name lookup
-                    const supportsColor = true
-                    const propPluginOptions = {...pluginOptions, prop, supportsColor}
-                    const style = propPlugin.func(propPluginOptions)
-                    if (style !== undefined) {
-                      sheets.push(style)
-                    }
-                    // Mark as processed so later property processing for stylePropName
-                    // plugin does not override this invocation
-                    plugins.property.processed.push(propPlugin.name)
-                  } else {
-                    target[stylePropName] = props[childPropName]
-                    matched = true
-                  }
+                  target[stylePropName] = props[childPropName]
+                  //console.log('using prop value: ' + props[childPropName])
+                  matched = true
                 }
               })
             }
           })
-          // Save adding empty objects to the list of style sheets
-          if (matched) {
-            sheets.push(target)
-          }
-          return sheets
         }
-      }
-    }
+        if (matched) {
+          sheets.push(target)
+        }
+        //console.log('Assigning child object sheets: ' + fullAttrName)
+        //console.log('Assigning child object sheets: ' + sheets.length)
+        //console.log(StyleSheet.flatten(sheets))
+        mutableStyleValues[fullAttrName] = sheets
+      })
+    },
+    {},
+    true
   ],
 
   [
