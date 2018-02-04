@@ -1,4 +1,4 @@
-import propTypes from './PropTypes'
+import propTypes from './propTypes'
 
 const boxModel = (key, value) => {
   const out = {}

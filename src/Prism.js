@@ -8,7 +8,7 @@ import Plugins from './DefaultPlugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import ExperimentalPlugins from './ExperimentalPlugins'
 
-import propTypes from './PropTypes'
+import propTypes from './propTypes'
 import withPrism from './withPrism'
 import withContext from './withContext'
 import util from './util'

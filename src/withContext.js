@@ -1,4 +1,4 @@
-import propTypes from './PropTypes'
+import propTypes from './propTypes'
 
 const childContextTypes = {
   font: propTypes.fontPropType,
@@ -12,8 +12,6 @@ const contextTypes = {
 
 export default (definition) => {
   const {Type, NewType} = definition
-  //// BEGIN CHILD CONTEXT
-  //
   NewType.childContextTypes = childContextTypes
   NewType.contextTypes = contextTypes
 
@@ -62,6 +60,4 @@ export default (definition) => {
     }
     return context
   }
-
-  //// END CHILD CONTEXT
 }

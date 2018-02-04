@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import propTypes from './PropTypes'
+import propTypes from './propTypes'
 
 import {StyleSheet} from 'react-native'
 import util from './util'

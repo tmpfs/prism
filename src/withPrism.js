@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
 
-import propTypes from './PropTypes'
+import propTypes from './propTypes'
 import withContext from './withContext'
 import Namespace from './Namespace'
 

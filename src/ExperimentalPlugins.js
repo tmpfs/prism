@@ -1,5 +1,5 @@
 import React from 'react'
-import propTypes from './PropTypes'
+import propTypes from './propTypes'
 
 const fontShapeColors = propTypes.fontShapeColors
 const fontShapeMap = propTypes.fontShapeMap
