@@ -51,9 +51,9 @@ With the `extendedProperties` option all the built in and extended [style proper
 To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
 
 ```javascript
+import {View} from 'react-native'
 import {Prism} from 'react-native-prism'
-// Define your Label component
-export default Prism(Label)
+export default Prism(View)
 ```
 
 Here is a working example for the application shown above.
