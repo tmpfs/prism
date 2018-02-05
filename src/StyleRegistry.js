@@ -3,7 +3,7 @@ import {Platform, StyleSheet} from 'react-native'
 import util from './util'
 const {isFunction, isObject, isString} = util
 
-import PropProcessor from './PropProcessor'
+import {processor} from './Processor'
 
 export default class StyleRegistry {
   fonts = {}
@@ -111,7 +111,7 @@ export default class StyleRegistry {
   compile ({config}) {
 
     // Pre-process style properties
-    PropProcessor.rewrite(config, this.styles)
+    processor.process(this.styles, true)
 
     const {invariants} = config
     if (invariants) {

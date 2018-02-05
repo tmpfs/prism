@@ -5,6 +5,8 @@ import propTypes from './propTypes'
 import withContext from './withContext'
 import Namespace from './Namespace'
 
+import {processor} from './Processor'
+
 import util from './util'
 
 const {
@@ -200,6 +202,13 @@ const computeStyles = (
 
   if (options.flat) {
     return StyleSheet.flatten(sheets)
+  }
+
+  if (processor.hasPreProcessors) {
+    //console.log('GOT PREPROCESSORS WHEN COMPUTING STYLES')
+    const flat = StyleSheet.flatten(sheets)
+    processor.process(flat, true)
+    return [flat]
   }
 
   return sheets
