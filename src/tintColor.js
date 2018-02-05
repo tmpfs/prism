@@ -5,7 +5,7 @@ export default new Rule(
   ({move, propName, propValue, colors}) => {
     propValue = colors[propValue] || propValue
     // Extract to prop, helps with ActivityIndicator
-    move(propValue, null)
+    move(propValue, null, true)
   },
   ['tintColor'],
   true
