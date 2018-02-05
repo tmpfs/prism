@@ -23,6 +23,7 @@ const computeStyles = (
     //sheets,
     definition,
     mutableStyleValues,
+    additionalProperties,
     childComponentNames,
     attrName,
     plugins}) => {
@@ -201,7 +202,7 @@ const computeStyles = (
     const keys = Object.keys(expansions)
     if (keys.length) {
       for (let k in expansions) {
-        mutableStyleValues[k] = expansions[k]
+        additionalProperties[k] = expansions[k]
       }
       runPropertyPlugins(keys, expansions)
     }
@@ -312,6 +313,7 @@ const withPrism = (Stylable, definition) => {
         <Stylable
           ref='stylable'
           {...this.props}
+          {...this.state.additionalProperties}
           {...this.state.styleValues}>
           {children}
         </Stylable>
