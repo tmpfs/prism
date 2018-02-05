@@ -30,7 +30,6 @@ export default [
     ({prop, styleSheet, colors, options}) => {
       if (options.supportsText) {
         return {color: prop}
-        //return {color: colors[prop] || prop}
       }
     },
     {color: propTypes.color}

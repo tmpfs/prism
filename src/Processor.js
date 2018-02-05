@@ -27,18 +27,17 @@ class Processor {
 
   collate (config) {
     const {processors} = config
-    console.log('collating with :' + processors.length)
     if (!processors || !processors.length) {
       return
     }
     processors.forEach((proc) => {
-      if (proc.styleName) {
-        this.map.styles[proc.styleName] = proc
+      let val = proc.styleName
+      if (val && !Array.isArray(val)) {
+        val = [val]
       }
-      if (proc.propStyleName) {
-        this.map.props[proc.propStyleName] = proc
-      }
-
+      val.forEach((v) => {
+        this.map.styles[v] = proc
+      })
       this.hasPreProcessors = true
     })
 
@@ -67,6 +66,11 @@ class Processor {
         const write = (newValue, newPropName) => {
           newPropName = newPropName || propName
           target[newPropName] = newValue
+          // Writing a new property (expansion)
+          // so delete the old one
+          if (newPropName !== propName) {
+            delete target[propName]
+          }
         }
         const procOptions = {
           propName,

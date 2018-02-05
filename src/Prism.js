@@ -31,7 +31,7 @@ const Configuration = {
       if (colors[propValue]) {
         write(colors[propValue])
       }
-    }, 'color')
+    }, ['color', 'backgroundColor', 'tintColor'])
   ],
   sizes: {
     'xx-small': 12,
