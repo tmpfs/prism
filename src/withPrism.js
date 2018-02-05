@@ -20,7 +20,7 @@ const computeStyles = (
     context,
     props,
     state,
-    sheets,
+    //sheets,
     definition,
     util,
     mutableStyleValues,
@@ -29,21 +29,40 @@ const computeStyles = (
     plugins}) => {
 
   const style = props[attrName]
-  const {config, options, registry, namespace, Name, Type} = definition
+  const {config, initialStyles, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors, invariants} = registry
 
   const ns = new Namespace(
     {namespace, className: options.className, typeName: Name})
 
+  let sheets = []
+
+  if (initialStyles[attrName]) {
+    sheets = sheets.concat(initialStyles[attrName])
+  }
+
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
 
+  let styleRuleName = ns.componentClassName
+
+  if (attrName !== 'style') {
+    // Add child class name style sheet
+    styleRuleName = ns.getChildClassName(attrName)
+  }
+
+  if (styleSheet[styleRuleName]) {
+    sheets.push(styleSheet[styleRuleName])
+  }
+
   if (invariants[ns.componentClassName]) {
-    defaultStyles.push(invariants[ns.componentClassName])
+    //console.log('adding invariant: ' + ns.componentClassName)
+    //console.log(invariants[ns.componentClassName])
+    sheets.push(invariants[ns.componentClassName])
   }
 
   // Add default styles
-  sheets = sheets.concat(defaultStyles)
+  //sheets = sheets.concat(defaultStyles)
 
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
@@ -179,29 +198,12 @@ const computeStyles = (
   runPropertyPlugins(keys, props)
 
   // Run after global plugins
-  runGlobalPlugins(after)
+  //runGlobalPlugins(after)
 
   // Add inline `style` property
   if (style) {
     sheets = sheets.concat(style)
   }
-
-  //console.log('hasPre: ' + processor.hasPreProcessors)
-
-  //processor.propertyNames.forEach((nm) => {
-    ////console.log(nm)
-    //if (props[nm]) {
-      //console.log('got processor property mapping')
-      //const tmp = {}
-      //tmp[nm] = props[nm]
-      //console.log(tmp)
-      ////sheets.push(tmp)
-      //sheets = sheets.concat(tmp)
-    //}
-  //})
-
-  //console.log('computing: ' + definition.Name)
-  //console.log(Object.keys(props))
 
   if (processor.hasPreProcessors) {
     const flat = StyleSheet.flatten(sheets)
@@ -210,10 +212,6 @@ const computeStyles = (
     //console.log('expanded keys: ' + keys)
     if (keys.length) {
       for (let k in expansions) {
-        //if (props[k] !== undefined) {
-          //console.log('test expansion on property: ' + k)
-          //console.log('test expansion on property: ' + expansions[k])
-        //}
         mutableStyleValues[k] = expansions[k]
       }
       runPropertyPlugins(keys, expansions)
@@ -252,11 +250,12 @@ const withPrism = (Stylable, definition) => {
         styleValues: {}
       }
 
-      const childComponentNames = ['style'].concat(options.childComponentNames)
+      this.childComponentNames = ['style'].concat(options.childComponentNames)
       // Initialize a style object for each child component style
-      childComponentNames.forEach((name) => {
+      this.childComponentNames.forEach((name) => {
         // Use initialStyles set by defaultProps
-        state.styleValues[name] = definition.initialStyles[name].slice()
+        //state.styleValues[name] = definition.initialStyles[name].slice()
+        state.styleValues[name] = []
       })
       this.state = state
     }
@@ -275,19 +274,22 @@ const withPrism = (Stylable, definition) => {
       const {styleValues} = this.state
       const {state, context} = this
       let mutableStyleValues = Object.assign({}, styleValues)
+      for (let k in mutableStyleValues) {
+        mutableStyleValues[k] = []
+      }
       const styleAttrName = 'style'
       const compute = (attrName) => {
-        let sheets = mutableStyleValues[attrName]
-        // Must wrap in if flat is in use
-        if (sheets && !Array.isArray(sheets)) {
-          sheets = [sheets]
-        }
+        //let sheets = mutableStyleValues[attrName]
+        //// Must wrap in if flat is in use
+        //if (sheets && !Array.isArray(sheets)) {
+          //sheets = [sheets]
+        //}
         const computedStyle = computeStyles(
           {
             context,
             props,
             state,
-            sheets,
+            //sheets,
             util,
             definition,
             attrName,
@@ -302,12 +304,15 @@ const withPrism = (Stylable, definition) => {
       }
 
       // Compute style property
-      if (testFunc({props, styleAttrName})) {
+      //if (testFunc({props, styleAttrName})) {
         // This assigns the style property to the state values
         // which in turn will get passed to the wrapped component
         // via props
-        mutableStyleValues.style = compute(styleAttrName)
-      }
+        //mutableStyleValues.style = compute(styleAttrName)
+      //}
+      this.childComponentNames.forEach((stylePropertyName) => {
+        mutableStyleValues[stylePropertyName] = compute(stylePropertyName)
+      })
 
       this.setState({styleValues: mutableStyleValues})
     }

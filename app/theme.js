@@ -67,6 +67,9 @@ export default {
         fontSize: 16,
         marginTop: 10
       },
+      'Activity': {
+        tintColor: 'base01'
+      },
       'activity-tint': {
         tintColor: 'green'
       },

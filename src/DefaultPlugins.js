@@ -68,109 +68,109 @@ export default [
 
 
 
-  [
-    'mapStyleToComponent',
-    (pluginOptions) => {
-      const {
-        props,
-        options,
-        definition,
-        plugins,
-        ns,
-        styleSheet,
-        registry,
-        childComponentNames,
-        mutations} = pluginOptions
-      const {mapStyleToComponent} = options
-      const {Type, initialStyles} = definition
-      const {invariants} = registry
-      const target = {}
+  //[
+    //'mapStyleToComponent',
+    //(pluginOptions) => {
+      //const {
+        //props,
+        //options,
+        //definition,
+        //plugins,
+        //ns,
+        //styleSheet,
+        //registry,
+        //childComponentNames,
+        //mutations} = pluginOptions
+      //const {mapStyleToComponent} = options
+      //const {Type, initialStyles} = definition
+      //const {invariants} = registry
+      //const target = {}
 
-      childComponentNames.forEach((attrName) => {
-        let sheets = []
+      //childComponentNames.forEach((attrName) => {
+        //let sheets = []
 
-        const defaults = initialStyles[attrName]
-        if (isObject(defaults)) {
-          sheets.push(defaults)
-        }
-
-        // Add base class name (parent component)
-        // style sheet
-        //if (styleSheet[ns.componentClassName]) {
-          //sheets.push(styleSheet[ns.componentClassName])
+        //const defaults = initialStyles[attrName]
+        //if (isObject(defaults)) {
+          //sheets.push(defaults)
         //}
 
-        // Add child class name style sheet
-        const styleRuleName = ns.getChildClassName(attrName)
-        if (styleSheet[styleRuleName]) {
-          sheets.push(styleSheet[styleRuleName])
-        }
+        //// Add base class name (parent component)
+        //// style sheet
+        ////if (styleSheet[ns.componentClassName]) {
+          ////sheets.push(styleSheet[ns.componentClassName])
+        ////}
 
-        if (invariants[styleRuleName]) {
-          sheets.push(invariants[styleRuleName])
-        }
+        //// Add child class name style sheet
+        //const styleRuleName = ns.getChildClassName(attrName)
+        //if (styleSheet[styleRuleName]) {
+          //sheets.push(styleSheet[styleRuleName])
+        //}
 
-        const stateSheets = mapState({...pluginOptions, attrName})
-        sheets = sheets.concat(stateSheets)
+        //if (invariants[styleRuleName]) {
+          //sheets.push(invariants[styleRuleName])
+        //}
 
-        // TODO: handle state!!?
+        //const stateSheets = mapState({...pluginOptions, attrName})
+        //sheets = sheets.concat(stateSheets)
 
-        const source = mapStyleToComponent[attrName]
-        const target = {}
-        let matched = false
-        // NOTE: child component style objects are initialized in PrismComponent
-        // NOTE: based on childComponentNames
-        if (Array.isArray(source) && source.length) {
+        //// TODO: handle state!!?
 
-          const addMatched = (propName, propValue) => {
-            const plugin = plugins.property.map[propName]
-            if (plugin) {
-              const prop = propValue
-              const style = plugin.func({...pluginOptions, prop, propName})
-              if (style !== undefined) {
-                sheets = sheets.concat(style)
-              }
-            } else {
-              target[propName] = propValue
-              matched = true
-            }
-          }
+        //const source = mapStyleToComponent[attrName]
+        //const target = {}
+        //let matched = false
+        //// NOTE: child component style objects are initialized in PrismComponent
+        //// NOTE: based on childComponentNames
+        //if (Array.isArray(source) && source.length) {
 
-          source.forEach((propName) => {
-            if (isString(propName) && props[propName] !== undefined) {
-              // Get from the processed property so we can respect color names
-              addMatched(propName, props[propName])
-            } else if (isObject(propName)) {
-              const propertyNames = Object.keys(propName)
-              propertyNames.forEach((childPropName) => {
-                let stylePropName = childPropName
-                // Rewriting the style property name
-                if (isString(propName[childPropName])) {
-                  stylePropName = propName[childPropName]
-                }
+          //const addMatched = (propName, propValue) => {
+            //const plugin = plugins.property.map[propName]
+            //if (plugin) {
+              //const prop = propValue
+              //const style = plugin.func({...pluginOptions, prop, propName})
+              //if (style !== undefined) {
+                //sheets = sheets.concat(style)
+              //}
+            //} else {
+              //target[propName] = propValue
+              //matched = true
+            //}
+          //}
 
-                if (props[childPropName] !== undefined) {
-                  // Get from the processed property so we can respect color names
-                  addMatched(stylePropName, props[childPropName])
-                }
-              })
-            }
-          })
-        }
-        if (matched) {
-          sheets.push(target)
-        }
+          //source.forEach((propName) => {
+            //if (isString(propName) && props[propName] !== undefined) {
+              //// Get from the processed property so we can respect color names
+              //addMatched(propName, props[propName])
+            //} else if (isObject(propName)) {
+              //const propertyNames = Object.keys(propName)
+              //propertyNames.forEach((childPropName) => {
+                //let stylePropName = childPropName
+                //// Rewriting the style property name
+                //if (isString(propName[childPropName])) {
+                  //stylePropName = propName[childPropName]
+                //}
 
-        if (props[attrName]) {
-          sheets.push(props[attrName])
-        }
+                //if (props[childPropName] !== undefined) {
+                  //// Get from the processed property so we can respect color names
+                  //addMatched(stylePropName, props[childPropName])
+                //}
+              //})
+            //}
+          //})
+        //}
+        //if (matched) {
+          //sheets.push(target)
+        //}
 
-        mutations.addChildStyle(attrName, sheets)
-      })
-    },
-    {},
-    true
-  ],
+        //if (props[attrName]) {
+          //sheets.push(props[attrName])
+        //}
+
+        //mutations.addChildStyle(attrName, sheets)
+      //})
+    //},
+    //{},
+    //true
+  //],
 
   [
     'mapStyleToProp',

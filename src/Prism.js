@@ -255,11 +255,15 @@ const registerComponent = (registry, definition, config) => {
     {}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
 
-  // Automatic propTypes for style, labelStyle, imageStyle etc.
   definition.initialStyles = {}
+  definition.defaultProps = Object.assign({}, Type.defaultProps)
+
   const childComponentNames = [STYLE].concat(options.childComponentNames)
   childComponentNames.forEach((name) => {
+    // Automatic propTypes for style, labelStyle, imageStyle etc.
     Type.propTypes[name] = propTypes.style
+
+    //Type.styleDefaultProps = Type.styleDefaultProps || {}
 
     // Configure initial styles per attribute
     // from defaultProps and cleanup so they
@@ -347,7 +351,7 @@ Prism.configure = (registry, config = {}) => {
   if (config.debug) {
     console.log(`Prism configured with ${plugins.length} plugins`)
     plugins.forEach((plugin) => {
-      console.log(`Prism using plugin "${plugin.name}" (global: ${plugin.isGlobal})`)
+      console.log(`Prism using plugin "${plugin.name}" ${plugin.isGlobal ? '(global)' : ''}`)
     })
   }
 
