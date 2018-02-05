@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {StyleSheet} from 'react-native'
 
 import StyleRegistry from './StyleRegistry'
 import Namespace from './Namespace'
@@ -24,12 +23,6 @@ const {
   ucfirst,
   ucword,
   lcfirst} = util
-
-const compile = (decl) => {
-  const sheet = {decl}
-  const compiled = StyleSheet.create(sheet)
-  return compiled.decl
-}
 
 const Configuration = {
   plugins: null,
@@ -171,7 +164,7 @@ const registerComponent = (registry, definition, config) => {
 
   let options = {}
   if (styleOptions) {
-    options = styleOptions({...registry, compile})
+    options = styleOptions(registry)
   }
 
   // Merge component-specific style registries
