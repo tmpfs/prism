@@ -30,13 +30,17 @@ const computeStyles = (
 
   const style = props[attrName]
   const {config, options, registry, namespace, Name, Type} = definition
-  const {styleSheet, colors} = registry
+  const {styleSheet, colors, invariants} = registry
 
   const ns = new Namespace(
     {namespace, className: options.className, typeName: Name})
 
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
+
+  if (invariants[ns.componentClassName]) {
+    defaultStyles.push(invariants[ns.componentClassName])
+  }
 
   // Add default styles
   sheets = sheets.concat(defaultStyles)
@@ -182,6 +186,8 @@ const computeStyles = (
     sheets = sheets.concat(style)
   }
 
+  //console.log('hasPre: ' + processor.hasPreProcessors)
+
   if (processor.hasPreProcessors) {
     const flat = StyleSheet.flatten(sheets)
     const expansions = processor.process(flat)
@@ -192,6 +198,8 @@ const computeStyles = (
       }
       runPropertyPlugins(keys, expansions)
     }
+    //console.log('after processing: ')
+    //console.log(flat)
     return options.flat ? flat : [flat]
   }
 

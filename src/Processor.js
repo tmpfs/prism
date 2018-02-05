@@ -28,7 +28,6 @@ class Processor {
       val.forEach((v) => {
         this.map[v] = this.map[v] || []
         this.map[v].push(proc)
-        //this.map[v] = proc
       })
       this.hasPreProcessors = true
     })
@@ -95,12 +94,23 @@ class Processor {
           expansions = Object.assign(expansions, expanded)
         }
       }
-      // Recurse for initial style declarations
-      if (isObject(propValue)) {
-        this.process(propValue)
-      }
     }
     return expansions
+  }
+
+  extract (target) {
+    const {config} = this
+    const extracted = {}
+    let selector, rule
+    for (selector in target) {
+      rule = target[selector]
+      const expansions = this.process(rule)
+      const keys = Object.keys(expansions)
+      if (keys.length) {
+        extracted[selector] = expansions
+      }
+    }
+    return extracted
   }
 }
 

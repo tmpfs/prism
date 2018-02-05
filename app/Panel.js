@@ -22,7 +22,6 @@ class Panel extends Component {
     let {
       labelStyle,
       headerStyle,
-      headerText,
       bodyStyle,
     } = this.props
 
@@ -37,7 +36,7 @@ class Panel extends Component {
 
     return (
       <View style={style}>
-        <View text={headerText} style={headerStyle}>
+        <View style={headerStyle}>
           {header}
         </View>
         <View style={bodyStyle}>

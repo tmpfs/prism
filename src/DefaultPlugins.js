@@ -70,10 +70,12 @@ export default [
         plugins,
         ns,
         styleSheet,
+        registry,
         childComponentNames,
         mutations} = pluginOptions
       const {mapStyleToComponent} = options
       const {Type, initialStyles} = definition
+      const {invariants} = registry
       const target = {}
 
       childComponentNames.forEach((attrName) => {
@@ -94,6 +96,10 @@ export default [
         const styleRuleName = ns.getChildClassName(attrName)
         if (styleSheet[styleRuleName]) {
           sheets.push(styleSheet[styleRuleName])
+        }
+
+        if (invariants[styleRuleName]) {
+          sheets.push(invariants[styleRuleName])
         }
 
         const stateSheets = mapState({...pluginOptions, attrName})

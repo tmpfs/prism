@@ -38,18 +38,15 @@ export default {
       },
       'Panel': {
         marginBottom: 30,
-        //textTransform: 'uppercase'
       },
       'Panel.Header': {
         backgroundColor: colors.base03,
         padding: 10,
-        // FIXME: for child classes
-        textTransform: 'uppercase'
+        //textTransform: 'uppercase'
       },
       'Panel.Body': {
         backgroundColor: colors.base02,
-        padding: 10,
-        textTransform: 'uppercase'
+        padding: 10
       },
       SimpleLabel: {
         fontFamily: fonts.regular

@@ -12,6 +12,7 @@ export default class StyleRegistry {
   colorNames = []
   styles = {}
   styleSheet = {}
+  invariants = {}
 
   assign (registry) {
     this.mergeColors(registry.colors)
@@ -103,8 +104,8 @@ export default class StyleRegistry {
   // Called to finalize the registry internally
   // do not call this directly
   compile ({config}) {
-    // Pre-process style properties
-    processor.process(this.styles)
+    // Extract invariants before compilation
+    this.invariants = processor.extract(this.styles)
     this.styleSheet = StyleSheet.create(this.styles)
   }
 }
