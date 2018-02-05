@@ -33,8 +33,8 @@ const Configuration = {
       }
     }, ['color', 'backgroundColor', 'borderColor', 'tintColor']),
     new Rule(({write, propValue, colors}) => {
-      //console.log('textTransform: ' + propValue)
       write({transform: propValue}, 'text', true)
+      //write(propValue, null, true)
     }, ['textTransform'])
   ],
   sizes: {
@@ -45,25 +45,7 @@ const Configuration = {
     'large': 18,
     'x-large': 22,
     'xx-large': 26
-  },
-  invariants: [
-    {
-      stylePropName: 'textTransform',
-      plugin: ({value, values, options, ns}) => {
-        let propName = 'text'
-        // Rewrite to child component prefix, eg: headerText
-        if (ns.childClassName) {
-          // TODO: lcfirst
-          //propName = ns.childClassName.charAt(0).toLowerCase() +
-            //ns.childClassName.substr(1) +
-            //'Text'
-          propName = lcfirst(ns.childClassName) + 'Text'
-        }
-        values[propName] = values[propName] || {}
-        values[propName].transform = value
-      }
-    }
-  ]
+  }
 }
 
 const func = {

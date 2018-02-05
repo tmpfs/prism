@@ -38,16 +38,6 @@ const computeStyles = (
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
 
-  // FIXME
-  // TODO: expose registry.getStyleWithInvariants()
-  // TODO: and call in mapStyleToComponent logic
-  const invariant = registry.styleInvariants[ns.componentClassName]
-  if (invariant) {
-    const {value} = invariant
-    const values = mutableStyleValues
-    invariant.plugin({value, values, options, registry, ns})
-  }
-
   // Add default styles
   sheets = sheets.concat(defaultStyles)
 
@@ -72,10 +62,6 @@ const computeStyles = (
               }
             } else if(isObject(nm)) {
               for (let z in nm) {
-                //if (isString(nm[z])) {
-                  //z = nm[z]
-                //}
-                //console.log('getting object property name: ' + z)
                 if (!seen(z)) {
                   propNames.push(z)
                 }
@@ -166,31 +152,27 @@ const computeStyles = (
   runGlobalPlugins(before)
 
   const runPropertyPlugins = (keys, props) => {
-    //const sheets = []
     // Run property plugins
     keys.forEach((propName) => {
       const plugin = map[propName]
-      pluginOptions.plugin = plugin
-      pluginOptions.propName = propName
-      pluginOptions.prop = props[propName]
-      const style = plugin.func(pluginOptions)
-      if (style) {
-        //
-        if (~mappedChildProperties.indexOf(plugin.name)) {
-          //console.log('got mapped child property!!!!')
-          //extractedStyles[plugin.name] = style
-        } else {
+      if (plugin) {
+        pluginOptions.plugin = plugin
+        pluginOptions.propName = propName
+        pluginOptions.prop = props[propName]
+        const style = plugin.func(pluginOptions)
+        if (style) {
+          // This handles ignoring properties that are being
+          // routed to child components
+          if (~mappedChildProperties.indexOf(plugin.name)) {
+            return
+          }
           sheets = sheets.concat(style)
         }
       }
     })
-
-    //return sheets
   }
 
   runPropertyPlugins(keys, props)
-
-  //runPropertyPlugins(Object.keys(newProps), newProps)
 
   // Run after global plugins
   runGlobalPlugins(after)
@@ -200,18 +182,21 @@ const computeStyles = (
     sheets = sheets.concat(style)
   }
 
-  if (options.flat) {
-    return StyleSheet.flatten(sheets)
-  }
-
   if (processor.hasPreProcessors) {
-    //console.log('GOT PREPROCESSORS WHEN COMPUTING STYLES')
     const flat = StyleSheet.flatten(sheets)
     const expansions = processor.process(flat)
-    for (let k in expansions) {
-      mutableStyleValues[k] = expansions[k]
+    const keys = Object.keys(expansions)
+    if (keys.length) {
+      for (let k in expansions) {
+        mutableStyleValues[k] = expansions[k]
+      }
+      runPropertyPlugins(keys, expansions)
     }
-    return [flat]
+    return options.flat ? flat : [flat]
+  }
+
+  if (options.flat) {
+    return StyleSheet.flatten(sheets)
   }
 
   return sheets

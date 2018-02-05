@@ -43,8 +43,6 @@ class Processor {
   run (list, target, propName, propValue) {
     const {config} = this
     const {registry} = config
-    //console.log('Found preprocessor for: ' + propName)
-    //console.log('Found preprocessor for: ' + propValue)
     const expansions = {}
     let expanded = false
 
@@ -89,7 +87,6 @@ class Processor {
     let expansions = {}
     let propName, propValue, proc
     for (propName in target) {
-      console.log(propName)
       propValue = target[propName]
       proc = this.get(propName)
       if (proc) {

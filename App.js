@@ -117,7 +117,7 @@ export default class App extends Component<{}> {
         </Panel>
 
         <Panel label='mapStyleToProp'>
-          <Label textTransform='uppercase'>
+          <Label textTransform='capitalize'>
             This is a component using mapStyleToProp to extract tintColor.
           </Label>
           <View justify='center' padding={15}>

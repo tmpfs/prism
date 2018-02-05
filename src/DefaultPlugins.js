@@ -151,8 +151,6 @@ export default [
           sheets.push(props[attrName])
         }
 
-        //console.log('Final sheets for:' + attrName)
-        //console.log(StyleSheet.flatten(sheets))
         mutations.addChildStyle(attrName, sheets)
       })
     },

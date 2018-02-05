@@ -12,13 +12,11 @@ export default class StyleRegistry {
   colorNames = []
   styles = {}
   styleSheet = {}
-  styleInvariants = {}
 
   assign (registry) {
     this.mergeColors(registry.colors)
     this.mergeFonts(registry.fonts)
     this.mergeStyles(registry.styles)
-    this.mergeStyleInvariants(registry.styleInvariants)
   }
 
   mergeColors (colors) {
@@ -32,10 +30,6 @@ export default class StyleRegistry {
 
   mergeStyles (styles) {
     this.styles = Object.assign({}, styles, this.styles)
-  }
-
-  mergeStyleInvariants (styleInvariants) {
-    this.styleInvariants = Object.assign({}, styleInvariants, this.styleInvariants)
   }
 
   addColors (colors) {
@@ -111,22 +105,6 @@ export default class StyleRegistry {
   compile ({config}) {
     // Pre-process style properties
     processor.process(this.styles)
-
-    const {invariants} = config
-    if (invariants) {
-      for (let decl in this.styles) {
-        for (let styleProp in this.styles[decl]) {
-          invariants.forEach((invariant) => {
-            if (styleProp === invariant.stylePropName) {
-              const value = this.styles[decl][styleProp]
-              this.styleInvariants[decl] = Object.assign({}, invariant, {value})
-              // Must delete to avoid StyleSheet.create() type validation error
-              delete this.styles[decl][styleProp]
-            }
-          })
-        }
-      }
-    }
     this.styleSheet = StyleSheet.create(this.styles)
   }
 }

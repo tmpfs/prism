@@ -37,11 +37,13 @@ export default {
         color: colors.orange
       },
       'Panel': {
-        marginBottom: 30
+        marginBottom: 30,
+        textTransform: 'uppercase'
       },
       'Panel.Header': {
         backgroundColor: colors.base03,
         padding: 10,
+        // FIXME: for child classes
         textTransform: 'uppercase'
       },
       'Panel.Body': {
