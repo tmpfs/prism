@@ -13,6 +13,9 @@ import withPrism from './withPrism'
 import withContext from './withContext'
 import util from './util'
 
+import colorNames from './colorNames'
+import textTransform from './textTransform'
+
 const STYLE = 'style'
 
 const {
@@ -27,15 +30,8 @@ const Configuration = {
   plugins: null,
   defaultFontSize: 16,
   processors: [
-    new Rule(({write, propValue, colors}) => {
-      if (colors[propValue]) {
-        write(colors[propValue])
-      }
-    }, ['color', 'backgroundColor', 'borderColor', 'tintColor']),
-    new Rule(({write, propValue, colors}) => {
-      //write({transform: propValue}, 'text', true)
-      write(propValue, null, true)
-    }, ['textTransform'])
+    colorNames,
+    textTransform
   ],
   sizes: {
     'xx-small': 12,

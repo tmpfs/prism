@@ -2,7 +2,8 @@ import util from './util'
 const {isObject} = util
 
 class Rule {
-  constructor (fn, properties) {
+  constructor (name, fn, properties) {
+    this.name = name
     // Handler called when the property is encountered
     this.fn = fn
     // Name of the property in a style declaration
@@ -48,7 +49,7 @@ class Processor {
     // Run all preprocessors for a given property
     list.forEach((proc) => {
 
-      const write = (newValue, newPropName, expand = false) => {
+      const move = (newValue, newPropName, expand = false) => {
         newPropName = newPropName || propName
         if (expand) {
           expansions[newPropName] = newValue
@@ -66,7 +67,7 @@ class Processor {
       const procOptions = {
         propName,
         propValue,
-        write,
+        move,
         ...registry
       }
       proc.fn(procOptions)
