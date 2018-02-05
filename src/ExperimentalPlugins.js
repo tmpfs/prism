@@ -36,7 +36,7 @@ export default [
         return children
       }
 
-      if (prop && options.supportsTextTransform) {
+      if (prop && options.supportsText) {
         let {children} = props
         children = it(children)
         children = React.Children.map(children, (child) => {

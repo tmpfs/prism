@@ -7,7 +7,6 @@ class Label extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
       supportsText: true,
-      supportsTextTransform: true,
       mapPropsToStyle: {
         align: ({prop, styleSheet}) => {
           return {textAlign: prop}

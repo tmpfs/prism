@@ -29,10 +29,9 @@ const {
 const Configuration = {
   plugins: null,
   defaultFontSize: 16,
-  processors: [
-    colorNames,
-    textTransform
-  ],
+  colorNames: true,
+  textTransform: false,
+  processors: [],
   sizes: {
     'xx-small': 12,
     'x-small': 13,
@@ -325,6 +324,24 @@ Prism.configure = (registry, config = {}) => {
 
   config = Object.assign({}, Configuration, config)
   Prism.config = config
+
+  if (!Array.isArray(config.processors)) {
+    throw new Error('Prism processors configuration must be an array')
+  }
+
+  if (config.colorNames) {
+    config.processors.push(colorNames)
+  }
+
+  if (config.textTransform) {
+    if (!config.experimentalPlugins) {
+      throw new Error('Prism experimentalPlugins option is required to use textTransform')
+    }
+    config.processors.push(textTransform)
+  }
+
+    //colorNames,
+    //textTransform
 
   if (config.debug) {
     console.log(`Prism configured with ${plugins.length} plugins`)

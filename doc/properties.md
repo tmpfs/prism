@@ -33,8 +33,9 @@ static styleOptions = () => {
 ```
 
 * `supportsText`: Component can receive text style props.
-* `supportsTextTransform`: Component allows text transformations.
 * `supportsDimension`: Component can receive `width` and `height`.
+
+Note that the `supportsText` option is also used to test whether a component can receive `textTransform` on it's children.
 
 #### background
 
@@ -195,28 +196,34 @@ An example using [Prism Components][]:
 
 The shape of the font object is described in [PropTypes.js](/src/PropTypes.js).
 
-#### text
+#### textTransform
 
-The `text` property provides a means to apply text transformations to components, it requires the `supportsTextTransform` flag on receiving components.
+```javascript
+lowercase|uppercase|capitalize
+```
+
+The `textTransform` property provides a means to apply text transformations to components, it requires the `supportsText` flag on receiving components and requires that the `textTransform` and `experimentalPlugins` options are enabled.
 
 This property is distinct from the `font` property as it's behaviour is very different, instead of injecting values into a style sheet it *modifies a component's children*.
 
-It is an object with a single `transform` property:
+In a style sheet:
 
 ```javascript
-{transform: 'lowercase|uppercase|capitalize'}
+'Panel.Header': {
+  textTransform: 'capitalize'
+}
 ```
 
-Example usage:
+Inline property usage illustrating inheritance:
 
 ```html
-<List space={5} text={{transform: 'uppercase'}}>
+<List space={5} textTransform='uppercase'>
   <List space={10}>
     <Paragraph>
-      This is some uppercase text <Label text={{transform: 'lowercase'}}>including some lowercase text in a Label</Label> in a paragraph. <Label text={{transform: 'capitalize'}}>We can capitalize too</Label>.
+      This is some uppercase text <Label textTransform='lowercase'>including some lowercase text in a Label</Label> in a paragraph. <Label textTransform='capitalize'>We can capitalize too</Label>.
     </Paragraph>
   </List>
 </List>
 ```
 
-Components can also support `textTransform` in their style sheets but note that for child components the property will not be `text` but `childNameText` so that components can direct text transformations accordingly.
+Caveat that you cannot undo a transformation on a child (`none` is not supported), you can only override with a new transformation.

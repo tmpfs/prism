@@ -10,7 +10,6 @@ class SimpleLabel extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
       supportsText: true,
-      supportsTextTransform: true,
       mapPropsToStyle: {
         textTransform: ({prop}) => {
           return {textTransform: prop}

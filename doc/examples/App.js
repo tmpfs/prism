@@ -10,7 +10,8 @@ Prism.configure(
   {
     debug: true,
     extendedProperties: true,
-    experimentalPlugins: true
+    experimentalPlugins: true,
+    textTransform: true
   }
 )
 export default class Application extends Component {
@@ -21,7 +22,7 @@ export default class Application extends Component {
         color='white'
         bold
         align='center'
-        text={{transform: 'capitalize'}}
+        textTransform='capitalize'
         padding={15}>
         Prism example application
       </Label>
