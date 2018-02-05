@@ -42,7 +42,7 @@ export default {
       'Panel.Header': {
         backgroundColor: colors.base03,
         padding: 10,
-        //textTransform: 'uppercase'
+        textTransform: 'uppercase'
       },
       'Panel.Body': {
         backgroundColor: colors.base02,

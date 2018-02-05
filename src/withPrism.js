@@ -22,7 +22,6 @@ const computeStyles = (
     state,
     //sheets,
     definition,
-    util,
     mutableStyleValues,
     childComponentNames,
     attrName,
@@ -45,16 +44,19 @@ const computeStyles = (
   if (attrName !== 'style') {
     // Add child class name style sheet
     styleRuleName = ns.getChildClassName(attrName)
+
+    if (invariants[styleRuleName]) {
+      //console.log('adding invariant: ' + ns.componentClassName)
+      console.log('adding invariant: ' + styleRuleName)
+      console.log('adding invariant: ' + attrName)
+      console.log(invariants[styleRuleName])
+      sheets.push(invariants[styleRuleName])
+    }
   }
 
   if (styleSheet[styleRuleName]) {
     sheets.push(styleSheet[styleRuleName])
-  }
 
-  if (invariants[ns.componentClassName]) {
-    //console.log('adding invariant: ' + ns.componentClassName)
-    //console.log(invariants[ns.componentClassName])
-    sheets.push(invariants[ns.componentClassName])
   }
 
   // Add default styles
@@ -111,8 +113,6 @@ const computeStyles = (
     }
   }
 
-  const newProps = {}
-
   // Encapsulates the mutation functionality for
   // plugins
   const mutations = {
@@ -121,10 +121,7 @@ const computeStyles = (
       mutableStyleValues[propName] = propValue
     },
     addProperty: (propName, propValue) => {
-      // TODO: run property plugins on these properties
       mutableStyleValues[propName] = propValue
-
-      //newProps[propName] = propValue
     }
   }
 
@@ -193,9 +190,6 @@ const computeStyles = (
 
   runPropertyPlugins(keys, props)
 
-  // Run after global plugins
-  //runGlobalPlugins(after)
-
   // Add inline `style` property
   if (style) {
     sheets = sheets.concat(style)
@@ -205,7 +199,6 @@ const computeStyles = (
     const flat = StyleSheet.flatten(sheets)
     const expansions = processor.process(flat, pluginOptions)
     const keys = Object.keys(expansions)
-    //console.log('expanded keys: ' + keys)
     if (keys.length) {
       for (let k in expansions) {
         mutableStyleValues[k] = expansions[k]
@@ -240,17 +233,15 @@ const withPrism = (Stylable, definition) => {
           'Prism: no style sheet available, ' +
           'did you forget to call styleRegistry.addStyleSheet()?')
       }
-      // Class level processing options
       const {options} = definition
+      // Class level processing options
       const state = {
         styleValues: {}
       }
 
-      this.childComponentNames = ['style'].concat(options.childComponentNames)
-      // Initialize a style object for each child component style
-      this.childComponentNames.forEach((name) => {
-        state.styleValues[name] = []
-      })
+      this.childComponentNames = options.childComponentNames
+      this.allStyleObjectNames = ['style'].concat(this.childComponentNames)
+
       this.state = state
     }
 
@@ -263,52 +254,42 @@ const withPrism = (Stylable, definition) => {
 
     processStylePlugins (props, testFunc = () => true) {
       const {registry, options, Type} = definition
-      const {childComponentNames, mapStyleToComponent} = options
+      const {childComponentNames} = options
       const {plugins} = options
       const {styleValues} = this.state
       const {state, context} = this
+
       let mutableStyleValues = Object.assign({}, styleValues)
-      for (let k in mutableStyleValues) {
-        mutableStyleValues[k] = []
-      }
-      const styleAttrName = 'style'
+      this.allStyleObjectNames.forEach((name) => {
+        mutableStyleValues[name] = []
+      })
+
+      const additionalProperties = {}
+
       const compute = (attrName) => {
-        //let sheets = mutableStyleValues[attrName]
-        //// Must wrap in if flat is in use
-        //if (sheets && !Array.isArray(sheets)) {
-          //sheets = [sheets]
-        //}
         const computedStyle = computeStyles(
           {
             context,
             props,
             state,
-            //sheets,
             util,
             definition,
             attrName,
             mutableStyleValues,
             plugins,
+            additionalProperties,
             childComponentNames
           })
-
-        //mutableStyleValues[attrName] = computedStyle
-
         return computedStyle
       }
 
-      // Compute style property
-      //if (testFunc({props, styleAttrName})) {
-        // This assigns the style property to the state values
-        // which in turn will get passed to the wrapped component
-        // via props
-        //mutableStyleValues.style = compute(styleAttrName)
-      //}
-      this.childComponentNames.forEach((stylePropertyName) => {
+      // Compute style properties
+      this.allStyleObjectNames.forEach((stylePropertyName) => {
         mutableStyleValues[stylePropertyName] = compute(stylePropertyName)
       })
 
-      this.setState({styleValues: mutableStyleValues})
+      // Update the state so styles are reactive
+      this.setState({styleValues: mutableStyleValues, additionalProperties})
     }
 
     // So that changes to style properties are
@@ -340,7 +321,6 @@ const withPrism = (Stylable, definition) => {
 
   // So we can easily see the underlying component name in errors
   PrismComponent.displayName = `Prism(${definition.Name})`
-
   // Proxy propTypes
   PrismComponent.propTypes = Stylable.propTypes
 
