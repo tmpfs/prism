@@ -60,9 +60,6 @@ const computeStyles = (
 
   }
 
-  // Add default styles
-  //sheets = sheets.concat(defaultStyles)
-
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
 
@@ -183,7 +180,16 @@ const computeStyles = (
     sheets = sheets.concat(style)
   }
 
-  if (processor.hasPreProcessors) {
+  // NOTE: We only execute for the style attribute
+  // NOTE: and assume that the child style objects
+  // NOTE: will be passed to the `style` attribute
+  // NOTE: of another `Prism` component for further
+  // NOTE: processing.
+  //
+  // NOTE: If this were not the case invariants like
+  // NOTE: textTransform would be applied to the parent
+  // NOTE: component.
+  if (processor.hasPreProcessors && attrName === 'style') {
     const flat = StyleSheet.flatten(sheets)
     const expansions = processor.process(flat, pluginOptions)
     const keys = Object.keys(expansions)
