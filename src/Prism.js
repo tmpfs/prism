@@ -43,19 +43,9 @@ const Configuration = {
   }
 }
 
-const func = {
-  fn: (o) => isFunction(o),
-  type: 'function'
-}
-
 const fnOrObj = {
   fn: (o) => isFunction(o) || isObject(o),
   type: 'function or object'
-}
-
-const obj = {
-  fn: (o) => isObject(o),
-  type: 'object'
 }
 
 const mapPluginTypeTests = {

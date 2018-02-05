@@ -13,8 +13,7 @@ import theme from './app/theme'
 
 const ScrollView = Prism(NativeScrollView)
 
-const registry = new StyleRegistry()
-registry.addTheme(theme)
+const registry = new StyleRegistry({theme})
 Prism.configure(
   registry,
   {

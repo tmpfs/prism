@@ -55,7 +55,6 @@ export default [
   [
     //'mapFontProp',
     ({context, prop, styleSheet, colors, sizes, config, options}) => {
-      //if (options.supportsText && (prop || (context && context.font))) {
       if (options.supportsText) {
         // Inherited from the parent context
         if (!prop && context) {

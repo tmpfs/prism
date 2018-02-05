@@ -14,6 +14,12 @@ export default class StyleRegistry {
   styleSheet = {}
   invariants = {}
 
+  constructor ({theme, colors, fonts, styles}) {
+    if (theme) {
+      this.addTheme(theme)
+    }
+  }
+
   assign (registry) {
     this.mergeColors(registry.colors)
     this.mergeFonts(registry.fonts)

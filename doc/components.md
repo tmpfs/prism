@@ -1,5 +1,28 @@
 ## Components
 
+### Bundling Styles
+
+Component libraries should supply a style registry which is merged with the user-supplied registry to bundle their default styles.
+
+```javascript
+import React, {Component} from 'react'
+import {Prism, StyleRegistry} from 'react-native-prism'
+import theme from './theme'
+const registry = new StyleRegistry({theme})
+class Styled extends Component {
+  static styleOptions = () => {
+    return {
+      registry: registry
+    }
+  }
+}
+export default Prism(Styled)
+```
+
+An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
+
+Users of the library can then selectively override style declarations where necessary.
+
 ### Mapping Properties To Styles
 
 Components have varied needs for mapping properties to style declarations so the library provides several ways to map properties depending upon the requirement.
@@ -259,25 +282,6 @@ const requirements = ({registry}) => {
 ```
 
 If you want to specify requirements for a component that does not have a namespace pass the empty string for the `namespace` argument.
-
-### Initializing Styles
-
-Component libraries should supply a style registry which is merged with the user-supplied registry.
-
-```javascript
-import {StyleRegistry} from 'react-native-prism'
-const registry = new StyleRegistry()
-// Configure the colors, fonts and styles for your components
-static styleOptions = () => {
-  return {
-    registry: registry
-  }
-}
-```
-
-An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
-
-Users of the library can then selectively override style declarations where necessary.
 
 ### Color Names
 
