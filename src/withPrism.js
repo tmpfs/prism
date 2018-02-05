@@ -114,18 +114,6 @@ const computeStyles = (
     }
   }
 
-  // Encapsulates the mutation functionality for
-  // plugins
-  const mutations = {
-    // Add a child style object
-    addChildStyle: (propName, propValue) => {
-      mutableStyleValues[propName] = propValue
-    },
-    addProperty: (propName, propValue) => {
-      mutableStyleValues[propName] = propValue
-    }
-  }
-
   // Process plugins
   const pluginOptions = {
     context,
@@ -141,7 +129,6 @@ const computeStyles = (
     options,
     colors,
     plugins,
-    mutations,
     childComponentNames,
     attrName
   }
