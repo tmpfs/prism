@@ -35,38 +35,35 @@ Use `mapPropsToStyle` when you want the presence of a property to trigger inclus
 You have access to all the properties so you can apply styles conditionally based on other properties:
 
 ```javascript
-static styleOptions = () => {
-  return {
-    mapPropsToStyle: {
-      space: ({prop, props}) => {
-        const {horizontal} = props
-        const styleProp = horizontal ? 'marginRight' : 'marginBottom'
-        const style = {}
-        style[styleProp] = prop
-        return style
-      }
-    }
+static mapPropsToStyle = {
+  space: ({prop, props}) => {
+    const {horizontal} = props
+    const styleProp = horizontal ? 'marginRight' : 'marginBottom'
+    const style = {}
+    style[styleProp] = prop
+    return style
   }
 }
 ```
 
 Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
 
-#### mapPropsToStyleState
-
-Use `mapPropsToStyleState` to change the computed style based on a condition with support for modifying the style declaration name using the familiar `a:hover` syntax.
+If you return a string a style sheet is resolved using the familiar `a:hover` syntax.
 
 For a component called `Notice`:
 
 ```javascript
-static mapPropsToStyleState = ({props}) => {
-  if (props.error) {
-    return 'error'
+static mapPropsToStyle = {
+  error: ({prop, props}) => {
+    if (prop === true) {
+      // Include the style for Notice:error
+      return 'error'
+    }
   }
 }
 ```
 
-Would result in including the class declaration lookup for `Notice:error` (the `Notice` style is also included for property inheritance):
+Would result in including the class declaration lookup for `Notice:error`:
 
 ```javascript
 {
@@ -77,15 +74,11 @@ Would result in including the class declaration lookup for `Notice:error` (the `
 }
 ```
 
-You can also return a style object, array of style objects or a compiled style declaration.
-
 This can be an easy way to trigger style variations that are resolved from the style sheet based on a property value. For example, if you have a `size` property that accepts `small|medium|large` you can do:
 
 ```javascript
-static mapPropsToStyleState = ({props}) => {
-  if (props.size) {
-    return props.size
-  }
+static mapPropsToStyle = {
+  size: ({prop}) => prop
 }
 ```
 

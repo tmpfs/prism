@@ -13,12 +13,15 @@ class ChildStateStyle extends Component {
         titleStyle: ['color'],
         numberStyle: ['color']
       },
-      mapPropsToStyleState: ({props}) => {
-        const {size} = props
-        if (size) {
-          return size
-        }
+      mapPropsToStyle: {
+        size: ({prop}) => prop
       }
+      //mapPropsToStyleState: ({props}) => {
+        //const {size} = props
+        //if (size) {
+          //return size
+        //}
+      //}
     }
   }
 

@@ -60,7 +60,6 @@ const obj = {
 
 const mapPluginTypeTests = {
   mapPropsToStyle: fnOrObj,
-  mapPropsToStyleState: func,
   mapStyleToComponent: fnOrObj,
   mapStyleToProp: obj
 }

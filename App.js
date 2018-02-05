@@ -88,6 +88,23 @@ export default class App extends Component<{}> {
     return (
       <ScrollView padding={20} background='base01'>
 
+        <Panel label='Basic number stack'>
+          <ChildStateStyle
+            value={21}
+            color='cream'
+            size='small'
+          >
+          Small Style
+          </ChildStateStyle>
+          <ChildStateStyle
+            value={21}
+            color='cream'
+            size='medium'
+          >
+          Medium Style
+          </ChildStateStyle>
+        </Panel>
+
         <Panel label='tintColor'>
           <Label>
             This is a component using tintColor from defaultProps.
