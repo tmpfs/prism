@@ -60,8 +60,7 @@ const obj = {
 
 const mapPluginTypeTests = {
   mapPropsToStyle: fnOrObj,
-  mapStyleToComponent: fnOrObj,
-  mapStyleToProp: obj
+  mapStyleToComponent: fnOrObj
 }
 
 const mapPluginNames = Object.keys(mapPluginTypeTests)

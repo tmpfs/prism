@@ -19,7 +19,6 @@
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyle](#mappropstostyle)
     - [mapStyleToComponent](#mapstyletocomponent)
-    - [mapStyleToProp](#mapstyletoprop)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
@@ -437,44 +436,6 @@ static mapStyleToComponent = {
 For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
 
 If the component is namespaced use the fully qualified name, eg: `com.prism.ui.Panel.Header`.
-
-#### mapStyleToProp
-
-Use `mapStyleToProp` when you want to delete a style property from the computed style and assign it to a property.
-
-This is useful when a child component expects a property but it is better suited to being in a style declaration. For example, the RN `ActivityIndicator` component accepts a `tintColor` property and it cannot be assigned as a style.
-
-Assuming a style like:
-
-```css
-ActivityIndicator: {
-  tintColor: '#ff6600'
-}
-```
-
-To map the style to a property:
-
-```javascript
-  static styleOptions = () => {
-    return {
-      mapStyleToProp: {
-        tintColor: true
-      }
-    }
-  }
-```
-
-Your component will then receive a `tintColor` property from the style declaration and the declaration will be removed.
-
-If you want to map to an alternative property name use a string value:
-
-```javascript
-mapStyleToProp: {
-  tintColor: 'highlightColor'
-}
-```
-
-The fact that the style declaration is removed is very useful for dealing with *invariants*. The RN `StyleSheet` will validate your style declarations so this feature allows you to declare non-standard style declaration names (eg: `textTransform`) and have your style sheets validate correctly.
 
 ### Property Type Validation
 
