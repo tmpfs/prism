@@ -18,7 +18,7 @@
 - [Components](#components)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyle](#mappropstostyle)
-    - [mapStyleToComponent](#mapstyletocomponent)
+    - [mapStyleToProps](#mapstyletoprops)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
@@ -321,16 +321,16 @@ static mapPropsToStyle = {
 
 To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:medium` or `Notice:large`.
 
-#### mapStyleToComponent
+#### mapStyleToProps
 
-When you start creating composite components it becomes very useful to route properties to style objects for the child components, use `mapStyleToComponent` to define styles for these child components.
+When you start creating composite components it becomes very useful to route properties to style objects for the child components, use `mapStyleToProps` to define styles for these child components.
 
 Take the case of a `Panel` component with child components for the header and body.
 
 You can declare child computed styles with:
 
 ```javascript
-static mapStyleToComponent = {
+static mapStyleToProps = {
   headerStyle: [],
   bodyStyle: []
 }
@@ -381,7 +381,7 @@ The immediate benefit is that you can now declare styles using dot notation for 
 But you can also use this functionality to route properties into the child style object:
 
 ```javascript
-static mapStyleToComponent = {
+static mapStyleToProps = {
   headerStyle: [{space: 'marginBottom'}],
   bodyStyle: ['background']
 }
@@ -396,21 +396,21 @@ static mapStyleToComponent = {
 Often you want to pass a `color` property to a component which is not a text component and route it to the components that handle text:
 
 ```javascript
-static mapStyleToComponent = {
+static mapStyleToProps = {
   // Maps color -> labelStyle.color and space -> labelStyle.marginTop
   labelStyle: ['color', {space: 'marginTop'}],
   imageStyle: ['width', 'height']
 }
 ```
 
-The `mapStyleToComponent` functionality is *subtractive* by default, if you route a property to a component style it is no longer included in the primary `style` object. This is normally what you want to prevent properties like `color` from triggering an error on non-text components.
+The `mapStyleToProps` functionality is *subtractive* by default, if you route a property to a component style it is no longer included in the primary `style` object. This is normally what you want to prevent properties like `color` from triggering an error on non-text components.
 
 Except sometimes you may wish to route properties to a child component style but also include them in the primary computed `style`, to do so you can use the `style` array to force inclusion of properties.
 
 Take the example above where we route `width` and `height` to the `imageStyle` object which we assign to the child `Image` component; we may wish to also propagate those values to the parent `style` so we can apply the dimensions to the containing component as well.
 
 ```javascript
-static mapStyleToComponent = {
+static mapStyleToProps = {
   // Force include dimensions in the main `style`
   style: ['width', 'height'],
   // Map dimensions into the child style
@@ -418,14 +418,14 @@ static mapStyleToComponent = {
 }
 ```
 
-When using `mapStyleToComponent` there is no need to define `propTypes` for the child style objects they are automatically declared as we know ahead of time they should have the same property type as `style`. But for properties you map using the routing functionality you should declare them so they are validated:
+When using `mapStyleToProps` there is no need to define `propTypes` for the child style objects they are automatically declared as we know ahead of time they should have the same property type as `style`. But for properties you map using the routing functionality you should declare them so they are validated:
 
 ```javascript
 static propTypes = {
   space: PropTypes.number
 }
 
-static mapStyleToComponent = {
+static mapStyleToProps = {
   labelStyle: [{space: 'marginBottom'}]
 }
 ```
@@ -911,7 +911,7 @@ At this point, global plugins that handle [mapping properties to styles](mapping
 
 Then the property plugins which handle the extended and experimental properties are executed as well as any custom property plugins.
 
-Subsequently the [mapStyleToComponent](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
+Subsequently the [mapStyleToProps](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
 
 Finally any styles given in the `style` property take precedence.
 

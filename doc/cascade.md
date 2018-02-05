@@ -16,6 +16,6 @@ At this point, global plugins that handle [mapping properties to styles](mapping
 
 Then the property plugins which handle the extended and experimental properties are executed as well as any custom property plugins.
 
-Subsequently the [mapStyleToComponent](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
+Subsequently the [mapStyleToProps](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
 
 Finally any styles given in the `style` property take precedence.

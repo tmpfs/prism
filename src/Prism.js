@@ -60,7 +60,7 @@ const obj = {
 
 const mapPluginTypeTests = {
   mapPropsToStyle: fnOrObj,
-  mapStyleToComponent: fnOrObj
+  mapStyleToProps: fnOrObj
 }
 
 const mapPluginNames = Object.keys(mapPluginTypeTests)
@@ -187,26 +187,26 @@ const registerComponent = (registry, definition, config) => {
     }
   })
 
-  let {mapStyleToComponent} = options
+  let {mapStyleToProps} = options
   // User defined style property names
-  if (mapStyleToComponent !== undefined) {
-    if (util.isFunction(mapStyleToComponent)) {
-      mapStyleToComponent = mapStyleToComponent(registry)
+  if (mapStyleToProps !== undefined) {
+    if (util.isFunction(mapStyleToProps)) {
+      mapStyleToProps = mapStyleToProps(registry)
     }
 
-    if (mapStyleToComponent.style !== undefined) {
-      if (!Array.isArray(mapStyleToComponent.style)) {
+    if (mapStyleToProps.style !== undefined) {
+      if (!Array.isArray(mapStyleToProps.style)) {
         throw new Error(
-          `Prism mappings for "style" in mapStyleToComponent must be an array`)
+          `Prism mappings for "style" in mapStyleToProps must be an array`)
       }
 
-      // We expect the keys for mapStyleToComponent to only refer
+      // We expect the keys for mapStyleToProps to only refer
       // to child styles so we extract `style` when given
-      options.styleForceInclusion = mapStyleToComponent.style
-      delete mapStyleToComponent.style
+      options.styleForceInclusion = mapStyleToProps.style
+      delete mapStyleToProps.style
 
       //throw new Error(
-        //`Prism do not configure mappings for "style" in mapStyleToComponent. ` +
+        //`Prism do not configure mappings for "style" in mapStyleToProps. ` +
         //`It is an anti-pattern, use mapPropsToStyle instead.`)
     }
 
@@ -216,14 +216,14 @@ const registerComponent = (registry, definition, config) => {
     options.styleForceInclusion = []
   }
 
-  if (!mapStyleToComponent) {
-    mapStyleToComponent = {}
+  if (!mapStyleToProps) {
+    mapStyleToProps = {}
   }
 
   // Default style property support
-  //mapStyleToComponent.style = true
-  options.mapStyleToComponent = mapStyleToComponent
-  options.childComponentNames = Object.keys(mapStyleToComponent)
+  //mapStyleToProps.style = true
+  options.mapStyleToProps = mapStyleToProps
+  options.childComponentNames = Object.keys(mapStyleToProps)
 
   const globalPlugins = plugins
     .filter((plugin) => {

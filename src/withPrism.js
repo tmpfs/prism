@@ -61,10 +61,10 @@ const computeStyles = (
   // Build the map of child properties that we should put
   // into extractedStyles so  that properties assigned to child
   // components are not applied to the parent style
-  const {mapStyleToComponent, styleForceInclusion} = options
-  const mappedChildProperties = Object.keys(mapStyleToComponent)
+  const {mapStyleToProps, styleForceInclusion} = options
+  const mappedChildProperties = Object.keys(mapStyleToProps)
     .reduce((list, childName) => {
-        const v = mapStyleToComponent[childName]
+        const v = mapStyleToProps[childName]
         if (Array.isArray(v)) {
           const names = v.reduce((propNames, nm) => {
             const seen = (nm) => {
