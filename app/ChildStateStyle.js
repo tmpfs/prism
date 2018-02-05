@@ -16,12 +16,6 @@ class ChildStateStyle extends Component {
       mapPropsToStyle: {
         size: ({prop}) => prop
       }
-      //mapPropsToStyleState: ({props}) => {
-        //const {size} = props
-        //if (size) {
-          //return size
-        //}
-      //}
     }
   }
 
