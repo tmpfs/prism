@@ -20,8 +20,6 @@ const {
   isString,
   isArray,
   isNumber,
-  ucfirst,
-  ucword,
   lcfirst} = util
 
 const Configuration = {
@@ -72,9 +70,9 @@ const obj = {
 }
 
 const mapPluginTypeTests = {
-  mapStyleToComponent: fnOrObj,
-  mapPropsToStyleState: func,
   mapPropsToStyle: fnOrObj,
+  mapPropsToStyleState: func,
+  mapStyleToComponent: fnOrObj,
   mapStyleToProp: obj
 }
 
@@ -82,7 +80,7 @@ const mapPluginNames = Object.keys(mapPluginTypeTests)
 
 const registerPlugins = (plugins) => {
   if (!Array.isArray(plugins)) {
-    throw new Error('Prism: plugins must be an array')
+    throw new Error('Prism plugins must be an array')
   }
   return plugins.reduce((list, plugin) => {
     list = list.concat(registerPlugin(plugin))
@@ -107,6 +105,14 @@ const registerPlugin = (plugin) => {
       if (!keys.length) {
         throw new Error('Prism plugin definition with no propType keys')
       }
+
+      if (keys.length !== 1) {
+        throw new Error(
+          'Prism plugin definition propType keys must be of length one, ' +
+          'use multiple plugins for multiple properties'
+        )
+      }
+
       return keys.map((propName) => {
         return new Plugin(propName, plugin[0], plugin[1][propName])
       })
@@ -202,11 +208,25 @@ const registerComponent = (registry, definition, config) => {
     }
 
     if (mapStyleToComponent.style !== undefined) {
-      throw new Error(
-        `Prism do not configure mappings for "style" in mapStyleToComponent. ` +
-        `It is an anti-pattern, use mapPropsToStyle instead.`)
+      if (!Array.isArray(mapStyleToComponent.style)) {
+        throw new Error(
+          `Prism mappings for "style" in mapStyleToComponent must be an array`)
+      }
+
+      // We expect the keys for mapStyleToComponent to only refer
+      // to child styles so we extract `style` when given
+      options.styleForceInclusion = mapStyleToComponent.style
+      delete mapStyleToComponent.style
+
+      //throw new Error(
+        //`Prism do not configure mappings for "style" in mapStyleToComponent. ` +
+        //`It is an anti-pattern, use mapPropsToStyle instead.`)
     }
 
+  }
+
+  if (!options.styleForceInclusion) {
+    options.styleForceInclusion = []
   }
 
   if (!mapStyleToComponent) {
