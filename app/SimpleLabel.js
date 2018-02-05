@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import {Text} from 'react-native'
 import {Prism} from '../src/Prism'
 
+import theme from './theme'
+const {colors} = theme
+
 class SimpleLabel extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
@@ -24,7 +27,7 @@ class SimpleLabel extends Component {
 
   static defaultProps = {
     style: {
-      color: 'red',
+      color: colors.base2,
       fontSize: 16
     }
   }

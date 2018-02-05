@@ -104,6 +104,23 @@ const computeStyles = (
     }
   }
 
+  const newProps = {}
+
+  // Encapsulates the mutation functionality for
+  // plugins
+  const mutations = {
+    // Add a child style object
+    addChildStyle: (propName, propValue) => {
+      mutableStyleValues[propName] = propValue
+    },
+    addProperty: (propName, propValue) => {
+      // TODO: run property plugins on these properties
+      mutableStyleValues[propName] = propValue
+
+      //newProps[propName] = propValue
+    }
+  }
+
   // Process plugins
   const pluginOptions = {
     context,
@@ -119,7 +136,7 @@ const computeStyles = (
     options,
     colors,
     plugins,
-    mutableStyleValues,
+    mutations,
     childComponentNames,
     attrName
   }
@@ -146,24 +163,32 @@ const computeStyles = (
   // Run before global plugins
   runGlobalPlugins(before)
 
-  // Run property plugins
-  keys.forEach((propName) => {
-    const plugin = map[propName]
-    pluginOptions.plugin = plugin
-    pluginOptions.propName = propName
-    pluginOptions.prop = props[propName]
-    const style = plugin.func(pluginOptions)
-    if (style) {
-      // TODO: force inclusion on {style: ['color']}
-      //
-      if (~mappedChildProperties.indexOf(plugin.name)) {
-        //console.log('got mapped child property!!!!')
-        //extractedStyles[plugin.name] = style
-      } else {
-        sheets = sheets.concat(style)
+  const runPropertyPlugins = (keys, props) => {
+    //const sheets = []
+    // Run property plugins
+    keys.forEach((propName) => {
+      const plugin = map[propName]
+      pluginOptions.plugin = plugin
+      pluginOptions.propName = propName
+      pluginOptions.prop = props[propName]
+      const style = plugin.func(pluginOptions)
+      if (style) {
+        //
+        if (~mappedChildProperties.indexOf(plugin.name)) {
+          //console.log('got mapped child property!!!!')
+          //extractedStyles[plugin.name] = style
+        } else {
+          sheets = sheets.concat(style)
+        }
       }
-    }
-  })
+    })
+
+    //return sheets
+  }
+
+  runPropertyPlugins(keys, props)
+
+  //runPropertyPlugins(Object.keys(newProps), newProps)
 
   // Run after global plugins
   runGlobalPlugins(after)

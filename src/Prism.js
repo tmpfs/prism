@@ -6,6 +6,7 @@ import Plugin from './Plugin'
 import Plugins from './DefaultPlugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import ExperimentalPlugins from './ExperimentalPlugins'
+import PropProcessor from './PropProcessor'
 
 import propTypes from './propTypes'
 import withPrism from './withPrism'
@@ -25,6 +26,11 @@ const {
 const Configuration = {
   plugins: null,
   defaultFontSize: 16,
+  processors: [
+    new PropProcessor(({propName, propValue, colors}) => {
+      return colors[propValue]
+    }, 'color')
+  ],
   sizes: {
     'xx-small': 12,
     'x-small': 13,
@@ -384,6 +390,10 @@ Prism.configure = (registry, config = {}) => {
 
   config.availablePropertyNames = availablePropertyNames
   config.availablePropertyPlugins = availablePropertyPlugins
+
+  config.registry = registry
+
+  PropProcessor.collate(config)
 
   registry.compile({config})
 

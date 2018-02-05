@@ -71,7 +71,7 @@ export default [
         ns,
         styleSheet,
         childComponentNames,
-        mutableStyleValues} = pluginOptions
+        mutations} = pluginOptions
       const {mapStyleToComponent} = options
       const {Type, initialStyles} = definition
       const target = {}
@@ -153,7 +153,7 @@ export default [
 
         //console.log('Final sheets for:' + attrName)
         //console.log(StyleSheet.flatten(sheets))
-        mutableStyleValues[attrName] = sheets
+        mutations.addChildStyle(attrName, sheets)
       })
     },
     {},
@@ -162,9 +162,10 @@ export default [
 
   [
     'mapStyleToProp',
-    ({props, sheets, options, util, definition, mutableStyleValues}) => {
+    ({props, sheets, options, util, definition, mutations}) => {
       const {mapStyleToProp} = options
       const {Type} = definition
+      const defaultProps = Type.defaultProps || {}
       const {isString} = util
       if (mapStyleToProp) {
         const flat = StyleSheet.flatten(sheets)
@@ -179,10 +180,23 @@ export default [
             if (isString(v)) {
               key = v
             }
-            // Note look up in the props before the style sheet
-            const value = flat[k]
+
+            // Start with default value
+            let value = defaultProps[k]
+
+            // Get value from stylesheet
+            if (flat[k] !== undefined) {
+              value = flat[k]
+            }
+
+            // Inline prop wins
+            if (props[k] !== undefined && props[k] !== defaultProps[k]) {
+              value = props[k]
+            }
+
+            // Add as a property to be passed to the child component
             if (value !== undefined) {
-              mutableStyleValues[key] = value
+              mutations.addProperty(key, value)
             }
           }
           // Must always remove the style prop
