@@ -2,12 +2,14 @@ import util from './util'
 const {isObject} = util
 
 class Rule {
-  constructor (name, fn, properties) {
+  constructor (name, fn, properties, useProp) {
     this.name = name
     // Handler called when the property is encountered
     this.fn = fn
     // Name of the property in a style declaration
     this.properties = properties
+    // Mark as executing when the property is defined
+    this.useProp = useProp
   }
 }
 
@@ -15,6 +17,8 @@ class Processor {
   config = null
   hasPreProcessors = false
   map = {}
+  keys = []
+  propertyNames = []
 
   collate (config) {
     const {processors} = config
@@ -26,78 +30,98 @@ class Processor {
       if (val && !Array.isArray(val)) {
         val = [val]
       }
+      //proc.properties = val
       val.forEach((v) => {
         this.map[v] = this.map[v] || []
         this.map[v].push(proc)
       })
+      if (proc.useProp) {
+        this.propertyNames = this.propertyNames.concat(val)
+      }
       this.hasPreProcessors = true
     })
 
-    this.config = config
+    this.keys = Object.keys(this.map)
 
-    //console.log(this.map)
+    this.config = config
   }
 
   get (propName) {
     return this.map[propName]
   }
 
-  run (list, target, propName, propValue) {
+  run (proc, target, propName, propValue, pluginOptions = {}) {
     const {config} = this
     const {registry} = config
     const expansions = {}
     let expanded = false
 
-    // Run all preprocessors for a given property
-    list.forEach((proc) => {
-
-      const move = (newValue, newPropName, expand = false) => {
-        newPropName = newPropName || propName
-        if (expand) {
-          expansions[newPropName] = newValue
-          expanded = true
-        } else {
-          target[newPropName] = newValue
-        }
-        // Writing a new property (expansion)
-        // so delete the old one
-        if (expand || (newPropName !== propName)) {
-          delete target[propName]
-        }
+    const move = (newValue, newPropName, expand = false) => {
+      newPropName = newPropName || propName
+      if (expand) {
+        expansions[newPropName] = newValue
+        expanded = true
+      } else {
+        target[newPropName] = newValue
       }
-
-      const procOptions = {
-        propName,
-        propValue,
-        move,
-        ...registry
+      // Writing a new property (expansion)
+      // so delete the old one
+      if (expand || (newPropName !== propName)) {
+        delete target[propName]
       }
-      proc.fn(procOptions)
-    })
+    }
+
+    const procOptions = {
+      ...pluginOptions,
+      ...registry,
+      propName,
+      propValue,
+      move
+    }
+    proc.fn(procOptions)
 
     if (expanded) {
       return expansions
     }
   }
 
-  process (target) {
+  process (target, pluginOptions = {}) {
     const {config} = this
     const {processors} = config
     if (!this.hasPreProcessors) {
       return
     }
+
+    const {props, definition} = pluginOptions
+
     let expansions = {}
-    let propName, propValue, proc
-    for (propName in target) {
-      propValue = target[propName]
-      proc = this.get(propName)
-      if (proc) {
-        const expanded = this.run(proc, target, propName, propValue)
-        if (expanded) {
-          expansions = Object.assign(expansions, expanded)
-        }
-      }
-    }
+
+    this.keys.forEach((processorName) => {
+      const procList = this.map[processorName]
+      procList.forEach((proc) => {
+        proc.properties.forEach((propName) => {
+          let isProperty = false
+          propValue = target[propName]
+
+          // This mutates the preprocessor value
+          // for when we want to operate on properties
+          if (definition && props && ~this.propertyNames.indexOf(propName)) {
+            if (props[propName] && !propValue)  {
+              propValue = props[propName]
+            }
+          }
+
+          if (propValue !== undefined) {
+            const expanded = this.run(
+              proc, target, propName, propValue, pluginOptions, isProperty)
+            if (expanded) {
+              expansions = Object.assign(expansions, expanded)
+            }
+          }
+        })
+      })
+    })
+
     return expansions
   }
 
@@ -108,9 +132,7 @@ class Processor {
     for (selector in target) {
       rule = target[selector]
       const expansions = this.process(rule)
-      console.log('extract exapansions')
       const keys = Object.keys(expansions)
-      console.log(keys)
       if (keys.length) {
         extracted[selector] = expansions
       }

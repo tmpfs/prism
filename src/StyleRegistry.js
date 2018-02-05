@@ -106,7 +106,7 @@ export default class StyleRegistry {
   compile ({config}) {
     // Extract invariants before compilation
     this.invariants = processor.extract(this.styles)
-    console.log(Object.keys(this.invariants))
+    //console.log(Object.keys(this.invariants))
     this.styleSheet = StyleSheet.create(this.styles)
   }
 }

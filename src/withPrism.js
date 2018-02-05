@@ -188,18 +188,36 @@ const computeStyles = (
 
   //console.log('hasPre: ' + processor.hasPreProcessors)
 
+  //processor.propertyNames.forEach((nm) => {
+    ////console.log(nm)
+    //if (props[nm]) {
+      //console.log('got processor property mapping')
+      //const tmp = {}
+      //tmp[nm] = props[nm]
+      //console.log(tmp)
+      ////sheets.push(tmp)
+      //sheets = sheets.concat(tmp)
+    //}
+  //})
+
+  //console.log('computing: ' + definition.Name)
+  //console.log(Object.keys(props))
+
   if (processor.hasPreProcessors) {
     const flat = StyleSheet.flatten(sheets)
-    const expansions = processor.process(flat)
+    const expansions = processor.process(flat, pluginOptions)
     const keys = Object.keys(expansions)
+    //console.log('expanded keys: ' + keys)
     if (keys.length) {
       for (let k in expansions) {
+        //if (props[k] !== undefined) {
+          //console.log('test expansion on property: ' + k)
+          //console.log('test expansion on property: ' + expansions[k])
+        //}
         mutableStyleValues[k] = expansions[k]
       }
       runPropertyPlugins(keys, expansions)
     }
-    //console.log('after processing: ')
-    //console.log(flat)
     return options.flat ? flat : [flat]
   }
 

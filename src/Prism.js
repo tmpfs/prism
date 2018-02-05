@@ -344,9 +344,6 @@ Prism.configure = (registry, config = {}) => {
     config.processors.push(textTransform)
   }
 
-    //colorNames,
-    //textTransform
-
   if (config.debug) {
     console.log(`Prism configured with ${plugins.length} plugins`)
     plugins.forEach((plugin) => {

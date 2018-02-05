@@ -49,12 +49,10 @@ export default [
       const find = (list) => {
         return list
           .reduce((arr, nm) => {
-            console.log(nm)
             if (styleSheet[nm]) {
               arr.push(styleSheet[nm])
             }
             if (invariants[nm]) {
-              console.log('style has invariants: ' + nm)
               arr.push(invariants[nm])
             }
             return arr
