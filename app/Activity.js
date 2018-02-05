@@ -13,9 +13,6 @@ class Activity extends Component {
     return {
       mapStyleToComponent: {
         activityIndicator: []
-      },
-      mapStyleToProp: {
-        tintColor: true,
       }
     }
   }

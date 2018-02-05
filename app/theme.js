@@ -67,8 +67,8 @@ export default {
         fontSize: 16,
         marginTop: 10
       },
-      'Activity': {
-        tintColor: 'blue'
+      'activity-tint': {
+        tintColor: 'green'
       },
       'ChildStateStyle.Title:small': {
         fontSize: 16

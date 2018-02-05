@@ -43,12 +43,22 @@ export default [
 
   // Support for className
   [
-    ({prop, styleSheet}) => {
+    ({prop, styleSheet, registry}) => {
+      const {invariants} = registry
       const className = prop
       const find = (list) => {
         return list
-          .filter((nm) => styleSheet.hasOwnProperty(nm))
-          .map((nm) => styleSheet[nm])
+          .reduce((arr, nm) => {
+            console.log(nm)
+            if (styleSheet[nm]) {
+              arr.push(styleSheet[nm])
+            }
+            if (invariants[nm]) {
+              console.log('style has invariants: ' + nm)
+              arr.push(invariants[nm])
+            }
+            return arr
+          }, [])
       }
       if (Array.isArray(className)) {
         return find(className)

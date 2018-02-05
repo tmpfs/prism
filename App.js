@@ -22,7 +22,8 @@ Prism.configure(
     extendedProperties: true,
     experimentalPlugins: true,
     textTransform: true,
-    colorNames: true
+    colorNames: true,
+    tintColor: true
   }
 )
 
@@ -87,6 +88,27 @@ export default class App extends Component<{}> {
     return (
       <ScrollView padding={20} background='base01'>
 
+        <Panel label='tintColor'>
+          <Label>
+            This is a component using tintColor from defaultProps.
+          </Label>
+          <View justify='center' padding={15}>
+            <Activity />
+          </View>
+          <Label>
+            This is a component using tintColor from a className.
+          </Label>
+          <View justify='center' padding={15}>
+            <Activity className='activity-tint' />
+          </View>
+          <Label>
+            This is a component using tintColor from a property.
+          </Label>
+          <View justify='center' padding={15}>
+            <Activity tintColor='blue' />
+          </View>
+        </Panel>
+
         <Panel label='font'>
           <View font={{size: 'large', color: 'cream'}}>
             <View>
@@ -144,15 +166,6 @@ export default class App extends Component<{}> {
             padding={15}>
             This is a label to test various extended properties.
           </Label>
-        </Panel>
-
-        <Panel label='mapStyleToProp'>
-          <Label textTransform='capitalize'>
-            This is a component using mapStyleToProp to extract tintColor.
-          </Label>
-          <View justify='center' padding={15}>
-            <Activity tintColor='green' />
-          </View>
         </Panel>
       </ScrollView>
     )

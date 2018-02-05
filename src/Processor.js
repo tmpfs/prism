@@ -34,6 +34,8 @@ class Processor {
     })
 
     this.config = config
+
+    //console.log(this.map)
   }
 
   get (propName) {
@@ -106,7 +108,9 @@ class Processor {
     for (selector in target) {
       rule = target[selector]
       const expansions = this.process(rule)
+      console.log('extract exapansions')
       const keys = Object.keys(expansions)
+      console.log(keys)
       if (keys.length) {
         extracted[selector] = expansions
       }

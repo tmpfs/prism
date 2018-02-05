@@ -14,6 +14,7 @@ import withContext from './withContext'
 import util from './util'
 
 import colorNames from './colorNames'
+import tintColor from './tintColor'
 import textTransform from './textTransform'
 
 const STYLE = 'style'
@@ -330,6 +331,10 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.colorNames) {
     config.processors.push(colorNames)
+  }
+
+  if (config.tintColor) {
+    config.processors.push(tintColor)
   }
 
   if (config.textTransform) {

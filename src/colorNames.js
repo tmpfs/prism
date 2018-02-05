@@ -7,5 +7,5 @@ export default new Rule(
       move(colors[propValue])
     }
   },
-  ['color', 'backgroundColor', 'borderColor', 'tintColor']
+  ['color', 'backgroundColor', 'borderColor', 'background', 'tintColor']
 )
