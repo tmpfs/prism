@@ -207,7 +207,10 @@ const computeStyles = (
   if (processor.hasPreProcessors) {
     //console.log('GOT PREPROCESSORS WHEN COMPUTING STYLES')
     const flat = StyleSheet.flatten(sheets)
-    processor.process(flat, true)
+    const expansions = processor.process(flat)
+    for (let k in expansions) {
+      mutableStyleValues[k] = expansions[k]
+    }
     return [flat]
   }
 

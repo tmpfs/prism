@@ -2,28 +2,18 @@ import util from './util'
 const {isObject} = util
 
 class Rule {
-  constructor (fn, styleName, propStyleName) {
+  constructor (fn, properties) {
     // Handler called when the property is encountered
     this.fn = fn
     // Name of the property in a style declaration
-    this.styleName = styleName
-    // Name of the property on a component, assumed to be
-    this.propStyleName = propStyleName || styleName
+    this.properties = properties
   }
 }
 
 class Processor {
-
-  hasPreProcessors = false
-
-  map = {
-    // Preprocessors keyed by styleName
-    styles: {},
-    // Preprocessors keyed by propStyleName
-    props: {}
-  }
-
   config = null
+  hasPreProcessors = false
+  map = {}
 
   collate (config) {
     const {processors} = config
@@ -31,12 +21,14 @@ class Processor {
       return
     }
     processors.forEach((proc) => {
-      let val = proc.styleName
+      let val = proc.properties
       if (val && !Array.isArray(val)) {
         val = [val]
       }
       val.forEach((v) => {
-        this.map.styles[v] = proc
+        this.map[v] = this.map[v] || []
+        this.map[v].push(proc)
+        //this.map[v] = proc
       })
       this.hasPreProcessors = true
     })
@@ -44,51 +36,74 @@ class Processor {
     this.config = config
   }
 
-  get (propName, isStyle) {
-    const {map} = this
-    return isStyle ? map.styles[propName] : map.props[propName]
+  get (propName) {
+    return this.map[propName]
   }
 
-  process (target, isStyle) {
+  run (list, target, propName, propValue) {
+    const {config} = this
+    const {registry} = config
+    //console.log('Found preprocessor for: ' + propName)
+    //console.log('Found preprocessor for: ' + propValue)
+    const expansions = {}
+    let expanded = false
+
+    // Run all preprocessors for a given property
+    list.forEach((proc) => {
+
+      const write = (newValue, newPropName, expand = false) => {
+        newPropName = newPropName || propName
+        if (expand) {
+          expansions[newPropName] = newValue
+          expanded = true
+        } else {
+          target[newPropName] = newValue
+        }
+        // Writing a new property (expansion)
+        // so delete the old one
+        if (expand || (newPropName !== propName)) {
+          delete target[propName]
+        }
+      }
+
+      const procOptions = {
+        propName,
+        propValue,
+        write,
+        ...registry
+      }
+      proc.fn(procOptions)
+    })
+
+    if (expanded) {
+      return expansions
+    }
+  }
+
+  process (target) {
     const {config} = this
     const {processors} = config
     if (!this.hasPreProcessors) {
       return
     }
-    const {registry} = config
+    let expansions = {}
     let propName, propValue, proc
     for (propName in target) {
+      console.log(propName)
       propValue = target[propName]
-      proc = this.get(propName, isStyle)
+      proc = this.get(propName)
       if (proc) {
-        console.log('Found preprocessor for: ' + propName)
-        console.log('Found preprocessor for: ' + propValue)
-        const write = (newValue, newPropName) => {
-          newPropName = newPropName || propName
-          target[newPropName] = newValue
-          // Writing a new property (expansion)
-          // so delete the old one
-          if (newPropName !== propName) {
-            delete target[propName]
-          }
+        const expanded = this.run(proc, target, propName, propValue)
+        if (expanded) {
+          expansions = Object.assign(expansions, expanded)
         }
-        const procOptions = {
-          propName,
-          propValue,
-          write,
-          ...registry
-        }
-        proc.fn(procOptions)
-        //if (res !== undefined) {
-          //console.log('rewriting result: ' + res)
-          //target[propName] = res
-        //}
       }
       // Recurse for initial style declarations
       if (isObject(propValue)) {
-        this.process(propValue, isStyle)
+        this.process(propValue)
       }
     }
+    return expansions
   }
 }
 

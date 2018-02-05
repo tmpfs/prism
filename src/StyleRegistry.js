@@ -109,9 +109,8 @@ export default class StyleRegistry {
   // Called to finalize the registry internally
   // do not call this directly
   compile ({config}) {
-
     // Pre-process style properties
-    processor.process(this.styles, true)
+    processor.process(this.styles)
 
     const {invariants} = config
     if (invariants) {

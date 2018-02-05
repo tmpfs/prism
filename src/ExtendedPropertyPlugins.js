@@ -19,15 +19,15 @@ const boxModel = (key, value) => {
 export default [
   // Background
   [
-    ({prop, styleSheet, colors}) => {
-      return {backgroundColor: colors[prop] || prop}
+    ({prop}) => {
+      return {backgroundColor: prop}
     },
     {background: propTypes.background}
   ],
 
   // Color
   [
-    ({prop, styleSheet, colors, options}) => {
+    ({prop, options}) => {
       if (options.supportsText) {
         return {color: prop}
       }

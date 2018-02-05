@@ -117,11 +117,11 @@ export default class App extends Component<{}> {
         </Panel>
 
         <Panel label='mapStyleToProp'>
-          <Label>
+          <Label textTransform='uppercase'>
             This is a component using mapStyleToProp to extract tintColor.
           </Label>
           <View justify='center' padding={15}>
-            <Activity tintColor='pink' />
+            <Activity tintColor='green' />
           </View>
         </Panel>
       </ScrollView>

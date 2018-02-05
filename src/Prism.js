@@ -31,7 +31,11 @@ const Configuration = {
       if (colors[propValue]) {
         write(colors[propValue])
       }
-    }, ['color', 'backgroundColor', 'tintColor'])
+    }, ['color', 'backgroundColor', 'borderColor', 'tintColor']),
+    new Rule(({write, propValue, colors}) => {
+      //console.log('textTransform: ' + propValue)
+      write({transform: propValue}, 'text', true)
+    }, ['textTransform'])
   ],
   sizes: {
     'xx-small': 12,

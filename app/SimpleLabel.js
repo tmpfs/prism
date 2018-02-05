@@ -12,6 +12,9 @@ class SimpleLabel extends Component {
       supportsText: true,
       supportsTextTransform: true,
       mapPropsToStyle: {
+        textTransform: ({prop}) => {
+          return {textTransform: prop}
+        },
         align: ({prop, styleSheet}) => {
           return {textAlign: prop}
         },
