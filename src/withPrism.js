@@ -47,10 +47,6 @@ const computeStyles = (
     styleRuleName = ns.getChildClassName(attrName)
 
     if (invariants[styleRuleName]) {
-      //console.log('adding invariant: ' + ns.componentClassName)
-      console.log('adding invariant: ' + styleRuleName)
-      console.log('adding invariant: ' + attrName)
-      console.log(invariants[styleRuleName])
       sheets.push(invariants[styleRuleName])
     }
   }
