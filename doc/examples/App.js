@@ -11,7 +11,8 @@ Prism.configure(
     debug: true,
     extendedProperties: true,
     experimentalPlugins: true,
-    textTransform: true
+    textTransform: true,
+    colorNames: true
   }
 )
 export default class Application extends Component {

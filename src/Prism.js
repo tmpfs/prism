@@ -28,8 +28,7 @@ const {
 
 const Configuration = {
   plugins: null,
-  defaultFontSize: 16,
-  colorNames: true,
+  colorNames: false,
   textTransform: false,
   processors: [],
   sizes: {

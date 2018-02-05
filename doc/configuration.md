@@ -3,9 +3,12 @@
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
 
 * `plugins` array of plugin definitions to use, overrides the system plugins.
-* `extendedProperties` boolean that enables the extended style property plugins.
+* `extendedProperties` enables the extended style property plugins.
 * `additionalPlugins` array of plugin definitions to append to the system plugins.
 * `disabledPlugins` array of string plugin names to disable.
+* `experimentalPlugins` enables the experimental plugins.
+* `colorNames` enables the color names preprocessor.
+* `textTransform` enables the text transform preprocessor.
 * `debug` print configured plugins.
 
 Note that support for the `style` property and `mapPropsToStyleObject` cannot be disabled, they are not handled by plugins.
