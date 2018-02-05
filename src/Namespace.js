@@ -2,16 +2,9 @@ import util from './util'
 const {ucfirst} = util
 
 class Namespace {
-  constructor ({namespace, typeName, className, childClassName}) {
+  constructor ({namespace, typeName}) {
     this.namespace = namespace || ''
-    // Raw type class name when a component namespace
     this.typeName = typeName
-
-    // Optional alternative className to use instead of typeName
-    this.className = className
-
-    // Optional name of a child component to append to the computed name
-    this.childClassName = childClassName
   }
 
   getStateClassName (state) {
@@ -34,9 +27,8 @@ class Namespace {
 
   get componentClassName () {
     const className = this.getClassName()
-    const {namespace, childClassName} = this
-    let styleDeclName = namespace ? `${namespace}.${className}` : className
-    return styleDeclName
+    const {namespace} = this
+    return namespace ? `${namespace}.${className}` : className
   }
 }
 

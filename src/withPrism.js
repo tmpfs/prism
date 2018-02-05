@@ -32,8 +32,7 @@ const computeStyles = (
   const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors, invariants} = registry
 
-  const ns = new Namespace(
-    {namespace, className: options.className, typeName: Name})
+  const ns = new Namespace({namespace, typeName: Name})
 
   let sheets = []
 
