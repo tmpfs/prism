@@ -23,14 +23,12 @@
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
   - [Initializing Styles](#initializing-styles)
-    - [registry](#registry)
-    - [className](#classname)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
 - [Properties](#properties)
   - [Style Properties](#style-properties)
     - [style](#style)
-    - [className](#classname-1)
+    - [className](#classname)
   - [Extended Style Properties](#extended-style-properties)
     - [background](#background)
     - [color](#color)
@@ -500,9 +498,7 @@ If you want to specify requirements for a component that does not have a namespa
 
 ### Initializing Styles
 
-#### registry
-
-Component libraries of any size will find it easiest to supply an entire style registry which is merged with the user-supplied registry.
+Component libraries should supply a style registry which is merged with the user-supplied registry.
 
 ```javascript
 import {StyleRegistry} from 'react-native-prism'
@@ -518,22 +514,6 @@ static styleOptions = () => {
 An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
 Users of the library can then selectively override style declarations where necessary.
-
-#### className
-
-Sometimes you may wish to change the class name used when looking up default styles for a component:
-
-```javascript
-class TouchButton extends Component {
-  static styleOptions = () => {
-    return {
-      className: 'Button'
-    }
-  }
-}
-```
-
-Will resolve to a `Button` style sheet rather than the default `TouchButton`.
 
 ### Color Names
 
@@ -941,7 +921,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 5, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 6, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
