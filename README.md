@@ -414,6 +414,21 @@ static mapStyleToComponent = {
 }
 ```
 
+The process for the `mapStyleToComponent` functionality is *subtractive* by default, if you route a property to a component style it is no longer included in the primary `style` object. This is normally what you want to prevent properties like `color` from triggering an error on non-text components.
+
+Except sometimes you may wish to route properties to a child component style but also include them in the primary computed `style`, to do so you can use the `style` array to force inclusion of properties.
+
+Take the example above where we route `width` and `height` to the `imageStyle` object which we assign to the child `Image` component; we may wish to also propagate those values to the parent `style` so we can apply the dimensions to the containing component as well.
+
+```javascript
+static mapStyleToComponent = {
+  // Force include dimensions in the main `style`
+  style: ['width', 'height'],
+  // Map dimensions into the child style
+  imageStyle: ['width', 'height']
+}
+```
+
 When using `mapStyleToComponent` there is no need to declare the properties in your component `propTypes`, they are automatically declared as we know ahead of time they should have the same property type as `style`.
 
 For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
