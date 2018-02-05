@@ -194,7 +194,7 @@ An example using [Prism Components][]:
 </Layout>
 ```
 
-The shape of the font object is described in [PropTypes.js](/src/PropTypes.js).
+The shape of the font object is described in [propTypes.js](/src/propTypes.js).
 
 #### textTransform
 

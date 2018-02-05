@@ -841,7 +841,7 @@ An example using [Prism Components][]:
 </Layout>
 ```
 
-The shape of the font object is described in [PropTypes.js](https://github.com/fika-community/prism/blob/master/src/PropTypes.js).
+The shape of the font object is described in [propTypes.js](https://github.com/fika-community/prism/blob/master/src/propTypes.js).
 
 #### textTransform
 
