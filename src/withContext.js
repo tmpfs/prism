@@ -2,12 +2,12 @@ import propTypes from './propTypes'
 
 const childContextTypes = {
   font: propTypes.fontPropType,
-  text: propTypes.textPropType
+  textTransform: propTypes.textTransform
 }
 
 const contextTypes = {
   font: propTypes.fontPropType,
-  text: propTypes.textPropType
+  textTransform: propTypes.textTransform
 }
 
 export default (definition) => {
@@ -21,8 +21,8 @@ export default (definition) => {
 
   Type.contextTypes.font = propTypes.fontPropType
   Type.childContextTypes.font = propTypes.fontPropType
-  Type.contextTypes.text = propTypes.textPropType
-  Type.childContextTypes.text = propTypes.textPropType
+  Type.contextTypes.textTransform = propTypes.textTransform
+  Type.childContextTypes.textTransform = propTypes.textTransform
 
   if (Type.prototype.getChildContext) {
     Type.prototype._getChildContext = Type.prototype.getChildContext
@@ -39,8 +39,8 @@ export default (definition) => {
       if (props.font) {
         context.font = props.font
       }
-      if (props.text) {
-        context.text = props.text
+      if (props.textTransform) {
+        context.textTransform = props.textTransform
       }
     }
     return context

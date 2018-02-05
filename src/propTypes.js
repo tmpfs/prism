@@ -18,9 +18,11 @@ const boxModelType = PropTypes.oneOfType([
 
 const colorType = PropTypes.string
 
-const textPropType = PropTypes.shape({
-  transform: PropTypes.oneOf(['uppercase', 'lowercase', 'capitalize'])
-})
+//const textPropType = PropTypes.shape({
+  //transform: PropTypes.oneOf(['uppercase', 'lowercase', 'capitalize'])
+//})
+
+const textTransformType = PropTypes.oneOf(['none', 'uppercase', 'lowercase', 'capitalize'])
 
 const dimensionType = PropTypes.oneOfType([
   PropTypes.string,
@@ -152,13 +154,16 @@ const propTypes = {
   ]),
   width: dimensionType,
   height: dimensionType,
-  text: textPropType
+  textTransform: textTransformType
+  //text: textPropType
 }
 
 propTypes.fontShape = fontShape
 propTypes.fontShapeColors = fontShapeColors
 propTypes.fontShapeMap = fontShapeMap
 propTypes.fontPropType = fontPropType
-propTypes.textPropType = textPropType
+
+//propTypes.textPropType = textPropType
+//propTypes.textTransform = textTransform
 
 export default propTypes

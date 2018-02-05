@@ -38,7 +38,7 @@ export default {
       },
       'Panel': {
         marginBottom: 30,
-        textTransform: 'uppercase'
+        //textTransform: 'uppercase'
       },
       'Panel.Header': {
         backgroundColor: colors.base03,
@@ -73,7 +73,6 @@ export default {
       'Activity': {
         tintColor: 'blue'
       },
-
       'ChildStateStyle.Title:small': {
         fontSize: 16
       },

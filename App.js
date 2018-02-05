@@ -84,6 +84,34 @@ export default class App extends Component<{}> {
   render () {
     return (
       <ScrollView padding={20} background='base01'>
+
+        <Panel label='font'>
+          <View font={{size: 'large', color: 'cream'}}>
+            <View>
+              <Label>
+                This is some text that illustrates how text style props are inherited
+                from the parent hierarchy.
+
+                We add a <Label bold textTransform='uppercase'>large</Label> size to the grandparent View which propagates through the children using childContext.
+              </Label>
+
+              <Label font={{size: 'medium'}}>
+                When it reaches the Label component it is applied to the underlying Text component.
+              </Label>
+
+              <Label font={{color: 'skyblue', size: 'small'}}>
+                This paragraph overrides the grandparent color and size.
+              </Label>
+            </View>
+          </View>
+        </Panel>
+
+        <Panel label='textTransform'>
+          <Label textTransform='uppercase'>
+            This is some uppercase text <Label textTransform='lowercase'>with some lowercase text in a Label</Label> in a paragraph. <Label textTransform='capitalize'>We can capitalize too</Label>. But we cannot apply none (undo) once a parent is transformed :(
+          </Label>
+        </Panel>
+
         <Panel label='defaultProps'>
           <Label>
           This is some text using the styles from defaultProps.

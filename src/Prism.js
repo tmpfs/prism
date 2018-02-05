@@ -33,8 +33,8 @@ const Configuration = {
       }
     }, ['color', 'backgroundColor', 'borderColor', 'tintColor']),
     new Rule(({write, propValue, colors}) => {
-      write({transform: propValue}, 'text', true)
-      //write(propValue, null, true)
+      //write({transform: propValue}, 'text', true)
+      write(propValue, null, true)
     }, ['textTransform'])
   ],
   sizes: {

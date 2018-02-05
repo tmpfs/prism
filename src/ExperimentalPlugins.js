@@ -9,16 +9,13 @@ export default [
   // Text
   [
     ({context, prop, props, state, util, options}) => {
-
       // Inherited from the parent context
       if (!prop && context) {
-        prop = context.text
-      } else {
-        prop = Object.assign({}, context.text, prop)
+        prop = context.textTransform
       }
 
       const transformer = (prop, s) => {
-        switch(prop.transform) {
+        switch(prop) {
           case 'uppercase':
             s = s.toUpperCase()
             break;
@@ -39,7 +36,7 @@ export default [
         return children
       }
 
-      if (prop && prop.transform && options.supportsTextTransform) {
+      if (prop && options.supportsTextTransform) {
         let {children} = props
         children = it(children)
         children = React.Children.map(children, (child) => {
@@ -51,7 +48,7 @@ export default [
         state.children = children
       }
     },
-    {text: propTypes.text}
+    {textTransform: propTypes.textTransform}
   ],
 
   // Font
