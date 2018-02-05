@@ -253,26 +253,10 @@ const registerComponent = (registry, definition, config) => {
     {}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
 
-  definition.initialStyles = {}
-  definition.defaultProps = Object.assign({}, Type.defaultProps)
-
   const childComponentNames = [STYLE].concat(options.childComponentNames)
   childComponentNames.forEach((name) => {
     // Automatic propTypes for style, labelStyle, imageStyle etc.
     Type.propTypes[name] = propTypes.style
-
-    //Type.styleDefaultProps = Type.styleDefaultProps || {}
-
-    // Configure initial styles per attribute
-    // from defaultProps and cleanup so they
-    // don't mess with our inheritance
-    const list = []
-    if (Type.defaultProps &&
-      Type.defaultProps[name]) {
-      list.push(Type.defaultProps[name])
-      delete Type.defaultProps[name]
-    }
-    definition.initialStyles[name] = list
   })
 
   //console.log(Object.keys(Type.propTypes))

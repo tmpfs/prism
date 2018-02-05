@@ -23,10 +23,7 @@ class Activity extends Component {
   }
 
   static defaultProps = {
-    labelProps: {},
-    style: {
-      flex: 1
-    }
+    labelProps: {}
   }
 
   render() {

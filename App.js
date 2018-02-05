@@ -96,25 +96,19 @@ export default class App extends Component<{}> {
             This is some uppercase text <Label textTransform='lowercase'>with some lowercase text in a Label</Label> in a paragraph. <Label textTransform='capitalize'>We can capitalize too</Label>. But we cannot apply none (undo) once a parent is transformed :(
           </Label>
         </Panel>
-
-        <Panel label='defaultProps'>
-          <Label>
-          This is some text using the styles from defaultProps.
-          </Label>
-        </Panel>
         <Panel label='className'>
           <Label className='highlight'>
-            This is some text using the styles from className which override the defaultProps.
+            This is some text using the styles from className which override the class rule.
           </Label>
         </Panel>
         <Panel label='color'>
           <Label className='highlight' color='green'>
-            This is some text using a color property to override the className and defaultProps.
+            This is some text using a color property to override the className and class rule.
           </Label>
         </Panel>
         <Panel label='style'>
           <Label className='highlight' color='green' style={{color: 'orange'}}>
-            This is some text using an inline style to override color, className and defaultProps.
+            This is some text using an inline style to override color, className and the class rule.
           </Label>
         </Panel>
 

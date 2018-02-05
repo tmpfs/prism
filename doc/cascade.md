@@ -10,7 +10,7 @@ Generally speaking these are the actions taken:
 4. Child component styles are computed.
 5. Inline styles are applied.
 
-Default styles start with any values in [defaultProps](#defaultprops) followed by a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
+Default styles start with any values in a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
 
 At this point, global plugins that handle [mapping properties to styles](mapping-properties-to-styles) are executed.
 

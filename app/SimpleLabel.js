@@ -27,13 +27,6 @@ class SimpleLabel extends Component {
     }
   }
 
-  static defaultProps = {
-    style: {
-      color: colors.base2,
-      fontSize: 16
-    }
-  }
-
   render () {
     // Get the computed style sheet
     const {style, text} = this.props

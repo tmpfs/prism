@@ -29,17 +29,13 @@ const computeStyles = (
     plugins}) => {
 
   const style = props[attrName]
-  const {config, initialStyles, options, registry, namespace, Name, Type} = definition
+  const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors, invariants} = registry
 
   const ns = new Namespace(
     {namespace, className: options.className, typeName: Name})
 
   let sheets = []
-
-  if (initialStyles[attrName]) {
-    sheets = sheets.concat(initialStyles[attrName])
-  }
 
   const defaultStyles = styleSheet[ns.componentClassName] ?
     [styleSheet[ns.componentClassName]] : []
@@ -253,8 +249,6 @@ const withPrism = (Stylable, definition) => {
       this.childComponentNames = ['style'].concat(options.childComponentNames)
       // Initialize a style object for each child component style
       this.childComponentNames.forEach((name) => {
-        // Use initialStyles set by defaultProps
-        //state.styleValues[name] = definition.initialStyles[name].slice()
         state.styleValues[name] = []
       })
       this.state = state
@@ -349,7 +343,6 @@ const withPrism = (Stylable, definition) => {
 
   // Proxy propTypes
   PrismComponent.propTypes = Stylable.propTypes
-  PrismComponent.defaultProps = Stylable.defaultProps
 
   definition.Type = Stylable
   definition.NewType = PrismComponent

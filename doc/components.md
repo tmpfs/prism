@@ -200,7 +200,7 @@ If the component is namespaced use the fully qualified name, eg: `com.prism.ui.P
 
 ### Property Type Validation
 
-It is important to know that the `propTypes` and `defaultProps` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
+It is important to know that the `propTypes` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
 
 Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
 
@@ -280,28 +280,6 @@ static styleOptions = () => {
 An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
 Users of the library can then selectively override style declarations where necessary.
-
-#### defaultProps
-
-When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
-
-```javascript
-static mapStyleToComponent = {
-  labelStyle: []
-}
-static defaultProps = {
-  style: {
-    backgroundColor: 'red'
-  },
-  labelStyle: {
-    color: 'white'
-  }
-}
-```
-
-Note that for child default styles to be recognised you need to specify the child component style with `mapStyleToComponent`.
-
-There is a special case here that in order for style inheritance to function correctly styles in `defaultProps` are collated and then **deleted**, you should not reference them at runtime.
 
 #### className
 

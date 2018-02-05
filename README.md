@@ -24,7 +24,6 @@
   - [Requirements](#requirements)
   - [Initializing Styles](#initializing-styles)
     - [registry](#registry)
-    - [defaultProps](#defaultprops)
     - [className](#classname)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
@@ -439,7 +438,7 @@ If the component is namespaced use the fully qualified name, eg: `com.prism.ui.P
 
 ### Property Type Validation
 
-It is important to know that the `propTypes` and `defaultProps` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
+It is important to know that the `propTypes` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
 
 Built in `propTypes` are merged first so your `propTypes` will win if there is a property name collision however the behaviour is undefined so you should take care that your `propTypes` do not conflict.
 
@@ -519,28 +518,6 @@ static styleOptions = () => {
 An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
 Users of the library can then selectively override style declarations where necessary.
-
-#### defaultProps
-
-When you need to specify the absolute minimum styles for your component you can use `defaultProps`:
-
-```javascript
-static mapStyleToComponent = {
-  labelStyle: []
-}
-static defaultProps = {
-  style: {
-    backgroundColor: 'red'
-  },
-  labelStyle: {
-    color: 'white'
-  }
-}
-```
-
-Note that for child default styles to be recognised you need to specify the child component style with `mapStyleToComponent`.
-
-There is a special case here that in order for style inheritance to function correctly styles in `defaultProps` are collated and then **deleted**, you should not reference them at runtime.
 
 #### className
 
@@ -948,7 +925,7 @@ Generally speaking these are the actions taken:
 4. Child component styles are computed.
 5. Inline styles are applied.
 
-Default styles start with any values in [defaultProps](#defaultprops) followed by a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
+Default styles start with any values in a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
 
 At this point, global plugins that handle [mapping properties to styles](mapping-properties-to-styles) are executed.
 

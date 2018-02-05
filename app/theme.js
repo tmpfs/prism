@@ -49,6 +49,8 @@ export default {
         padding: 10
       },
       SimpleLabel: {
+        color: colors.base2,
+        fontSize: 16,
         fontFamily: fonts.regular
       },
       'CompositeLabel': {
