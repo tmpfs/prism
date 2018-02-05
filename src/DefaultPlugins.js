@@ -6,39 +6,6 @@ import util from './util'
 
 const {isObject, isString, isFunction} = util
 
-const mapState = ({props, options, registry, util, ns, attrName}) => {
-  const {mapPropsToStyleState} = options
-  const {styleSheet} = registry
-  if (!isFunction(mapPropsToStyleState)) {
-    return
-  }
-  let stateStyle = mapPropsToStyleState({...registry, props})
-  const isStyle = attrName === 'style'
-  const sheets = []
-  if (stateStyle) {
-    let stateStyleDeclName
-    let stateStyleSheet = stateStyle
-    if (util.isString(stateStyle)) {
-      if (isStyle) {
-        // This gives us the top-level component
-        stateStyleDeclName = ns.getStateClassName(stateStyle)
-        stateStyleSheet = styleSheet[stateStyleDeclName]
-      } else{
-        stateStyleDeclName = ns.getChildStateClassName(attrName, stateStyle)
-        stateStyleSheet = styleSheet[stateStyleDeclName]
-      }
-    }
-    // May be undefined if styleSheet does not exist
-    if (stateStyleSheet &&
-        (util.isArray(stateStyleSheet) ||
-         util.isObject(stateStyleSheet) ||
-         util.isNumber(stateStyleSheet))) {
-      sheets.push(stateStyleSheet)
-    }
-  }
-  return sheets
-}
-
 export default [
 
   // Support for className
@@ -118,7 +85,38 @@ export default [
 
   [
     'mapPropsToStyleState',
-    mapState
+    ({props, options, registry, util, ns, attrName}) => {
+      const {mapPropsToStyleState} = options
+      const {styleSheet} = registry
+      if (!isFunction(mapPropsToStyleState)) {
+        return
+      }
+      let stateStyle = mapPropsToStyleState({...registry, props})
+      const isStyle = attrName === 'style'
+      const sheets = []
+      if (stateStyle) {
+        let stateStyleDeclName
+        let stateStyleSheet = stateStyle
+        if (util.isString(stateStyle)) {
+          if (isStyle) {
+            // This gives us the top-level component
+            stateStyleDeclName = ns.getStateClassName(stateStyle)
+            stateStyleSheet = styleSheet[stateStyleDeclName]
+          } else{
+            stateStyleDeclName = ns.getChildStateClassName(attrName, stateStyle)
+            stateStyleSheet = styleSheet[stateStyleDeclName]
+          }
+        }
+        // May be undefined if styleSheet does not exist
+        if (stateStyleSheet &&
+            (util.isArray(stateStyleSheet) ||
+             util.isObject(stateStyleSheet) ||
+             util.isNumber(stateStyleSheet))) {
+          sheets.push(stateStyleSheet)
+        }
+      }
+      return sheets
+    }
   ],
 
   // Support for mapPropsToStyle
