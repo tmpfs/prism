@@ -42,9 +42,9 @@ export default new Plugin(
     return sheets
   },
   {
+    definesChildren: true,
     requireOptions: true,
-    validator: (computed) => {
-      console.log('VALIDATOR CALLED')
+    validator: (name, computed) => {
       if (!isObject(computed)) {
         throw new Error(
           `Prism you declared ${name} as an invalid type, expected object ` +

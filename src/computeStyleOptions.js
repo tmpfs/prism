@@ -14,82 +14,6 @@ const mergeStyleRegistry = (registry, options) => {
   }
 }
 
-const computeStyleNames = (registry, definition, options) => {
-  const {Type, Name} = definition
-  let {mapStyleToProps} = options
-  let childComponentNames = []
-  // User defined style property names
-  if (mapStyleToProps !== undefined) {
-    // Extract child component styles when a key is an object
-    let k, v
-    for (k in mapStyleToProps) {
-      v = mapStyleToProps[k]
-      if (isObject(v)) {
-        childComponentNames.push(k)
-      }
-    }
-  }
-
-  options.allStyleObjectNames = [STYLE].concat(childComponentNames)
-  options.childComponentNames = childComponentNames
-}
-
-const mergePropTypes = (definition, plugins, allStyleObjectNames) => {
-  const {Type} = definition
-  // Merge config propTypes into the Stylable propTypes.
-  //
-  // On collision the underlying component propTypes win.
-  const systemPropTypes = {}
-  plugins.forEach((plugin) => {
-    if (plugin.propType && !plugin.isGlobal) {
-      systemPropTypes[plugin.name] = plugin.propType
-    }
-  })
-  const propertyTypes = Object.assign(
-    {}, systemPropTypes, Type.propTypes)
-  Type.propTypes = propertyTypes
-
-  allStyleObjectNames.forEach((name) => {
-    // Automatic propTypes for style, labelStyle, imageStyle etc.
-    Type.propTypes[name] = propTypes.style
-  })
-}
-
-const mergeStatic = (definition, plugins, options) => {
-  const {Type} = definition
-  // Plugins have not been split yet
-  plugins.forEach((plugin) => {
-    if (plugin.isGlobal) {
-      const {name} = plugin
-      if (options[name] !== undefined && Type[name] !== undefined) {
-        throw new Error(
-          `Prism you declared ${name} as static on ${Name} and also in styleOptions. ` +
-          `This is not allowed, choose one of the other declaration style.`)
-      }
-
-      // Get from static props
-      if (Type[name] !== undefined) {
-        options[name] = Type[name]
-        // Moving into the options, so clean up
-        delete Type[name]
-      }
-
-      // Call as function, supports a static declaration
-      // that can reference the styleSheet etc
-      if (isFunction(options[name])) {
-        options[name] = options[name](registry)
-      }
-
-      // Got a declaration allow plugins to validate it
-      // after getting a return type when declared as a function
-      const validator = plugin.options.validator
-      if (options[name] !== undefined && isFunction(validator)) {
-        validator(options[name])
-      }
-    }
-  })
-}
-
 const splitPlugins = (definition, plugins, options) => {
   const globalPlugins = plugins
     .filter((plugin) => {
@@ -121,14 +45,100 @@ const splitPlugins = (definition, plugins, options) => {
   }
 }
 
+const computeStyleNames = (options) => {
+  let {mapStyleToProps} = options
+  let childComponentNames = []
+  // User defined style property names
+  if (mapStyleToProps !== undefined) {
+    // Extract child component styles when a key is an object
+    let k, v
+    for (k in mapStyleToProps) {
+      v = mapStyleToProps[k]
+      if (isObject(v)) {
+        childComponentNames.push(k)
+      }
+    }
+  }
+  options.allStyleObjectNames = [STYLE].concat(childComponentNames)
+  options.childComponentNames = childComponentNames
+}
+
+const mergeStatic = (definition, plugins, options) => {
+  const {Type} = definition
+  // Plugins have not been split yet
+  plugins.forEach((plugin) => {
+    if (plugin.isGlobal) {
+      const {name} = plugin
+      if (options[name] !== undefined && Type[name] !== undefined) {
+        throw new Error(
+          `Prism you declared ${name} as static on ${Name} and also in styleOptions. ` +
+          `This is not allowed, choose one of the other declaration style.`)
+      }
+
+      // Get from static props
+      if (Type[name] !== undefined) {
+        options[name] = Type[name]
+        // Moving into the options, so clean up
+        delete Type[name]
+      }
+
+      // Call as function, supports a static declaration
+      // that can reference the styleSheet etc
+      if (isFunction(options[name])) {
+        options[name] = options[name](registry)
+      }
+
+      // Got a declaration allow plugins to validate it
+      // after getting a return type when declared as a function
+      const validator = plugin.options.validator
+      if (options[name] !== undefined && isFunction(validator)) {
+        validator(name, options[name])
+      }
+    }
+  })
+}
+
+const mergePropTypes = (definition, plugins, allStyleObjectNames) => {
+  const {Type} = definition
+  // Merge config propTypes into the Stylable propTypes.
+  //
+  // On collision the underlying component propTypes win.
+  const systemPropTypes = {}
+  plugins.forEach((plugin) => {
+    if (plugin.propType && !plugin.isGlobal) {
+      systemPropTypes[plugin.name] = plugin.propType
+    }
+  })
+  const propertyTypes = Object.assign(
+    {}, systemPropTypes, Type.propTypes)
+  Type.propTypes = propertyTypes
+
+  allStyleObjectNames.forEach((name) => {
+    // Automatic propTypes for style, labelStyle, imageStyle etc.
+    Type.propTypes[name] = propTypes.style
+  })
+}
+
 const computeStyleOptions = (registry, definition, config) => {
-  const {Type, Name, styleOptions} = definition
+  const {styleOptions} = definition
   const {plugins} = config
   let options = {}
 
+  // Get options for the component
   if (styleOptions) {
-    // Get options for the component
-    options = styleOptions(registry)
+    // If you don't need access to the registry
+    // when initializing the components options
+    // an object is valid
+    if (isObject(styleOptions)) {
+      options = Object.assign({}, styleOptions)
+    // Otherwise a function declaration allows access
+    // to styleSheet, colors, fonts etc.
+    } else if (isFunction(styleOptions)) {
+      options = styleOptions(registry)
+    } else {
+      throw new Error(
+        `Prism unsupported type for styleOptions "${typeof(styleOptions)}"`)
+    }
   }
 
   mergeStyleRegistry(registry, options)
@@ -139,7 +149,7 @@ const computeStyleOptions = (registry, definition, config) => {
   // configuration option
   options.plugins = splitPlugins(definition, plugins, options)
 
-  computeStyleNames(registry, definition, options)
+  computeStyleNames(options)
 
   // computeStyleNames must be called first
   // so we have allStyleObjectNames
