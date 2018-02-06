@@ -1,37 +1,9 @@
-import PropTypes from 'prop-types'
 import propTypes from './propTypes'
 
-import {StyleSheet} from 'react-native'
 import util from './util'
-
-const {isObject, isString, isFunction} = util
+const {isString, isFunction} = util
 
 export default [
-
-  // Support for className
-  //[
-    //({prop, styleSheet, registry}) => {
-      //const {invariants} = registry
-      //const className = prop
-      //const find = (list) => {
-        //return list
-          //.reduce((arr, nm) => {
-            //if (styleSheet[nm]) {
-              //arr.push(styleSheet[nm])
-            //}
-            //if (invariants[nm]) {
-              //arr.push(invariants[nm])
-            //}
-            //return arr
-          //}, [])
-      //}
-      //if (Array.isArray(className)) {
-        //return find(className)
-      //}
-      //return find(className.split(/\s+/))
-    //},
-    //{className: propTypes.className}
-  //],
 
   // Support for mapPropsToStyle
   [
@@ -40,10 +12,13 @@ export default [
       const {mapPropsToStyle} = options
       if (mapPropsToStyle !== undefined) {
         const sheets = []
+
+        // TODO: pre-compute object map
         let map = mapPropsToStyle
         if (util.isFunction(map)) {
           map = mapPropsToStyle(registry)
         }
+
         for (let k in map) {
           const prop = props[k]
           if (props.hasOwnProperty(k) && prop !== undefined) {

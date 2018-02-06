@@ -6,7 +6,8 @@ import {Rule, processor} from './Processor'
 import Namespace from './Namespace'
 import Plugin from './Plugin'
 import Plugins from './DefaultPlugins'
-import DefaultPropertyPlugins from './DefaultPropertyPlugins'
+import className from './className'
+
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import ExperimentalPlugins from './ExperimentalPlugins'
 
@@ -25,15 +26,15 @@ const {
   isObject,
   isFunction,
   isString,
-  isArray,
-  isNumber,
-  lcfirst} = util
+  isArray
+  } = util
 
 const Configuration = {
   plugins: null,
+  processors: [],
+  className: true,
   colorNames: false,
   textTransform: false,
-  processors: [],
   sizes: {
     'xx-small': 12,
     'x-small': 13,
@@ -272,19 +273,30 @@ Prism.defined = []
 
 Prism.configure = (registry, config = {}) => {
   if (!(registry instanceof StyleRegistry)) {
-    throw new Error('Prism expects a StyleRegistry for configure()')
+    throw new Error(
+      'Prism expects a StyleRegistry for configure()')
   }
 
-  if (config.plugins !== undefined && !Array.isArray(config.plugins)) {
-    throw new Error('Prism expects an array for configuration plugins')
+  if (config.plugins !== undefined &&
+      !Array.isArray(config.plugins)) {
+    throw new Error(
+      'Prism expects an array for configuration plugins')
   }
 
-  if (config.processors !== undefined && !Array.isArray(config.processors)) {
-    throw new Error('Prism expects an array for configuration processors')
+  if (config.processors !== undefined &&
+      !Array.isArray(config.processors)) {
+    throw new Error(
+      'Prism expects an array for configuration processors')
   }
+
+  config = Object.assign({}, Configuration, config)
 
   let systemPlugins = Plugins.slice()
-  systemPlugins = systemPlugins.concat(DefaultPropertyPlugins)
+
+  if (config.className) {
+    systemPlugins = systemPlugins.concat(className)
+  }
+
   if (config.extendedProperties) {
     systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
   }
@@ -292,7 +304,8 @@ Prism.configure = (registry, config = {}) => {
     systemPlugins = systemPlugins.concat(ExperimentalPlugins)
   }
 
-  let plugins = Array.isArray(config.plugins) ? config.plugins : systemPlugins
+  let plugins = Array.isArray(config.plugins) ?
+    config.plugins : systemPlugins
 
   // Register the plugins
   plugins = registerPlugins(plugins)
@@ -309,13 +322,6 @@ Prism.configure = (registry, config = {}) => {
     })
   }
 
-  config = Object.assign({}, Configuration, config)
-  Prism.config = config
-
-  if (!Array.isArray(config.processors)) {
-    throw new Error('Prism processors configuration must be an array')
-  }
-
   if (config.colorNames) {
     config.processors.push(colorNames)
   }
@@ -326,17 +332,22 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.textTransform) {
     if (!config.experimentalPlugins) {
-      throw new Error('Prism experimentalPlugins option is required to use textTransform')
+      throw new Error(
+        'Prism experimentalPlugins option is required to use textTransform')
     }
     config.processors.push(textTransform)
   }
 
   if (config.debug) {
-    console.log(`Prism configured with ${plugins.length} plugins`)
+    console.log(
+      `Prism configured with ${plugins.length} plugins`)
     plugins.forEach((plugin) => {
-      console.log(`Prism using plugin "${plugin.name}" ${plugin.isGlobal ? '(global)' : ''}`)
+      console.log(
+        `Prism using plugin "${plugin.name}" ${plugin.isGlobal ? '(global)' : ''}`)
     })
   }
+
+  Prism.config = config
 
   // Ensure we use the computed plugins
   Prism.config.plugins = plugins
