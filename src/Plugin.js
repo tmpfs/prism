@@ -14,9 +14,9 @@ class Plugin  {
     this.func = func
     this.propType = propType
     this.isGlobal = isGlobal
-    if (propType) {
-      this.propNames = Object.keys(propType)
-    }
+    //if (propType) {
+      //this.propNames = Object.keys(propType)
+    //}
   }
 }
 

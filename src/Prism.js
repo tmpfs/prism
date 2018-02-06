@@ -288,11 +288,11 @@ Prism.configure = (registry, config = {}) => {
   let plugins = config.plugins.slice()
 
   if (config.className) {
-    plugins = plugins.concat(classNamePlugin)
+    plugins.push(classNamePlugin)
   }
 
   if (config.mapPropsToStyle) {
-    plugins = plugins.concat(mapPropsToStylePlugin)
+    plugins.push(mapPropsToStylePlugin)
   }
 
   if (config.extendedProperties) {
