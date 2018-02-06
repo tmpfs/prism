@@ -9,13 +9,13 @@ const colors = {
 
 class Activity extends Component {
 
-  static styleOptions = () => {
-    return {
-      mapStyleToProps: {
-        activityIndicator: []
-      }
-    }
-  }
+  //static styleOptions = () => {
+    //return {
+      //mapStyleToProps: {
+        //activityIndicator: []
+      //}
+    //}
+  //}
 
   static propTypes = {
     large: PropTypes.bool,

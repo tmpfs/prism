@@ -6,10 +6,23 @@ import Label from './SimpleLabel'
 
 class Panel extends Component {
 
+  //static mapStyleToProps = {
+    //labelStyle: ['color'],
+    //headerStyle: [{space: 'marginBottom', bg: 'backgroundColor'}],
+    //bodyStyle: ['background']
+  //}
+
   static mapStyleToProps = {
-    labelStyle: ['color'],
-    headerStyle: [{space: 'marginBottom', bg: 'backgroundColor'}],
-    bodyStyle: ['background']
+    labelStyle: {
+      color: () => true
+    },
+    headerStyle: {
+      space: () => 'marginBottom',
+      bg: () => 'backgroundColor'
+    },
+    bodyStyle: {
+      background: () => 'backgroundColor'
+    }
   }
 
   static propTypes = {

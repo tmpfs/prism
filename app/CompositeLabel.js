@@ -7,10 +7,20 @@ import SimpleLabel from './SimpleLabel'
 
 class CompositeLabel extends Component {
 
+  //static mapStyleToProps = {
+    //headerStyle: [],
+    //bodyStyle: ['color'],
+    //footerStyle: [{footerColor: 'color'}]
+  //}
+
   static mapStyleToProps = {
-    headerStyle: [],
-    bodyStyle: ['color'],
-    footerStyle: [{footerColor: 'color'}]
+    headerStyle: {},
+    bodyStyle: {
+      color: () => true
+    },
+    footerStyle: {
+      footerColor: 'color'
+    }
   }
 
   render () {

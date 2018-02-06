@@ -178,24 +178,32 @@ const registerComponent = (registry, definition, config) => {
   })
 
   let {mapStyleToProps} = options
+  let childComponentNames = []
   // User defined style property names
   if (mapStyleToProps !== undefined) {
     if (util.isFunction(mapStyleToProps)) {
       mapStyleToProps = mapStyleToProps(registry)
     }
 
-    if (mapStyleToProps.style !== undefined) {
-      if (!Array.isArray(mapStyleToProps.style)) {
-        throw new Error(
-          `Prism mappings for "style" in mapStyleToProps must be an array`)
+    //if (mapStyleToProps.style !== undefined) {
+      //if (!Array.isArray(mapStyleToProps.style)) {
+        //throw new Error(
+          //`Prism mappings for "style" in mapStyleToProps must be an array`)
+      //}
+
+      //// We expect the keys for mapStyleToProps to only refer
+      //// to child styles so we extract `style` when given
+      //options.styleForceInclusion = mapStyleToProps.style
+      //delete mapStyleToProps.style
+    //}
+
+    let k, v
+    for (k in mapStyleToProps) {
+      v = mapStyleToProps[k]
+      if (isObject(v)) {
+        childComponentNames.push(k)
       }
-
-      // We expect the keys for mapStyleToProps to only refer
-      // to child styles so we extract `style` when given
-      options.styleForceInclusion = mapStyleToProps.style
-      delete mapStyleToProps.style
     }
-
   }
 
   if (!options.styleForceInclusion) {
@@ -208,7 +216,9 @@ const registerComponent = (registry, definition, config) => {
 
   // Default style property support
   options.mapStyleToProps = mapStyleToProps
-  options.childComponentNames = Object.keys(mapStyleToProps)
+
+  const allStyleObjectNames = [STYLE].concat(childComponentNames)
+  options.childComponentNames = childComponentNames
 
   const globalPlugins = plugins
     .filter((plugin) => {
@@ -238,8 +248,7 @@ const registerComponent = (registry, definition, config) => {
     {}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
 
-  const childComponentNames = [STYLE].concat(options.childComponentNames)
-  childComponentNames.forEach((name) => {
+  allStyleObjectNames.forEach((name) => {
     // Automatic propTypes for style, labelStyle, imageStyle etc.
     Type.propTypes[name] = propTypes.style
   })
@@ -264,7 +273,7 @@ Prism.configure = (registry, config = {}) => {
     throw new Error('Prism expects a StyleRegistry for configure()')
   }
 
-  let systemPlugins = Plugins
+  let systemPlugins = Plugins.slice()
 
   if (config.experimentalPlugins) {
     systemPlugins = systemPlugins.concat(ExperimentalPlugins)
@@ -364,7 +373,6 @@ Prism.configure = (registry, config = {}) => {
   config.registry = registry
 
   processor.collate(config)
-
   registry.compile({config})
 
   Prism.registry = registry
