@@ -118,7 +118,6 @@ const computeStyles = (
     styleSheet,
     options,
     colors,
-    childComponentNames,
     attrName
   }
 
