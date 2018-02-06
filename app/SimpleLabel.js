@@ -37,7 +37,7 @@ class SimpleLabel extends Component {
   render () {
     // Get the computed style sheet
     const {style} = this.props
-    console.log(style)
+    //console.log(style)
     //console.log('TEXT')
     //console.log(text)
     return (
