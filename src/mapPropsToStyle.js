@@ -42,6 +42,5 @@ export default new Plugin(
       return sheets
     }
   },
-  null,
-  true
+  {requireOptions: true}
 )

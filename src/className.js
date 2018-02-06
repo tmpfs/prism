@@ -24,5 +24,5 @@ export default new Plugin(
     }
     return find(className.split(/\s+/))
   },
-  propTypes.className
+  {propType: propTypes.className}
 )

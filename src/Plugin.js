@@ -3,7 +3,7 @@ import util from './util'
 const {isString, isFunction} = util
 
 class Plugin  {
-  constructor (name, func, propType, isGlobal) {
+  constructor (name, func, options = {}) {
     if (!isString(name)) {
       throw new Error('Prism plugin expects a string name')
     }
@@ -12,11 +12,12 @@ class Plugin  {
     }
     this.name = name
     this.func = func
-    this.propType = propType
-    this.isGlobal = isGlobal
-    //if (propType) {
-      //this.propNames = Object.keys(propType)
-    //}
+    this.propType = options.propType
+    this.isGlobal = options.propType === undefined
+    // Global plugin that only runs when a component
+    // declares a corresponding configuration in the
+    // object returned by styleOptions()
+    this.requireOptions = options.requireOptions
   }
 }
 

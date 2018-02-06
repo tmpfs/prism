@@ -48,7 +48,7 @@ export default [
         state.children = children
       }
     },
-    propTypes.textTransform
+    {propType: propTypes.textTransform}
   ),
 
   // Font
@@ -85,7 +85,6 @@ export default [
         return style
       }
     },
-    propTypes.font
+    {propType: propTypes.font}
   )
-
 ]

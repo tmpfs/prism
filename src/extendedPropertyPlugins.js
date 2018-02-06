@@ -24,7 +24,7 @@ export default [
     ({prop}) => {
       return {backgroundColor: prop}
     },
-    propTypes.background
+    {propType: propTypes.background}
   ),
   new Plugin(
     'color',
@@ -33,7 +33,7 @@ export default [
         return {color: prop}
       }
     },
-    propTypes.color
+    {propType: propTypes.color}
   ),
   new Plugin(
     'width',
@@ -42,7 +42,7 @@ export default [
         return {width: prop}
       }
     },
-    propTypes.width
+    {propType: propTypes.width}
   ),
   new Plugin(
     'height',
@@ -51,7 +51,7 @@ export default [
         return {height: prop}
       }
     },
-    propTypes.height
+    {propType: propTypes.height}
   ),
   new Plugin(
     'radius',
@@ -70,7 +70,7 @@ export default [
         borderBottomRightRadius: bottom.right || 0
       }
     },
-    propTypes.radius
+    {propType: propTypes.radius}
   ),
   new Plugin(
     'padding',
@@ -78,7 +78,7 @@ export default [
       const {padding} = props
       return boxModel('padding', padding)
     },
-    propTypes.padding
+    {propType: propTypes.padding}
   ),
   new Plugin(
     'margin',
@@ -86,7 +86,7 @@ export default [
       const {margin} = props
       return boxModel('margin', margin)
     },
-    propTypes.margin
+    {propType: propTypes.margin}
   ),
   new Plugin(
     'position',
@@ -95,7 +95,7 @@ export default [
       const {top, right, bottom, left} = position
       return {top, right, bottom, left, position: 'absolute'}
     },
-    propTypes.position
+    {propType: propTypes.position}
   ),
   new Plugin(
     'border',
@@ -117,7 +117,7 @@ export default [
         }
       }
     },
-    propTypes.border
+    {propType: propTypes.border}
   ),
 
   // Flex
@@ -141,7 +141,7 @@ export default [
       }
       return out
     },
-    propTypes.flex
+    {propType: propTypes.flex}
   ),
   new Plugin(
     'row',
@@ -151,7 +151,7 @@ export default [
         return {flexDirection: 'row'}
       }
     },
-    propTypes.row
+    {propType: propTypes.row}
   ),
   new Plugin(
     'wrap',
@@ -159,7 +159,7 @@ export default [
       const {wrap} = props
       return {flexWrap: wrap ? 'wrap' : 'nowrap'}
     },
-    propTypes.wrap
+    {propType: propTypes.wrap}
   ),
   new Plugin(
     'justify',
@@ -178,6 +178,6 @@ export default [
           return {justifyContent: 'space-around'}
       }
     },
-    propTypes.justify
+    {propType: propTypes.justify}
   )
 ]
