@@ -61,7 +61,7 @@ const computeStyles = (
   // into extractedStyles so  that properties assigned to child
   // components are not applied to the parent style
   //const {mapStyleToProps, styleForceInclusion} = options
-  const mappedChildProperties = []
+  //const mappedChildProperties = []
   //const mappedChildProperties = Object.keys(mapStyleToProps)
     //.reduce((list, childName) => {
         //const v = mapStyleToProps[childName]
@@ -187,13 +187,13 @@ const computeStyles = (
       }
       //runPropertyPlugins(keys, expansions)
     }
-    //return options.flat ? flat : [flat]
-    return [flat]
+    return options.flat ? flat : [flat]
+    //return [flat]
   }
 
-  //if (options.flat) {
-    //return StyleSheet.flatten(sheets)
-  //}
+  if (options.flat) {
+    return StyleSheet.flatten(sheets)
+  }
 
   return sheets
 }
