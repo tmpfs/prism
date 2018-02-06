@@ -108,7 +108,7 @@ const registerPlugin = (plugin) => {
 //
 // Likely the registry has not been set yet.
 const Prism = (Type, namespace = '', requirements = null) => {
-  const Name = Type.name
+  const Name = Type.displayName || Type.name
 
   let styleOptions = Type.styleOptions
   if (styleOptions && !isFunction(styleOptions)) {
@@ -185,18 +185,7 @@ const registerComponent = (registry, definition, config) => {
       mapStyleToProps = mapStyleToProps(registry)
     }
 
-    //if (mapStyleToProps.style !== undefined) {
-      //if (!Array.isArray(mapStyleToProps.style)) {
-        //throw new Error(
-          //`Prism mappings for "style" in mapStyleToProps must be an array`)
-      //}
-
-      //// We expect the keys for mapStyleToProps to only refer
-      //// to child styles so we extract `style` when given
-      //options.styleForceInclusion = mapStyleToProps.style
-      //delete mapStyleToProps.style
-    //}
-
+    // Extract child component styles when a key is an object
     let k, v
     for (k in mapStyleToProps) {
       v = mapStyleToProps[k]
@@ -204,10 +193,6 @@ const registerComponent = (registry, definition, config) => {
         childComponentNames.push(k)
       }
     }
-  }
-
-  if (!options.styleForceInclusion) {
-    options.styleForceInclusion = []
   }
 
   if (!mapStyleToProps) {
@@ -252,8 +237,6 @@ const registerComponent = (registry, definition, config) => {
     // Automatic propTypes for style, labelStyle, imageStyle etc.
     Type.propTypes[name] = propTypes.style
   })
-
-  //console.log(Object.keys(Type.propTypes))
 
   definition.config = config
   definition.registry = registry
