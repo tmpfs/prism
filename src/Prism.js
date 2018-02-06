@@ -21,9 +21,6 @@ import withContext from './withContext'
 import colorNames from './colorNames'
 import textTransform from './textTransform'
 
-// ANOMALY: should not be here
-import tintColor from './tintColor'
-
 // Register a stylable component type
 const Prism = (Type, namespace = '', requirements = null) => {
   if (Prism.registry) {
@@ -117,10 +114,6 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.colorNames) {
     config.processors.push(colorNames)
-  }
-
-  if (config.tintColor) {
-    config.processors.push(tintColor)
   }
 
   if (config.textTransform) {

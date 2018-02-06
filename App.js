@@ -20,8 +20,7 @@ Prism.configure(
     extendedProperties: true,
     experimentalPlugins: true,
     textTransform: true,
-    colorNames: true,
-    tintColor: true
+    colorNames: true
   }
 )
 

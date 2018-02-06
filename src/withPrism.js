@@ -17,7 +17,7 @@ const computeStyles = (pluginOptions) => {
 
   let sheets = []
 
-  const runGlobalPlugins = (plugins) => {
+  const runGlobalPlugins = (plugins, pluginOptions) => {
     plugins.forEach((plugin) => {
       const style = plugin.func(pluginOptions)
       if (style) {
@@ -26,7 +26,7 @@ const computeStyles = (pluginOptions) => {
     })
   }
 
-  runGlobalPlugins(plugins.globals)
+  runGlobalPlugins(plugins.globals, pluginOptions)
 
   const runPropertyPlugins = (props, propertyPlugins) => {
     const {keys, map} = propertyPlugins
@@ -47,7 +47,12 @@ const computeStyles = (pluginOptions) => {
     runPropertyPlugins(props, propertyPlugins)
   }
 
-  runGlobalPlugins(plugins.after)
+  runGlobalPlugins(plugins.after, pluginOptions)
+
+  if (isPrimaryStyle && plugins.flat.length) {
+    const flat = StyleSheet.flatten(sheets)
+    runGlobalPlugins(plugins.flat, {...pluginOptions, flat})
+  }
 
   // NOTE: We only execute for the style attribute
   // NOTE: and assume that the child style objects
