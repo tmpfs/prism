@@ -116,6 +116,7 @@ const computeStyles = (
     styleSheet,
     options,
     colors,
+    isPrimaryStyle,
     attrName
   }
 

@@ -410,4 +410,4 @@ Prism.configure = (registry, config = {}) => {
 
 Prism.propTypes = propTypes
 
-export {StyleRegistry, Prism}
+export {StyleRegistry, Prism, Plugin}
