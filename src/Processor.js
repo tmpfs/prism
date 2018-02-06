@@ -125,6 +125,8 @@ class Processor {
     return expansions
   }
 
+  // Called by a registry to extract rules with invariants
+  // prior to compiling the styles
   extract (target) {
     const {config} = this
     const extracted = {}

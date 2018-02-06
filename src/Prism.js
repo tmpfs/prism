@@ -195,7 +195,7 @@ const registerComponentPlugins = (registry, definition, options) => {
   options.childComponentNames = childComponentNames
 }
 
-const registerComponentPropTypes = (definition, plugins, options) => {
+const registerComponentPropTypes = (definition, plugins, allStyleObjectNames) => {
   const {Type} = definition
   // Merge config propTypes into the Stylable propTypes.
   //
@@ -210,20 +210,30 @@ const registerComponentPropTypes = (definition, plugins, options) => {
     {}, systemPropTypes, Type.propTypes)
   Type.propTypes = propertyTypes
 
-  options.allStyleObjectNames.forEach((name) => {
+  allStyleObjectNames.forEach((name) => {
     // Automatic propTypes for style, labelStyle, imageStyle etc.
     Type.propTypes[name] = propTypes.style
   })
 
 }
 
+const splitPlugins = (plugins, options) => {
+  const globalPlugins = plugins
+    .filter((plugin) => {
+      return plugin.isGlobal && options.hasOwnProperty(plugin.name)
+    })
+  const propertyPlugins = plugins.filter(
+    (plugin) => !plugin.isGlobal)
+
+  return {
+    property: propertyPlugins,
+    globals: globalPlugins
+  }
+}
+
 const registerComponent = (registry, definition, config) => {
   const {Type, Name, styleOptions} = definition
   const {plugins} = config
-
-  //if (requirements && !isFunction(requirements)) {
-    //throw new Error('Prism component requirements must be a function')
-  //}
 
   let options = {}
   if (styleOptions) {
@@ -238,23 +248,13 @@ const registerComponent = (registry, definition, config) => {
 
   registerComponentPlugins(registry, definition, options)
 
-  const globalPlugins = plugins
-    .filter((plugin) => {
-      return plugin.isGlobal && options.hasOwnProperty(plugin.name)
-    })
+  options.plugins = splitPlugins(plugins, options)
 
-  const propertyPlugins = plugins.filter(
-    (plugin) => !plugin.isGlobal)
-
-  options.plugins = {
-    property: propertyPlugins,
-    globals: globalPlugins
-  }
-
-  registerComponentPropTypes(definition, plugins, options)
+  // registerComponentPlugins must be called first
+  // so we have allStyleObjectNames
+  registerComponentPropTypes(definition, plugins, options.allStyleObjectNames)
 
   definition.options = options
-
   definition.config = config
   definition.registry = registry
 }
