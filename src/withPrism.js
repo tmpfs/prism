@@ -36,9 +36,6 @@ const computeStyles = (
 
   let sheets = []
 
-  const defaultStyles = styleSheet[ns.componentClassName] ?
-    [styleSheet[ns.componentClassName]] : []
-
   let styleRuleName = ns.componentClassName
 
   if (!isPrimaryStyle) {

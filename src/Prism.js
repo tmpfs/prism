@@ -139,7 +139,6 @@ const Prism = (Type, namespace = '', requirements = null) => {
 
 const registerComponentPlugins = (registry, definition, options) => {
   const {Type, Name} = definition
-
   // Allow declaring mapPropsToStyle etc. as static on the Type
   mapPluginNames.forEach((name) => {
     if (options[name] !== undefined && Type[name] !== undefined) {
@@ -174,10 +173,6 @@ const registerComponentPlugins = (registry, definition, options) => {
   let childComponentNames = []
   // User defined style property names
   if (mapStyleToProps !== undefined) {
-    //if (util.isFunction(mapStyleToProps)) {
-      //mapStyleToProps = mapStyleToProps(registry)
-    //}
-
     // Extract child component styles when a key is an object
     let k, v
     for (k in mapStyleToProps) {
