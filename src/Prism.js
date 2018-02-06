@@ -5,7 +5,7 @@ import {Rule, processor} from './Processor'
 
 import Namespace from './Namespace'
 import Plugin from './Plugin'
-import registerComponent from './registerComponent'
+import computeStyleOptions from './computeStyleOptions'
 
 import defaultStyleRulePlugin from './defaultStyleRule'
 import mapPropsToStylePlugin from './mapPropsToStyle'
@@ -215,7 +215,7 @@ Prism.configure = (registry, config = {}) => {
     definition.registry = registry
 
     // Register the component definition
-    registerComponent(registry, definition, config)
+    computeStyleOptions(registry, definition, config)
 
     // Check component requirements
     const {requirements, Name, NewType} = definition

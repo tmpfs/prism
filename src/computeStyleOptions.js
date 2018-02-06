@@ -171,7 +171,7 @@ const splitPlugins = (definition, plugins, options) => {
   }
 }
 
-const registerComponent = (registry, definition, config) => {
+const computeStyleOptions = (registry, definition, config) => {
   const {Type, Name, styleOptions} = definition
   const {plugins} = config
   let options = {}
@@ -201,4 +201,4 @@ const registerComponent = (registry, definition, config) => {
   definition.options = options
 }
 
-export default registerComponent
+export default computeStyleOptions
