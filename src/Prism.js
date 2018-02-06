@@ -19,6 +19,7 @@ import withContext from './withContext'
 import colorNames from './colorNames'
 import textTransform from './textTransform'
 
+// ANOMALY: should not be here
 import tintColor from './tintColor'
 
 import util from './util'
@@ -26,9 +27,7 @@ import util from './util'
 const {
   isObject,
   isFunction,
-  isString,
-  isArray
-  } = util
+  isString} = util
 
 const Configuration = {
   plugins: [],
@@ -64,9 +63,7 @@ const registerPlugin = (plugin) => {
   return plugin
 }
 
-// Register a stylable component type.
-//
-// Likely the registry has not been set yet.
+// Register a stylable component type
 const Prism = (Type, namespace = '', requirements = null) => {
   if (Prism.registry) {
     throw new Error(
@@ -75,15 +72,14 @@ const Prism = (Type, namespace = '', requirements = null) => {
       `the behaviour is undefined so register components first.`)
   }
 
-
   const definition = new ComponentDefinition(Type, {namespace, requirements})
 
+  // Create the HOC wrapper
   definition.NewType = withPrism(Type, definition)
 
   // Collect components before a registry is available,
-  // these will be registered when Prism.configure() is called
+  // these will be registered later
   Prism.defined.push(definition)
-
   return definition.NewType
 }
 
@@ -186,8 +182,7 @@ Prism.configure = (registry, config = {}) => {
       if ((err instanceof Error)) {
         throw err
       } else if(isString(err)) {
-        throw new Error(
-          `Prism component requirements not met: ${err}`)
+        throw new Error(`Prism component requirements not met: ${err}`)
       }
     }
   }
@@ -197,12 +192,12 @@ Prism.configure = (registry, config = {}) => {
     definition.config = config
     definition.registry = registry
 
-    // Register the component definition
+    // Compute the component options (styleOptions)
     definition.options = computeStyleOptions(registry, definition, config)
 
     // Check component requirements
-    const {requirements, Name, NewType} = definition
-    if (isFunction(requirements)) {
+    const {requirements} = definition
+    if (requirements) {
       checkRequirements(config, requirements, definition)
     }
 
@@ -212,16 +207,15 @@ Prism.configure = (registry, config = {}) => {
     }
 
     if (config.debug) {
-      console.log(
-        `${NewType.displayName} from ${Name}`)
+      const {Name, NewType} = definition
+      console.log(`${NewType.displayName} from ${Name}`)
       const {plugins} = definition.options
       // Global plugins are only enabled when the component
       // specifies a corresponding configuration so it's useful
       // to see which are enabled
       if (plugins.globals.length) {
         plugins.globals.forEach((p) => {
-          console.log(
-            ` + plugin: "${p.name}"`)
+          console.log(` + plugin: "${p.name}"`)
         })
       }
     }
@@ -248,4 +242,4 @@ Prism.configure = (registry, config = {}) => {
 
 Prism.propTypes = propTypes
 
-export {StyleRegistry, Prism, Plugin}
+export {Prism, StyleRegistry, Plugin, Rule}

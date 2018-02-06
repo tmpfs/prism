@@ -27,6 +27,10 @@ class ComponentDefinition {
 
     this.ns = new Namespace({namespace, typeName: Name})
 
+    if (requirements && !isFunction(requirements)) {
+      throw new Error(
+        `Prism requirements for ${Name} must be a function`)
+    }
     this.requirements = requirements
 
     // This is the HOC wrapper, injected later
