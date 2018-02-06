@@ -39,3 +39,6 @@ class SimpleLabel extends Component {
 }
 
 export default Prism(SimpleLabel)
+//export default Prism(SimpleLabel, null, () => {
+  //return 'mock error'
+//})

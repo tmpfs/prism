@@ -145,10 +145,6 @@ const registerComponent = (registry, definition, config) => {
     throw new Error('Prism component requirements must be a function')
   }
 
-  if (requirements) {
-    Prism.requirements.push(requirements)
-  }
-
   let options = {}
   if (styleOptions) {
     options = styleOptions(registry)
@@ -267,8 +263,6 @@ const registerComponent = (registry, definition, config) => {
 
 // This keeps track of components initialized before configure()
 Prism.components = []
-// Components with requirements that need to be enforced
-Prism.requirements = []
 // All registered component definitions
 Prism.defined = []
 
@@ -357,16 +351,13 @@ Prism.configure = (registry, config = {}) => {
   // Ensure we use the computed plugins
   Prism.config.plugins = plugins
 
-  if (!Array.isArray(Prism.config.plugins)) {
-    throw new Error('Prism array expected for plugins list')
-  }
-
   // Components exported before the registry was configured
   Prism.components.forEach((definition) => {
     registerComponent(registry, definition, Prism.config)
   })
 
-  Prism.requirements.forEach((requirement) => {
+  const checkRequirements = (config, requirement, definition) => {
+    const {registry} = definition
     const err = requirement({registry, config})
     if (err !== undefined) {
       if ((err instanceof Error)) {
@@ -376,13 +367,22 @@ Prism.configure = (registry, config = {}) => {
           `Prism component requirements not met: ${err}`)
       }
     }
-  })
-
-  if (config.experimentalPlugins) {
-    Prism.defined.forEach((definition) => {
-      withContext(definition)
-    })
   }
+
+  // Iterate all defined components
+  Prism.defined.forEach((definition) => {
+    const {requirements, Name, NewType} = definition
+    if (isFunction(requirements)) {
+      checkRequirements(config, requirements, definition)
+    }
+    if (config.debug) {
+      console.log(
+        `Prism using component ${Name} as ${NewType.displayName}`)
+    }
+    if (config.experimentalPlugins) {
+      withContext(definition)
+    }
+  })
 
   const availablePropertyNames = []
   const availablePropertyPlugins = {}
