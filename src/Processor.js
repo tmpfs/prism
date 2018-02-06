@@ -50,16 +50,20 @@ class Processor {
     return this.map[propName]
   }
 
-  run (proc, target, propName, propValue, pluginOptions = {}) {
+  run (proc, target, propName, propValue, pluginOptions) {
     const {config} = this
     const {registry} = config
     const expansions = {}
+    const hasOptions = pluginOptions !== undefined
     let expanded = false
 
     const move = (newValue, newPropName, expand = false) => {
       newPropName = newPropName || propName
       if (expand) {
         expansions[newPropName] = newValue
+        if (hasOptions) {
+          pluginOptions.additionalProperties[newPropName] = newValue
+        }
         expanded = true
       } else {
         target[newPropName] = newValue
@@ -70,6 +74,8 @@ class Processor {
         delete target[propName]
       }
     }
+
+    pluginOptions = pluginOptions || {}
 
     const procOptions = {
       ...pluginOptions,
@@ -85,14 +91,12 @@ class Processor {
     }
   }
 
-  process (target, pluginOptions = {}) {
+  process (target, pluginOptions) {
     const {config} = this
     const {processors} = config
     if (!this.hasPreProcessors) {
       return
     }
-
-    const {props, definition} = pluginOptions
 
     let expansions = {}
 
@@ -103,11 +107,14 @@ class Processor {
           let isProperty = false
           propValue = target[propName]
 
-          // This mutates the preprocessor value
-          // for when we want to operate on properties
-          if (definition && props && ~this.propertyNames.indexOf(propName)) {
-            if (props[propName] && !propValue)  {
-              propValue = props[propName]
+          if (pluginOptions) {
+            const {props, definition} = pluginOptions
+            // This mutates the preprocessor value
+            // for when we want to operate on properties
+            if (definition && props && ~this.propertyNames.indexOf(propName)) {
+              if (props[propName] && !propValue)  {
+                propValue = props[propName]
+              }
             }
           }
 

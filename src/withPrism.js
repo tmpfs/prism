@@ -72,14 +72,7 @@ const computeStyles = (pluginOptions) => {
   // NOTE: component.
   if (processor.hasPreProcessors && isPrimaryStyle) {
     const flat = StyleSheet.flatten(sheets)
-    const expansions = processor.process(flat, pluginOptions)
-    const keys = Object.keys(expansions)
-    if (keys.length) {
-      for (let k in expansions) {
-        additionalProperties[k] = expansions[k]
-      }
-      //runPropertyPlugins(keys, expansions)
-    }
+    processor.process(flat, pluginOptions)
     return options.flat ? flat : [flat]
   }
 
