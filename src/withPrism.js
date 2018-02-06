@@ -16,29 +16,14 @@ const computeStyles = (
     attrName
   }) => {
 
-  const style = props[attrName]
   const {config, registry, options, ns} = definition
   const {plugins} = options
-  const {styleSheet, colors, invariants} = registry
+  const {styleSheet, colors} = registry
   const isPrimaryStyle = (attrName === 'style')
 
   let sheets = []
 
-  let styleRuleName = ns.componentClassName
-
-  if (!isPrimaryStyle) {
-    // Add child class name style sheet
-    styleRuleName = ns.getChildClassName(attrName)
-
-    if (invariants[styleRuleName]) {
-      sheets.push(invariants[styleRuleName])
-    }
-  }
-
-  if (styleSheet[styleRuleName]) {
-    sheets.push(styleSheet[styleRuleName])
-  }
-
+  // TODO: prepare this in processPlugins
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
 
@@ -98,7 +83,8 @@ const computeStyles = (
     runPropertyPlugins(keys, props)
   }
 
-  // Add inline `style` property
+  // Add inline `style`, `labelStyle` etc.
+  const style = props[attrName]
   if (style) {
     sheets = sheets.concat(style)
   }
