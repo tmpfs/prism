@@ -14,7 +14,6 @@ const computeStyles = (
     context,
     props,
     state,
-    styleAttributes,
     additionalProperties,
     attrName}) => {
 
@@ -176,7 +175,6 @@ const withPrism = (Stylable, definition) => {
             state,
             definition,
             attrName,
-            styleAttributes,
             additionalProperties
           })
         styleAttributes[attrName] = computedStyle
