@@ -46,16 +46,15 @@
   - [Experimental Properties](#experimental-properties)
     - [font](#font)
     - [textTransform](#texttransform)
+- [Cascade](#cascade)
 - [Configuration](#configuration)
-  - [Default Plugins](#default-plugins)
-  - [Extended Plugins](#extended-plugins)
-  - [Custom Plugins](#custom-plugins)
-  - [Disable System Plugins](#disable-system-plugins)
-  - [Remove Plugins](#remove-plugins)
-- [Plugins](#plugins)
+  - [Plugin Configuration](#plugin-configuration)
+    - [plugins](#plugins)
+    - [additionalPlugins](#additionalplugins)
+    - [disabledPlugins](#disabledplugins)
+- [Plugins](#plugins-1)
   - [Global Plugins](#global-plugins)
   - [Property Plugins](#property-plugins)
-- [Cascade](#cascade)
 - [License](#license)
 
 ---
@@ -792,34 +791,72 @@ Inline property usage illustrating inheritance:
 
 Caveat that you cannot undo a transformation on a child (`none` is not supported), you can only override with a new transformation.
 
+## Cascade
+
+It can be useful to know some of the internals of how styles are computed.
+
+Generally speaking these are the actions taken:
+
+1. Default styles are applied.
+2. Global plugins are executed.
+3. Property plugins are executed.
+4. Child component styles are computed.
+5. Inline styles are applied.
+
+Default styles start with any values in a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
+
+At this point, global plugins that handle [mapping properties to styles](mapping-properties-to-styles) are executed.
+
+Then the property plugins which handle the extended and experimental properties are executed as well as any custom property plugins.
+
+Subsequently the [mapStyleToProps](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
+
+Finally any styles given in the `style` property take precedence.
+
 ## Configuration
 
-You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
+You can pass a configuration object as the second argument to `Prism.configure()` to modify the library configuration.
 
-* `plugins` array of plugin definitions to use, overrides the system plugins.
-* `extendedProperties` enables the extended style property plugins.
-* `additionalPlugins` array of plugin definitions to append to the system plugins.
-* `disabledPlugins` array of string plugin names to disable.
-* `experimentalPlugins` enables the experimental plugins.
-* `colorNames` enables the color names preprocessor.
-* `textTransform` enables the text transform preprocessor (requires experimental plugins).
-* `debug` print configured plugins.
-
-### Default Plugins
-
-When no configuration object is given support for the `className` property is enabled, a `colorNames` plugin to translate from custom named colors and the global plugins to support mapping properties to styles.
+When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles.
 
 This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
 
-### Extended Plugins
+* `className` use the plugin that processes the `className` property, default is `true`.
+* `mapPropsToStyle` use the `mapPropsToStyle` plugin, default is `true`.
+* `extendedProperties` enables the extended style property plugins.
+* `experimentalPlugins` enables the experimental plugins.
+* `colorNames` enables the color names preprocessor.
+* `textTransform` enables the text transform preprocessor (requires experimental plugins).
+* `additionalPlugins` array of plugin definitions to append to the system plugins.
+* `disabledPlugins` array of string plugin names to disable.
+* `plugins` array of plugin definitions to use, overrides the system plugins.
+* `debug` print configured plugins.
 
-To enable the [extended style properties](#extended-style-properties) use `extendedProperties`.
+For example to use the [extended style properties](#extended-style-properties) and enable color name lookup:
 
 ```javascript
-Prism.configure(registry, {extendedProperties: true})
+Prism.configure(registry, {extendedProperties: true, colorNames: true})
 ```
 
-### Custom Plugins
+To use `textTransform` you need to enable `experimentalPlugins`:
+
+```javascript
+Prism.configure(
+  registry,
+  {
+    experimentalPlugins: true,
+    textTransform: true
+  }
+)
+```
+
+### Plugin Configuration
+
+#### plugins
+
+Use your own `plugins` array when you want to specify a list of plugins to use *before* any plugins enabled using the configuration flags, you can disable `className` and `mapPropsToStyle` etc to use only the custom plugins you specify.
+
+#### additionalPlugins
 
 Use the `additionalPlugins` option to add custom functionality to all your styled components, see [plugins](#plugins) for information on defining custom plugins.
 
@@ -840,15 +877,7 @@ Prism.configure(
 )
 ```
 
-### Disable System Plugins
-
-You can disable all system plugins with an empty array, inline `style` attributes are still processed and available to your component:
-
-```javascript
-Prism.configure(registry, {plugins: []})
-```
-
-### Remove Plugins
+#### disabledPlugins
 
 You may want to remove plugins you don't need or if you find a property name collision:
 
@@ -896,28 +925,6 @@ const plugins = [
   ]
 ]
 ```
-
-## Cascade
-
-It can be useful to know some of the internals of how styles are computed.
-
-Generally speaking these are the actions taken:
-
-1. Default styles are applied.
-2. Global plugins are executed.
-3. Property plugins are executed.
-4. Child component styles are computed.
-5. Inline styles are applied.
-
-Default styles start with any values in a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
-
-At this point, global plugins that handle [mapping properties to styles](mapping-properties-to-styles) are executed.
-
-Then the property plugins which handle the extended and experimental properties are executed as well as any custom property plugins.
-
-Subsequently the [mapStyleToProps](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
-
-Finally any styles given in the `style` property take precedence.
 
 ## License
 
