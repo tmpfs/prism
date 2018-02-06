@@ -183,6 +183,7 @@ const withPrism = (Stylable, definition) => {
   PrismComponent.displayName = `Prism(${definition.Name})`
   // Proxy propTypes
   PrismComponent.propTypes = Stylable.propTypes
+  PrismComponent.defaultProps = Stylable.defaultProps
 
   return PrismComponent
 }

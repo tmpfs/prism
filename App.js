@@ -29,6 +29,21 @@ export default class App extends Component<{}> {
     return (
       <ScrollView padding={20} background='base01'>
 
+        <Panel label='Inheritance'>
+          <Label margin={[5]}>
+            This is some text using the class style declaration.
+          </Label>
+          <Label margin={[5]} className='highlight'>
+            This is some text using the styles from className which override the class rule.
+          </Label>
+          <Label margin={[5]} className='highlight' color='green'>
+            This is some text using a color property to override the className and class rule.
+          </Label>
+          <Label margin={[5]} className='highlight' color='green' style={{color: 'orange'}}>
+            This is some text using an inline style to override color, className and the class rule.
+          </Label>
+        </Panel>
+
         <Panel label='Basic number stack' color='red'>
           <ChildStateStyle
             value={21}
@@ -91,21 +106,6 @@ export default class App extends Component<{}> {
         <Panel label='textTransform'>
           <Label textTransform='uppercase'>
             This is some uppercase text <Label textTransform='lowercase'>with some lowercase text in a Label</Label> in a paragraph. <Label textTransform='capitalize'>We can capitalize too</Label>. But we cannot apply none (undo) once a parent is transformed :(
-          </Label>
-        </Panel>
-        <Panel label='className'>
-          <Label className='highlight'>
-            This is some text using the styles from className which override the class rule.
-          </Label>
-        </Panel>
-        <Panel label='color'>
-          <Label className='highlight' color='green'>
-            This is some text using a color property to override the className and class rule.
-          </Label>
-        </Panel>
-        <Panel label='style'>
-          <Label className='highlight' color='green' style={{color: 'orange'}}>
-            This is some text using an inline style to override color, className and the class rule.
           </Label>
         </Panel>
 

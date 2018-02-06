@@ -10,11 +10,14 @@ class SimpleLabel extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
       supportsText: true,
+      flat: true,
       mapPropsToStyle: {
+        color: ({prop}) => prop,
         textTransform: ({prop}) => {
           return {textTransform: prop}
         },
         align: ({prop, styleSheet}) => {
+          //console.log('map props align called!!!!')
           return {textAlign: prop}
         },
         bold: ({prop, styleSheet}) => {
@@ -27,9 +30,14 @@ class SimpleLabel extends Component {
     }
   }
 
+  //static defaultProps = {
+    //color: 'pink'
+  //}
+
   render () {
     // Get the computed style sheet
-    const {style, text} = this.props
+    const {style} = this.props
+    console.log(style)
     //console.log('TEXT')
     //console.log(text)
     return (

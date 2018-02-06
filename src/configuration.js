@@ -1,10 +1,11 @@
 export default {
   plugins: [],
   processors: [],
-  className: true,
+  defaultProps: true,
   defaultStyleRule: true,
   mapPropsToStyle: true,
   mapStyleToProps: true,
+  className: true,
   inlineStyle: true,
   colorNames: false,
   textTransform: false,

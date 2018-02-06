@@ -8,6 +8,7 @@ import Plugin from './Plugin'
 
 import configuration from './configuration'
 import computeStyleOptions from './computeStyleOptions'
+import defaultPropsPlugin from './defaultProps'
 import defaultStyleRulePlugin from './defaultStyleRule'
 import mapPropsToStylePlugin from './mapPropsToStyle'
 import mapStyleToPropsPlugin from './mapStyleToProps'
@@ -65,6 +66,10 @@ Prism.configure = (registry, config = {}) => {
   config = Object.assign({}, configuration, config)
 
   let plugins = config.plugins.slice()
+
+  if (config.defaultProps) {
+    plugins.push(defaultPropsPlugin)
+  }
 
   if (config.defaultStyleRule) {
     plugins.push(defaultStyleRulePlugin)
