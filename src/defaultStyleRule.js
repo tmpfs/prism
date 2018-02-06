@@ -21,6 +21,9 @@ export default new Plugin(
     }
     if (styleSheet[styleRuleName]) {
       sheets.push(styleSheet[styleRuleName])
+      if (invariants[styleRuleName]) {
+        sheets.push(invariants[styleRuleName])
+      }
     }
     return sheets
   }

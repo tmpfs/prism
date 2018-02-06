@@ -37,7 +37,7 @@ const computeStyles = (pluginOptions) => {
     }
   })
 
-  if (isPrimaryStyle) {
+  const runPropertyPlugins = (keys, props) => {
     // Run property plugins
     keys.forEach((propName) => {
       const plugin = map[propName]
@@ -49,6 +49,10 @@ const computeStyles = (pluginOptions) => {
         }
       }
     })
+  }
+
+  if (isPrimaryStyle) {
+    runPropertyPlugins(keys, props)
   }
 
   // Add inline `style`, `labelStyle` etc.
@@ -74,6 +78,7 @@ const computeStyles = (pluginOptions) => {
       for (let k in expansions) {
         additionalProperties[k] = expansions[k]
       }
+      //runPropertyPlugins(keys, expansions)
     }
     return options.flat ? flat : [flat]
   }
