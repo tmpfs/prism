@@ -52,6 +52,7 @@ const computeStyles = (pluginOptions) => {
   if (isPrimaryStyle && plugins.flat.length) {
     const flat = StyleSheet.flatten(sheets)
     runGlobalPlugins(plugins.flat, {...pluginOptions, flat})
+    sheets = [flat]
   }
 
   // NOTE: We only execute for the style attribute
