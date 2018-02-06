@@ -5,11 +5,11 @@ import {Rule, processor} from './Processor'
 
 import Namespace from './Namespace'
 import Plugin from './Plugin'
-import Plugins from './DefaultPlugins'
-import className from './className'
+import classNamePlugin from './className'
+import mapPropsToStylePlugin from './mapPropsToStyle'
 
-import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
-import ExperimentalPlugins from './ExperimentalPlugins'
+import extendedPropertyPlugins from './extendedPropertyPlugins'
+import experimentalPlugins from './experimentalPlugins'
 
 import propTypes from './propTypes'
 import withPrism from './withPrism'
@@ -33,6 +33,7 @@ const Configuration = {
   plugins: null,
   processors: [],
   className: true,
+  mapPropsToStyle: true,
   colorNames: false,
   textTransform: false,
   sizes: {
@@ -291,17 +292,21 @@ Prism.configure = (registry, config = {}) => {
 
   config = Object.assign({}, Configuration, config)
 
-  let systemPlugins = Plugins.slice()
+  let systemPlugins = []
+
+  if (config.mapPropsToStyle) {
+    systemPlugins = systemPlugins.concat(mapPropsToStylePlugin)
+  }
 
   if (config.className) {
-    systemPlugins = systemPlugins.concat(className)
+    systemPlugins = systemPlugins.concat(classNamePlugin)
   }
 
   if (config.extendedProperties) {
-    systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
+    systemPlugins = systemPlugins.concat(extendedPropertyPlugins)
   }
   if (config.experimentalPlugins) {
-    systemPlugins = systemPlugins.concat(ExperimentalPlugins)
+    systemPlugins = systemPlugins.concat(experimentalPlugins)
   }
 
   let plugins = Array.isArray(config.plugins) ?
