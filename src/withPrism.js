@@ -12,23 +12,13 @@ const computeStyles = (pluginOptions) => {
     state,
     attrName,
     isPrimaryStyle,
+    propertyPlugins,
     additionalProperties} = pluginOptions
 
   const {config, registry, options, ns} = definition
   const {plugins} = options
 
   let sheets = []
-
-  // TODO: prepare this in processPlugins
-  let keys = config.availablePropertyNames.slice()
-  const map = config.availablePropertyPlugins
-  // Only run plugins when we have a defined property
-  keys = keys.filter((propName) => {
-    return (
-      (props && props[propName] !== undefined) ||
-      (context && context[propName] !== undefined)
-    )
-  })
 
   plugins.globals.forEach((plugin) => {
     const style = plugin.func(pluginOptions)
@@ -37,7 +27,8 @@ const computeStyles = (pluginOptions) => {
     }
   })
 
-  const runPropertyPlugins = (keys, props) => {
+  const runPropertyPlugins = (props, propertyPlugins) => {
+    const {keys, map} = propertyPlugins
     // Run property plugins
     keys.forEach((propName) => {
       const plugin = map[propName]
@@ -52,7 +43,7 @@ const computeStyles = (pluginOptions) => {
   }
 
   if (isPrimaryStyle) {
-    runPropertyPlugins(keys, props)
+    runPropertyPlugins(props, propertyPlugins)
   }
 
   // Add inline `style`, `labelStyle` etc.
@@ -119,23 +110,39 @@ const withPrism = (Stylable, definition) => {
       }
     }
 
+    getPropertyPlugins (props) {
+      const {context} = this
+      const {config} = definition
+      // Filter property plugin execution to only
+      // run for those properties that have been defined
+      const map = config.availablePropertyPlugins
+      const keys = config.availablePropertyNames.filter((propName) => {
+        return (
+          (props && props[propName] !== undefined) ||
+          (context && context[propName] !== undefined)
+        )
+      })
+      return {map, keys}
+    }
+
     processStylePlugins (props) {
       const {registry, options} = definition
       const {state, context} = this
       const {allStyleObjectNames} = options
-      let styleAttributes = {}
+
+      const styleAttributes = {}
       allStyleObjectNames.forEach((name) => {
         styleAttributes[name] = []
       })
 
       // Allows property injection via the plugin system
-      //const additionalProperties = Object.assign({}, props)
       const additionalProperties = {}
+      const propertyPlugins = this.getPropertyPlugins(props)
 
       // Compute style properties
       allStyleObjectNames.forEach((attrName) => {
         const pluginOptions = this.getPluginOptions(
-          attrName, props, {additionalProperties})
+          attrName, props, {additionalProperties, propertyPlugins})
         styleAttributes[attrName] = computeStyles(pluginOptions)
       })
 
@@ -143,8 +150,6 @@ const withPrism = (Stylable, definition) => {
       this.setState({styleAttributes: styleAttributes, additionalProperties})
     }
 
-    // So that changes to style properties are
-    // reflected in the stylable component
     componentWillReceiveProps (props) {
       // TODO: proper invalidation
       this.processStylePlugins(props)
