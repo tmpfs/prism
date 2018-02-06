@@ -114,12 +114,10 @@ const computeStyles = (
     ns,
     config,
     definition,
-    sheets,
     registry,
     styleSheet,
     options,
     colors,
-    //plugins,
     childComponentNames,
     attrName
   }
