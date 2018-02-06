@@ -22,6 +22,11 @@ class Plugin  {
     this.options = options
   }
 
+  // Global plugins that run after property plugins
+  get isAfter () {
+    return this.options.after
+  }
+
   get isFlat () {
     return this.options.flatStyles
   }

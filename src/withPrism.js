@@ -17,12 +17,16 @@ const computeStyles = (pluginOptions) => {
 
   let sheets = []
 
-  plugins.globals.forEach((plugin) => {
-    const style = plugin.func(pluginOptions)
-    if (style) {
-      sheets = sheets.concat(style)
-    }
-  })
+  const runGlobalPlugins = (plugins) => {
+    plugins.forEach((plugin) => {
+      const style = plugin.func(pluginOptions)
+      if (style) {
+        sheets = sheets.concat(style)
+      }
+    })
+  }
+
+  runGlobalPlugins(plugins.globals)
 
   const runPropertyPlugins = (props, propertyPlugins) => {
     const {keys, map} = propertyPlugins
@@ -43,11 +47,7 @@ const computeStyles = (pluginOptions) => {
     runPropertyPlugins(props, propertyPlugins)
   }
 
-  // Add inline `style`, `labelStyle` etc.
-  const style = props[attrName]
-  if (style) {
-    sheets = sheets.concat(style)
-  }
+  runGlobalPlugins(plugins.after)
 
   // NOTE: We only execute for the style attribute
   // NOTE: and assume that the child style objects

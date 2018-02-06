@@ -5,6 +5,7 @@ export default {
   defaultStyleRule: true,
   mapPropsToStyle: true,
   mapStyleToProps: true,
+  inlineStyle: true,
   colorNames: false,
   textTransform: false,
   debug: __DEV__,

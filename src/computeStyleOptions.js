@@ -67,8 +67,9 @@ const splitPlugins = (definition, plugins, options) => {
       }
     })
 
-  const flatPlugins = globals.filter((plugin) => plugin.isFlat)
-  const nonFlatPlugins = globals.filter((plugin) => !plugin.isFlat)
+  const afterPlugins = globals.filter((plugin) => plugin.isAfter)
+  const flatPlugins = globals.filter((plugin) => plugin.isFlat && !plugin.isAfter)
+  const nonFlatPlugins = globals.filter((plugin) => !plugin.isFlat && !plugin.isAfter)
 
   // TODO: allow options to disable plugins for the component?
   const propertyPlugins = plugins.filter((plugin) => plugin.propType !== undefined)
@@ -76,7 +77,8 @@ const splitPlugins = (definition, plugins, options) => {
     property: propertyPlugins,
     //globals: globals,
     globals: nonFlatPlugins,
-    flat: flatPlugins
+    flat: flatPlugins,
+    after: afterPlugins
   }
 }
 
@@ -130,6 +132,11 @@ const mergePropTypes = (definition, plugins, allStyleObjectNames) => {
   })
 }
 
+//const mergeStylePlugin = (options) => {
+  //const {plugins} = options
+  //plugins.after = [inlineStyle]
+//}
+
 const computeStyleOptions = (registry, definition, config) => {
   const {styleOptions} = definition
   const {plugins} = config
@@ -165,6 +172,8 @@ const computeStyleOptions = (registry, definition, config) => {
 
   options.allStyleObjectNames = allStyleObjectNames
   options.childComponentNames = childComponentNames
+
+  //mergeStylePlugin(options)
 
   // computeStyleNames must be called first
   // so we have allStyleObjectNames

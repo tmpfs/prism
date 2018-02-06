@@ -7,9 +7,8 @@ export default new Plugin(
     // Add inline `style`, `labelStyle` etc.
     const style = props[attrName]
     if (style) {
-      console.log('Got inline prop style from plugin')
-      //sheets = sheets.concat(style)
+      return style
     }
   },
-  {propType: propTypes.style}
+  {after: true}
 )

@@ -12,6 +12,7 @@ import defaultStyleRulePlugin from './defaultStyleRule'
 import mapPropsToStylePlugin from './mapPropsToStyle'
 import mapStyleToPropsPlugin from './mapStyleToProps'
 import classNamePlugin from './className'
+import inlineStylePlugin  from './inlineStyle'
 import extendedPropertyPlugins from './extendedPropertyPlugins'
 import experimentalPlugins from './experimentalPlugins'
 import propTypes from './propTypes'
@@ -78,6 +79,10 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.mapStyleToProps) {
     plugins.push(mapStyleToPropsPlugin)
+  }
+
+  if (config.inlineStyle) {
+    plugins.push(inlineStylePlugin)
   }
 
   if (config.className) {
