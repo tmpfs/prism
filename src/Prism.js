@@ -162,9 +162,13 @@ Prism.configure = (registry, config = {}) => {
       // to see which are enabled
       if (plugins.globals.length) {
         plugins.globals.forEach((p) => {
-          console.log(` + plugin: "${p.name}"`)
+          console.log(` | plugin: "${p.name}"`)
         })
       }
+      const {allStyleObjectNames} = definition.options
+      allStyleObjectNames.forEach((name) => {
+        console.log(` | prop: "${name}"`)
+      })
     }
   })
 
@@ -179,6 +183,7 @@ Prism.configure = (registry, config = {}) => {
 
   config.availablePropertyNames = availablePropertyNames
   config.availablePropertyPlugins = availablePropertyPlugins
+
   config.registry = registry
 
   processor.collate(config)

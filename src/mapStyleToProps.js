@@ -5,24 +5,26 @@ const {isObject, isFunction} = util
 export default new Plugin(
   'mapStyleToProps',
   ({props, options, attrName}) => {
-    const {mapStyleToProps} = options
-    let map = mapStyleToProps
-    if (isObject(map[attrName])) {
-      // Iterating a child object definition, eg: labelStyle
-      map = map[attrName]
-    }
-    const sheets = []
-    for (const propName in map) {
-      const prop = props[propName]
-      if (props.hasOwnProperty(propName) && prop !== undefined) {
-        const fn = map[propName]
-        if (isFunction(fn)) {
+    //console.log('running mapStyleToProps')
+    //const {mapStyleToProps} = options
+    //let map = mapStyleToProps
+    //if (isObject(map[attrName])) {
+      //// Iterating a child object definition, eg: labelStyle
+      //map = map[attrName]
+    //}
+    //const sheets = []
+    //for (const propName in map) {
+      //const prop = props[propName]
+      //if (props.hasOwnProperty(propName) && prop !== undefined) {
+        //const fn = map[propName]
+        //if (isFunction(fn)) {
 
-        }
-      }
-    }
+        //}
+      //}
+    //}
   },
   {
+    flatStyles: true,
     definesChildren: true,
     requireOptions: true,
     validator: (name, computed) => {

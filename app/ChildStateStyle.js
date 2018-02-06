@@ -9,20 +9,22 @@ class ChildStateStyle extends Component {
 
   static styleOptions = () => {
     return {
-      //mapStyleToProps: {
-        //titleStyle: ['color'],
-        //numberStyle: ['color']
-      //},
       mapStyleToProps: {
         titleStyle: {
-          color: () => true
+          color: ({prop}) => prop
         },
         numberStyle: {
-          color: () => true
+          color: ({prop}) => prop
         }
       },
       mapPropsToStyle: {
-        size: ({prop, state}) => state(prop)
+        size: ({prop, state}) => state(prop),
+        //titleStyle: {
+          //color: ({prop}) => prop
+        //},
+        //numberStyle: {
+          //color: ({prop}) => prop
+        //}
       }
     }
   }

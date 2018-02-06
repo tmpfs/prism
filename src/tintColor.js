@@ -8,9 +8,9 @@ export default new Rule(
     if (props && props[propName]) {
       propValue = props[propName]
     }
-    //propValue = colors[propValue] || propValue
+    propValue = colors[propValue] || propValue
     // Extract to prop, helps with ActivityIndicator
-    //move(propValue, null, true)
+    move(propValue, null, true)
   },
   ['tintColor'],
   true

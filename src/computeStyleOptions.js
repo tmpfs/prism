@@ -32,11 +32,21 @@ const splitPlugins = (definition, plugins, options) => {
       }
     })
 
+  const flatPlugins = globalPlugins
+    .filter((plugin) => plugin.options.flatStyles)
+  const nonFlatPlugins = globalPlugins
+    .filter((plugin) => !plugin.options.flatStyles)
+
+  //console.log(nonFlatPlugins.length)
+  //console.log(globalPlugins.length)
+
   // TODO: allow options to disable plugins for the component?
   const propertyPlugins = plugins.filter((plugin) => plugin.propType !== undefined)
   return {
     property: propertyPlugins,
-    globals: globalPlugins
+    globals: globalPlugins,
+    //globals: nonFlatPlugins,
+    flat: flatPlugins
   }
 }
 
@@ -61,6 +71,8 @@ const computeStyleNames = (plugins, options) => {
         }
       }
     })
+
+  //console.log(childComponentNames)
 
   options.allStyleObjectNames = [STYLE].concat(childComponentNames)
   options.childComponentNames = childComponentNames

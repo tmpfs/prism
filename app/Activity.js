@@ -3,10 +3,6 @@ import PropTypes from 'prop-types'
 import {ActivityIndicator} from 'react-native'
 import {Prism} from '../src/Prism'
 
-const colors = {
-  tint: '#5affda'
-}
-
 class Activity extends Component {
 
   //static styleOptions = () => {
@@ -17,13 +13,13 @@ class Activity extends Component {
     //}
   //}
 
-  static mapStyleToProps = {
-    tintColor: ({prop}) => {
-      console.log('mapStyleToProps')
-      console.log(prop)
-      return prop
-    }
-  }
+  //static mapStyleToProps = {
+    //tintColor: ({prop}) => {
+      //console.log('mapStyleToProps')
+      //console.log(prop)
+      //return prop
+    //}
+  //}
 
   static propTypes = {
     large: PropTypes.bool,
