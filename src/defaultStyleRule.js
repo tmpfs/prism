@@ -1,9 +1,6 @@
 import Plugin from './Plugin'
 
-// This is the logic for computing the initial
-// styles. An earlier version looked in defaultProps
-// but it is problematic so we just find a style rule
-// based on the component class name.
+// This is the logic for computing the initial styles.
 //
 // Respect for invariants is required.
 export default new Plugin(

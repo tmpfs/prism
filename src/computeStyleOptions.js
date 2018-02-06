@@ -173,6 +173,18 @@ const computeStyleOptions = (registry, definition, config) => {
   options.allStyleObjectNames = allStyleObjectNames
   options.childComponentNames = childComponentNames
 
+  // This is very important for inheritance
+  // is it so we don't inherit defaultProps
+  // for style, labelStyle etc but to inherit
+  // other top-level props as the entire object
+  // is proxied in withPrism()
+  allStyleObjectNames.forEach((name) => {
+    const {NewType} = definition
+    if (NewType.defaultProps && NewType.defaultProps[name]) {
+      delete NewType.defaultProps[name]
+    }
+  })
+
   //mergeStylePlugin(options)
 
   // computeStyleNames must be called first
