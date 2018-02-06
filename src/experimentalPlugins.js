@@ -3,12 +3,14 @@ import React from 'react'
 import Plugin from './Plugin'
 import propTypes from './propTypes'
 
+import util from './util'
+
 export default [
 
   // Text
   new Plugin(
     'textTransform',
-    ({context, prop, props, state, util, options}) => {
+    ({context, prop, props, state, options}) => {
       // Inherited from the parent context
       if (!prop && context) {
         prop = context.textTransform

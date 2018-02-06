@@ -7,14 +7,6 @@ import Namespace from './Namespace'
 
 import {processor} from './Processor'
 
-import util from './util'
-
-const {
-  ucfirst,
-  isObject,
-  isString
-} = util
-
 const computeStyles = (
   {
     definition,
@@ -67,7 +59,6 @@ const computeStyles = (
     context,
     props,
     state,
-    util,
     ns,
     config,
     definition,
@@ -153,7 +144,7 @@ const withPrism = (Stylable, definition) => {
   const {config} = definition
   class PrismComponent extends Component {
     state = {
-      styleValues: {},
+      styleAttributes: {},
       additionalProperties: {}
     }
 
@@ -192,7 +183,7 @@ const withPrism = (Stylable, definition) => {
       })
 
       // Update the state so styles are reactive
-      this.setState({styleValues: styleAttributes, additionalProperties})
+      this.setState({styleAttributes: styleAttributes, additionalProperties})
     }
 
     // So that changes to style properties are
@@ -215,7 +206,7 @@ const withPrism = (Stylable, definition) => {
           ref='stylable'
           {...this.props}
           {...this.state.additionalProperties}
-          {...this.state.styleValues}>
+          {...this.state.styleAttributes}>
           {children}
         </Stylable>
       )
@@ -226,9 +217,6 @@ const withPrism = (Stylable, definition) => {
   PrismComponent.displayName = `Prism(${definition.Name})`
   // Proxy propTypes
   PrismComponent.propTypes = Stylable.propTypes
-
-  definition.Type = Stylable
-  definition.NewType = PrismComponent
 
   return PrismComponent
 }

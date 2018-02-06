@@ -83,6 +83,7 @@ const Prism = (Type, namespace = '', requirements = null) => {
 
   const definition = {Type, Name, styleOptions, namespace, requirements}
   const NewType = withPrism(Type, definition)
+
   definition.NewType = NewType
 
   if (Prism.registry) {
