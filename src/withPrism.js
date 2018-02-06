@@ -22,7 +22,6 @@ const computeStyles = (pluginOptions) => {
   // TODO: prepare this in processPlugins
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
-
   // Only run plugins when we have a defined property
   keys = keys.filter((propName) => {
     return (
@@ -31,19 +30,14 @@ const computeStyles = (pluginOptions) => {
     )
   })
 
-  const runGlobalPlugins = (globals) => {
-    globals.forEach((plugin) => {
-      const style = plugin.func(pluginOptions)
-      if (style) {
-        sheets = sheets.concat(style)
-      }
-    })
-  }
+  plugins.globals.forEach((plugin) => {
+    const style = plugin.func(pluginOptions)
+    if (style) {
+      sheets = sheets.concat(style)
+    }
+  })
 
-  // Run before global plugins
-  runGlobalPlugins(plugins.globals)
-
-  const runPropertyPlugins = (keys, props) => {
+  if (isPrimaryStyle) {
     // Run property plugins
     keys.forEach((propName) => {
       const plugin = map[propName]
@@ -55,10 +49,6 @@ const computeStyles = (pluginOptions) => {
         }
       }
     })
-  }
-
-  if (isPrimaryStyle) {
-    runPropertyPlugins(keys, props)
   }
 
   // Add inline `style`, `labelStyle` etc.
@@ -84,7 +74,6 @@ const computeStyles = (pluginOptions) => {
       for (let k in expansions) {
         additionalProperties[k] = expansions[k]
       }
-      //runPropertyPlugins(keys, expansions)
     }
     return options.flat ? flat : [flat]
   }
