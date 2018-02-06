@@ -17,7 +17,6 @@ const registry = new StyleRegistry({theme})
 Prism.configure(
   registry,
   {
-    debug: true,
     extendedProperties: true,
     experimentalPlugins: true,
     textTransform: true,

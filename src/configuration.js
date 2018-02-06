@@ -7,6 +7,7 @@ export default {
   mapStyleToProps: true,
   colorNames: false,
   textTransform: false,
+  debug: __DEV__,
   sizes: {
     'xx-small': 12,
     'x-small': 13,

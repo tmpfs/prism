@@ -23,20 +23,6 @@ import textTransform from './textTransform'
 // ANOMALY: should not be here
 import tintColor from './tintColor'
 
-const registerPlugins = (plugins) => {
-  return plugins.reduce((list, plugin) => {
-    list = list.concat(registerPlugin(plugin))
-    return list
-  }, [])
-}
-
-const registerPlugin = (plugin) => {
-  if (!(plugin instanceof Plugin)) {
-    throw new Error('Prism plugin must be instance of Plugin')
-  }
-  return plugin
-}
-
 // Register a stylable component type
 const Prism = (Type, namespace = '', requirements = null) => {
   if (Prism.registry) {
@@ -106,12 +92,8 @@ Prism.configure = (registry, config = {}) => {
     plugins = plugins.concat(experimentalPlugins)
   }
 
-  // Register the plugins
-  plugins = registerPlugins(plugins)
-
   if (Array.isArray(config.additionalPlugins)) {
-    plugins = plugins.concat(
-      registerPlugins(config.additionalPlugins))
+    plugins = plugins.concat(config.additionalPlugins)
   }
 
   // Process flags that disable plugins
@@ -120,6 +102,13 @@ Prism.configure = (registry, config = {}) => {
       return !~config.disabledPlugins.indexOf(plugin.name)
     })
   }
+
+  // Validate plugin types are correct
+  plugins.forEach((plugin) => {
+    if (!(plugin instanceof Plugin)) {
+      throw new Error('Prism plugin must be instance of Plugin')
+    }
+  })
 
   if (config.colorNames) {
     config.processors.push(colorNames)
