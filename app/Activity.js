@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 import {ActivityIndicator} from 'react-native'
 import {Prism} from '../src/Prism'
 
+import View from './View'
+
 class Activity extends Component {
+
+  static styleOptions = () =>  {
+    return {
+      flat: true
+    }
+  }
 
   static mapStyleToProps = {
     tintColor: ({prop}) => {
@@ -33,12 +41,16 @@ class Activity extends Component {
 
     const activitySize = large ? 'large' : 'small'
 
+    console.log(style)
+
     // Default is no label
     let activity = (
-      <ActivityIndicator
-        size={activitySize}
-        color={tintColor}
-        style={activityIndicatorStyle} />
+      <View style={style}>
+        <ActivityIndicator
+          size={activitySize}
+          color={tintColor}
+          style={activityIndicatorStyle} />
+      </View>
     )
 
     return activity
