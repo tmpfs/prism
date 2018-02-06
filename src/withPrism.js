@@ -32,6 +32,8 @@ const computeStyles = (
   const {styleSheet, colors, invariants} = registry
   const ns = new Namespace({namespace, typeName: Name})
 
+  const isPrimaryStyle = (attrName === 'style')
+
   let sheets = []
 
   const defaultStyles = styleSheet[ns.componentClassName] ?
@@ -39,7 +41,7 @@ const computeStyles = (
 
   let styleRuleName = ns.componentClassName
 
-  if (attrName !== 'style') {
+  if (!isPrimaryStyle) {
     // Add child class name style sheet
     styleRuleName = ns.getChildClassName(attrName)
 
@@ -157,7 +159,9 @@ const computeStyles = (
     })
   }
 
-  runPropertyPlugins(keys, props)
+  if (isPrimaryStyle) {
+    runPropertyPlugins(keys, props)
+  }
 
   // Add inline `style` property
   if (style) {
@@ -173,7 +177,7 @@ const computeStyles = (
   // NOTE: If this were not the case invariants like
   // NOTE: textTransform would be applied to the parent
   // NOTE: component.
-  if (processor.hasPreProcessors && attrName === 'style') {
+  if (processor.hasPreProcessors && isPrimaryStyle) {
     const flat = StyleSheet.flatten(sheets)
     const expansions = processor.process(flat, pluginOptions)
     const keys = Object.keys(expansions)
@@ -181,7 +185,7 @@ const computeStyles = (
       for (let k in expansions) {
         additionalProperties[k] = expansions[k]
       }
-      runPropertyPlugins(keys, expansions)
+      //runPropertyPlugins(keys, expansions)
     }
     //return options.flat ? flat : [flat]
     return [flat]
