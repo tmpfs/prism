@@ -76,7 +76,7 @@ const withPrism = (Stylable, definition) => {
   const {config} = definition
   class PrismComponent extends Component {
     state = {
-      styleAttributes: {},
+      styleProperties: {},
       additionalProperties: {}
     }
 
@@ -127,9 +127,9 @@ const withPrism = (Stylable, definition) => {
       const {state, context} = this
       const {allStyleObjectNames} = options
 
-      const styleAttributes = {}
+      const styleProperties = {}
       allStyleObjectNames.forEach((name) => {
-        styleAttributes[name] = []
+        styleProperties[name] = []
       })
 
       // Allows property injection via the plugin system
@@ -140,11 +140,11 @@ const withPrism = (Stylable, definition) => {
       allStyleObjectNames.forEach((attrName) => {
         const pluginOptions = this.getPluginOptions(
           attrName, props, {additionalProperties, propertyPlugins})
-        styleAttributes[attrName] = computeStyles(pluginOptions)
+        styleProperties[attrName] = computeStyles(pluginOptions)
       })
 
       // Update the state so styles are reactive
-      this.setState({styleAttributes: styleAttributes, additionalProperties})
+      this.setState({styleProperties: styleProperties, additionalProperties})
     }
 
     componentWillReceiveProps (props) {
@@ -165,7 +165,7 @@ const withPrism = (Stylable, definition) => {
           ref='stylable'
           {...this.props}
           {...this.state.additionalProperties}
-          {...this.state.styleAttributes}>
+          {...this.state.styleProperties}>
           {children}
         </Stylable>
       )
