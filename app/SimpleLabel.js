@@ -12,7 +12,7 @@ class SimpleLabel extends Component {
       supportsText: true,
       flat: true,
       mapPropsToStyle: {
-        color: ({prop}) => prop,
+        //color: ({prop}) => prop,
         textTransform: ({prop}) => {
           return {textTransform: prop}
         },
@@ -30,13 +30,16 @@ class SimpleLabel extends Component {
     }
   }
 
-  //static defaultProps = {
-    //color: 'pink'
-  //}
+  static defaultProps = {
+    style: {
+      color: 'pink'
+    }
+  }
 
   render () {
     // Get the computed style sheet
     const {style} = this.props
+    //console.log(SimpleLabel.defaultProps)
     //console.log(style)
     //console.log('TEXT')
     //console.log(text)

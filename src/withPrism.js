@@ -6,6 +6,7 @@ import {processor} from './Processor'
 
 const computeStyles = (pluginOptions) => {
   const {
+    definition,
     options,
     props,
     attrName,
@@ -30,12 +31,19 @@ const computeStyles = (pluginOptions) => {
   runGlobalPlugins(plugins.globals, pluginOptions)
 
   const runPropertyPlugins = (props, propertyPlugins) => {
+    //const {Type} = definition
+    //const defaultProps = Type.defaultProps || {}
+    //console.log(defaultProps)
     const {keys, map} = propertyPlugins
     // Run property plugins
     keys.forEach((propName) => {
       const plugin = map[propName]
       if (plugin) {
         const prop = props[propName]
+
+        //if (defaultProps.hasOwnProperty(propName)) {
+          //return
+        //}
         const style = plugin.func({...pluginOptions, prop, propName})
         if (style) {
           sheets = sheets.concat(style)
@@ -183,7 +191,7 @@ const withPrism = (Stylable, definition) => {
   PrismComponent.displayName = `Prism(${definition.Name})`
   // Proxy propTypes
   PrismComponent.propTypes = Stylable.propTypes
-  PrismComponent.defaultProps = Stylable.defaultProps
+  PrismComponent.inheritedDefaultProps = Object.assign({}, Stylable.defaultProps)
 
   return PrismComponent
 }
