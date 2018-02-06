@@ -8,10 +8,8 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `disabledPlugins` array of string plugin names to disable.
 * `experimentalPlugins` enables the experimental plugins.
 * `colorNames` enables the color names preprocessor.
-* `textTransform` enables the text transform preprocessor.
+* `textTransform` enables the text transform preprocessor (requires experimental plugins).
 * `debug` print configured plugins.
-
-Note that support for the `style` property and `mapPropsToStyleObject` cannot be disabled, they are not handled by plugins.
 
 ### Default Plugins
 

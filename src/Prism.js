@@ -194,10 +194,6 @@ const registerComponent = (registry, definition, config) => {
       // to child styles so we extract `style` when given
       options.styleForceInclusion = mapStyleToProps.style
       delete mapStyleToProps.style
-
-      //throw new Error(
-        //`Prism do not configure mappings for "style" in mapStyleToProps. ` +
-        //`It is an anti-pattern, use mapPropsToStyle instead.`)
     }
 
   }
@@ -211,7 +207,6 @@ const registerComponent = (registry, definition, config) => {
   }
 
   // Default style property support
-  //mapStyleToProps.style = true
   options.mapStyleToProps = mapStyleToProps
   options.childComponentNames = Object.keys(mapStyleToProps)
 
@@ -251,8 +246,6 @@ const registerComponent = (registry, definition, config) => {
 
   //console.log(Object.keys(Type.propTypes))
 
-  // TODO: support multiple registries
-  // TODO: merge if we have an existing registry?
   definition.config = config
   definition.registry = registry
 
@@ -263,7 +256,7 @@ const registerComponent = (registry, definition, config) => {
 Prism.components = []
 // Components with requirements that need to be enforced
 Prism.requirements = []
-// All registered components definitions
+// All registered component definitions
 Prism.defined = []
 
 Prism.configure = (registry, config = {}) => {
