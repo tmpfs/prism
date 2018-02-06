@@ -22,9 +22,8 @@ const computeStyles = (
     context,
     props,
     state,
-    mutableStyleValues,
+    styleAttributes,
     additionalProperties,
-    childComponentNames,
     attrName}) => {
 
   const style = props[attrName]
@@ -173,8 +172,7 @@ const withPrism = (Stylable, definition) => {
         additionalProperties: {}
       }
 
-      this.childComponentNames = options.childComponentNames
-      this.allStyleObjectNames = ['style'].concat(this.childComponentNames)
+      //this.allStyleObjectNames = ['style'].concat(options.childComponentNames)
 
       this.state = state
     }
@@ -188,42 +186,33 @@ const withPrism = (Stylable, definition) => {
 
     processStylePlugins (props) {
       const {registry, options, Type} = definition
-      const {childComponentNames} = options
-      const {styleValues} = this.state
       const {state, context} = this
-
-      let mutableStyleValues = Object.assign({}, styleValues)
-      console.log('component :' + this.allStyleObjectNames)
-      this.allStyleObjectNames.forEach((name) => {
-        mutableStyleValues[name] = []
+      const {allStyleObjectNames} = options
+      let styleAttributes = {}
+      allStyleObjectNames.forEach((name) => {
+        styleAttributes[name] = []
       })
 
       const additionalProperties = {}
 
-      const compute = (attrName) => {
+      // Compute style properties
+      allStyleObjectNames.forEach((attrName) => {
         const computedStyle = computeStyles(
           {
             options,
             context,
             props,
             state,
-            util,
             definition,
             attrName,
-            mutableStyleValues,
-            additionalProperties,
-            childComponentNames
+            styleAttributes,
+            additionalProperties
           })
-        return computedStyle
-      }
-
-      // Compute style properties
-      this.allStyleObjectNames.forEach((stylePropertyName) => {
-        mutableStyleValues[stylePropertyName] = compute(stylePropertyName)
+        styleAttributes[attrName] = computedStyle
       })
 
       // Update the state so styles are reactive
-      this.setState({styleValues: mutableStyleValues, additionalProperties})
+      this.setState({styleValues: styleAttributes, additionalProperties})
     }
 
     // So that changes to style properties are
