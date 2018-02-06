@@ -30,7 +30,6 @@ const computeStyles = (
   const style = props[attrName]
   const {config, options, registry, namespace, Name, Type} = definition
   const {styleSheet, colors, invariants} = registry
-
   const ns = new Namespace({namespace, typeName: Name})
 
   let sheets = []
@@ -60,7 +59,7 @@ const computeStyles = (
   // Build the map of child properties that we should put
   // into extractedStyles so  that properties assigned to child
   // components are not applied to the parent style
-  const {mapStyleToProps, styleForceInclusion} = options
+  //const {mapStyleToProps, styleForceInclusion} = options
   const mappedChildProperties = []
   //const mappedChildProperties = Object.keys(mapStyleToProps)
     //.reduce((list, childName) => {
@@ -130,22 +129,16 @@ const computeStyles = (
       pluginOptions.plugin = plugin
       const style = plugin.func(pluginOptions)
       if (style) {
-        if (!style.overwrite) {
-          sheets = sheets.concat(style)
-        // Global plugins can rewrite the entire list of styles
-        } else {
-          delete style.overwrite
-          sheets = Array.isArray(style) ? style : [style]
-        }
+        sheets = sheets.concat(style)
       }
     })
   }
 
-  const before = plugins.globals.filter((plugin) => !plugin.isAfter)
-  const after = plugins.globals.filter((plugin) => plugin.isAfter)
+  //const before = plugins.globals.filter((plugin) => !plugin.isAfter)
+  //const after = plugins.globals.filter((plugin) => plugin.isAfter)
 
   // Run before global plugins
-  runGlobalPlugins(before)
+  runGlobalPlugins(plugins.globals)
 
   const runPropertyPlugins = (keys, props) => {
     // Run property plugins
