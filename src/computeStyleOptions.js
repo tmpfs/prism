@@ -23,10 +23,6 @@ const splitPlugins = (definition, plugins, options) => {
           return plugin
         }
 
-        //console.log('plugin name: ' + plugin.name)
-        //console.log('plugin name: ' + options.hasOwnProperty(plugin.name))
-        //console.log(Object.keys(options))
-
         // Plugin requires a corresponding option
         // in the target component options
         if (plugin.requireOptions && options.hasOwnProperty(plugin.name)) {
@@ -35,7 +31,7 @@ const splitPlugins = (definition, plugins, options) => {
       }
     })
 
-  console.log(`Adding global plugins (${definition.Name}) with length ${globalPlugins.length}`)
+  //console.log(`Adding global plugins (${definition.Name}) with length ${globalPlugins.length}`)
 
   // TODO: allow options to disable plugins for the component?
   const propertyPlugins = plugins.filter((plugin) => plugin.propType !== undefined)

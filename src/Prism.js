@@ -101,10 +101,6 @@ Prism.configure = (registry, config = {}) => {
 
   let plugins = config.plugins.slice()
 
-  if (config.className) {
-    plugins.push(classNamePlugin)
-  }
-
   if (config.defaultStyleRule) {
     plugins.push(defaultStyleRulePlugin)
   }
@@ -115,6 +111,10 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.mapStyleToProps) {
     plugins.push(mapStyleToPropsPlugin)
+  }
+
+  if (config.className) {
+    plugins.push(classNamePlugin)
   }
 
   if (config.extendedProperties) {
@@ -161,7 +161,7 @@ Prism.configure = (registry, config = {}) => {
       `Prism configured with ${plugins.length} plugins`)
     plugins.forEach((plugin) => {
       console.log(
-        `Prism using plugin "${plugin.name}" ${plugin.isGlobal ? '(global)' : ''}`)
+        `Prism plugin "${plugin.name}" ${plugin.isGlobal ? '(global)' : ''}`)
     })
   }
 
