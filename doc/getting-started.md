@@ -46,6 +46,8 @@ File: [App.js](/doc/examples/App.js)
 
 With the `extendedProperties` option all the built in and extended [style properties](#style-properties) are available.
 
+Note that you should `import` all your Prism enabled components *before* calling `configure()`.
+
 ### Defining Styled Components
 
 To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
