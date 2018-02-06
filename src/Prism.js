@@ -2,26 +2,23 @@ import React, {Component} from 'react'
 
 import StyleRegistry from './StyleRegistry'
 import {Rule, processor} from './Processor'
-
 import Namespace from './Namespace'
 import Plugin from './Plugin'
-import computeStyleOptions from './computeStyleOptions'
 
+import computeStyleOptions from './computeStyleOptions'
 import defaultStyleRulePlugin from './defaultStyleRule'
 import mapPropsToStylePlugin from './mapPropsToStyle'
 import mapStyleToPropsPlugin from './mapStyleToProps'
 import classNamePlugin from './className'
-
 import extendedPropertyPlugins from './extendedPropertyPlugins'
 import experimentalPlugins from './experimentalPlugins'
-
 import propTypes from './propTypes'
 import withPrism from './withPrism'
 import withContext from './withContext'
-
 import colorNames from './colorNames'
-import tintColor from './tintColor'
 import textTransform from './textTransform'
+
+import tintColor from './tintColor'
 
 import util from './util'
 
@@ -83,12 +80,9 @@ const Prism = (Type, namespace = '', requirements = null) => {
       `Prism namespace for ${Name} is not a string, got type ${typeof(namespace)}`)
   }
 
-
   const ns = new Namespace({namespace, typeName: Name})
   const definition = {Type, Name, styleOptions, ns, requirements}
-  const NewType = withPrism(Type, definition)
-
-  definition.NewType = NewType
+  definition.NewType = withPrism(Type, definition)
 
   if (Prism.registry) {
     throw new Error(
@@ -101,7 +95,7 @@ const Prism = (Type, namespace = '', requirements = null) => {
   // these will be registered when Prism.configure() is called
   Prism.defined.push(definition)
 
-  return NewType
+  return definition.NewType
 }
 
 // All registered component definitions
@@ -215,7 +209,7 @@ Prism.configure = (registry, config = {}) => {
     definition.registry = registry
 
     // Register the component definition
-    computeStyleOptions(registry, definition, config)
+    definition.options = computeStyleOptions(registry, definition, config)
 
     // Check component requirements
     const {requirements, Name, NewType} = definition

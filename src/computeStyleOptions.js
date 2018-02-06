@@ -192,13 +192,11 @@ const computeStyleOptions = (registry, definition, config) => {
 
   registerComponentPlugins(registry, definition, options)
 
-  console.log(options.allStyleObjectNames)
-
   // registerComponentPlugins must be called first
   // so we have allStyleObjectNames
   registerComponentPropTypes(definition, plugins, options.allStyleObjectNames)
 
-  definition.options = options
+  return options
 }
 
 export default computeStyleOptions
