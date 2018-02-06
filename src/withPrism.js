@@ -50,7 +50,6 @@ const computeStyles = (
 
   if (styleSheet[styleRuleName]) {
     sheets.push(styleSheet[styleRuleName])
-
   }
 
   let keys = config.availablePropertyNames.slice()
@@ -184,12 +183,13 @@ const computeStyles = (
       }
       runPropertyPlugins(keys, expansions)
     }
-    return options.flat ? flat : [flat]
+    //return options.flat ? flat : [flat]
+    return [flat]
   }
 
-  if (options.flat) {
-    return StyleSheet.flatten(sheets)
-  }
+  //if (options.flat) {
+    //return StyleSheet.flatten(sheets)
+  //}
 
   return sheets
 }
