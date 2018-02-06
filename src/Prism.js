@@ -61,9 +61,6 @@ const mapPluginTypeTests = {
 const mapPluginNames = Object.keys(mapPluginTypeTests)
 
 const registerPlugins = (plugins) => {
-  if (!Array.isArray(plugins)) {
-    throw new Error('Prism plugins must be an array')
-  }
   return plugins.reduce((list, plugin) => {
     list = list.concat(registerPlugin(plugin))
     return list
@@ -140,23 +137,8 @@ const Prism = (Type, namespace = '', requirements = null) => {
   return NewType
 }
 
-const registerComponent = (registry, definition, config) => {
-  const {Type, Name, styleOptions, requirements} = definition
-  const {plugins} = config
-
-  if (requirements && !isFunction(requirements)) {
-    throw new Error('Prism component requirements must be a function')
-  }
-
-  let options = {}
-  if (styleOptions) {
-    options = styleOptions(registry)
-  }
-
-  // Merge component-specific style registries
-  if ((options.registry instanceof StyleRegistry)) {
-    registry.assign(options.registry)
-  }
+const registerComponentPlugins = (registry, definition, options) => {
+  const {Type, Name} = definition
 
   // Allow declaring mapPropsToStyle etc. as static on the Type
   mapPluginNames.forEach((name) => {
@@ -168,6 +150,14 @@ const registerComponent = (registry, definition, config) => {
 
     if (Type[name] !== undefined) {
       options[name] = Type[name]
+    }
+
+    if (util.isFunction(options[name])) {
+      options[name] = options[name](registry)
+    }
+
+    if (!options[name]) {
+      options[name] = {}
     }
 
     const test = mapPluginTypeTests[name]
@@ -184,9 +174,9 @@ const registerComponent = (registry, definition, config) => {
   let childComponentNames = []
   // User defined style property names
   if (mapStyleToProps !== undefined) {
-    if (util.isFunction(mapStyleToProps)) {
-      mapStyleToProps = mapStyleToProps(registry)
-    }
+    //if (util.isFunction(mapStyleToProps)) {
+      //mapStyleToProps = mapStyleToProps(registry)
+    //}
 
     // Extract child component styles when a key is an object
     let k, v
@@ -198,15 +188,55 @@ const registerComponent = (registry, definition, config) => {
     }
   }
 
-  if (!mapStyleToProps) {
-    mapStyleToProps = {}
-  }
-
   // Default style property support
   options.mapStyleToProps = mapStyleToProps
 
-  const allStyleObjectNames = [STYLE].concat(childComponentNames)
+  options.allStyleObjectNames = [STYLE].concat(childComponentNames)
   options.childComponentNames = childComponentNames
+}
+
+const registerComponentPropTypes = (definition, plugins, options) => {
+  const {Type} = definition
+  // Merge config propTypes into the Stylable propTypes.
+  //
+  // On collision the underlying component propTypes win.
+  const systemPropTypes = {}
+  plugins.forEach((plugin) => {
+    if (plugin.propType && !plugin.isGlobal) {
+      systemPropTypes[plugin.name] = plugin.propType
+    }
+  })
+  const propertyTypes = Object.assign(
+    {}, systemPropTypes, Type.propTypes)
+  Type.propTypes = propertyTypes
+
+  options.allStyleObjectNames.forEach((name) => {
+    // Automatic propTypes for style, labelStyle, imageStyle etc.
+    Type.propTypes[name] = propTypes.style
+  })
+
+}
+
+const registerComponent = (registry, definition, config) => {
+  const {Type, Name, styleOptions} = definition
+  const {plugins} = config
+
+  //if (requirements && !isFunction(requirements)) {
+    //throw new Error('Prism component requirements must be a function')
+  //}
+
+  let options = {}
+  if (styleOptions) {
+    // Get options for the component
+    options = styleOptions(registry)
+  }
+
+  // Merge component-specific style registries
+  if ((options.registry instanceof StyleRegistry)) {
+    registry.assign(options.registry)
+  }
+
+  registerComponentPlugins(registry, definition, options)
 
   const globalPlugins = plugins
     .filter((plugin) => {
@@ -221,25 +251,9 @@ const registerComponent = (registry, definition, config) => {
     globals: globalPlugins
   }
 
+  registerComponentPropTypes(definition, plugins, options)
+
   definition.options = options
-
-  // Merge config propTypes into the Stylable propTypes.
-  //
-  // On collision the underlying component propTypes win.
-  const systemPropTypes = {}
-  plugins.forEach((plugin) => {
-    if (plugin.propType && !plugin.isGlobal) {
-      systemPropTypes[plugin.name] = plugin.propType
-    }
-  })
-  const propertyTypes = Object.assign(
-    {}, systemPropTypes, Type.propTypes)
-  Type.propTypes = propertyTypes
-
-  allStyleObjectNames.forEach((name) => {
-    // Automatic propTypes for style, labelStyle, imageStyle etc.
-    Type.propTypes[name] = propTypes.style
-  })
 
   definition.config = config
   definition.registry = registry

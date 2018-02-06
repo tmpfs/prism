@@ -8,23 +8,17 @@ export default [
   // Support for mapPropsToStyle
   [
     'mapPropsToStyle',
-    ({props, options, registry, util, ns, attrName, styleSheet}) => {
+    ({props, options, registry, ns, attrName, styleSheet}) => {
       const {mapPropsToStyle} = options
       if (mapPropsToStyle !== undefined) {
         const sheets = []
-
-        // TODO: pre-compute object map
-        let map = mapPropsToStyle
-        if (util.isFunction(map)) {
-          map = mapPropsToStyle(registry)
-        }
-
-        for (let k in map) {
+        for (let k in mapPropsToStyle) {
           const prop = props[k]
           if (props.hasOwnProperty(k) && prop !== undefined) {
-            const fn = map[k]
+            const fn = mapPropsToStyle[k]
+
             // TODO: verify ahead of time?
-            if (util.isFunction(fn)) {
+            if (isFunction(fn)) {
               const sheet = fn({...registry, options, ns, props, prop})
 
               // Returned a string, trigger :hover syntax
