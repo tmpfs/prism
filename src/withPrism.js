@@ -152,29 +152,9 @@ const computeStyles = (
 const withPrism = (Stylable, definition) => {
   const {config} = definition
   class PrismComponent extends Component {
-
-    constructor (props) {
-      super(props)
-      if (!definition.registry) {
-        throw new Error(
-          'Prism: no style registry configured, ' +
-          'did you forget to call Prism.configure()?')
-      }
-      if (!definition.registry.styleSheet) {
-        throw new Error(
-          'Prism: no style sheet available, ' +
-          'did you forget to call styleRegistry.addStyleSheet()?')
-      }
-      const {options} = definition
-      // Class level processing options
-      const state = {
-        styleValues: {},
-        additionalProperties: {}
-      }
-
-      //this.allStyleObjectNames = ['style'].concat(options.childComponentNames)
-
-      this.state = state
+    state = {
+      styleValues: {},
+      additionalProperties: {}
     }
 
     setNativeProps (props) {
@@ -227,6 +207,8 @@ const withPrism = (Stylable, definition) => {
     }
 
     render () {
+      // Allowing children in the state lets children
+      // be rewritten (textTransform support)
       const children = this.state.children || this.props.children
       return (
         <Stylable
