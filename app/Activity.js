@@ -41,8 +41,6 @@ class Activity extends Component {
 
     const activitySize = large ? 'large' : 'small'
 
-    console.log(style)
-
     // Default is no label
     let activity = (
       <View style={style}>

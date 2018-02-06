@@ -11,7 +11,8 @@ const computeStyles = (pluginOptions) => {
     attrName,
     isPrimaryStyle,
     propertyPlugins,
-    additionalProperties} = pluginOptions
+    additionalProperties
+  } = pluginOptions
 
   const {plugins} = options
 
@@ -49,29 +50,29 @@ const computeStyles = (pluginOptions) => {
 
   runGlobalPlugins(plugins.after, pluginOptions)
 
-  if (isPrimaryStyle && plugins.flat.length) {
+  if (isPrimaryStyle &&
+    (options.flat || plugins.flat.length || processor.hasPreProcessors)) {
     const flat = StyleSheet.flatten(sheets)
     runGlobalPlugins(plugins.flat, {...pluginOptions, flat})
+
+    // NOTE: We only execute for the style attribute
+    // NOTE: and assume that the child style objects
+    // NOTE: will be passed to the `style` attribute
+    // NOTE: of another `Prism` component for further
+    // NOTE: processing.
+    //
+    // NOTE: If this were not the case invariants like
+    // NOTE: textTransform would be applied to the parent
+    // NOTE: component.
+    if (processor.hasPreProcessors) {
+      processor.process(flat, pluginOptions)
+    }
+
     sheets = [flat]
-  }
 
-  // NOTE: We only execute for the style attribute
-  // NOTE: and assume that the child style objects
-  // NOTE: will be passed to the `style` attribute
-  // NOTE: of another `Prism` component for further
-  // NOTE: processing.
-  //
-  // NOTE: If this were not the case invariants like
-  // NOTE: textTransform would be applied to the parent
-  // NOTE: component.
-  if (processor.hasPreProcessors && isPrimaryStyle) {
-    const flat = StyleSheet.flatten(sheets)
-    processor.process(flat, pluginOptions)
-    return options.flat ? flat : [flat]
-  }
-
-  if (options.flat) {
-    return StyleSheet.flatten(sheets)
+    if (options.flat) {
+      return flat
+    }
   }
 
   return sheets
@@ -150,7 +151,7 @@ const withPrism = (Stylable, definition) => {
       })
 
       // Update the state so styles are reactive
-      this.setState({styleProperties: styleProperties, additionalProperties})
+      this.setState({styleProperties, additionalProperties})
     }
 
     componentWillReceiveProps (props) {

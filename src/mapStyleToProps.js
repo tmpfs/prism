@@ -16,23 +16,13 @@ export default new Plugin(
 
     const {colors} = registry
 
-    const move = (newValue, newPropName, keep = false) => {
-      newPropName = newPropName || propName
-      if (expand) {
-        expansions[newPropName] = newValue
-        if (hasOptions) {
-          pluginOptions.additionalProperties[newPropName] = newValue
-        }
-        expanded = true
-      } else {
-        target[newPropName] = newValue
-      }
+    const remove = (propName) => {
+      delete styleProps[propName]
+    }
 
-      // Writing a new property (expansion)
-      // so delete the old one
-      if (expand || (newPropName !== propName)) {
-        delete target[propName]
-      }
+    const move = (propName, propValue) => {
+      additionalProperties[propName] = propValue
+      remove(propName)
     }
 
     for (const propName in map) {
@@ -49,10 +39,12 @@ export default new Plugin(
 
         const fn = map[propName]
         if (isFunction(fn)) {
-          const result = fn({...registry, options, props, prop})
-          // TODO: API?
-          additionalProperties[propName] = result
-          delete styleProps[propName]
+          const result = fn({...registry, props, prop, move, remove})
+          // Shortcut for the move operation
+          // is to return the prop
+          if (result === prop) {
+            move(propName, prop)
+          }
         }
       }
     }
