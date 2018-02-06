@@ -16,7 +16,7 @@ export default new Plugin(
 
     const {colors} = registry
 
-    const move = (newValue, newPropName, expand = false) => {
+    const move = (newValue, newPropName, keep = false) => {
       newPropName = newPropName || propName
       if (expand) {
         expansions[newPropName] = newValue
@@ -27,6 +27,7 @@ export default new Plugin(
       } else {
         target[newPropName] = newValue
       }
+
       // Writing a new property (expansion)
       // so delete the old one
       if (expand || (newPropName !== propName)) {

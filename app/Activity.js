@@ -7,8 +7,8 @@ class Activity extends Component {
 
   static mapStyleToProps = {
     tintColor: ({prop}) => {
-      console.log('mapStyleToProps for tintColor on Activity')
-      console.log(prop)
+      //console.log('mapStyleToProps for tintColor on Activity')
+      //console.log(prop)
       return prop
     }
   }

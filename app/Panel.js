@@ -7,10 +7,11 @@ import Label from './SimpleLabel'
 class Panel extends Component {
 
   //static mapStyleToProps = {
-    //labelStyle: ['color'],
-    //headerStyle: [{space: 'marginBottom', bg: 'backgroundColor'}],
-    //bodyStyle: ['background']
+    //headerStyle: {
+      //textTransform: ({prop}) => prop
+    //}
   //}
+
   static mapPropsToStyle = {
     headerStyle: {},
     labelStyle: {
@@ -23,19 +24,6 @@ class Panel extends Component {
       //}
     //}
   }
-
-  //static mapStyleToProps = {
-    //labelStyle: {
-      //color: () => true
-    //},
-    //headerStyle: {
-      //space: () => 'marginBottom',
-      //bg: () => 'backgroundColor'
-    //},
-    //bodyStyle: {
-      //background: () => 'backgroundColor'
-    //}
-  //}
 
   static propTypes = {
     label: PropTypes.string,
