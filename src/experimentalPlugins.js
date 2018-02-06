@@ -1,13 +1,13 @@
 import React from 'react'
-import propTypes from './propTypes'
 
-const fontShapeColors = propTypes.fontShapeColors
-const fontShapeMap = propTypes.fontShapeMap
+import Plugin from './Plugin'
+import propTypes from './propTypes'
 
 export default [
 
   // Text
-  [
+  new Plugin(
+    'textTransform',
     ({context, prop, props, state, util, options}) => {
       // Inherited from the parent context
       if (!prop && context) {
@@ -48,14 +48,16 @@ export default [
         state.children = children
       }
     },
-    {textTransform: propTypes.textTransform}
-  ],
+    propTypes.textTransform
+  ),
 
   // Font
-  [
-    //'mapFontProp',
+  new Plugin(
+    'font',
     ({context, prop, styleSheet, colors, sizes, config, options}) => {
       if (options.supportsText) {
+        const fontShapeColors = propTypes.fontShapeColors
+        const fontShapeMap = propTypes.fontShapeMap
         // Inherited from the parent context
         if (!prop && context) {
           prop = context.font
@@ -75,15 +77,15 @@ export default [
 
         // Handle string type - named font size
         if (style.fontSize && typeof(style.fontSize) === 'string') {
+          // TODO: throw error on missing size or fall through to style validation?
           const sizes = options.sizes || sizes || config.sizes || {}
           const fontSize = sizes[style.fontSize] || 16
           style.fontSize = fontSize
         }
-
         return style
       }
     },
-    {font: propTypes.font}
-  ],
+    propTypes.font
+  )
 
 ]

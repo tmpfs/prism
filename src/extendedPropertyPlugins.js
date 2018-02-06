@@ -1,5 +1,7 @@
+import Plugin from './Plugin'
 import propTypes from './propTypes'
 
+// Shared by margin and padding
 const boxModel = (key, value) => {
   const out = {}
   if (typeof(value) === 'number') {
@@ -17,46 +19,42 @@ const boxModel = (key, value) => {
 }
 
 export default [
-  // Background
-  [
+  new Plugin(
+    'background',
     ({prop}) => {
       return {backgroundColor: prop}
     },
-    {background: propTypes.background}
-  ],
-
-  // Color
-  [
+    propTypes.background
+  ),
+  new Plugin(
+    'color',
     ({prop, options}) => {
       if (options.supportsText) {
         return {color: prop}
       }
     },
-    {color: propTypes.color}
-  ],
-
-  // Width
-  [
+    propTypes.color
+  ),
+  new Plugin(
+    'width',
     ({prop, options}) => {
       if (options.supportsDimension) {
         return {width: prop}
       }
     },
-    {width: propTypes.width}
-  ],
-
-  // Height
-  [
+    propTypes.width
+  ),
+  new Plugin(
+    'height',
     ({prop, options}) => {
       if (options.supportsDimension) {
         return {height: prop}
       }
     },
-    {height: propTypes.height}
-  ],
-
-  // Radius
-  [
+    propTypes.height
+  ),
+  new Plugin(
+    'radius',
     ({props, styleSheet}) => {
       const {radius} = props
       if (typeof(radius) === 'number') {
@@ -72,39 +70,35 @@ export default [
         borderBottomRightRadius: bottom.right || 0
       }
     },
-    {radius: propTypes.radius}
-  ],
-
-  // Padding
-  [
+    propTypes.radius
+  ),
+  new Plugin(
+    'padding',
     ({props, styleSheet}) => {
       const {padding} = props
       return boxModel('padding', padding)
     },
-    {padding: propTypes.padding}
-  ],
-
-  // Absolute positioning
-  [
+    propTypes.padding
+  ),
+  new Plugin(
+    'margin',
+    ({props, styleSheet}) => {
+      const {margin} = props
+      return boxModel('margin', margin)
+    },
+    propTypes.margin
+  ),
+  new Plugin(
+    'position',
     ({props, styleSheet}) => {
       const {position} = props
       const {top, right, bottom, left} = position
       return {top, right, bottom, left, position: 'absolute'}
     },
-    {position: propTypes.position}
-  ],
-
-  // Margin
-  [
-    ({props, styleSheet}) => {
-      const {margin} = props
-      return boxModel('margin', margin)
-    },
-    {margin: propTypes.margin}
-  ],
-
-  // Border
-  [
+    propTypes.position
+  ),
+  new Plugin(
+    'border',
     ({prop, styleSheet, colors}) => {
       const border = prop
       if (Array.isArray(border)) {
@@ -123,11 +117,12 @@ export default [
         }
       }
     },
-    {border: propTypes.border}
-  ],
+    propTypes.border
+  ),
 
   // Flex
-  [
+  new Plugin(
+    'flex',
     ({props, styleSheet}) => {
       let {flex} = props
       if (typeof(flex) === 'boolean') {
@@ -146,31 +141,28 @@ export default [
       }
       return out
     },
-    {flex: propTypes.flex}
-  ],
-
-  // Flex direction row flag
-  [
+    propTypes.flex
+  ),
+  new Plugin(
+    'row',
     ({props, styleSheet}) => {
       const {row} = props
       if (row === true) {
         return {flexDirection: 'row'}
       }
     },
-    {row: propTypes.row}
-  ],
-
-  // Flex wrap
-  [
+    propTypes.row
+  ),
+  new Plugin(
+    'wrap',
     ({props, styleSheet}) => {
       const {wrap} = props
       return {flexWrap: wrap ? 'wrap' : 'nowrap'}
     },
-    {wrap: propTypes.wrap}
-  ],
-
-  // Justify
-  [
+    propTypes.wrap
+  ),
+  new Plugin(
+    'justify',
     ({props}) => {
       const {justify} = props
       switch (justify) {
@@ -186,6 +178,6 @@ export default [
           return {justifyContent: 'space-around'}
       }
     },
-    {justify: propTypes.justify}
-  ]
+    propTypes.justify
+  )
 ]

@@ -72,7 +72,7 @@ Prism.configure(
   registry,
   {
     extendedProperties: true,
-    disabledPlugins: ['direction', 'wrap']
+    disabledPlugins: ['position', 'wrap']
   }
 )
 ```

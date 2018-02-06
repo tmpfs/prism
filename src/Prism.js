@@ -68,41 +68,10 @@ const registerPlugins = (plugins) => {
 }
 
 const registerPlugin = (plugin) => {
-  if ((plugin instanceof Plugin)) {
-    return plugin
+  if (!(plugin instanceof Plugin)) {
+    throw new Error('Prism plugin must be instance of Plugin')
   }
-  // Named plugin as array
-  if (Array.isArray(plugin)) {
-    const isGlobal = plugin.length >=2 &&
-      typeof(plugin[0]) === 'string' && isFunction(plugin[1])
-    const isProperty = plugin.length === 2 &&
-      isFunction(plugin[0]) && isObject(plugin[1])
-
-    if (isGlobal) {
-      return new Plugin(plugin[0], plugin[1], plugin[2], true, plugin[3])
-    }
-
-    if (isProperty) {
-      const keys = Object.keys(plugin[1])
-      if (!keys.length) {
-        throw new Error('Prism plugin definition with no propType keys')
-      }
-
-      if (keys.length !== 1) {
-        throw new Error(
-          'Prism plugin definition propType keys must be of length one, ' +
-          'use multiple plugins for multiple properties'
-        )
-      }
-
-      return keys.map((propName) => {
-        return new Plugin(propName, plugin[0], plugin[1][propName])
-      })
-
-      return new Plugin(name, plugin[1], plugin[2])
-    }
-  }
-  throw new Error('Prism invalid plugin definition')
+  return plugin
 }
 
 // Register a stylable component type.
