@@ -1,10 +1,10 @@
 import Plugin from './Plugin'
 import util from './util'
-const {isObject} = util
+const {isObject, isFunction} = util
 
 export default new Plugin(
   'mapStyleToProps',
-  ({props, options}) => {
+  ({props, options, attrName}) => {
     const {mapStyleToProps} = options
     let map = mapStyleToProps
     if (isObject(map[attrName])) {
@@ -24,6 +24,7 @@ export default new Plugin(
   },
   {
     definesChildren: true,
+    requireOptions: true,
     validator: (name, computed) => {
       if (!isObject(computed)) {
         throw new Error(
