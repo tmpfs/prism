@@ -6,6 +6,7 @@ import {Rule, processor} from './Processor'
 import Namespace from './Namespace'
 import Plugin from './Plugin'
 
+import configuration from './configuration'
 import computeStyleOptions from './computeStyleOptions'
 import defaultStyleRulePlugin from './defaultStyleRule'
 import mapPropsToStylePlugin from './mapPropsToStyle'
@@ -21,26 +22,6 @@ import textTransform from './textTransform'
 
 // ANOMALY: should not be here
 import tintColor from './tintColor'
-
-const Configuration = {
-  plugins: [],
-  processors: [],
-  className: true,
-  defaultStyleRule: true,
-  mapPropsToStyle: true,
-  mapStyleToProps: true,
-  colorNames: false,
-  textTransform: false,
-  sizes: {
-    'xx-small': 12,
-    'x-small': 13,
-    'small': 14,
-    'medium': 16,
-    'large': 18,
-    'x-large': 22,
-    'xx-large': 26
-  }
-}
 
 const registerPlugins = (plugins) => {
   return plugins.reduce((list, plugin) => {
@@ -97,7 +78,7 @@ Prism.configure = (registry, config = {}) => {
       'Prism expects an array for configuration processors')
   }
 
-  config = Object.assign({}, Configuration, config)
+  config = Object.assign({}, configuration, config)
 
   let plugins = config.plugins.slice()
 
