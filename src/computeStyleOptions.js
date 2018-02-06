@@ -40,20 +40,26 @@ const splitPlugins = (definition, plugins, options) => {
   }
 }
 
-const computeStyleNames = (options) => {
-  let {mapStyleToProps} = options
+const computeStyleNames = (plugins, options) => {
+  const {globals} = plugins
   let childComponentNames = []
-  // User defined style property names
-  if (mapStyleToProps !== undefined) {
-    // Extract child component styles when a key is an object
-    let k, v
-    for (k in mapStyleToProps) {
-      v = mapStyleToProps[k]
-      if (isObject(v)) {
-        childComponentNames.push(k)
+  globals.forEach((plugin) => {
+    // Definition, eg: mapPropsToStyle
+    const value = options[plugin.name]
+    if (isObject(value)) {
+      for (let k in value) {
+        // Got a child object definition
+        // trigger creation of a corresponding
+        // style object
+        if (isObject(value[k])) {
+          if (!~childComponentNames.indexOf(k)) {
+            childComponentNames.push(k)
+          }
+        }
       }
     }
-  }
+  })
+
   options.allStyleObjectNames = [STYLE].concat(childComponentNames)
   options.childComponentNames = childComponentNames
 }
@@ -144,7 +150,7 @@ const computeStyleOptions = (registry, definition, config) => {
   // configuration option
   options.plugins = splitPlugins(definition, plugins, options)
 
-  computeStyleNames(options)
+  computeStyleNames(options.plugins, options)
 
   // computeStyleNames must be called first
   // so we have allStyleObjectNames
