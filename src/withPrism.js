@@ -17,18 +17,19 @@ const {
 
 const computeStyles = (
   {
+    definition,
+    options,
     context,
     props,
     state,
-    definition,
     mutableStyleValues,
     additionalProperties,
     childComponentNames,
-    attrName,
-    plugins}) => {
+    attrName}) => {
 
   const style = props[attrName]
-  const {config, options, registry, namespace, Name, Type} = definition
+  const {config, registry, namespace, Name, Type} = definition
+  const {plugins} = options
   const {styleSheet, colors, invariants} = registry
   const ns = new Namespace({namespace, typeName: Name})
 
@@ -54,38 +55,6 @@ const computeStyles = (
   let keys = config.availablePropertyNames.slice()
   const map = config.availablePropertyPlugins
 
-  // Build the map of child properties that we should put
-  // into extractedStyles so  that properties assigned to child
-  // components are not applied to the parent style
-  //const {mapStyleToProps, styleForceInclusion} = options
-  //const mappedChildProperties = []
-  //const mappedChildProperties = Object.keys(mapStyleToProps)
-    //.reduce((list, childName) => {
-        //const v = mapStyleToProps[childName]
-        //if (Array.isArray(v)) {
-          //const names = v.reduce((propNames, nm) => {
-            //const seen = (nm) => {
-              //return ~styleForceInclusion.indexOf(nm) || ~list.indexOf(nm) || ~propNames.indexOf(nm)
-            //}
-            //if (isString(nm)) {
-              //if (!seen(nm)) {
-                //propNames.push(nm)
-              //}
-            //} else if(isObject(nm)) {
-              //for (let z in nm) {
-                //if (!seen(z)) {
-                  //propNames.push(z)
-                //}
-              //}
-            //}
-            //return propNames
-          //}, [])
-          //// Flatten the array
-          //list = list.concat(names)
-        //}
-      //return list
-    //}, [])
-
   // Only run plugins when we have a defined property
   keys = keys.filter((propName) => {
     return (
@@ -93,15 +62,6 @@ const computeStyles = (
       (context && context[propName] !== undefined)
     )
   })
-
-  // We pass the computed plugins too
-  plugins = {
-    globals: plugins.globals,
-    property: {
-      keys: keys,
-      map: map,
-    }
-  }
 
   // Process plugins
   const pluginOptions = {
@@ -130,8 +90,7 @@ const computeStyles = (
     })
   }
 
-  //const before = plugins.globals.filter((plugin) => !plugin.isAfter)
-  //const after = plugins.globals.filter((plugin) => plugin.isAfter)
+  //console.log(`Compute ${definition.Name}: ${plugins.globals.length}`)
 
   // Run before global plugins
   runGlobalPlugins(plugins.globals)
@@ -146,11 +105,6 @@ const computeStyles = (
         pluginOptions.prop = props[propName]
         const style = plugin.func(pluginOptions)
         if (style) {
-          // This handles ignoring properties that are being
-          // routed to child components
-          //if (~mappedChildProperties.indexOf(plugin.name)) {
-            //return
-          //}
           sheets = sheets.concat(style)
         }
       }
@@ -186,7 +140,6 @@ const computeStyles = (
       //runPropertyPlugins(keys, expansions)
     }
     return options.flat ? flat : [flat]
-    //return [flat]
   }
 
   if (options.flat) {
@@ -195,7 +148,6 @@ const computeStyles = (
 
   return sheets
 }
-
 
 // High order component wrapper
 const withPrism = (Stylable, definition) => {
@@ -234,14 +186,14 @@ const withPrism = (Stylable, definition) => {
       }
     }
 
-    processStylePlugins (props, testFunc = () => true) {
+    processStylePlugins (props) {
       const {registry, options, Type} = definition
       const {childComponentNames} = options
-      const {plugins} = options
       const {styleValues} = this.state
       const {state, context} = this
 
       let mutableStyleValues = Object.assign({}, styleValues)
+      console.log('component :' + this.allStyleObjectNames)
       this.allStyleObjectNames.forEach((name) => {
         mutableStyleValues[name] = []
       })
@@ -251,6 +203,7 @@ const withPrism = (Stylable, definition) => {
       const compute = (attrName) => {
         const computedStyle = computeStyles(
           {
+            options,
             context,
             props,
             state,
@@ -258,7 +211,6 @@ const withPrism = (Stylable, definition) => {
             definition,
             attrName,
             mutableStyleValues,
-            plugins,
             additionalProperties,
             childComponentNames
           })
@@ -277,11 +229,8 @@ const withPrism = (Stylable, definition) => {
     // So that changes to style properties are
     // reflected in the stylable component
     componentWillReceiveProps (props) {
-      this.processStylePlugins(props, ({attrName}) => {
-        // TODO: proper invalidation
-        //return props[attrName] && this.props[attrName]
-        return true
-      })
+      // TODO: proper invalidation
+      this.processStylePlugins(props)
     }
 
     componentWillMount () {

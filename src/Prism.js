@@ -9,6 +9,7 @@ import registerComponent from './registerComponent'
 
 import classNamePlugin from './className'
 import mapPropsToStylePlugin from './mapPropsToStyle'
+import mapStyleToPropsPlugin from './mapStyleToProps'
 
 import extendedPropertyPlugins from './extendedPropertyPlugins'
 import experimentalPlugins from './experimentalPlugins'
@@ -35,6 +36,7 @@ const Configuration = {
   processors: [],
   className: true,
   mapPropsToStyle: true,
+  mapStyleToProps: true,
   colorNames: false,
   textTransform: false,
   sizes: {
@@ -128,6 +130,10 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.mapPropsToStyle) {
     plugins.push(mapPropsToStylePlugin)
+  }
+
+  if (config.mapStyleToProps) {
+    plugins.push(mapStyleToPropsPlugin)
   }
 
   if (config.extendedProperties) {
