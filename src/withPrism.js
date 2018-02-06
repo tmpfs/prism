@@ -20,7 +20,6 @@ const computeStyles = (
     context,
     props,
     state,
-    //sheets,
     definition,
     mutableStyleValues,
     additionalProperties,
@@ -62,32 +61,33 @@ const computeStyles = (
   // into extractedStyles so  that properties assigned to child
   // components are not applied to the parent style
   const {mapStyleToProps, styleForceInclusion} = options
-  const mappedChildProperties = Object.keys(mapStyleToProps)
-    .reduce((list, childName) => {
-        const v = mapStyleToProps[childName]
-        if (Array.isArray(v)) {
-          const names = v.reduce((propNames, nm) => {
-            const seen = (nm) => {
-              return ~styleForceInclusion.indexOf(nm) || ~list.indexOf(nm) || ~propNames.indexOf(nm)
-            }
-            if (isString(nm)) {
-              if (!seen(nm)) {
-                propNames.push(nm)
-              }
-            } else if(isObject(nm)) {
-              for (let z in nm) {
-                if (!seen(z)) {
-                  propNames.push(z)
-                }
-              }
-            }
-            return propNames
-          }, [])
-          // Flatten the array
-          list = list.concat(names)
-        }
-      return list
-    }, [])
+  const mappedChildProperties = []
+  //const mappedChildProperties = Object.keys(mapStyleToProps)
+    //.reduce((list, childName) => {
+        //const v = mapStyleToProps[childName]
+        //if (Array.isArray(v)) {
+          //const names = v.reduce((propNames, nm) => {
+            //const seen = (nm) => {
+              //return ~styleForceInclusion.indexOf(nm) || ~list.indexOf(nm) || ~propNames.indexOf(nm)
+            //}
+            //if (isString(nm)) {
+              //if (!seen(nm)) {
+                //propNames.push(nm)
+              //}
+            //} else if(isObject(nm)) {
+              //for (let z in nm) {
+                //if (!seen(z)) {
+                  //propNames.push(z)
+                //}
+              //}
+            //}
+            //return propNames
+          //}, [])
+          //// Flatten the array
+          //list = list.concat(names)
+        //}
+      //return list
+    //}, [])
 
   // Only run plugins when we have a defined property
   keys = keys.filter((propName) => {
@@ -159,9 +159,9 @@ const computeStyles = (
         if (style) {
           // This handles ignoring properties that are being
           // routed to child components
-          if (~mappedChildProperties.indexOf(plugin.name)) {
-            return
-          }
+          //if (~mappedChildProperties.indexOf(plugin.name)) {
+            //return
+          //}
           sheets = sheets.concat(style)
         }
       }
@@ -225,7 +225,8 @@ const withPrism = (Stylable, definition) => {
       const {options} = definition
       // Class level processing options
       const state = {
-        styleValues: {}
+        styleValues: {},
+        additionalProperties: {}
       }
 
       this.childComponentNames = options.childComponentNames

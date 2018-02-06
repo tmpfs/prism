@@ -1,5 +1,6 @@
 import {Rule} from './Processor'
 
+// TODO: move this to prism-components
 export default new Rule(
   'tintColor',
   ({move, propName, propValue, colors}) => {
