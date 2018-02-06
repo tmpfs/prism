@@ -1,31 +1,48 @@
 ## Configuration
 
-You can pass a configuration object as the second argument to `Prism.configure()` to modify the plugins.
+You can pass a configuration object as the second argument to `Prism.configure()` to modify the library configuration.
 
-* `plugins` array of plugin definitions to use, overrides the system plugins.
-* `extendedProperties` enables the extended style property plugins.
-* `additionalPlugins` array of plugin definitions to append to the system plugins.
-* `disabledPlugins` array of string plugin names to disable.
-* `experimentalPlugins` enables the experimental plugins.
-* `colorNames` enables the color names preprocessor.
-* `textTransform` enables the text transform preprocessor (requires experimental plugins).
-* `debug` print configured plugins.
-
-### Default Plugins
-
-When no configuration object is given support for the `className` property is enabled, a `colorNames` plugin to translate from custom named colors and the global plugins to support mapping properties to styles.
+When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles.
 
 This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
 
-### Extended Plugins
 
-To enable the [extended style properties](#extended-style-properties) use `extendedProperties`.
+* `className` use the plugin that processes the `className` property, default is `true`.
+* `mapPropsToStyle` use the `mapPropsToStyle` plugin, default is `true`.
+* `extendedProperties` enables the extended style property plugins.
+* `experimentalPlugins` enables the experimental plugins.
+* `colorNames` enables the color names preprocessor.
+* `textTransform` enables the text transform preprocessor (requires experimental plugins).
+* `additionalPlugins` array of plugin definitions to append to the system plugins.
+* `disabledPlugins` array of string plugin names to disable.
+* `plugins` array of plugin definitions to use, overrides the system plugins.
+* `debug` print configured plugins.
+
+For example to use the [extended style properties](#extended-style-properties) and enable color name lookup:
 
 ```javascript
-Prism.configure(registry, {extendedProperties: true})
+Prism.configure(registry, {extendedProperties: true, colorNames: true})
 ```
 
-### Custom Plugins
+To use `textTransform` you need to enable `experimentalPlugins`:
+
+```javascript
+Prism.configure(
+  registry,
+  {
+    experimentalPlugins: true,
+    textTransform: true
+  }
+)
+```
+
+### Plugin Configuration
+
+#### plugins
+
+Use your own `plugins` array when you want to specify a list of plugins to use *before* any plugins enabled using the configuration flags, you can disable `className` and `mapPropsToStyle` etc to use only the custom plugins you specify.
+
+#### additionalPlugins
 
 Use the `additionalPlugins` option to add custom functionality to all your styled components, see [plugins](#plugins) for information on defining custom plugins.
 
@@ -46,15 +63,7 @@ Prism.configure(
 )
 ```
 
-### Disable System Plugins
-
-You can disable all system plugins with an empty array, inline `style` attributes are still processed and available to your component:
-
-```javascript
-Prism.configure(registry, {plugins: []})
-```
-
-### Remove Plugins
+#### disabledPlugins
 
 You may want to remove plugins you don't need or if you find a property name collision:
 

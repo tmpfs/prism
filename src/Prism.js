@@ -31,7 +31,7 @@ const {
   } = util
 
 const Configuration = {
-  plugins: null,
+  plugins: [],
   processors: [],
   className: true,
   mapPropsToStyle: true,
@@ -268,25 +268,23 @@ Prism.configure = (registry, config = {}) => {
 
   config = Object.assign({}, Configuration, config)
 
-  let systemPlugins = []
-
-  if (config.mapPropsToStyle) {
-    systemPlugins = systemPlugins.concat(mapPropsToStylePlugin)
-  }
+  let plugins = config.plugins.slice()
 
   if (config.className) {
-    systemPlugins = systemPlugins.concat(classNamePlugin)
+    plugins = plugins.concat(classNamePlugin)
+  }
+
+  if (config.mapPropsToStyle) {
+    plugins = plugins.concat(mapPropsToStylePlugin)
   }
 
   if (config.extendedProperties) {
-    systemPlugins = systemPlugins.concat(extendedPropertyPlugins)
-  }
-  if (config.experimentalPlugins) {
-    systemPlugins = systemPlugins.concat(experimentalPlugins)
+    plugins = plugins.concat(extendedPropertyPlugins)
   }
 
-  let plugins = Array.isArray(config.plugins) ?
-    config.plugins : systemPlugins
+  if (config.experimentalPlugins) {
+    plugins = plugins.concat(experimentalPlugins)
+  }
 
   // Register the plugins
   plugins = registerPlugins(plugins)
