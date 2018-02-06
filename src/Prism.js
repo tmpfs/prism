@@ -214,7 +214,6 @@ const registerComponentPropTypes = (definition, plugins, allStyleObjectNames) =>
     // Automatic propTypes for style, labelStyle, imageStyle etc.
     Type.propTypes[name] = propTypes.style
   })
-
 }
 
 const splitPlugins = (plugins, options) => {
@@ -224,7 +223,6 @@ const splitPlugins = (plugins, options) => {
     })
   const propertyPlugins = plugins.filter(
     (plugin) => !plugin.isGlobal)
-
   return {
     property: propertyPlugins,
     globals: globalPlugins
@@ -241,18 +239,25 @@ const registerComponent = (registry, definition, config) => {
     options = styleOptions(registry)
   }
 
+  if (options.registry && !(options.registry instanceof StyleRegistry)) {
+    throw new Error('Prism expects the registry option to be a StyleRegistry')
+  }
+
   // Merge component-specific style registries
-  if ((options.registry instanceof StyleRegistry)) {
+  if (options.registry) {
     registry.assign(options.registry)
   }
 
   registerComponentPlugins(registry, definition, options)
 
-  options.plugins = splitPlugins(plugins, options)
-
   // registerComponentPlugins must be called first
   // so we have allStyleObjectNames
   registerComponentPropTypes(definition, plugins, options.allStyleObjectNames)
+
+  // Split plugins and filter global plugins
+  // to those where the options have the corresponding
+  // configuration option
+  options.plugins = splitPlugins(plugins, options)
 
   definition.options = options
   definition.config = config
@@ -370,14 +375,24 @@ Prism.configure = (registry, config = {}) => {
       checkRequirements(config, requirements, definition)
     }
 
-    if (config.debug) {
-      console.log(
-        `Prism using component ${Name} as ${NewType.displayName}`)
-    }
-
     // Experimental plugins require withContext
     if (config.experimentalPlugins) {
       withContext(definition)
+    }
+
+    if (config.debug) {
+      console.log(
+        `${NewType.displayName} from ${Name}`)
+      const {plugins} = definition.options
+      // Global plugins are only enabled when the component
+      // specifies a corresponding configuration so it's useful
+      // to see which are enabled
+      if (plugins.globals.length) {
+        plugins.globals.forEach((p) => {
+          console.log(
+            ` + plugin: "${p.name}"`)
+        })
+      }
     }
   })
 
