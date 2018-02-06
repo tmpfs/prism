@@ -43,22 +43,24 @@ const splitPlugins = (definition, plugins, options) => {
 const computeStyleNames = (plugins, options) => {
   const {globals} = plugins
   let childComponentNames = []
-  globals.forEach((plugin) => {
-    // Definition, eg: mapPropsToStyle
-    const value = options[plugin.name]
-    if (isObject(value)) {
-      for (let k in value) {
-        // Got a child object definition
-        // trigger creation of a corresponding
-        // style object
-        if (isObject(value[k])) {
-          if (!~childComponentNames.indexOf(k)) {
-            childComponentNames.push(k)
+  globals
+    .filter((plugin) => plugin.options.definesChildren)
+    .forEach((plugin) => {
+      // Definition, eg: mapPropsToStyle
+      const value = options[plugin.name]
+      if (isObject(value)) {
+        for (let k in value) {
+          // Got a child object definition
+          // trigger creation of a corresponding
+          // style object
+          if (isObject(value[k])) {
+            if (!~childComponentNames.indexOf(k)) {
+              childComponentNames.push(k)
+            }
           }
         }
       }
-    }
-  })
+    })
 
   options.allStyleObjectNames = [STYLE].concat(childComponentNames)
   options.childComponentNames = childComponentNames
