@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 
 import StyleRegistry from './StyleRegistry'
+import {Rule, processor} from './Processor'
+
 import Namespace from './Namespace'
 import Plugin from './Plugin'
 import Plugins from './DefaultPlugins'
+import DefaultPropertyPlugins from './DefaultPropertyPlugins'
 import ExtendedPropertyPlugins from './ExtendedPropertyPlugins'
 import ExperimentalPlugins from './ExperimentalPlugins'
-import {Rule, processor} from './Processor'
 
 import propTypes from './propTypes'
 import withPrism from './withPrism'
@@ -273,14 +275,21 @@ Prism.configure = (registry, config = {}) => {
     throw new Error('Prism expects a StyleRegistry for configure()')
   }
 
-  let systemPlugins = Plugins.slice()
-
-  if (config.experimentalPlugins) {
-    systemPlugins = systemPlugins.concat(ExperimentalPlugins)
+  if (config.plugins !== undefined && !Array.isArray(config.plugins)) {
+    throw new Error('Prism expects an array for configuration plugins')
   }
 
+  if (config.processors !== undefined && !Array.isArray(config.processors)) {
+    throw new Error('Prism expects an array for configuration processors')
+  }
+
+  let systemPlugins = Plugins.slice()
+  systemPlugins = systemPlugins.concat(DefaultPropertyPlugins)
   if (config.extendedProperties) {
     systemPlugins = systemPlugins.concat(ExtendedPropertyPlugins)
+  }
+  if (config.experimentalPlugins) {
+    systemPlugins = systemPlugins.concat(ExperimentalPlugins)
   }
 
   let plugins = Array.isArray(config.plugins) ? config.plugins : systemPlugins
