@@ -11,8 +11,8 @@ export default new Plugin(
       // Iterating a child object definition, eg: labelStyle
       map = map[attrName]
     }
-    const sheets = []
 
+    const sheets = []
     // Add a state style to the list of style sheets
     const state = (stateName) => {
       // Returned a string, trigger :hover syntax

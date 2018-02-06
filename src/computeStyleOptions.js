@@ -15,69 +15,6 @@ const mergeStyleRegistry = (registry, options) => {
   }
 }
 
-const splitPlugins = (definition, plugins, options) => {
-  const globalPlugins = plugins
-    .filter((plugin) => {
-      if (plugin.isGlobal) {
-        // Global plugins that always execute
-        if (!plugin.requireOptions) {
-          return plugin
-        }
-
-        // Plugin requires a corresponding option
-        // in the target component options
-        if (plugin.requireOptions && options.hasOwnProperty(plugin.name)) {
-          return plugin
-        }
-      }
-    })
-
-  const flatPlugins = globalPlugins
-    .filter((plugin) => plugin.options.flatStyles)
-  const nonFlatPlugins = globalPlugins
-    .filter((plugin) => !plugin.options.flatStyles)
-
-  //console.log(nonFlatPlugins.length)
-  //console.log(globalPlugins.length)
-
-  // TODO: allow options to disable plugins for the component?
-  const propertyPlugins = plugins.filter((plugin) => plugin.propType !== undefined)
-  return {
-    property: propertyPlugins,
-    globals: globalPlugins,
-    //globals: nonFlatPlugins,
-    flat: flatPlugins
-  }
-}
-
-const computeStyleNames = (plugins, options) => {
-  const {globals} = plugins
-  let childComponentNames = []
-  globals
-    .filter((plugin) => plugin.options.definesChildren)
-    .forEach((plugin) => {
-      // Definition, eg: mapPropsToStyle
-      const value = options[plugin.name]
-      if (isObject(value)) {
-        for (let k in value) {
-          // Got a child object definition
-          // trigger creation of a corresponding
-          // style object
-          if (isObject(value[k])) {
-            if (!~childComponentNames.indexOf(k)) {
-              childComponentNames.push(k)
-            }
-          }
-        }
-      }
-    })
-
-  //console.log(childComponentNames)
-
-  options.allStyleObjectNames = [STYLE].concat(childComponentNames)
-  options.childComponentNames = childComponentNames
-}
-
 const mergeStatic = (definition, plugins, options) => {
   const {Type} = definition
   // Plugins have not been split yet
@@ -111,6 +48,65 @@ const mergeStatic = (definition, plugins, options) => {
       }
     }
   })
+}
+
+const splitPlugins = (definition, plugins, options) => {
+  const globals = plugins
+    .filter((plugin) => {
+      if (plugin.isGlobal) {
+        // Global plugins that always execute
+        if (!plugin.requireOptions) {
+          return plugin
+        }
+        // Plugin requires a corresponding option
+        // in the target component options
+        if (plugin.requireOptions
+            && options.hasOwnProperty(plugin.name)) {
+          return plugin
+        }
+      }
+    })
+
+  const flatPlugins = globals.filter((plugin) => plugin.isFlat)
+  const nonFlatPlugins = globals.filter((plugin) => !plugin.isFlat)
+
+  // TODO: allow options to disable plugins for the component?
+  const propertyPlugins = plugins.filter((plugin) => plugin.propType !== undefined)
+  return {
+    property: propertyPlugins,
+    //globals: globals,
+    globals: nonFlatPlugins,
+    flat: flatPlugins
+  }
+}
+
+const computeStyleNames = (plugins, options) => {
+  const {globals} = plugins
+  let childComponentNames = []
+  globals
+    .filter((plugin) => plugin.options.definesChildren)
+    .forEach((plugin) => {
+      // Definition, eg: mapPropsToStyle
+      const value = options[plugin.name]
+      if (isObject(value)) {
+        for (let k in value) {
+          // Got a child object definition
+          // trigger creation of a corresponding
+          // style object
+          if (isObject(value[k])) {
+            if (!~childComponentNames.indexOf(k)) {
+              childComponentNames.push(k)
+            }
+          }
+        }
+      }
+    })
+
+  //console.log(childComponentNames)
+
+  const allStyleObjectNames = [STYLE].concat(childComponentNames)
+  return {allStyleObjectNames, childComponentNames}
+  //options.childComponentNames = childComponentNames
 }
 
 const mergePropTypes = (definition, plugins, allStyleObjectNames) => {
@@ -164,7 +160,11 @@ const computeStyleOptions = (registry, definition, config) => {
   // configuration option
   options.plugins = splitPlugins(definition, plugins, options)
 
-  computeStyleNames(options.plugins, options)
+  const {allStyleObjectNames, childComponentNames} =
+    computeStyleNames(options.plugins, options)
+
+  options.allStyleObjectNames = allStyleObjectNames
+  options.childComponentNames = childComponentNames
 
   // computeStyleNames must be called first
   // so we have allStyleObjectNames

@@ -7,25 +7,12 @@ import SimpleLabel from './SimpleLabel'
 
 class ChildStateStyle extends Component {
 
-  static styleOptions = () => {
-    return {
-      mapStyleToProps: {
-        titleStyle: {
-          color: ({prop}) => prop
-        },
-        numberStyle: {
-          color: ({prop}) => prop
-        }
-      },
-      mapPropsToStyle: {
-        size: ({prop, state}) => state(prop),
-        //titleStyle: {
-          //color: ({prop}) => prop
-        //},
-        //numberStyle: {
-          //color: ({prop}) => prop
-        //}
-      }
+  static mapPropsToStyle = {
+    titleStyle: {
+      size: ({state, prop}) => state(prop)
+    },
+    numberStyle: {
+      size: ({state, prop}) => state(prop)
     }
   }
 

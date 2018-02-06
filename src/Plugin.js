@@ -21,6 +21,10 @@ class Plugin  {
 
     this.options = options
   }
+
+  get isFlat () {
+    return this.options.flatStyles
+  }
 }
 
 export default Plugin

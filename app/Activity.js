@@ -5,21 +5,13 @@ import {Prism} from '../src/Prism'
 
 class Activity extends Component {
 
-  //static styleOptions = () => {
-    //return {
-      //mapStyleToProps: {
-        //activityIndicator: []
-      //}
-    //}
-  //}
-
-  //static mapStyleToProps = {
-    //tintColor: ({prop}) => {
-      //console.log('mapStyleToProps')
-      //console.log(prop)
-      //return prop
-    //}
-  //}
+  static mapStyleToProps = {
+    tintColor: ({prop}) => {
+      console.log('mapStyleToProps for tintColor on Activity')
+      console.log(prop)
+      return prop
+    }
+  }
 
   static propTypes = {
     large: PropTypes.bool,

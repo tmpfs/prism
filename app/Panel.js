@@ -12,9 +12,11 @@ class Panel extends Component {
     //bodyStyle: ['background']
   //}
   static mapPropsToStyle = {
+    headerStyle: {},
     labelStyle: {
       color: ({prop}) => prop
     },
+    bodyStyle: {}
     //bodyStyle: {
       //color: ({prop}) => {
         //return {backgroundColor: prop}
@@ -22,18 +24,18 @@ class Panel extends Component {
     //}
   }
 
-  static mapStyleToProps = {
-    labelStyle: {
-      color: () => true
-    },
-    headerStyle: {
-      space: () => 'marginBottom',
-      bg: () => 'backgroundColor'
-    },
-    bodyStyle: {
-      background: () => 'backgroundColor'
-    }
-  }
+  //static mapStyleToProps = {
+    //labelStyle: {
+      //color: () => true
+    //},
+    //headerStyle: {
+      //space: () => 'marginBottom',
+      //bg: () => 'backgroundColor'
+    //},
+    //bodyStyle: {
+      //background: () => 'backgroundColor'
+    //}
+  //}
 
   static propTypes = {
     label: PropTypes.string,
