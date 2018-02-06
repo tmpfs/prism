@@ -1,6 +1,6 @@
 import Plugin from './Plugin'
 import util from './util'
-const {isString, isFunction} = util
+const {isString, isFunction, isObject} = util
 
 export default new Plugin(
   'mapPropsToStyle',
@@ -41,5 +41,16 @@ export default new Plugin(
     }
     return sheets
   },
-  {requireOptions: true}
+  {
+    requireOptions: true,
+    validator: (computed) => {
+      console.log('VALIDATOR CALLED')
+      if (!isObject(computed)) {
+        throw new Error(
+          `Prism you declared ${name} as an invalid type, expected object ` +
+          `but got ${typeof(computed)}`
+        )
+      }
+    }
+  }
 )

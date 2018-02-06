@@ -18,6 +18,8 @@ class Plugin  {
     // declares a corresponding configuration in the
     // object returned by styleOptions()
     this.requireOptions = options.requireOptions
+
+    this.options = options
   }
 }
 

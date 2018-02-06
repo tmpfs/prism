@@ -33,6 +33,8 @@ class ComponentDefinition {
     }
     this.requirements = requirements
 
+    this.initOptions = initOptions
+
     // This is the HOC wrapper, injected later
     this.NewType = null
 
