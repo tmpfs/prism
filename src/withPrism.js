@@ -17,7 +17,7 @@ const computeStyles = (
   }) => {
 
   const style = props[attrName]
-  const {config, registry, options, ns, Name, Type} = definition
+  const {config, registry, options, ns, Name} = definition
   const {plugins} = options
   const {styleSheet, colors, invariants} = registry
   const isPrimaryStyle = (attrName === 'style')
@@ -152,7 +152,7 @@ const withPrism = (Stylable, definition) => {
     }
 
     processStylePlugins (props) {
-      const {registry, options, Type} = definition
+      const {registry, options} = definition
       const {state, context} = this
       const {allStyleObjectNames} = options
       let styleAttributes = {}
