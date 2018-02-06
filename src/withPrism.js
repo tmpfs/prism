@@ -17,7 +17,7 @@ const computeStyles = (
   }) => {
 
   const style = props[attrName]
-  const {config, registry, options, ns, Name} = definition
+  const {config, registry, options, ns} = definition
   const {plugins} = options
   const {styleSheet, colors, invariants} = registry
   const isPrimaryStyle = (attrName === 'style')
@@ -68,7 +68,6 @@ const computeStyles = (
 
   const runGlobalPlugins = (globals) => {
     globals.forEach((plugin) => {
-      pluginOptions.plugin = plugin
       const style = plugin.func(pluginOptions)
       if (style) {
         sheets = sheets.concat(style)
@@ -86,10 +85,8 @@ const computeStyles = (
     keys.forEach((propName) => {
       const plugin = map[propName]
       if (plugin) {
-        pluginOptions.plugin = plugin
-        pluginOptions.propName = propName
-        pluginOptions.prop = props[propName]
-        const style = plugin.func(pluginOptions)
+        const prop = props[propName]
+        const style = plugin.func({...pluginOptions, prop, propName})
         if (style) {
           sheets = sheets.concat(style)
         }
