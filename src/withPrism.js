@@ -119,7 +119,7 @@ const computeStyles = (
     styleSheet,
     options,
     colors,
-    plugins,
+    //plugins,
     childComponentNames,
     attrName
   }
