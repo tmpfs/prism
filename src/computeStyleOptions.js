@@ -1,3 +1,4 @@
+import StyleRegistry from './StyleRegistry'
 import propTypes from './propTypes'
 import util from './util'
 const {isFunction, isObject} = util
