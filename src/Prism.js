@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 
+import ComponentDefinition from './ComponentDefinition'
 import StyleRegistry from './StyleRegistry'
 import {Rule, processor} from './Processor'
 import Namespace from './Namespace'
@@ -67,29 +68,17 @@ const registerPlugin = (plugin) => {
 //
 // Likely the registry has not been set yet.
 const Prism = (Type, namespace = '', requirements = null) => {
-  const Name = Type.displayName || Type.name
-
-  let styleOptions = Type.styleOptions
-  if (styleOptions && !isFunction(styleOptions)) {
-    throw new Error(
-      `Prism styleOptions for ${Name} must be a function`)
-  }
-
-  if (namespace && !isString(namespace)) {
-    throw new Error(
-      `Prism namespace for ${Name} is not a string, got type ${typeof(namespace)}`)
-  }
-
-  const ns = new Namespace({namespace, typeName: Name})
-  const definition = {Type, Name, styleOptions, ns, requirements}
-  definition.NewType = withPrism(Type, definition)
-
   if (Prism.registry) {
     throw new Error(
       `Prism you should not call Prism() once Prism.configure() has been called, ` +
       `sorry about that. Maybe later we will support this but for the moment ` +
       `the behaviour is undefined so register components first.`)
   }
+
+
+  const definition = new ComponentDefinition(Type, {namespace, requirements})
+
+  definition.NewType = withPrism(Type, definition)
 
   // Collect components before a registry is available,
   // these will be registered when Prism.configure() is called
