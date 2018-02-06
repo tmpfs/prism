@@ -14,11 +14,12 @@ import experimentalPlugins from './experimentalPlugins'
 import propTypes from './propTypes'
 import withPrism from './withPrism'
 import withContext from './withContext'
-import util from './util'
 
 import colorNames from './colorNames'
 import tintColor from './tintColor'
 import textTransform from './textTransform'
+
+import util from './util'
 
 const STYLE = 'style'
 
@@ -125,14 +126,16 @@ const Prism = (Type, namespace = '', requirements = null) => {
   const NewType = withPrism(Type, definition)
   definition.NewType = NewType
 
-  if (!Prism.registry) {
-    // Collect components before a registry is available,
-    // these will be registered when Prism.configure() is called
-    Prism.components.push(definition)
-  } else {
-    // Already configured so register directly
-    registerComponent(Prism.registry, definition, Prism.config)
+  if (Prism.registry) {
+    throw new Error(
+      `Prism you should not call Prism() once Prism.configure() has been called, ` +
+      `sorry about that. Maybe later we will support this but for the moment ` +
+      `the behaviour is undefined so register components first.`)
   }
+
+  // Collect components before a registry is available,
+  // these will be registered when Prism.configure() is called
+  Prism.defined.push(definition)
 
   return NewType
 }
@@ -240,12 +243,8 @@ const registerComponent = (registry, definition, config) => {
 
   definition.config = config
   definition.registry = registry
-
-  Prism.defined.push(definition)
 }
 
-// This keeps track of components initialized before configure()
-Prism.components = []
 // All registered component definitions
 Prism.defined = []
 
@@ -329,15 +328,10 @@ Prism.configure = (registry, config = {}) => {
     })
   }
 
-  Prism.config = config
-
   // Ensure we use the computed plugins
-  Prism.config.plugins = plugins
+  config.plugins = plugins
 
-  // Components exported before the registry was configured
-  Prism.components.forEach((definition) => {
-    registerComponent(registry, definition, Prism.config)
-  })
+  Prism.config = config
 
   const checkRequirements = (config, requirement, definition) => {
     const {registry} = definition
@@ -354,14 +348,22 @@ Prism.configure = (registry, config = {}) => {
 
   // Iterate all defined components
   Prism.defined.forEach((definition) => {
+
+    // Register the component definition
+    registerComponent(registry, definition, config)
+
+    // Check component requirements
     const {requirements, Name, NewType} = definition
     if (isFunction(requirements)) {
       checkRequirements(config, requirements, definition)
     }
+
     if (config.debug) {
       console.log(
         `Prism using component ${Name} as ${NewType.displayName}`)
     }
+
+    // Experimental plugins require withContext
     if (config.experimentalPlugins) {
       withContext(definition)
     }
