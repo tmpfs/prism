@@ -6,16 +6,13 @@ import {processor} from './Processor'
 
 const computeStyles = (pluginOptions) => {
   const {
-    definition,
-    context,
+    options,
     props,
-    state,
     attrName,
     isPrimaryStyle,
     propertyPlugins,
     additionalProperties} = pluginOptions
 
-  const {config, registry, options, ns} = definition
   const {plugins} = options
 
   let sheets = []
