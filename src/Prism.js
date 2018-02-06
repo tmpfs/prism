@@ -348,8 +348,6 @@ Prism.configure = (registry, config = {}) => {
   // Ensure we use the computed plugins
   config.plugins = plugins
 
-  Prism.config = config
-
   const checkRequirements = (config, requirement, definition) => {
     const {registry} = definition
     const err = requirement({registry, config})
