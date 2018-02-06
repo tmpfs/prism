@@ -1,25 +1,21 @@
 import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
-
 import propTypes from './propTypes'
 import withContext from './withContext'
-
 import {processor} from './Processor'
 
-const computeStyles = (
-  {
+const computeStyles = (pluginOptions) => {
+  const {
     definition,
     context,
     props,
     state,
-    additionalProperties,
-    attrName
-  }) => {
+    attrName,
+    isPrimaryStyle,
+    additionalProperties} = pluginOptions
 
   const {config, registry, options, ns} = definition
   const {plugins} = options
-  const {styleSheet, colors} = registry
-  const isPrimaryStyle = (attrName === 'style')
 
   let sheets = []
 
@@ -35,22 +31,6 @@ const computeStyles = (
     )
   })
 
-  // Process plugins
-  const pluginOptions = {
-    context,
-    props,
-    state,
-    ns,
-    config,
-    definition,
-    registry,
-    styleSheet,
-    options,
-    colors,
-    isPrimaryStyle,
-    attrName
-  }
-
   const runGlobalPlugins = (globals) => {
     globals.forEach((plugin) => {
       const style = plugin.func(pluginOptions)
@@ -59,8 +39,6 @@ const computeStyles = (
       }
     })
   }
-
-  //console.log(`Compute ${definition.Name}: ${plugins.globals.length}`)
 
   // Run before global plugins
   runGlobalPlugins(plugins.globals)
@@ -134,6 +112,26 @@ const withPrism = (Stylable, definition) => {
       }
     }
 
+    getPluginOptions (attrName, props, extras) {
+      const {config, registry, options, ns} = definition
+      const {state, context} = this
+      const isPrimaryStyle = (attrName === 'style')
+      return {
+        ...registry,
+        config,
+        definition,
+        options,
+        context,
+        props,
+        state,
+        ns,
+        registry,
+        isPrimaryStyle,
+        attrName,
+        ...extras
+      }
+    }
+
     processStylePlugins (props) {
       const {registry, options} = definition
       const {state, context} = this
@@ -143,20 +141,14 @@ const withPrism = (Stylable, definition) => {
         styleAttributes[name] = []
       })
 
+      // Allows property injection via the plugin system
       const additionalProperties = {}
 
       // Compute style properties
       allStyleObjectNames.forEach((attrName) => {
-        const computedStyle = computeStyles(
-          {
-            definition,
-            context,
-            props,
-            state,
-            attrName,
-            additionalProperties
-          })
-        styleAttributes[attrName] = computedStyle
+        const pluginOptions = this.getPluginOptions(
+          attrName, props, {additionalProperties})
+        styleAttributes[attrName] = computeStyles(pluginOptions)
       })
 
       // Update the state so styles are reactive
