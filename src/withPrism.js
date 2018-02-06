@@ -129,7 +129,8 @@ const withPrism = (Stylable, definition) => {
       })
 
       // Allows property injection via the plugin system
-      const additionalProperties = Object.assign({}, props)
+      //const additionalProperties = Object.assign({}, props)
+      const additionalProperties = {}
 
       // Compute style properties
       allStyleObjectNames.forEach((attrName) => {
@@ -157,11 +158,10 @@ const withPrism = (Stylable, definition) => {
       // Preferring children in the state lets children
       // be rewritten (textTransform support)
       const children = this.state.children || this.props.children
-
-          //{...this.props}
       return (
         <Stylable
           ref='stylable'
+          {...this.props}
           {...this.state.additionalProperties}
           {...this.state.styleAttributes}>
           {children}

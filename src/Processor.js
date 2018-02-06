@@ -56,7 +56,6 @@ class Processor {
     const expansions = {}
     const hasOptions = pluginOptions !== undefined
     let expanded = false
-
     const move = (newValue, newPropName, expand = false) => {
       newPropName = newPropName || propName
       if (expand) {

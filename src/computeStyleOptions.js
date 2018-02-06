@@ -31,8 +31,6 @@ const splitPlugins = (definition, plugins, options) => {
       }
     })
 
-  //console.log(`Adding global plugins (${definition.Name}) with length ${globalPlugins.length}`)
-
   // TODO: allow options to disable plugins for the component?
   const propertyPlugins = plugins.filter((plugin) => plugin.propType !== undefined)
   return {

@@ -37,6 +37,8 @@ class Activity extends Component {
 
     const activitySize = large ? 'large' : 'small'
 
+    console.log('Final tint color: ' + tintColor)
+
     // Default is no label
     let activity = (
       <ActivityIndicator

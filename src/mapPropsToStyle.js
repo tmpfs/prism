@@ -6,9 +6,6 @@ export default new Plugin(
   'mapPropsToStyle',
   ({props, options, registry, ns, attrName, styleSheet}) => {
     const {mapPropsToStyle} = options
-
-    //console.log('mapPropsToStyle: ' + Object.keys(mapPropsToStyle))
-
     const sheets = []
     for (let k in mapPropsToStyle) {
       const prop = props[k]
