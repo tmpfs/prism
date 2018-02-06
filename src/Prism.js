@@ -68,6 +68,9 @@ const registerPlugins = (plugins) => {
 }
 
 const registerPlugin = (plugin) => {
+  if ((plugin instanceof Plugin)) {
+    return plugin
+  }
   // Named plugin as array
   if (Array.isArray(plugin)) {
     const isGlobal = plugin.length >=2 &&
