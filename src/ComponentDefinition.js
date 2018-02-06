@@ -46,6 +46,21 @@ class ComponentDefinition {
     // Reference to the computed configuration
     this.config = null
   }
+
+  checkRequirements () {
+    const {config, registry, requirements} = this
+    if (requirements) {
+      const err = requirements({registry, config})
+      if (err !== undefined) {
+        if ((err instanceof Error)) {
+          throw err
+        } else if(isString(err)) {
+          throw new Error(`Prism component requirements not met: ${err}`)
+        }
+      }
+    }
+  }
+
 }
 
 export default ComponentDefinition

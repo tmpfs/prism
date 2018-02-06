@@ -22,13 +22,6 @@ import textTransform from './textTransform'
 // ANOMALY: should not be here
 import tintColor from './tintColor'
 
-import util from './util'
-
-const {
-  isObject,
-  isFunction,
-  isString} = util
-
 const Configuration = {
   plugins: [],
   processors: [],
@@ -175,31 +168,15 @@ Prism.configure = (registry, config = {}) => {
   // Ensure we use the computed plugins
   config.plugins = plugins
 
-  const checkRequirements = (config, requirement, definition) => {
-    const {registry} = definition
-    const err = requirement({registry, config})
-    if (err !== undefined) {
-      if ((err instanceof Error)) {
-        throw err
-      } else if(isString(err)) {
-        throw new Error(`Prism component requirements not met: ${err}`)
-      }
-    }
-  }
-
   // Iterate all defined components
   Prism.defined.forEach((definition) => {
     definition.config = config
     definition.registry = registry
-
     // Compute the component options (styleOptions)
     definition.options = computeStyleOptions(registry, definition, config)
 
     // Check component requirements
-    const {requirements} = definition
-    if (requirements) {
-      checkRequirements(config, requirements, definition)
-    }
+    definition.checkRequirements()
 
     // Experimental plugins require withContext
     if (config.experimentalPlugins) {
