@@ -3,26 +3,23 @@ import {StyleSheet} from 'react-native'
 
 import propTypes from './propTypes'
 import withContext from './withContext'
-import Namespace from './Namespace'
 
 import {processor} from './Processor'
 
 const computeStyles = (
   {
     definition,
-    options,
     context,
     props,
     state,
     additionalProperties,
-    attrName}) => {
+    attrName
+  }) => {
 
   const style = props[attrName]
-  const {config, registry, namespace, Name, Type} = definition
+  const {config, registry, options, ns, Name, Type} = definition
   const {plugins} = options
   const {styleSheet, colors, invariants} = registry
-  const ns = new Namespace({namespace, typeName: Name})
-
   const isPrimaryStyle = (attrName === 'style')
 
   let sheets = []
@@ -169,11 +166,10 @@ const withPrism = (Stylable, definition) => {
       allStyleObjectNames.forEach((attrName) => {
         const computedStyle = computeStyles(
           {
-            options,
+            definition,
             context,
             props,
             state,
-            definition,
             attrName,
             additionalProperties
           })
@@ -196,7 +192,7 @@ const withPrism = (Stylable, definition) => {
     }
 
     render () {
-      // Allowing children in the state lets children
+      // Preferring children in the state lets children
       // be rewritten (textTransform support)
       const children = this.state.children || this.props.children
       return (

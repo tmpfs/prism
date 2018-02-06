@@ -81,7 +81,9 @@ const Prism = (Type, namespace = '', requirements = null) => {
       `Prism namespace for ${Name} is not a string, got type ${typeof(namespace)}`)
   }
 
-  const definition = {Type, Name, styleOptions, namespace, requirements}
+
+  const ns = new Namespace({namespace, typeName: Name})
+  const definition = {Type, Name, styleOptions, ns, requirements}
   const NewType = withPrism(Type, definition)
 
   definition.NewType = NewType
