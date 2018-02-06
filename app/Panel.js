@@ -11,6 +11,16 @@ class Panel extends Component {
     //headerStyle: [{space: 'marginBottom', bg: 'backgroundColor'}],
     //bodyStyle: ['background']
   //}
+  static mapPropsToStyle = {
+    labelStyle: {
+      color: ({prop}) => prop
+    },
+    //bodyStyle: {
+      //color: ({prop}) => {
+        //return {backgroundColor: prop}
+      //}
+    //}
+  }
 
   static mapStyleToProps = {
     labelStyle: {

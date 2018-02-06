@@ -4,7 +4,7 @@ const {isObject} = util
 
 export default new Plugin(
   'mapStyleToProps',
-  ({props, options, registry, ns, attrName, styleSheet}) => {
+  ({props, options}) => {
     // TODO
   },
   {

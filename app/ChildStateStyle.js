@@ -22,7 +22,7 @@ class ChildStateStyle extends Component {
         }
       },
       mapPropsToStyle: {
-        size: ({prop}) => prop
+        size: ({prop, state}) => state(prop)
       }
     }
   }

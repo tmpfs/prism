@@ -30,7 +30,7 @@ export default class App extends Component<{}> {
     return (
       <ScrollView padding={20} background='base01'>
 
-        <Panel label='Basic number stack'>
+        <Panel label='Basic number stack' color='red'>
           <ChildStateStyle
             value={21}
             color='cream'
