@@ -4,7 +4,7 @@ const {isString, isFunction, isObject} = util
 
 export default new Plugin(
   'mapPropsToStyle',
-  ({props, options, registry, ns, attrName, styleSheet}) => {
+  ({props, options, registry, ns, attrName, isPrimaryStyle, styleSheet}) => {
     const {mapPropsToStyle} = options
     let map = mapPropsToStyle
     if (isObject(map[attrName])) {
@@ -19,7 +19,7 @@ export default new Plugin(
       if (isString(stateName)) {
         let stateStyleDeclName
         let stateStyleSheet
-        if (attrName === 'style') {
+        if (isPrimaryStyle) {
           // This gives us the top-level component
           stateStyleDeclName = ns.getStateClassName(stateName)
           stateStyleSheet = styleSheet[stateStyleDeclName]
@@ -33,13 +33,12 @@ export default new Plugin(
       }
     }
 
-    for (const k in map) {
-      const prop = props[k]
-      if (props.hasOwnProperty(k) && prop !== undefined) {
-        const fn = map[k]
+    for (const propName in map) {
+      const prop = props[propName]
+      if (props.hasOwnProperty(propName) && prop !== undefined) {
+        const fn = map[propName]
         if (isFunction(fn)) {
           const sheet = fn({...registry, options, ns, props, prop, state})
-
           // This is a convenient shortcut for returning the
           // prop itself to assign it to a style with the same
           // name and value, you can just do:
@@ -48,7 +47,7 @@ export default new Plugin(
           //
           if (sheet === prop) {
             const tmp = {}
-            tmp[k] = prop
+            tmp[propName] = prop
             sheets.push(tmp)
             continue
           }

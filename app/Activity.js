@@ -17,6 +17,14 @@ class Activity extends Component {
     //}
   //}
 
+  static mapStyleToProps = {
+    tintColor: ({prop}) => {
+      console.log('mapStyleToProps')
+      console.log(prop)
+      return prop
+    }
+  }
+
   static propTypes = {
     large: PropTypes.bool,
     tintColor: PropTypes.string,

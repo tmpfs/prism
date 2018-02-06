@@ -71,16 +71,16 @@ static mapPropsToStyle = {
 
 Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
 
-If you return a string a style sheet is resolved using the familiar `a:hover` syntax.
+If you call `state()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
 
 For a component called `Notice`:
 
 ```javascript
 static mapPropsToStyle = {
-  error: ({prop, props}) => {
+  error: ({prop, state}) => {
     if (prop === true) {
       // Include the style for Notice:error
-      return 'error'
+      return state('error')
     }
   }
 }
@@ -101,7 +101,7 @@ This can be an easy way to trigger style variations that are resolved from the s
 
 ```javascript
 static mapPropsToStyle = {
-  size: ({prop}) => prop
+  size: ({prop, state}) => state(prop)
 }
 ```
 
