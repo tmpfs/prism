@@ -219,7 +219,7 @@ Prism.fix = (Base, style, props = {}) => {
     }
   }
 
-  FixedComponent.defaultProps = props
+  FixedComponent.defaultProps = Object.assign({}, props)
   FixedComponent.defaultProps.style = style
 
   return Prism(FixedComponent)

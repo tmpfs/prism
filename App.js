@@ -13,6 +13,21 @@ import theme from './app/theme'
 
 const ScrollView = Prism(NativeScrollView)
 
+//const Square = Prism.fix(
+  //View,
+  //{
+    //flex: 0,
+    //width: 20,
+    //height: 20,
+    //backgroundColor: 'red'
+  //},
+  //{
+    //background: 'green'
+  //}
+//)
+
+//<Square width={40} height={20} />
+
 const registry = new StyleRegistry({theme})
 Prism.configure(
   registry,
