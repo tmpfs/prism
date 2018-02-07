@@ -1,7 +1,8 @@
 export default {
   colors: {
-    cream: '#fdfbdf',
-    muted: '#9a9a9a'
+    bg: 'steelblue',
+    highlight: '#fdfbdf',
+    normal: '#9a9a9a'
   },
   fonts: {
     regular: 'WorkSans-Regular',
@@ -12,7 +13,7 @@ export default {
       Label: {
         fontSize: 16,
         fontFamily: fonts.regular,
-        color: colors.cream
+        color: colors.normal
       },
       bold: {
         fontFamily: fonts.medium

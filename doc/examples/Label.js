@@ -4,19 +4,17 @@ import {Text} from 'react-native'
 import {Prism} from '../../src/Prism'
 
 class Label extends Component {
-  static styleOptions = ({styleSheet}) => {
-    return {
-      supportsText: true,
-      mapPropsToStyle: {
-        align: ({prop, styleSheet}) => {
-          return {textAlign: prop}
-        },
-        bold: ({prop, styleSheet}) => {
-          if (styleSheet.bold !== undefined) {
-            return styleSheet.bold
-          }
-          return {fontWeight: 'bold'}
+  static styleOptions = {
+    supportsText: true,
+    mapPropsToStyle: {
+      align: ({prop, styleSheet}) => {
+        return {textAlign: prop}
+      },
+      bold: ({prop, styleSheet}) => {
+        if (styleSheet.bold !== undefined) {
+          return styleSheet.bold
         }
+        return {fontWeight: 'bold'}
       }
     }
   }

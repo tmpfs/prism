@@ -98,8 +98,9 @@ File: [theme.js](https://github.com/fika-community/prism/blob/master/doc/example
 ```javascript
 export default {
   colors: {
-    cream: '#fdfbdf',
-    muted: '#9a9a9a'
+    bg: 'steelblue',
+    highlight: '#fdfbdf',
+    normal: '#9a9a9a'
   },
   fonts: {
     regular: 'WorkSans-Regular',
@@ -110,7 +111,7 @@ export default {
       Label: {
         fontSize: 16,
         fontFamily: fonts.regular,
-        color: colors.cream
+        color: colors.normal
       },
       bold: {
         fontFamily: fonts.medium
@@ -174,8 +175,8 @@ export default class Application extends Component {
   render () {
     return (
       <Label
-        background='steelblue'
-        color='white'
+        background='bg'
+        color='highlight'
         bold
         align='center'
         textTransform='capitalize'
@@ -214,19 +215,17 @@ import {Text} from 'react-native'
 import {Prism} from 'react-native-prism'
 
 class Label extends Component {
-  static styleOptions = ({styleSheet}) => {
-    return {
-      supportsText: true,
-      mapPropsToStyle: {
-        align: ({prop, styleSheet}) => {
-          return {textAlign: prop}
-        },
-        bold: ({prop, styleSheet}) => {
-          if (styleSheet.bold !== undefined) {
-            return styleSheet.bold
-          }
-          return {fontWeight: 'bold'}
+  static styleOptions = {
+    supportsText: true,
+    mapPropsToStyle: {
+      align: ({prop, styleSheet}) => {
+        return {textAlign: prop}
+      },
+      bold: ({prop, styleSheet}) => {
+        if (styleSheet.bold !== undefined) {
+          return styleSheet.bold
         }
+        return {fontWeight: 'bold'}
       }
     }
   }

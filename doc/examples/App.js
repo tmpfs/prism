@@ -17,8 +17,8 @@ export default class Application extends Component {
   render () {
     return (
       <Label
-        background='steelblue'
-        color='white'
+        background='bg'
+        color='highlight'
         bold
         align='center'
         textTransform='capitalize'
