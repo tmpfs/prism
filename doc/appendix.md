@@ -46,4 +46,8 @@ render () {
 
 ### Invariants
 
+TODO
+
 ### Performance
+
+TODO

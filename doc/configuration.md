@@ -15,7 +15,7 @@ This is a sensible minimal default configuration which will be sufficient for ma
 * `experimentalPlugins` enables the [experimental plugins](/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
-* `debug` print configured plugins.
+* `debug` print configured plugins, default value is `__DEV__`.
 
 For example to use the [extended style properties](#extended-style-properties) and enable color name lookup:
 

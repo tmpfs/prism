@@ -845,7 +845,7 @@ This is a sensible minimal default configuration which will be sufficient for ma
 * `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
-* `debug` print configured plugins.
+* `debug` print configured plugins, default value is `__DEV__`.
 
 For example to use the [extended style properties](#extended-style-properties) and enable color name lookup:
 
@@ -1022,7 +1022,11 @@ The `disabledPlugins` option is processed after `plugins` and `additionalPlugins
 
 ### Invariants
 
+TODO
+
 ### Performance
+
+TODO
 
 ## License
 
