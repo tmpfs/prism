@@ -60,7 +60,10 @@ render () {
 
 ### Processor
 
-TODO
+Processors are plugins that operate on a *flat representation* of the computed styles, they are used to support named colors and invariants. The default configuration does not enable any processors but it is worth knowing that certain configuration options add some processing overhead:
+
+* `colorNames`
+* `textTransform`
 
 ### Invariants
 
@@ -70,8 +73,12 @@ An example of this is `tintColor` where we need to assign to the `tintColor` pro
 
 Also the experimental `textTransform` property is treated as an invariant so it can be declared in style rules and processed using the plugin system yet never appear in compiled or computed style sheets.
 
-Invariants use a processor to ensure computed styles do not contain these properties so they incur the same performance penalty (stylesheet flattening is required).
+Invariants use a processor to ensure computed styles do not contain these properties so they incur the same performance penalty.
 
 ### Performance
 
-TODO
+Performance may be impacted if you use any of the following features as they all require a flat representation of the computed styles:
+
+* [Processor](#processor) operate on flat computed styles.
+* [Invariants](#invariants) implies use of a processor.
+* [Flat Styles](#flat-styles) computes a component-specific flat stylesheet.
