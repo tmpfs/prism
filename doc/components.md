@@ -367,12 +367,8 @@ export default Prism(Label, {namespace})
 Now the default component style declaration name is `com.prism.ui.Label` and a consumer needs to declare the style using the fully qualified name:
 
 ```javascript
-export default ({colors, fonts}) => {
-  return {
-    'com.prism.ui.Label': {
-      color: colors.orange
-    }
-  }
+'com.prism.ui.Label': {
+  color: 'black'
 }
 ```
 

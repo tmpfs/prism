@@ -1,5 +1,15 @@
 ## Appendix
 
+### Best Practices
+
+You are free to do as you please however here are some guidelines:
+
+* Avoid setting styles in `defaultProps`.
+* Use class name style rule for default styles (eg: `Label`).
+* Prefer `className` as first option for style overrides.
+* Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
+* Avoid inline `style` properties.
+
 ### Color Names
 
 Styles are much easier to change and we can add semantic meaning to our colors if we can refer to them by name, use the `colorNames` option to enable this functionality.

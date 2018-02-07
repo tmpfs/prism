@@ -57,6 +57,7 @@
   - [Inline Style](#inline-style)
 - [Configuration](#configuration)
 - [Appendix](#appendix)
+  - [Best Practices](#best-practices)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
   - [Plugins](#plugins)
@@ -601,12 +602,8 @@ export default Prism(Label, {namespace})
 Now the default component style declaration name is `com.prism.ui.Label` and a consumer needs to declare the style using the fully qualified name:
 
 ```javascript
-export default ({colors, fonts}) => {
-  return {
-    'com.prism.ui.Label': {
-      color: colors.orange
-    }
-  }
+'com.prism.ui.Label': {
+  color: 'black'
 }
 ```
 
@@ -1020,6 +1017,16 @@ export default {
 ```
 
 ## Appendix
+
+### Best Practices
+
+You are free to do as you please however here are some guidelines:
+
+* Avoid setting styles in `defaultProps`.
+* Use class name style rule for default styles (eg: `Label`).
+* Prefer `className` as first option for style overrides.
+* Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
+* Avoid inline `style` properties.
 
 ### Color Names
 
