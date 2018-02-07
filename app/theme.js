@@ -1,11 +1,5 @@
 export default {
   colors: {
-    cream: '#fdfbdf',
-    muted: '#9a9a9a',
-    orange: '#ff3300',
-    textColor: '#666666',
-    bodyTextColor: '#000000',
-
     base03:    '#002b36',
     base02:    '#073642',
     base01:    '#586e75',
@@ -29,34 +23,39 @@ export default {
   },
   styles: ({colors, fonts}) => {
     return {
-      SimpleLabel: {
-        fontSize: 16,
+      Label: {
+        fontSize: 17,
         fontFamily: fonts.regular,
         color: colors.base1
       },
       'com.example.text.Label': {
-        fontSize: 16,
+        fontSize: 17,
         fontFamily: fonts.regular,
-        color: colors.base01
+        color: colors.magenta
       },
       highlight: {
         color: colors.cyan
       },
       DefaultStyleLabel: {
-        fontSize: 18,
-        color: colors.orange
+        fontSize: 18
       },
       'Panel': {
         marginBottom: 30,
       },
       'Panel.Header': {
-        backgroundColor: colors.base03,
+        backgroundColor: colors.base02,
         padding: 10,
-        textTransform: 'uppercase'
+        textTransform: 'capitalize'
       },
       'Panel.Body': {
-        backgroundColor: colors.base02,
-        padding: 10
+        backgroundColor: colors.base03,
+        padding: 20
+      },
+      'Panel.Label': {
+        fontFamily: fonts.medium,
+        color: colors.base2,
+        fontSize: 18
+        //textTransform: 'uppercase'
       },
       'CompositeLabel': {
         margin: 20
@@ -68,7 +67,7 @@ export default {
       },
       'CompositeLabel.Body': {
         fontSize: 20,
-        color: colors.textColor
+        color: colors.base01
       },
       'CompositeLabel.Footer': {
         fontSize: 16,

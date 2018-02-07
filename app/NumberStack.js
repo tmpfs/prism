@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {Prism} from 'react-native-prism'
 import View from './View'
 
-import SimpleLabel from './SimpleLabel'
+import Label from './Label'
 
 class NumberStack extends Component {
 
@@ -23,6 +23,15 @@ class NumberStack extends Component {
     }
   }
 
+  //static mapStyleToProps = {
+    //titleStyle: {
+      //textTransform: ({prop}) => {
+        //console.log('mapStyleToProps on child style')
+        //return prop
+      //}
+    //}
+  //}
+
   static propTypes = {
     value: PropTypes.number,
     color: PropTypes.string,
@@ -35,11 +44,8 @@ class NumberStack extends Component {
     size: 'medium',
     align: 'center',
     style: {
-      padding: 10
-    },
-    titleStyle: {
-      textTransform: 'uppercase'
-      //color: 'red'
+      padding: 10,
+      textTransform: 'capitalize'
     }
   }
 
@@ -50,6 +56,7 @@ class NumberStack extends Component {
       color,
       bold,
       value,
+      textTransform,
       titleStyle,
       numberStyle
     } = this.props
@@ -62,26 +69,28 @@ class NumberStack extends Component {
 
     //console.log(style)
     //console.log(titleStyle)
+    //console.log(textTransform)
 
     const title = (
-      <SimpleLabel
+      <Label
         align={align}
         bold={bold}
         color={color}
+        textTransform={textTransform}
         ellipsis={ellipsis}
         style={titleStyle}>
         {this.props.children}
-      </SimpleLabel>
+      </Label>
     )
 
     const num = (
-      <SimpleLabel
+      <Label
         align={align}
         bold={bold}
         ellipsis={ellipsis}
         style={numberStyle}>
         {value.toString()}
-      </SimpleLabel>
+      </Label>
     )
 
     return (

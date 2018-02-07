@@ -5,7 +5,7 @@ import {Prism, StyleRegistry} from './src/Prism'
 import View from './app/View'
 import Panel from './app/Panel'
 import Activity from './app/Activity'
-import Label from './app/SimpleLabel'
+import Label from './app/Label'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
 import CompositeLabel from './app/CompositeLabel'
 import NumberStack from './app/NumberStack'
@@ -16,20 +16,15 @@ import theme from './app/theme'
 
 const ScrollView = Prism(NativeScrollView)
 
-const Square = Prism.fix(
+const Rectangle = Prism.fix(
   View,
   {
     flex: 0,
     width: 20,
     height: 20,
-    backgroundColor: 'red'
-  },
-  {
-    //background: 'green'
+    backgroundColor: 'green'
   }
 )
-
-//<Square width={40} height={20} background='blue' />
 
 const registry = new StyleRegistry({theme})
 Prism.configure(
@@ -49,18 +44,35 @@ export default class App extends Component<{}> {
 
         <Panel label='Extended Properties'>
           <Label
-            background='base03'
+            background='magenta'
             color='base3'
             radius={5}
-            margin={5}
             padding={15}>
-            This is a label to test various extended properties, it sets background, color, radius, margin and padding.
+            This is a label to test various extended properties, it sets background, color, radius and padding.
           </Label>
         </Panel>
 
+        <Panel label='Quick Components'>
+          <Label>
+            This example demonstrates use of Prism.fix() to quickly create shapes.
+          </Label>
+          <View flex={1} justify='center' style={{alignItems: 'center'}}>
+            <Rectangle
+              width={50}
+              height={50}
+              background='blue'
+              margin={{top: 20}}
+              justify='center'
+              style={{alignItems: 'center'}}>
+              <Rectangle />
+            </Rectangle>
+          </View>
+        </Panel>
+
+
         <Panel label='Namespace'>
           <NamespaceExample>
-            This is an example using the com.example.text namespace for a component, the com.example.text.Label style rule defines the component styles.
+            This is an example using the <Label color='base3'>com.example.text</Label> namespace for a component, the <Label color='base3'>com.example.text.Label</Label> style rule defines the component styles.
           </NamespaceExample>
         </Panel>
 
@@ -87,19 +99,19 @@ export default class App extends Component<{}> {
 
         <Panel label='Child State'>
           <Label>
-            This is an example that routes a size property to multiple child components which each resolve to state styles.
+            This is an example that routes a size property to multiple child components which each resolve to state styles. It also routes textTransform to the child title component.
           </Label>
           <NumberStack
             value={21}
-            color='cream'
+            color='base3'
             size='small'>
-          Small Style
+            Small Style
           </NumberStack>
           <NumberStack
             value={21}
-            color='cream'
+            color='base3'
             size='medium'>
-          Medium Style
+            Medium Style
           </NumberStack>
 
         </Panel>
@@ -132,7 +144,7 @@ export default class App extends Component<{}> {
         </Panel>
 
         <Panel label='font'>
-          <View font={{size: 'large', color: 'cream'}}>
+          <View font={{size: 'large', color: 'base3'}}>
             <View>
               <Label>
                 This is some text that illustrates how text style props are inherited

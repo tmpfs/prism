@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {StyleSheet, View} from 'react-native'
 import {Prism} from '../src/Prism'
 
-import SimpleLabel from './SimpleLabel'
+import Label from './Label'
 
 class CompositeLabel extends Component {
 
@@ -28,9 +28,9 @@ class CompositeLabel extends Component {
     const {style, label, footer, headerStyle, bodyStyle, footerStyle} = this.props
     return (
       <View style={style}>
-        <SimpleLabel style={headerStyle}>{label}</SimpleLabel>
-        <SimpleLabel style={bodyStyle}>{this.props.children}</SimpleLabel>
-        <SimpleLabel style={footerStyle}>{footer}</SimpleLabel>
+        <Label style={headerStyle}>{label}</Label>
+        <Label style={bodyStyle}>{this.props.children}</Label>
+        <Label style={footerStyle}>{footer}</Label>
       </View>
     )
   }

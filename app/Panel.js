@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Prism} from 'react-native-prism'
 import View from './View'
-import Label from './SimpleLabel'
+import Label from './Label'
 
 class Panel extends Component {
 
