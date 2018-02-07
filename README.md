@@ -512,6 +512,8 @@ render () {
 }
 ```
 
+See [Activity.js](https://github.com/fika-community/prism-components/blob/master/src/Activity.js) for a complete implementation.
+
 ### Property Type Validation
 
 It is important to know that the `propTypes` you declare are assigned to the HOC so properties work as expected and that your static `propTypes` are *augmented* with all the [style properties](#style-properties).
