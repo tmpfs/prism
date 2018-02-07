@@ -369,7 +369,7 @@ static styleOptions = {
 static styleOptions = ({registry}) => {
   return {
     mapPropsToStyle: {
-      bold: () => registry('bold')
+      bold: () => registry.resolve('bold')
     }
   }
 }
