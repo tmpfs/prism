@@ -6,23 +6,37 @@ import Label from './SimpleLabel'
 
 class Panel extends Component {
 
-  //static mapStyleToProps = {
-    //headerStyle: {
-      //textTransform: ({prop}) => prop
+  // 1. Declare in styleOptions return body (can be object too)
+  //static styleOptions = ({styleSheet}) => {
+    //return {
+      //mapPropsToStyle: {
+        //headerStyle: {},
+        //labelStyle: {
+          //color: ({prop}) => prop
+        //},
+        //bodyStyle: {}
+      //}
     //}
   //}
 
+  // 2. Declare as function passed the registry
+  //static mapPropsToStyle = ({styleSheet}) => {
+    //return {
+      //headerStyle: {},
+      //labelStyle: {
+        //color: ({prop}) => prop
+      //},
+      //bodyStyle: {}
+    //}
+  //}
+
+  // 3. Plain object definition
   static mapPropsToStyle = {
     headerStyle: {},
     labelStyle: {
       color: ({prop}) => prop
     },
     bodyStyle: {}
-    //bodyStyle: {
-      //color: ({prop}) => {
-        //return {backgroundColor: prop}
-      //}
-    //}
   }
 
   static propTypes = {

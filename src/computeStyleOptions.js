@@ -16,7 +16,7 @@ const mergeStyleRegistry = (registry, options) => {
 }
 
 const mergeStatic = (definition, plugins, options) => {
-  const {Type} = definition
+  const {registry, Type} = definition
   // Plugins have not been split yet
   plugins.forEach((plugin) => {
     if (plugin.isGlobal) {
