@@ -134,9 +134,7 @@ The following are all equivalent:
 
 ```javascript
 static mapPropsToStyle = {
-  bold: ({registry}) => {
-    return registry.resolve('bold')
-  }
+  bold: ({registry}) => registry.resolve('bold')
 }
 ```
 
@@ -204,10 +202,10 @@ For a component called `Notice`:
 
 ```javascript
 static mapPropsToStyle = {
-  error: ({prop, state}) => {
+  error: ({state, prop, propName}) => {
     if (prop === true) {
       // Include the style for Notice:error
-      return state('error')
+      return state(propName)
     }
   }
 }
@@ -232,7 +230,7 @@ This can be an easy way to trigger style variations that are resolved from the s
 
 ```javascript
 static mapPropsToStyle = {
-  size: ({prop, state}) => state(prop)
+  size: ({state, prop}) => state(prop)
 }
 ```
 
