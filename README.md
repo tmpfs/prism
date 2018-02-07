@@ -53,16 +53,16 @@
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
   - [Plugins](#plugins)
-    - [Property Plugins](#property-plugins)
-  - [Creating Plugins](#creating-plugins)
-    - [Global Plugins](#global-plugins)
-  - [Plugin Configuration](#plugin-configuration)
-    - [plugins](#plugins-1)
-  - [additionalPlugins](#additionalplugins)
-  - [disabledPlugins](#disabledplugins)- [Processor](#processor)
-- [Invariants](#invariants)
-- [Performance](#performance)
-
+    - [Creating Plugins](#creating-plugins)
+      - [Property Plugins](#property-plugins)
+      - [Global Plugins](#global-plugins)
+    - [Plugin Configuration](#plugin-configuration)
+      - [plugins](#plugins-1)
+      - [additionalPlugins](#additionalplugins)
+      - [disabledPlugins](#disabledplugins)
+  - [Processor](#processor)
+  - [Invariants](#invariants)
+  - [Performance](#performance)
 - [License](#license)
 
 ---
@@ -928,6 +928,18 @@ render () {
 
 Plugins allow you to change the default behaviour.
 
+#### Creating Plugins
+
+To create a plugin you pass a plugin name, handler function and plugin options:
+
+```javascript
+new Plugin(
+  'pluginName',
+  () => { /* ... */ },
+  {/* options */}
+)
+```
+
 ##### Property Plugins
 
 If your plugin is for a property you should use the `propType` option:
@@ -948,18 +960,6 @@ const plugins = [
 These plugins will only execute when the property is defined on the component.
 
 See [extendedPropertyPlugins.js](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js) for several examples.
-
-#### Creating Plugins
-
-To create a plugin you pass a plugin name, handler function and plugin options:
-
-```javascript
-new Plugin(
-  'pluginName',
-  () => { /* ... */ },
-  {/* options */}
-)
-```
 
 ##### Global Plugins
 
@@ -998,7 +998,7 @@ Use these configuration options to control plugins:
 
 Use your own `plugins` array when you want to specify a list of plugins to use *before* any plugins enabled using the configuration flags, you can disable `className` and `mapPropsToStyle` etc to use only the custom plugins you specify.
 
-#### additionalPlugins
+##### additionalPlugins
 
 Use the `additionalPlugins` option to add custom functionality to all your styled components, see [plugins](#plugins) for information on defining custom plugins.
 
@@ -1019,7 +1019,7 @@ Prism.configure(
 )
 ```
 
-#### disabledPlugins
+##### disabledPlugins
 
 You may want to remove plugins you don't need or if you find a property name collision:
 
