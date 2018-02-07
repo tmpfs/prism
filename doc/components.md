@@ -54,20 +54,48 @@ const Rectangle = Prism.fix(
 
 ### Bundling Styles
 
-Component libraries should supply a style registry which is merged with the user-supplied registry to bundle their default styles. Pass a theme and `bundle` to a style registry assigned to the component:
+Component libraries should supply a style registry which is merged with the user-supplied registry to bundle their default styles. Pass a theme and the `bundle` flag to a style registry assigned to the component:
 
 ```javascript
 import React, {Component} from 'react'
 import {Prism, StyleRegistry} from 'react-native-prism'
 import theme from './theme'
 const registry = new StyleRegistry({theme, bundle: true})
-class Styled extends Component {
+const namespace = 'com.example.text'
+class Label extends Component {
   static styleOptions = {
     registry: registry
   }
 }
-export default Prism(Styled)
+export default Prism(Label, {namespace})
 ```
+
+In the component bundle theme define the default styles:
+
+```javascript
+export default {
+  styles: () => {
+    return {
+      'com.example.text.Label': {
+        fontSize: 22,
+        color: 'white',
+        backgroundColor: 'black'
+      }
+    }
+  }
+}
+```
+
+Then a user of the component can just overwrite the declarations they need to change:
+
+```javascript
+'com.example.text.Label': {
+  color: 'black',
+  backgroundColor: 'white'
+}
+```
+
+The default `fontSize` is respected but now the colors are inverted!
 
 An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
