@@ -122,11 +122,9 @@ static mapPropsToStyle = {
 Or using `styleOptions`:
 
 ```javascript
-static styleOptions = ({styleSheet}) => {
-  return {
-    mapPropsToStyle: {
-      bold: () => styleSheet.bold
-    }
+static styleOptions = {
+  mapPropsToStyle: ({styleSheet}) => {
+    bold: () => styleSheet.bold
   }
 }
 ```

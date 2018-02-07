@@ -64,7 +64,13 @@ TODO
 
 ### Invariants
 
-TODO
+Invariants are unknown style declarations that would trigger an error when compiling style sheets with `StyleSheet.create()`. This strict behaviour of RN is very useful but there are occasions where it makes more sense to put the information in a style sheet and invariants allow us to do that. Internally they are extracted as invariant style rules and later resolved when styles are computed.
+
+An example of this is `tintColor` where we need to assign to the `tintColor` property of `ActivityIndicator` but really it's styling information and is better suited to being in a style sheet.
+
+Also the experimental `textTransform` property is treated as an invariant so it can be declared in style rules and processed using the plugin system yet never appear in compiled or computed style sheets.
+
+Invariants use a processor to ensure computed styles do not contain these properties so they incur the same performance penalty (stylesheet flattening is required).
 
 ### Performance
 
