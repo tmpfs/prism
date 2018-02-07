@@ -28,11 +28,20 @@ export default class StyleRegistry {
 
   assign (registry) {
     const bundle = registry._bundle
+    // Compute preliminaries for bundle
+    registry.addColors(registry._bundle.colors)
+    registry.addFonts(registry._bundle.fonts)
+
+    // Merge into this instance - if we already have it, it wins
     this.mergeColors(registry.colors)
     this.mergeFonts(registry.fonts)
+
+    // Assign updated values before computing styles()
     registry.colors = this.colors
     registry.fonts = this.fonts
     registry.addStyleSheet(registry._bundle.styles)
+
+    // Selective merge with this registry styles
     this.mergeStyles(registry.styles)
   }
 
