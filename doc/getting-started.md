@@ -48,21 +48,3 @@ With the `extendedProperties` option all the built in and extended [style proper
 
 Note that you should `import` all your Prism enabled components *before* calling `configure()`.
 
-### Defining Styled Components
-
-To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
-
-```javascript
-import {View} from 'react-native'
-import {Prism} from 'react-native-prism'
-export default Prism(View)
-```
-
-Here is a working example for the application shown above.
-
-File: [Label.js](/doc/examples/Label.js)
-
-<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/Label.js ?>
-
-The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
-

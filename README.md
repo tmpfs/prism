@@ -14,8 +14,9 @@
     - [Colors](#colors)
     - [Fonts](#fonts)
   - [Application Configuration](#application-configuration)
-  - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
+  - [Defining Styled Components](#defining-styled-components)
+  - [Quick Components](#quick-components)
   - [Bundling Styles](#bundling-styles)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyle](#mappropstostyle)
@@ -184,6 +185,8 @@ With the `extendedProperties` option all the built in and extended [style proper
 
 Note that you should `import` all your Prism enabled components *before* calling `configure()`.
 
+## Components
+
 ### Defining Styled Components
 
 To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
@@ -236,7 +239,39 @@ export default Prism(Label)
 
 The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
 
-## Components
+### Quick Components
+
+```javascript
+Prism.fix(Type, style, props)
+```
+
+Sometimes you want to wrap a component using fixed styles without too much fuss, use `Prism.fix()` to wrap a component with basic styles.
+
+This is particularly useful when you just want to draw a shape, a convoluted example to illustrate inheritance:
+
+```javascript
+const Square = Prism.fix(
+  View,
+  {
+    flex: 0,
+    width: 20,
+    height: 20,
+    // Set absolute minimum color (defaultProps.style)
+    backgroundColor: 'red'
+  },
+  {
+    // Override backgroundColor with extended property
+    background: 'green'
+  }
+)
+```
+
+```html
+// Use the green background
+<Square />
+// Resize and use a blue background
+<Square width={50} height={50} background='blue' />
+```
 
 ### Bundling Styles
 

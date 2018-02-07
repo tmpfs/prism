@@ -13,20 +13,20 @@ import theme from './app/theme'
 
 const ScrollView = Prism(NativeScrollView)
 
-//const Square = Prism.fix(
-  //View,
-  //{
-    //flex: 0,
-    //width: 20,
-    //height: 20,
-    //backgroundColor: 'red'
-  //},
-  //{
+const Square = Prism.fix(
+  View,
+  {
+    flex: 0,
+    width: 20,
+    height: 20,
+    backgroundColor: 'red'
+  },
+  {
     //background: 'green'
-  //}
-//)
+  }
+)
 
-//<Square width={40} height={20} />
+//<Square width={40} height={20} background='blue' />
 
 const registry = new StyleRegistry({theme})
 Prism.configure(
@@ -43,6 +43,8 @@ export default class App extends Component<{}> {
   render () {
     return (
       <ScrollView padding={20} background='base01'>
+
+
 
         <Panel label='Inheritance' color='red'>
           <Label margin={[5]}>

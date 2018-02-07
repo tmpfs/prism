@@ -1,5 +1,57 @@
 ## Components
 
+### Defining Styled Components
+
+To create a styled component you just need to pass the component class to the `Prism` function which will return the HOC component.
+
+```javascript
+import {View} from 'react-native'
+import {Prism} from 'react-native-prism'
+export default Prism(View)
+```
+
+Here is a working example for the application shown above.
+
+File: [Label.js](/doc/examples/Label.js)
+
+<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/Label.js ?>
+
+The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
+
+### Quick Components
+
+```javascript
+Prism.fix(Type, style, props)
+```
+
+Sometimes you want to wrap a component using fixed styles without too much fuss, use `Prism.fix()` to wrap a component with basic styles.
+
+This is particularly useful when you just want to draw a shape, a convoluted example to illustrate inheritance:
+
+```javascript
+const Square = Prism.fix(
+  View,
+  {
+    flex: 0,
+    width: 20,
+    height: 20,
+    // Set absolute minimum color (defaultProps.style)
+    backgroundColor: 'red'
+  },
+  {
+    // Override backgroundColor with extended property
+    background: 'green'
+  }
+)
+```
+
+```html
+// Use the green background
+<Square />
+// Resize and use a blue background
+<Square width={50} height={50} background='blue' />
+```
+
 ### Bundling Styles
 
 Component libraries should supply a style registry which is merged with the user-supplied registry to bundle their default styles.
