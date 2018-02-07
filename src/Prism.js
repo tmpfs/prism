@@ -205,13 +205,18 @@ Prism.configure = (registry, config = {}) => {
 
 Prism.fix = (Base, props) => {
   class FixedComponent extends Component {
+    static styleOptions = {
+      fixed: true
+    }
     static defaultProps = {
       style: props
     }
     render () {
       const {style} = this.props
       return (
-        <Base style={style} />
+        <Base style={style}>
+          {this.props.children}
+        </Base>
       )
     }
   }
