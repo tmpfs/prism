@@ -19,6 +19,8 @@
   - [Bundling Styles](#bundling-styles)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyle](#mappropstostyle)
+      - [state](#state)
+      - [children](#children)
     - [mapStyleToProps](#mapstyletoprops)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
@@ -247,10 +249,8 @@ import {Prism, StyleRegistry} from 'react-native-prism'
 import theme from './theme'
 const registry = new StyleRegistry({theme})
 class Styled extends Component {
-  static styleOptions = () => {
-    return {
-      registry: registry
-    }
+  static styleOptions = {
+    registry: registry
   }
 }
 export default Prism(Styled)
@@ -308,6 +308,24 @@ static mapPropsToStyle = {
 
 Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
 
+When the passed `prop` is returned a style rule is created using the property name and value which is useful when the property name matches the style property name:
+
+```javascript
+{color: ({prop}) => prop}
+```
+
+Is shorthand for:
+
+```javascript
+{
+  color: ({prop}) => {
+    return {color: prop}
+  }
+}
+```
+
+##### state
+
 If you call `state()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
 
 For a component called `Notice`:
@@ -323,7 +341,7 @@ static mapPropsToStyle = {
 }
 ```
 
-Would result in including the class declaration lookup for `Notice:error`:
+Would result in including the rule for `Notice:error` which might look like:
 
 ```javascript
 {
@@ -343,6 +361,38 @@ static mapPropsToStyle = {
 ```
 
 To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:medium` or `Notice:large`.
+
+When the component is namespaced use the fully qualified name for the style rule, eg: `com.prism.ui.Notice:small`.
+
+##### children
+
+For composite components you can route properties to styles that you apply to child components.
+
+Define child styles using an object:
+
+```javascript
+static mapPropsToStyle = {
+  labelStyle: {
+    color: ({prop}) => prop
+  }
+}
+```
+
+Which will automatically define and create a `labelStyle` property for your component.
+
+Then your render would route `labelStyle` to a child component, for example:
+
+```html
+<View style={style}>
+  <Text style={labelStyle}>
+</View>
+```
+
+Now use of the `color` property on the parent is directed to the `labelStyle` object (and therefore the child component):
+
+```html
+<StyledComponent color='red' />
+```
 
 #### mapStyleToProps
 

@@ -44,7 +44,7 @@ export default class App extends Component<{}> {
     return (
       <ScrollView padding={20} background='base01'>
 
-        <Panel label='Inheritance'>
+        <Panel label='Inheritance' color='red'>
           <Label margin={[5]}>
             This is some text using the class style declaration.
           </Label>
@@ -59,7 +59,7 @@ export default class App extends Component<{}> {
           </Label>
         </Panel>
 
-        <Panel label='Basic number stack' color='red'>
+        <Panel label='Basic number stack'>
           <ChildStateStyle
             value={21}
             color='cream'
