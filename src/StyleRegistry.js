@@ -110,8 +110,21 @@ export default class StyleRegistry {
   // Called to finalize the registry internally
   // do not call this directly
   compile ({config}) {
+
     // Extract invariants before compilation
     this.invariants = processor.extract(this.styles)
+
+    if (config.debug) {
+      const keys = Object.keys(this.invariants)
+      if (keys.length) {
+        console.log(`Invariants ${keys.length}`)
+      }
+      keys.forEach((selector) => {
+        console.log(` | "${selector}"`)
+        //console.log(this.invariants[selector])
+      })
+    }
+
     //console.log(Object.keys(this.invariants))
     this.styleSheet = StyleSheet.create(this.styles)
   }

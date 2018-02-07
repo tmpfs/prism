@@ -10,9 +10,7 @@ class SimpleLabel extends Component {
   static styleOptions = ({styleSheet}) => {
     return {
       supportsText: true,
-      flat: true,
       mapPropsToStyle: {
-        //color: ({prop}) => prop,
         textTransform: ({prop}) => {
           return {textTransform: prop}
         },
@@ -32,6 +30,10 @@ class SimpleLabel extends Component {
 
   static defaultProps = {
     style: {
+      // We should never see this because
+      // of the default class style rule
+      // but if we remove it this value shoul
+      // be used
       color: 'pink'
     }
   }
@@ -39,10 +41,6 @@ class SimpleLabel extends Component {
   render () {
     // Get the computed style sheet
     const {style} = this.props
-    //console.log(SimpleLabel.defaultProps)
-    //console.log(style)
-    //console.log('TEXT')
-    //console.log(text)
     return (
       <Text style={style}>{this.props.children}</Text>
     )
