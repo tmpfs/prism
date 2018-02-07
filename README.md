@@ -263,7 +263,7 @@ Sometimes you want to wrap a component using fixed styles without too much fuss,
 This is particularly useful when you just want to draw a shape, a convoluted example to illustrate inheritance:
 
 ```javascript
-const Square = Prism.fix(
+const Rectangle = Prism.fix(
   View,
   {
     flex: 0,
@@ -281,9 +281,9 @@ const Square = Prism.fix(
 
 ```html
 // Use the green background
-<Square />
+<Rectangle />
 // Resize and use a blue background
-<Square width={50} height={50} background='blue' />
+<Rectangle width={50} height={50} background='blue' />
 ```
 
 ### Bundling Styles
