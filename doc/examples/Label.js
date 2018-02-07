@@ -11,7 +11,6 @@ class Label extends Component {
         return {textAlign: prop}
       },
       bold: ({registry, propName}) => {
-        console.log(propName)
         // Use a compiled `bold` style rule when available
         if (registry.has(propName)) {
           return registry.resolve(propName)
