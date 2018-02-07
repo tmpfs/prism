@@ -3,6 +3,7 @@ import Namespace from './Namespace'
 import util from './util'
 const {
   isFunction,
+  isObject,
   isString
 } = util
 
@@ -13,9 +14,9 @@ class ComponentDefinition {
     this.Name = Name
 
     const styleOptions = Type.styleOptions
-    if (styleOptions && !isFunction(styleOptions)) {
+    if (styleOptions && (!isFunction(styleOptions) && !isObject(styleOptions))) {
       throw new Error(
-        `Prism styleOptions for ${Name} must be a function`)
+        `Prism styleOptions for ${Name} must be a function or object`)
     }
     this.styleOptions = styleOptions
 

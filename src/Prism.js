@@ -206,7 +206,8 @@ Prism.configure = (registry, config = {}) => {
 Prism.fix = (Base, props) => {
   class FixedComponent extends Component {
     static styleOptions = {
-      fixed: true
+      fixed: true,
+      supportsDimension: true
     }
     static defaultProps = {
       style: props
