@@ -203,6 +203,21 @@ Prism.configure = (registry, config = {}) => {
   Prism.registry = registry
 }
 
+Prism.fix = (Base, props) => {
+  class FixedComponent extends Component {
+    static defaultProps = {
+      style: props
+    }
+    render () {
+      const {style} = this.props
+      return (
+        <Base style={style} />
+      )
+    }
+  }
+  return Prism(FixedComponent)
+}
+
 Prism.propTypes = propTypes
 
 export {Prism, StyleRegistry, Plugin, Rule}
