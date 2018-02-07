@@ -7,13 +7,16 @@ class Label extends Component {
   static styleOptions = {
     supportsText: true,
     mapPropsToStyle: {
-      align: ({prop, styleSheet}) => {
+      align: ({prop}) => {
         return {textAlign: prop}
       },
-      bold: ({prop, styleSheet}) => {
-        if (styleSheet.bold !== undefined) {
-          return styleSheet.bold
+      bold: ({registry, propName}) => {
+        console.log(propName)
+        // Use a compiled `bold` style rule when available
+        if (registry.has(propName)) {
+          return registry.resolve(propName)
         }
+        // Default behaviour
         return {fontWeight: 'bold'}
       }
     }

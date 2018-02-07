@@ -11,7 +11,7 @@ export default {
   styles: ({colors, fonts}) => {
     return {
       Label: {
-        fontSize: 16,
+        fontSize: 20,
         fontFamily: fonts.regular,
         color: colors.normal
       },

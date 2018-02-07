@@ -124,7 +124,9 @@ Or using `styleOptions`:
 ```javascript
 static styleOptions = {
   mapPropsToStyle: ({styleSheet}) => {
-    bold: () => styleSheet.bold
+    return {
+      bold: () => styleSheet.bold
+    }
   }
 }
 ```

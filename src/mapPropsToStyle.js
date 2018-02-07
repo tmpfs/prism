@@ -34,7 +34,7 @@ export default new Plugin(
       if (props.hasOwnProperty(propName) && prop !== undefined) {
         const fn = map[propName]
         if (isFunction(fn)) {
-          const sheet = fn({...registry, props, prop, state})
+          const sheet = fn({...registry, registry, props, prop, propName, state})
           // This is a convenient shortcut for returning the
           // prop itself to assign it to a style with the same
           // name and value, you can just do:

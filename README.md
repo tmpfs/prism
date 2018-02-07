@@ -115,7 +115,7 @@ export default {
   styles: ({colors, fonts}) => {
     return {
       Label: {
-        fontSize: 16,
+        fontSize: 20,
         fontFamily: fonts.regular,
         color: colors.normal
       },
@@ -224,13 +224,16 @@ class Label extends Component {
   static styleOptions = {
     supportsText: true,
     mapPropsToStyle: {
-      align: ({prop, styleSheet}) => {
+      align: ({prop}) => {
         return {textAlign: prop}
       },
-      bold: ({prop, styleSheet}) => {
-        if (styleSheet.bold !== undefined) {
-          return styleSheet.bold
+      bold: ({registry, propName}) => {
+        console.log(propName)
+        // Use a compiled `bold` style rule when available
+        if (registry.has(propName)) {
+          return registry.resolve(propName)
         }
+        // Default behaviour
         return {fontWeight: 'bold'}
       }
     }
@@ -356,7 +359,9 @@ Or using `styleOptions`:
 ```javascript
 static styleOptions = {
   mapPropsToStyle: ({styleSheet}) => {
-    bold: () => styleSheet.bold
+    return {
+      bold: () => styleSheet.bold
+    }
   }
 }
 ```

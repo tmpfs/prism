@@ -125,6 +125,11 @@ export default class StyleRegistry {
   //}
   //
   //
+  //
+
+  has (selector) {
+    return this.styleSheet[selector] || this.invariants[selector]
+  }
 
   resolve (selector) {
     const sheets = []

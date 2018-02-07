@@ -39,7 +39,7 @@ export default new Plugin(
 
         const fn = map[propName]
         if (isFunction(fn)) {
-          const result = fn({...registry, props, prop, move, remove})
+          const result = fn({...registry, registry, props, prop, propName, move, remove})
           // Shortcut for the move operation
           // is to return the prop
           if (result === prop) {
