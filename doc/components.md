@@ -85,7 +85,7 @@ Is shorthand for:
 }
 ```
 
-##### state
+##### State
 
 If you call `state()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
 
@@ -123,71 +123,47 @@ static mapPropsToStyle = {
 
 To resolve a style sheet for the value of `size`, eg: `Notice:small`, `Notice:medium` or `Notice:large`.
 
-When the component is namespaced use the fully qualified name for the style rule, eg: `com.prism.ui.Notice:small`.
-
-##### children
+##### Child Components
 
 For composite components you can route properties to styles that you apply to child components.
 
-Define child styles using an object:
+At it's simplest level the empty object just declares that your component wants a style object to pass to a child, but you can also route properties to child style objects:
 
 ```javascript
 static mapPropsToStyle = {
-  labelStyle: {
+  headerStyle: {
     color: ({prop}) => prop
-  }
+  },
+  bodyStyle: {}
 }
 ```
 
-Which will automatically define and create a `labelStyle` property for your component.
+Which will automatically define and create the `headerStyle` and `bodyStyle` properties for your component. The `propTypes` for the child style objects are automatically declared as we know ahead of time they should have the same property type as `style`.
 
-Then your render would route `labelStyle` to a child component, for example:
-
-```html
-<View style={style}>
-  <Text style={labelStyle}>
-</View>
-```
-
-Now use of the `color` property on the parent is directed to the `labelStyle` object (and therefore the child component):
-
-```html
-<StyledComponent color='red' />
-```
-
-#### mapStyleToProps
-
-When you start creating composite components it becomes very useful to route properties to style objects for the child components, use `mapStyleToProps` to define styles for these child components.
-
-Take the case of a `Panel` component with child components for the header and body.
-
-You can declare child computed styles with:
+The immediate benefit is that you can now define style rules using dot notation for the child components which will be automatically be resolved as default styles.
 
 ```javascript
-static mapStyleToProps = {
-  headerStyle: [],
-  bodyStyle: []
+'Panel.Header': {
+  color: 'blue',
+  padding: 10
+},
+'Panel.Body': {
+  padding: 20
 }
 ```
 
-At it's simplest level the empty array just declares that your component requires some child styles.
+For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase. If the component is namespaced use the fully qualified name, eg: `com.prism.ui.Panel.Header`.
 
-Your render can then pass the computed styles to child components:
+Then your render should route the properties to child components, for example:
 
 ```javascript
 render () {
-  const {
-    style,
-    headerStyle,
-    bodyStyle,
-    header
-  } = this.props
-
+  const {style, headerStyle, bodyStyle, label} = this.props
   return (
     <View style={style}>
-      <View style={headerStyle}>
-        {header}
-      </View>
+      <Text style={headerStyle}>
+        {label}
+      </Text>
       <View style={bodyStyle}>
         {this.props.children}
       </View>
@@ -196,78 +172,15 @@ render () {
 }
 ```
 
-The immediate benefit is that you can now declare styles using dot notation for the child components, for example:
+Now use of the `color` property on the parent is directed to the `headerStyle` object (and therefore the child component):
 
-```javascript
-'Panel': {
-  flex: 1
-},
-'Panel.Header': {
-  backgroundColor: 'blue',
-  padding: 5
-},
-'Panel.Body': {
-  backgroundColor: 'red',
-  padding: 10
-}
+```html
+<Panel color='red' />
 ```
 
-But you can also use this functionality to route properties into the child style object:
+#### mapStyleToProps
 
-```javascript
-static mapStyleToProps = {
-  headerStyle: [{space: 'marginBottom'}],
-  bodyStyle: ['background']
-}
-```
-
-```javascript
-// Set distance between header and body
-// and the background color of the body
-<Panel space={10} background='blue' />
-```
-
-Often you want to pass a `color` property to a component which is not a text component and route it to the components that handle text:
-
-```javascript
-static mapStyleToProps = {
-  // Maps color -> labelStyle.color and space -> labelStyle.marginTop
-  labelStyle: ['color', {space: 'marginTop'}],
-  imageStyle: ['width', 'height']
-}
-```
-
-The `mapStyleToProps` functionality is *subtractive* by default, if you route a property to a component style it is no longer included in the primary `style` object. This is normally what you want to prevent properties like `color` from triggering an error on non-text components.
-
-Except sometimes you may wish to route properties to a child component style but also include them in the primary computed `style`, to do so you can use the `style` array to force inclusion of properties.
-
-Take the example above where we route `width` and `height` to the `imageStyle` object which we assign to the child `Image` component; we may wish to also propagate those values to the parent `style` so we can apply the dimensions to the containing component as well.
-
-```javascript
-static mapStyleToProps = {
-  // Force include dimensions in the main `style`
-  style: ['width', 'height'],
-  // Map dimensions into the child style
-  imageStyle: ['width', 'height']
-}
-```
-
-When using `mapStyleToProps` there is no need to define `propTypes` for the child style objects they are automatically declared as we know ahead of time they should have the same property type as `style`. But for properties you map using the routing functionality you should declare them so they are validated:
-
-
-```javascript
-static propTypes = {
-  space: PropTypes.number
-}
-
-static mapStyleToProps = {
-  labelStyle: [{space: 'marginBottom'}]
-}
-```
-
-For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase.
-
-If the component is namespaced use the fully qualified name, eg: `com.prism.ui.Panel.Header`.
+TODO
 
 ### Property Type Validation
 
