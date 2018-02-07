@@ -953,7 +953,7 @@ highlight: {
 
 ```html
 // Inline style beats everything else
-<Label color='orange' style={{color: 'purple'}} />
+<Label className='highlight' color='orange' style={{color: 'purple'}} />
 ```
 
 ## Configuration
