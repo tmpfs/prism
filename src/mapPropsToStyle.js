@@ -13,23 +13,19 @@ export default new Plugin(
     }
 
     const sheets = []
+
     // Add a state style to the list of style sheets
     const state = (stateName) => {
       // Returned a string, trigger :hover syntax
       if (isString(stateName)) {
-        let stateStyleDeclName
-        let stateStyleSheet
+        let selector
         if (isPrimaryStyle) {
           // This gives us the top-level component
-          stateStyleDeclName = ns.getStateClassName(stateName)
-          stateStyleSheet = styleSheet[stateStyleDeclName]
+          selector = ns.getStateClassName(stateName)
         } else{
-          stateStyleDeclName = ns.getChildStateClassName(attrName, stateName)
-          stateStyleSheet = styleSheet[stateStyleDeclName]
+          selector = ns.getChildStateClassName(attrName, stateName)
         }
-        if (stateStyleSheet) {
-          sheets.push(stateStyleSheet)
-        }
+        registry.select(selector, sheets)
       }
     }
 

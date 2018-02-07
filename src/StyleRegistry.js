@@ -138,6 +138,13 @@ export default class StyleRegistry {
     return sheets
   }
 
+  select (selector, sheets) {
+    const found = this.resolve(selector)
+    if (found.length) {
+      sheets.push.apply(sheets, found)
+    }
+  }
+
   // Called to finalize the registry internally
   // do not call this directly
   compile ({config}) {
