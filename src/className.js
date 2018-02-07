@@ -4,7 +4,6 @@ import Plugin from './Plugin'
 export default new Plugin(
   'className',
   ({prop, registry}) => {
-    const {invariants} = registry
     const className = prop
     const find = (list) => {
       return list
