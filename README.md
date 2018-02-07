@@ -340,7 +340,7 @@ static mapPropsToStyle = {
 }
 ```
 
-Would result in including the rule for `Notice:error` which might look like:
+Would result in including the rule for `Notice:error` when the `error` property is `true`:
 
 ```javascript
 {
@@ -349,6 +349,10 @@ Would result in including the rule for `Notice:error` which might look like:
     color: 'white'
   }
 }
+```
+
+```html
+<Notice error>Error message</Notice>
 ```
 
 This can be an easy way to trigger style variations that are resolved from the style sheet based on a property value. For example, if you have a `size` property that accepts `small|medium|large` you can do:
@@ -415,6 +419,27 @@ Now use of the `color` property on the parent is directed to the `headerStyle` o
 ```html
 <Panel color='red' />
 ```
+
+You can can combine `state()` with multiple child components to create some interesting behaviour:
+
+```javascript
+static mapPropsToStyle = {
+  titleStyle: {
+    size: ({state, prop}) => state(prop)
+  },
+  numberStyle: {
+    size: ({state, prop}) => state(prop)
+  }
+}
+```
+
+For a component `NumberStack`:
+
+```html
+<NumberStack size='medium' />
+```
+
+Will resolve `NumberStack.Title:small` to include in `titleStyle` and `NumberStack.Number:small` for the `numberStyle`.
 
 #### mapStyleToProps
 
