@@ -77,8 +77,12 @@ Invariants use a processor to ensure computed styles do not contain these proper
 
 ### Performance
 
-Performance may be impacted if you use any of the following features as they all require a flat representation of the computed styles:
+We have made every effort to keep iterations and function calls to a bare minimum and in it's default configuration performance impact should be minimal.
+
+However performance may be impacted if you use any of the following features as they all require a flat representation of the computed styles:
 
 * [Processor](#processor) operate on flat computed styles.
 * [Invariants](#invariants) implies use of a processor.
 * [Flat Styles](#flat-styles) computes a component-specific flat stylesheet.
+
+And of course caveat emptor this is not the sort of thing you want to use to style say many thousands of game sprites.
