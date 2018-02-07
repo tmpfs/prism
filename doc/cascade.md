@@ -8,9 +8,11 @@ This section gives an overview of the cascade or inheritance mechanism using the
 4. Process property plugins (eg: extended and experimental)
 5. Run processors
 
-Note that property plugins are massaged so that `style`, `labelStyle` etc always execute after after other configured property plugins.
+Note that property plugins are massaged so that `style`, `labelStyle` etc always execute after other configured property plugins.
 
-This means the inheritance for say `color` of `Label` can be described in this order:
+This means the inheritance for say `color` of `Label` can be described in this order.
+
+### Default Properties
 
 ```javascript
 static defaultProps = {
@@ -25,7 +27,7 @@ static defaultProps = {
 <Label />
 ```
 
----
+### Default Style Rule
 
 ```javascript
 Label: {
@@ -38,7 +40,7 @@ Label: {
 <Label />
 ```
 
----
+### Global Mapping
 
 ```javascript
 static mapPropsToStyle = {
@@ -53,16 +55,29 @@ static mapPropsToStyle = {
 <Label />
 ```
 
----
+### Class Name
 
-```html
-// We don't care what label thinks - it should be orange
-<Label color='orange' />
+```javascript
+highlight: {
+  color: 'steelblue'
+}
 ```
 
----
+```html
+// Prefer the color in another style rule
+<Label className='highlight' />
+```
+
+### Inline Property
 
 ```html
-// Orange, really?
+// Prefer the inline property over the className style
+<Label className='highlight' color='orange' />
+```
+
+### Inline Style
+
+```html
+// Inline style beats everything else
 <Label color='orange' style={{color: 'purple'}} />
 ```
