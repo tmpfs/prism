@@ -960,9 +960,40 @@ highlight: {
 
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the library configuration. These are the common configuration options, some more advanced options are shown in [plugin configuration](#plugin-configuration).
 
+* `defaultProps` use the [defaultProps](https://github.com/fika-community/prism/blob/master/src/defaultProps.js) plugin, default is `true`.
+* `defaultStyleRule` use the [defaultStyleRule](https://github.com/fika-community/prism/blob/master/src/defaultStyleRule.js) plugin, default is `true`.
+* `mapPropsToStyle` use the [mapPropsToStyle](https://github.com/fika-community/prism/blob/master/src/mapPropsToStyle.js) plugin, default is `true`.
+* `mapStyleToProps` use the [mapStyleToProps](https://github.com/fika-community/prism/blob/master/src/mapStyleToProps.js) plugin, default is `true`.
+* `className` use the property plugin for [className](https://github.com/fika-community/prism/blob/master/src/className.js), default is `true`.
+* `extendedProperties` enables the [extended property plugins](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js).
+* `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
+* `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
+* `textTransform` enables the text transform support (requires experimental plugins).
+* `debug` print configured plugins, default value is `__DEV__`.
+
 When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles and resolving default styles.
 
 This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
+
+To use the [extended style properties](#extended-style-properties) and enable color name lookup:
+
+```javascript
+Prism.configure(registry, {extendedProperties: true, colorNames: true})
+```
+
+To use `textTransform` you need to enable `experimentalPlugins`:
+
+```javascript
+Prism.configure(
+  registry,
+  {
+    experimentalPlugins: true,
+    textTransform: true
+  }
+)
+```
+
+File: [configuration.js](https://github.com/fika-community/prism/blob/master/src/configuration.js)
 
 ```javascript
 export default {
@@ -988,35 +1019,6 @@ export default {
     'xx-large': 26
   }
 }
-```
-
-* `defaultProps` use the [defaultProps](https://github.com/fika-community/prism/blob/master/src/defaultProps.js) plugin, default is `true`.
-* `defaultStyleRule` use the [defaultStyleRule](https://github.com/fika-community/prism/blob/master/src/defaultStyleRule.js) plugin, default is `true`.
-* `mapPropsToStyle` use the [mapPropsToStyle](https://github.com/fika-community/prism/blob/master/src/mapPropsToStyle.js) plugin, default is `true`.
-* `mapStyleToProps` use the [mapStyleToProps](https://github.com/fika-community/prism/blob/master/src/mapStyleToProps.js) plugin, default is `true`.
-* `className` use the property plugin for [className](https://github.com/fika-community/prism/blob/master/src/className.js), default is `true`.
-* `extendedProperties` enables the [extended property plugins](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js).
-* `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
-* `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
-* `textTransform` enables the text transform support (requires experimental plugins).
-* `debug` print configured plugins, default value is `__DEV__`.
-
-For example to use the [extended style properties](#extended-style-properties) and enable color name lookup:
-
-```javascript
-Prism.configure(registry, {extendedProperties: true, colorNames: true})
-```
-
-To use `textTransform` you need to enable `experimentalPlugins`:
-
-```javascript
-Prism.configure(
-  registry,
-  {
-    experimentalPlugins: true,
-    textTransform: true
-  }
-)
 ```
 
 ## Appendix
