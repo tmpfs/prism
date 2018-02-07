@@ -40,7 +40,7 @@ Label: {
 <Label />
 ```
 
-### Global Mapping
+### Component Mapping
 
 ```javascript
 static mapPropsToStyle = {

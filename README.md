@@ -51,7 +51,7 @@
 - [Cascade](#cascade)
   - [Default Properties](#default-properties)
   - [Default Style Rule](#default-style-rule)
-  - [Global Mapping](#global-mapping)
+  - [Component Mapping](#component-mapping)
   - [Class Name](#class-name)
   - [Inline Property](#inline-property)
   - [Inline Style](#inline-style)
@@ -914,7 +914,7 @@ Label: {
 <Label />
 ```
 
-### Global Mapping
+### Component Mapping
 
 ```javascript
 static mapPropsToStyle = {
