@@ -369,15 +369,12 @@ export default Prism(Layout, Namespace, requirements)
 
 If the component requirements are not met you can throw an error or return an error or a string. When a string is returned it is wrapped in an error and thrown.
 
-Note that you can use this technique to validate style declarations exist, for example:
+Note that you can use this technique to validate style rules exist, for example:
 
 ```javascript
 const requirements = ({registry}) => {
-  const {styleSheet} = registry
-  if (!styleSheet.bold) {
-    return `bold style declaration is required`
+  if (!registry.has('bold')) {
+    return `bold style rule is required`
   }
 }
 ```
-
-If you want to specify requirements for a component that does not have a namespace pass the empty string for the `namespace` argument.
