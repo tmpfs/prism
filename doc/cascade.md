@@ -1,21 +1,68 @@
 ## Cascade
 
-It can be useful to know some of the internals of how styles are computed.
+This section gives an overview of the cascade or inheritance mechanism using the default configuration.
 
-Generally speaking these are the actions taken:
+1. Compute style from `defaultProps`
+2. Include styles from `defaultStyleRule`
+3. Process global plugins (property mapping)
+4. Process property plugins (eg: extended and experimental)
+5. Run processors
 
-1. Default styles are applied.
-2. Global plugins are executed.
-3. Property plugins are executed.
-4. Child component styles are computed.
-5. Inline styles are applied.
+Note that property plugins are massaged so that `style`, `labelStyle` etc always execute after after other configured property plugins.
 
-Default styles start with any values in a style declaration inferred using the component class name, eg: `Label` when available. If the component is namespaced it is prefixed with the namespace and a period, eg: `com.prism.ui.Label`.
+This means the inheritance for say `color` of `Label` can be described in this order:
 
-At this point, global plugins that handle [mapping properties to styles](mapping-properties-to-styles) are executed.
+```javascript
+static defaultProps = {
+  style: {
+    color: 'red'
+  }
+}
+```
 
-Then the property plugins which handle the extended and experimental properties are executed as well as any custom property plugins.
+```html
+// Color is red
+<Label />
+```
 
-Subsequently the [mapStyleToProps](mapstyletocomponent) plugin is executed to create styles for child components, during this phase a child component style sheet (eg: `com.prism.ui.Panel.Header`) is added when present.
+---
 
-Finally any styles given in the `style` property take precedence.
+```javascript
+Label: {
+  color: 'green'
+}
+```
+
+```html
+// Color is green now we have a default style rule
+<Label />
+```
+
+---
+
+```javascript
+static mapPropsToStyle = {
+  color: () => {
+    return {color: 'blue'}
+  }
+}
+```
+
+```
+// Our component now says it should be blue
+<Label />
+```
+
+---
+
+```html
+// We don't care what label thinks - it should be orange
+<Label color='orange' />
+```
+
+---
+
+```html
+// Orange, really?
+<Label color='orange' style={{color: 'purple'}} />
+```
