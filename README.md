@@ -1088,6 +1088,7 @@ Plugins allow you to change the default behaviour.
 To create a plugin you pass a plugin name, handler function and plugin options:
 
 ```javascript
+import {Plugin} from 'react-native-prism'
 new Plugin(
   'pluginName',
   () => { /* ... */ },
