@@ -4,13 +4,13 @@
 
 To configure your application stylesheets first create a theme with some styles, colors and fonts.
 
-#### Styles
-
-Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
-
 File: [theme.js](/doc/examples/theme.js)
 
 <? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
+
+#### Styles
+
+Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
 
 #### Colors
 

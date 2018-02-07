@@ -226,7 +226,7 @@ static mapPropsToStyle = {
 
 Which will automatically define and create the `headerStyle` and `bodyStyle` properties for your component. The `propTypes` for the child style objects are automatically declared as we know ahead of time they should have the same property type as `style`.
 
-The immediate benefit is that you can now define style rules using dot notation for the child components which will be automatically be resolved as default styles.
+The immediate benefit is that you can now define style rules using dot notation for the child components which will automatically be resolved as default styles.
 
 ```javascript
 'Panel.Header': {
@@ -264,7 +264,7 @@ Now use of the `color` property on the parent is directed to the `headerStyle` o
 <Panel color='red' />
 ```
 
-You can can combine `state()` with multiple child components to create some interesting behaviour:
+You can combine `state()` with multiple child components to create some interesting behaviour:
 
 ```javascript
 static mapPropsToStyle = {
@@ -297,7 +297,7 @@ static mapStyleToProps = {
 }
 ```
 
-Typically this is used to deal with [invariants](#invariants) as in the example above which allows you component to respect `tintColor` in a style rule:
+Typically this is used to deal with [invariants](#invariants) as in the example above which allows your component to respect `tintColor` in a style rule:
 
 ```javascript
 Activity: {
