@@ -73,6 +73,36 @@ An example of bundling default styles for a component library is in the [Layout]
 
 Users of the library can then selectively override style declarations where necessary.
 
+### Default Styles
+
+It is recommended that you bundle styles using a theme and style registry however it is possible to set the bare minimum styles for a component with `defaultProps`, to do so you use an object named using the corresponding property:
+
+```javascript
+static defaultProps = {
+  style: {
+    fontSize: 16,
+    color: 'black'
+  }
+}
+```
+
+We can declare default styles for [child components](#child-components) too.
+
+```javascript
+static mapPropsToStyle = {
+  labelStyle: {}
+}
+static defaultProps = {
+  style: {
+    flex: 1
+  },
+  labelStyle: {
+    fontSize: 16,
+    color: 'black'
+  }
+}
+```
+
 ### Mapping Properties To Styles
 
 Components have varied needs for mapping properties to style declarations so the library provides several ways to map properties depending upon the requirement.

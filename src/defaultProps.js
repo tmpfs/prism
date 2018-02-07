@@ -9,6 +9,7 @@ export default new Plugin(
     const {NewType} = definition
     const defaultProps = NewType.inheritedDefaultProps || {}
     if (defaultProps && isObject(defaultProps[attrName])) {
+      console.log('defaultProps: ' + NewType.displayName)
       return defaultProps[attrName]
     }
   }

@@ -18,6 +18,7 @@
   - [Defining Styled Components](#defining-styled-components)
   - [Quick Components](#quick-components)
   - [Bundling Styles](#bundling-styles)
+  - [Default Styles](#default-styles)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyle](#mappropstostyle)
       - [State](#state)
@@ -298,6 +299,36 @@ export default Prism(Styled)
 An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
 Users of the library can then selectively override style declarations where necessary.
+
+### Default Styles
+
+It is recommended that you bundle styles using a theme and style registry however it is possible to set the bare minimum styles for a component with `defaultProps`, to do so you use an object named using the corresponding property:
+
+```javascript
+static defaultProps = {
+  style: {
+    fontSize: 16,
+    color: 'black'
+  }
+}
+```
+
+We can declare default styles for [child components](#child-components) too.
+
+```javascript
+static mapPropsToStyle = {
+  labelStyle: {}
+}
+static defaultProps = {
+  style: {
+    flex: 1
+  },
+  labelStyle: {
+    fontSize: 16,
+    color: 'black'
+  }
+}
+```
 
 ### Mapping Properties To Styles
 
@@ -977,7 +1008,7 @@ These plugins provide the ability to modify the computed style sheets without be
 
 They can provide options that filter when they are executed. For example `requireOptions` means *only run this plugin for components that have declared a corresponding options object*.
 
-For the example above a component needs to write:
+For the example above a component needs to explicitly enable the plugin:
 
 ```javascript
 static styleOptions: {

@@ -28,15 +28,15 @@ class SimpleLabel extends Component {
     }
   }
 
-  static defaultProps = {
-    style: {
-      // We should never see this because
-      // of the default class style rule
-      // but if we remove it this value shoul
-      // be used
-      color: 'pink'
-    }
-  }
+  //static defaultProps = {
+    //style: {
+      //// We should never see this because
+      //// of the default class style rule
+      //// but if we remove it this value shoul
+      //// be used
+      //color: 'pink'
+    //}
+  //}
 
   render () {
     // Get the computed style sheet

@@ -51,7 +51,7 @@ These plugins provide the ability to modify the computed style sheets without be
 
 They can provide options that filter when they are executed. For example `requireOptions` means *only run this plugin for components that have declared a corresponding options object*.
 
-For the example above a component needs to write:
+For the example above a component needs to explicitly enable the plugin:
 
 ```javascript
 static styleOptions: {

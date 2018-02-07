@@ -7,9 +7,16 @@ import SimpleLabel from './SimpleLabel'
 
 class ChildStateStyle extends Component {
 
+  //static styleOptions = {
+    //flat: true
+  //}
+
   static mapPropsToStyle = {
     titleStyle: {
-      size: ({state, prop}) => state(prop)
+      size: ({state, prop}) => state(prop),
+      //color: ({prop}) => {
+        //return {color: prop}
+      //}
     },
     numberStyle: {
       size: ({state, prop}) => state(prop)
@@ -26,7 +33,10 @@ class ChildStateStyle extends Component {
   static defaultProps = {
     bold: true,
     size: 'medium',
-    align: 'center'
+    align: 'center',
+    titleStyle: {
+      color: 'red'
+    }
   }
 
   render() {
@@ -46,6 +56,9 @@ class ChildStateStyle extends Component {
       ellipsis='head'
     }
 
+    //console.log(style)
+    //console.log(titleStyle)
+
     const title = (
       <SimpleLabel
         align={align}
@@ -61,7 +74,6 @@ class ChildStateStyle extends Component {
       <SimpleLabel
         align={align}
         bold={bold}
-        color={color}
         ellipsis={ellipsis}
         style={numberStyle}>
         {value.toString()}
