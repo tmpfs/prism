@@ -21,15 +21,15 @@ The default styles for a component are extracted by class name so the stylesheet
 ### Quick Components
 
 ```javascript
-Prism.fix(Type, style, props)
+Prism.style(Type, style, props)
 ```
 
-Sometimes you want to wrap a component using fixed styles without too much fuss, use `Prism.fix()` to wrap a component with basic styles.
+Sometimes you want to wrap a component using fixed styles without too much fuss, use `Prism.style()` to wrap a component with basic styles.
 
 This is particularly useful when you just want to draw a shape, a convoluted example to illustrate inheritance:
 
 ```javascript
-const Rectangle = Prism.fix(
+const Rectangle = Prism.style(
   View,
   {
     flex: 0,

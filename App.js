@@ -17,7 +17,7 @@ import theme from './app/theme'
 
 const ScrollView = Prism(NativeScrollView)
 
-const Rectangle = Prism.fix(
+const Rectangle = Prism.style(
   View,
   {
     flex: 0,
@@ -61,7 +61,7 @@ export default class App extends Component<{}> {
 
         <Panel label='Quick Components'>
           <Label>
-            This example demonstrates use of Prism.fix() to quickly create shapes.
+            This example demonstrates use of Prism.style() to quickly create shapes.
           </Label>
           <View flex={1} justify='center' style={{alignItems: 'center'}}>
             <Rectangle

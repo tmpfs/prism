@@ -203,10 +203,11 @@ Prism.configure = (registry, config = {}) => {
   Prism.registry = registry
 }
 
-Prism.fix = (Base, style, props = {}) => {
-  class FixedComponent extends Component {
+Prism.style = (Base, style, props = {}) => {
+  // TODO: restore className option support so these
+  // TODO: types can be referenced by selector?
+  class Anonymous extends Component {
     static styleOptions = {
-      fixed: true,
       supportsDimension: true
     }
     render () {
@@ -219,10 +220,10 @@ Prism.fix = (Base, style, props = {}) => {
     }
   }
 
-  FixedComponent.defaultProps = Object.assign({}, props)
-  FixedComponent.defaultProps.style = style
+  Anonymous.defaultProps = props
+  Anonymous.defaultProps.style = style
 
-  return Prism(FixedComponent)
+  return Prism(Anonymous)
 }
 
 Prism.propTypes = propTypes
