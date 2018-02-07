@@ -6,22 +6,11 @@ import Plugin from './Plugin'
 export default new Plugin(
   'defaultStyleRule',
   ({ns, registry, isPrimaryStyle, attrName}) => {
-    const {styleSheet, invariants} = registry
-    let sheets = []
-    let styleRuleName = ns.componentClassName
+    let selector = ns.componentClassName
     if (!isPrimaryStyle) {
       // Add child class name style sheet
-      styleRuleName = ns.getChildClassName(attrName)
-      if (invariants[styleRuleName]) {
-        sheets.push(invariants[styleRuleName])
-      }
+      selector = ns.getChildClassName(attrName)
     }
-    if (styleSheet[styleRuleName]) {
-      sheets.push(styleSheet[styleRuleName])
-      if (invariants[styleRuleName]) {
-        sheets.push(invariants[styleRuleName])
-      }
-    }
-    return sheets
+    return registry.resolve(selector)
   }
 )

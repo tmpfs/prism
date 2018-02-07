@@ -107,6 +107,37 @@ export default class StyleRegistry {
     this.sizes = sizes
   }
 
+  //registerProxy () {
+    //const proxy = {}
+    //this._compiled = this.styleSheet
+    //const keys = Object.keys(this._compiled)
+    //keys.forEach((selector) => {
+      //console.log('Adding selector to proxy: ' + selector)
+      //Object.defineProperty(
+        //proxy,
+        //selector,
+        //get: () => {
+          //console.log('Getting style: ' + selector)
+          //return this._compiled[selector]
+        //}
+      //)
+    //})
+  //}
+  //
+  //
+
+  resolve (selector) {
+    const sheets = []
+    const {styleSheet, invariants} = this
+    if (styleSheet[selector]) {
+      sheets.push(styleSheet[selector])
+    }
+    if (invariants[selector]) {
+      sheets.push(invariants[selector])
+    }
+    return sheets
+  }
+
   // Called to finalize the registry internally
   // do not call this directly
   compile ({config}) {
@@ -127,5 +158,8 @@ export default class StyleRegistry {
 
     //console.log(Object.keys(this.invariants))
     this.styleSheet = StyleSheet.create(this.styles)
+
+    // Configure proxy for invariant and platform handling
+    //this.registerProxy()
   }
 }
