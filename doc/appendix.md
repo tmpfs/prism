@@ -2,20 +2,36 @@
 
 ### Color Names
 
-Styles are much easier to change if we can refer to our custom colors by name.
+Styles are much easier to change and we can add semantic meaning to our colors if we can refer to them by name, use the `colorNames` option to enable this functionality.
 
-Components can declare their own color names by defining a style registry in the component style options.
-
-The bundled plugins handle color name lookup but if you are writing your own plugins and want to support color name lookup for color values you need to test the `colors` map:
+With the `colorNames` option enabled and a theme like:
 
 ```javascript
-[
-  ({prop, colors}) => {
-    return {backgroundColor: colors[prop] || prop}
+{
+  colors: {
+    primary: '#333333',
+    muted: '#999999',
   },
-  {bulletColor: PropTypes.string}
-]
+  styles: ({colors}) => {
+    return {
+      Label: {
+        fontSize: 16,
+        color: colors.primary
+      }
+    }
+  }
+}
 ```
+
+You can now override the color by name:
+
+```html
+<Label color='muted' />
+```
+
+To work in all scenarios (default properties, style sheets and properties) this logic is implemented as a [processor](#processor) and adds overhead therefore it is not enabled by default.
+
+Consider that there may be a better way for your application to manage named colors internally before enabling this option.
 
 ### Flat Styles
 
@@ -24,10 +40,8 @@ Sometimes you are wrapping a third-party component and want to proxy the `style`
 The computed `style` property passed to your component is guaranteed to be an array; here however we need it to be an object. To do so you can use the `flat` option:
 
 ```javascript
-static styleOptions = () => {
-  return {
-    flat: true
-  }
+static styleOptions = {
+  flat: true
 }
 ```
 
@@ -43,6 +57,10 @@ render () {
 ```
 
 <? @include plugins.md ?>
+
+### Processor
+
+TODO
 
 ### Invariants
 
