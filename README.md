@@ -49,18 +49,19 @@
     - [textTransform](#texttransform)
 - [Cascade](#cascade)
 - [Configuration](#configuration)
-  - [Plugin Configuration](#plugin-configuration)
-    - [plugins](#plugins)
-    - [additionalPlugins](#additionalplugins)
-    - [disabledPlugins](#disabledplugins)
 - [Appendix](#appendix)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
-  - [Plugins](#plugins-1)
-    - [Global Plugins](#global-plugins)
+  - [Plugins](#plugins)
     - [Property Plugins](#property-plugins)
-  - [Invariants](#invariants)
-  - [Performance](#performance)
+  - [Creating Plugins](#creating-plugins)
+    - [Global Plugins](#global-plugins)
+  - [Plugin Configuration](#plugin-configuration)
+    - [plugins](#plugins-1)
+  - [additionalPlugins](#additionalplugins)
+  - [disabledPlugins](#disabledplugins)- [Invariants](#invariants)
+- [Performance](#performance)
+
 - [License](#license)
 
 ---
@@ -829,21 +830,21 @@ Finally any styles given in the `style` property take precedence.
 
 ## Configuration
 
-You can pass a configuration object as the second argument to `Prism.configure()` to modify the library configuration.
+You can pass a configuration object as the second argument to `Prism.configure()` to modify the library configuration. These are the common configuration options, some more advanced options are shown in [plugin configuration](#plugin-configuration).
 
-When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles.
+When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles and resolving default styles.
 
 This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
 
-* `className` use the plugin that processes the `className` property, default is `true`.
-* `mapPropsToStyle` use the `mapPropsToStyle` plugin, default is `true`.
-* `extendedProperties` enables the extended style property plugins.
-* `experimentalPlugins` enables the experimental plugins.
-* `colorNames` enables the color names preprocessor.
-* `textTransform` enables the text transform preprocessor (requires experimental plugins).
-* `additionalPlugins` array of plugin definitions to append to the system plugins.
-* `disabledPlugins` array of string plugin names to disable.
-* `plugins` array of plugin definitions to use, overrides the system plugins.
+* `defaultProps` use the [defaultProps](https://github.com/fika-community/prism/blob/master/src/defaultProps.js) plugin, default is `true`.
+* `defaultStyleRule` use the [defaultStyleRule](https://github.com/fika-community/prism/blob/master/src/defaultStyleRule.js) plugin, default is `true`.
+* `mapPropsToStyle` use the [mapPropsToStyle](https://github.com/fika-community/prism/blob/master/src/mapPropsToStyle.js) plugin, default is `true`.
+* `mapStyleToProps` use the [mapStyleToProps](https://github.com/fika-community/prism/blob/master/src/mapStyleToProps.js) plugin, default is `true`.
+* `className` use the property plugin for [className](https://github.com/fika-community/prism/blob/master/src/className.js), default is `true`.
+* `extendedProperties` enables the [extended property plugins](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js).
+* `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
+* `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
+* `textTransform` enables the text transform support (requires experimental plugins).
 * `debug` print configured plugins.
 
 For example to use the [extended style properties](#extended-style-properties) and enable color name lookup:
@@ -863,49 +864,6 @@ Prism.configure(
   }
 )
 ```
-
-### Plugin Configuration
-
-#### plugins
-
-Use your own `plugins` array when you want to specify a list of plugins to use *before* any plugins enabled using the configuration flags, you can disable `className` and `mapPropsToStyle` etc to use only the custom plugins you specify.
-
-#### additionalPlugins
-
-Use the `additionalPlugins` option to add custom functionality to all your styled components, see [plugins](#plugins) for information on defining custom plugins.
-
-```javascript
-Prism.configure(
-  registry,
-  {
-    extendedProperties: true,
-    additionalPlugins: [
-      [
-        'customGlobalPlugin',
-        ({props, styleSheet}) => {
-          // Do something cool
-        }
-      ]
-    ]
-  }
-)
-```
-
-#### disabledPlugins
-
-You may want to remove plugins you don't need or if you find a property name collision:
-
-```javascript
-Prism.configure(
-  registry,
-  {
-    extendedProperties: true,
-    disabledPlugins: ['position', 'wrap']
-  }
-)
-```
-
-The `disabledPlugins` option is processed after `plugins` and `additionalPlugins` so you may use this to disable your custom plugins. If you give a plugin name that does not exist it is ignored.
 
 ## Appendix
 
@@ -953,36 +911,114 @@ render () {
 
 ### Plugins
 
-Plugins allow you to change the default behaviour, see [style properties](#style-properties) for the list of default properties and [configuration](#configuration) for how to register plugins.
+Plugins allow you to change the default behaviour.
 
-#### Global Plugins
+##### Property Plugins
 
-Global plugins such as `mapPropsToStyle` are defined by string name followed by plugin implementation:
-
-```javascript
-const plugins = [
-  [
-    'globalPlugin',
-    ({props, styleSheet}) => { /* ... */ }
-  ]
-]
-```
-
-#### Property Plugins
-
-If your plugin is for a property you should specify the implementation followed by the `propType` to use:
+If your plugin is for a property you should use the `propType` option:
 
 ```javascript
 import PropTypes from 'prop-types'
 const plugins = [
-  [
+  new Plugin(
+    'transform',
     ({prop, propName, styleSheet, colors}) => {
       // Return some transform specific style declarations
     },
-    {transform: PropTypes.object}
-  ]
+    {propType: PropTypes.object}
+  )
 ]
 ```
+
+These plugins will only execute when the property is defined on the component.
+
+See [extendedPropertyPlugins.js](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js) for several examples.
+
+#### Creating Plugins
+
+To create a plugin you pass a plugin name, handler function and plugin options:
+
+```javascript
+new Plugin(
+  'pluginName',
+  () => { /* ... */ },
+  {/* options */}
+)
+```
+
+##### Global Plugins
+
+Global plugins are those without a `propType` option:
+
+```javascript
+new Plugin(
+  'globalPlugin',
+  ({props, styleSheet}) => { /* ... */ },
+  {requireOptions: true}
+)
+```
+
+These plugins provide the ability to modify the computed style sheets without being triggered by the presence of a property.
+
+They can provide options that filter when they are executed. For example `requireOptions` means *only run this plugin for components that have declared a corresponding options object*.
+
+For the example above a component needs to write:
+
+```javascript
+static styleOptions: {
+  // Trigger execution of the plugin for this component
+  globalPlugin: {}
+}
+```
+
+#### Plugin Configuration
+
+Use these configuration options to control plugins:
+
+* `additionalPlugins` array of plugin definitions to append to the system plugins.
+* `disabledPlugins` array of string plugin names to disable.
+* `plugins` array of plugin definitions to use, overrides the system plugins.
+
+##### plugins
+
+Use your own `plugins` array when you want to specify a list of plugins to use *before* any plugins enabled using the configuration flags, you can disable `className` and `mapPropsToStyle` etc to use only the custom plugins you specify.
+
+#### additionalPlugins
+
+Use the `additionalPlugins` option to add custom functionality to all your styled components, see [plugins](#plugins) for information on defining custom plugins.
+
+```javascript
+Prism.configure(
+  registry,
+  {
+    extendedProperties: true,
+    additionalPlugins: [
+      new Plugin(
+        'customGlobalPlugin',
+        ({props, styleSheet}) => {
+          // Do something cool
+        }
+      )
+    ]
+  }
+)
+```
+
+#### disabledPlugins
+
+You may want to remove plugins you don't need or if you find a property name collision:
+
+```javascript
+Prism.configure(
+  registry,
+  {
+    extendedProperties: true,
+    disabledPlugins: ['position', 'wrap']
+  }
+)
+```
+
+The `disabledPlugins` option is processed after `plugins` and `additionalPlugins` so you may use this to disable your custom plugins. If you give a plugin name that does not exist it is ignored.
 
 ### Invariants
 
