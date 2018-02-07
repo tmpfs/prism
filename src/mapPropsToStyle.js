@@ -4,7 +4,7 @@ const {isString, isFunction, isObject} = util
 
 export default new Plugin(
   'mapPropsToStyle',
-  ({props, options, registry, ns, attrName, isPrimaryStyle, styleSheet}) => {
+  ({props, options, registry, ns, attrName, isPrimaryStyle}) => {
     const {mapPropsToStyle} = options
     let map = mapPropsToStyle
     if (isObject(map[attrName])) {

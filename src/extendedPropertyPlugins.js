@@ -55,7 +55,7 @@ export default [
   ),
   new Plugin(
     'radius',
-    ({props, styleSheet}) => {
+    ({props}) => {
       const {radius} = props
       if (typeof(radius) === 'number') {
         return {borderRadius: radius}
@@ -74,7 +74,7 @@ export default [
   ),
   new Plugin(
     'padding',
-    ({props, styleSheet}) => {
+    ({props}) => {
       const {padding} = props
       return boxModel('padding', padding)
     },
@@ -82,7 +82,7 @@ export default [
   ),
   new Plugin(
     'margin',
-    ({props, styleSheet}) => {
+    ({props}) => {
       const {margin} = props
       return boxModel('margin', margin)
     },
@@ -90,7 +90,7 @@ export default [
   ),
   new Plugin(
     'position',
-    ({props, styleSheet}) => {
+    ({props}) => {
       const {position} = props
       const {top, right, bottom, left} = position
       return {top, right, bottom, left, position: 'absolute'}
@@ -99,7 +99,7 @@ export default [
   ),
   new Plugin(
     'border',
-    ({prop, styleSheet, colors}) => {
+    ({prop, colors}) => {
       const border = prop
       if (Array.isArray(border)) {
         return {
@@ -123,7 +123,7 @@ export default [
   // Flex
   new Plugin(
     'flex',
-    ({props, styleSheet}) => {
+    ({props}) => {
       let {flex} = props
       if (typeof(flex) === 'boolean') {
         flex = Number(flex)
@@ -145,7 +145,7 @@ export default [
   ),
   new Plugin(
     'row',
-    ({props, styleSheet}) => {
+    ({props}) => {
       const {row} = props
       if (row === true) {
         return {flexDirection: 'row'}
@@ -155,7 +155,7 @@ export default [
   ),
   new Plugin(
     'wrap',
-    ({props, styleSheet}) => {
+    ({props}) => {
       const {wrap} = props
       return {flexWrap: wrap ? 'wrap' : 'nowrap'}
     },

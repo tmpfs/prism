@@ -143,6 +143,7 @@ export default class StyleRegistry {
     if (found.length) {
       sheets.push.apply(sheets, found)
     }
+    return sheets
   }
 
   // Called to finalize the registry internally

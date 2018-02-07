@@ -56,7 +56,7 @@ export default [
   // Font
   new Plugin(
     'font',
-    ({context, prop, styleSheet, colors, sizes, config, options}) => {
+    ({context, prop, colors, sizes, config, options}) => {
       if (options.supportsText) {
         const fontShapeColors = propTypes.fontShapeColors
         const fontShapeMap = propTypes.fontShapeMap
