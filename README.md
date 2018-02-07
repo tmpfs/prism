@@ -26,8 +26,6 @@
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
-  - [Color Names](#color-names)
-  - [Flat Styles](#flat-styles)
 - [Properties](#properties)
   - [Style Properties](#style-properties)
     - [style](#style)
@@ -55,9 +53,14 @@
     - [plugins](#plugins)
     - [additionalPlugins](#additionalplugins)
     - [disabledPlugins](#disabledplugins)
-- [Plugins](#plugins-1)
-  - [Global Plugins](#global-plugins)
-  - [Property Plugins](#property-plugins)
+- [Appendix](#appendix)
+  - [Color Names](#color-names)
+  - [Flat Styles](#flat-styles)
+  - [Plugins](#plugins-1)
+    - [Global Plugins](#global-plugins)
+    - [Property Plugins](#property-plugins)
+  - [Invariants](#invariants)
+  - [Performance](#performance)
 - [License](#license)
 
 ---
@@ -478,7 +481,36 @@ Will resolve `NumberStack.Title:small` to include in `titleStyle` and `NumberSta
 
 #### mapStyleToProps
 
-TODO
+This is the inverse mapping that extracts a style property and assigns it as a property on the component.
+
+It is recommended to only use `mapStyleToProps` when you absolutely must as it requires flattening the computed styles.
+
+```javascript
+static mapStyleToProps = {
+  tintColor: ({prop}) => prop
+}
+```
+
+Typically this is used to deal with [invariants](#invariants) as in the example above which allows you component to respect `tintColor` in a style rule:
+
+```javascript
+Activity: {
+  tintColor: 'purple'
+}
+```
+
+And have it extracted to a property on the component:
+
+```javascript
+render () {
+  const {style, tintColor} = this.props
+  return (
+    <View style={style}>
+      <ActivityIndicator tintColor={tintColor} />
+    </View>
+  )
+}
+```
 
 ### Property Type Validation
 
@@ -541,48 +573,6 @@ const requirements = ({registry}) => {
 ```
 
 If you want to specify requirements for a component that does not have a namespace pass the empty string for the `namespace` argument.
-
-### Color Names
-
-Styles are much easier to change if we can refer to our custom colors by name.
-
-Components can declare their own color names by defining a style registry in the component style options.
-
-The bundled plugins handle color name lookup but if you are writing your own plugins and want to support color name lookup for color values you need to test the `colors` map:
-
-```javascript
-[
-  ({prop, colors}) => {
-    return {backgroundColor: colors[prop] || prop}
-  },
-  {bulletColor: PropTypes.string}
-]
-```
-
-### Flat Styles
-
-Sometimes you are wrapping a third-party component and want to proxy the `style` object to the component but it does not accept an array for the `style` property; it enforces an object only property type.
-
-The computed `style` property passed to your component is guaranteed to be an array; here however we need it to be an object. To do so you can use the `flat` option:
-
-```javascript
-static styleOptions = () => {
-  return {
-    flat: true
-  }
-}
-```
-
-Now you can just proxy it to the child component knowing it will be an object:
-
-```javascript
-render () {
-  const {style} = this.props
-  return (
-    <NonIdiomaticComponent style={style} />
-  )
-}
-```
 
 ## Properties
 
@@ -915,11 +905,55 @@ Prism.configure(
 
 The `disabledPlugins` option is processed after `plugins` and `additionalPlugins` so you may use this to disable your custom plugins. If you give a plugin name that does not exist it is ignored.
 
-## Plugins
+## Appendix
+
+### Color Names
+
+Styles are much easier to change if we can refer to our custom colors by name.
+
+Components can declare their own color names by defining a style registry in the component style options.
+
+The bundled plugins handle color name lookup but if you are writing your own plugins and want to support color name lookup for color values you need to test the `colors` map:
+
+```javascript
+[
+  ({prop, colors}) => {
+    return {backgroundColor: colors[prop] || prop}
+  },
+  {bulletColor: PropTypes.string}
+]
+```
+
+### Flat Styles
+
+Sometimes you are wrapping a third-party component and want to proxy the `style` object to the component but it does not accept an array for the `style` property; it enforces an object only property type.
+
+The computed `style` property passed to your component is guaranteed to be an array; here however we need it to be an object. To do so you can use the `flat` option:
+
+```javascript
+static styleOptions = () => {
+  return {
+    flat: true
+  }
+}
+```
+
+Now you can just proxy it to the child component knowing it will be an object:
+
+```javascript
+render () {
+  const {style} = this.props
+  return (
+    <NonIdiomaticComponent style={style} />
+  )
+}
+```
+
+### Plugins
 
 Plugins allow you to change the default behaviour, see [style properties](#style-properties) for the list of default properties and [configuration](#configuration) for how to register plugins.
 
-### Global Plugins
+#### Global Plugins
 
 Global plugins such as `mapPropsToStyle` are defined by string name followed by plugin implementation:
 
@@ -932,7 +966,7 @@ const plugins = [
 ]
 ```
 
-### Property Plugins
+#### Property Plugins
 
 If your plugin is for a property you should specify the implementation followed by the `propType` to use:
 
@@ -947,6 +981,10 @@ const plugins = [
   ]
 ]
 ```
+
+### Invariants
+
+### Performance
 
 ## License
 

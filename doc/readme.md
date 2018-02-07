@@ -32,7 +32,7 @@ If you want to migrate an existing application you should start with [Prism Prim
 <? @include properties.md ?>
 <? @include cascade.md ?>
 <? @include configuration.md ?>
-<? @include plugins.md ?>
+<? @include appendix.md ?>
 
 ## License
 
