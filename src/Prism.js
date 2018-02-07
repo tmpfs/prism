@@ -23,7 +23,7 @@ import colorNames from './colorNames'
 import invariants from './invariants'
 
 // Register a stylable component type
-const Prism = (Type, namespace = '', requirements = null) => {
+const Prism = (Type, initOptions = {}) => {
   if (Prism.registry) {
     throw new Error(
       `Prism you should not call Prism() once Prism.configure() has been called, ` +
@@ -31,7 +31,7 @@ const Prism = (Type, namespace = '', requirements = null) => {
       `the behaviour is undefined so register components first.`)
   }
 
-  const definition = new ComponentDefinition(Type, {namespace, requirements})
+  const definition = new ComponentDefinition(Type, initOptions)
 
   // Create the HOC wrapper
   definition.NewType = withPrism(Type, definition)

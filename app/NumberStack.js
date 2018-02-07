@@ -5,7 +5,7 @@ import View from './View'
 
 import SimpleLabel from './SimpleLabel'
 
-class ChildStateStyle extends Component {
+class NumberStack extends Component {
 
   //static styleOptions = {
     //flat: true
@@ -34,8 +34,12 @@ class ChildStateStyle extends Component {
     bold: true,
     size: 'medium',
     align: 'center',
+    style: {
+      padding: 10
+    },
     titleStyle: {
-      color: 'red'
+      textTransform: 'uppercase'
+      //color: 'red'
     }
   }
 
@@ -89,4 +93,4 @@ class ChildStateStyle extends Component {
   }
 }
 
-export default Prism(ChildStateStyle)
+export default Prism(NumberStack)

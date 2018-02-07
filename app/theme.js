@@ -29,6 +29,16 @@ export default {
   },
   styles: ({colors, fonts}) => {
     return {
+      SimpleLabel: {
+        fontSize: 16,
+        fontFamily: fonts.regular,
+        color: colors.base1
+      },
+      'com.example.text.Label': {
+        fontSize: 16,
+        fontFamily: fonts.regular,
+        color: colors.base01
+      },
       highlight: {
         color: colors.cyan
       },
@@ -47,11 +57,6 @@ export default {
       'Panel.Body': {
         backgroundColor: colors.base02,
         padding: 10
-      },
-      SimpleLabel: {
-        color: colors.base2,
-        fontSize: 16,
-        fontFamily: fonts.regular
       },
       'CompositeLabel': {
         margin: 20
@@ -75,22 +80,22 @@ export default {
       'activity-tint': {
         tintColor: 'green'
       },
-      'ChildStateStyle.Title:small': {
+      'NumberStack.Title:small': {
         fontSize: 16
       },
-      'ChildStateStyle.Number:small': {
+      'NumberStack.Number:small': {
         fontSize: 40
       },
-      'ChildStateStyle.Title:medium': {
+      'NumberStack.Title:medium': {
         fontSize: 20
       },
-      'ChildStateStyle.Number:medium': {
+      'NumberStack.Number:medium': {
         fontSize: 55
       },
-      'ChildStateStyle.Title:large': {
+      'NumberStack.Title:large': {
         fontSize: 24
       },
-      'ChildStateStyle.Number:large': {
+      'NumberStack.Number:large': {
         fontSize: 70
       },
       bold: {

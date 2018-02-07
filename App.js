@@ -8,7 +8,10 @@ import Activity from './app/Activity'
 import Label from './app/SimpleLabel'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
 import CompositeLabel from './app/CompositeLabel'
-import ChildStateStyle from './app/ChildStateStyle'
+import NumberStack from './app/NumberStack'
+
+import NamespaceExample from './app/NamespaceExample'
+
 import theme from './app/theme'
 
 const ScrollView = Prism(NativeScrollView)
@@ -44,9 +47,24 @@ export default class App extends Component<{}> {
     return (
       <ScrollView padding={20} background='base01'>
 
+        <Panel label='Extended Properties'>
+          <Label
+            background='base03'
+            color='base3'
+            radius={5}
+            margin={5}
+            padding={15}>
+            This is a label to test various extended properties, it sets background, color, radius, margin and padding.
+          </Label>
+        </Panel>
 
+        <Panel label='Namespace'>
+          <NamespaceExample>
+            This is an example using the com.example.text namespace for a component, the com.example.text.Label style rule defines the component styles.
+          </NamespaceExample>
+        </Panel>
 
-        <Panel label='Inheritance' color='red'>
+        <Panel label='Inheritance'>
           <Label margin={[5]}>
             This is some text using the class style declaration.
           </Label>
@@ -61,26 +79,34 @@ export default class App extends Component<{}> {
           </Label>
         </Panel>
 
-        <Panel label='Basic number stack'>
-          <ChildStateStyle
-            value={21}
-            color='cream'
-            size='small'
-          >
-          Small Style
-          </ChildStateStyle>
-          <ChildStateStyle
-            value={21}
-            color='cream'
-            size='medium'
-          >
-          Medium Style
-          </ChildStateStyle>
+        <Panel label='Child Component' color='base00'>
+          <Label>
+            This is an example that illustrates routing a property to a child component, the text for this panel header should be a grey value extracted from the base00 color.
+          </Label>
         </Panel>
 
-        <Panel label='tintColor'>
+        <Panel label='Child State'>
           <Label>
-            This is a component using tintColor from the Activity rule.
+            This is an example that routes a size property to multiple child components which each resolve to state styles.
+          </Label>
+          <NumberStack
+            value={21}
+            color='cream'
+            size='small'>
+          Small Style
+          </NumberStack>
+          <NumberStack
+            value={21}
+            color='cream'
+            size='medium'>
+          Medium Style
+          </NumberStack>
+
+        </Panel>
+
+        <Panel label='Invariant Inheritance'>
+          <Label>
+            This is an example to illustrate inheritance with the tintColor invariant. Colors should be the muted RGB values from the color names not the bright default HTML color names.
           </Label>
           <View justify='center' padding={15}>
             <Activity />
@@ -95,8 +121,14 @@ export default class App extends Component<{}> {
             This is a component using tintColor from a property.
           </Label>
           <View justify='center' padding={15}>
-            <Activity tintColor='blue' />
+            <Activity className='activity-tint' tintColor='blue' />
           </View>
+        </Panel>
+
+        <Panel label='Text Transform'>
+          <Label textTransform='uppercase'>
+            This is some uppercase text <Label textTransform='lowercase'>with some lowercase text in a Label</Label> in a paragraph. <Label textTransform='capitalize'>We can capitalize too</Label>. But we cannot apply none (undo) once a parent is transformed :(
+          </Label>
         </Panel>
 
         <Panel label='font'>
@@ -120,22 +152,6 @@ export default class App extends Component<{}> {
           </View>
         </Panel>
 
-        <Panel label='textTransform'>
-          <Label textTransform='uppercase'>
-            This is some uppercase text <Label textTransform='lowercase'>with some lowercase text in a Label</Label> in a paragraph. <Label textTransform='capitalize'>We can capitalize too</Label>. But we cannot apply none (undo) once a parent is transformed :(
-          </Label>
-        </Panel>
-
-        <Panel label='extended'>
-          <Label
-            background='base3'
-            color='base03'
-            radius={5}
-            margin={5}
-            padding={15}>
-            This is a label to test various extended properties.
-          </Label>
-        </Panel>
       </ScrollView>
     )
   }

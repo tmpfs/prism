@@ -159,7 +159,7 @@ static mapPropsToStyle = {
 }
 ```
 
-Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
+Functions declared in this way have access to the style registry and it's properties (`colors` etc) the `props`, current `prop` and  `propName`. Functions should return a style object or array of objects to be included in the computed styles, to take no action return `undefined`.
 
 When the passed `prop` is returned a style rule is created using the property name and value which is useful when the property name matches the style property name:
 
