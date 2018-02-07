@@ -964,6 +964,32 @@ When no configuration object is given support for the `className` property is en
 
 This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
 
+```javascript
+export default {
+  plugins: [],
+  processors: [],
+  defaultProps: true,
+  defaultStyleRule: true,
+  mapPropsToStyle: true,
+  mapStyleToProps: true,
+  className: true,
+  inlineStyle: true,
+  colorNames: false,
+  textTransform: false,
+  debug: __DEV__,
+  invariants: [],
+  sizes: {
+    'xx-small': 12,
+    'x-small': 13,
+    'small': 14,
+    'medium': 16,
+    'large': 18,
+    'x-large': 22,
+    'xx-large': 26
+  }
+}
+```
+
 * `defaultProps` use the [defaultProps](https://github.com/fika-community/prism/blob/master/src/defaultProps.js) plugin, default is `true`.
 * `defaultStyleRule` use the [defaultStyleRule](https://github.com/fika-community/prism/blob/master/src/defaultStyleRule.js) plugin, default is `true`.
 * `mapPropsToStyle` use the [mapPropsToStyle](https://github.com/fika-community/prism/blob/master/src/mapPropsToStyle.js) plugin, default is `true`.

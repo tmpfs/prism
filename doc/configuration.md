@@ -6,6 +6,8 @@ When no configuration object is given support for the `className` property is en
 
 This is a sensible minimal default configuration which will be sufficient for many applications and creates the least chance of conflict if you want to integrate Prism with an existing application.
 
+<? @source {javascript} ../src/configuration.js ?>
+
 * `defaultProps` use the [defaultProps](/src/defaultProps.js) plugin, default is `true`.
 * `defaultStyleRule` use the [defaultStyleRule](/src/defaultStyleRule.js) plugin, default is `true`.
 * `mapPropsToStyle` use the [mapPropsToStyle](/src/mapPropsToStyle.js) plugin, default is `true`.
