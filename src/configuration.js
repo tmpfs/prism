@@ -10,9 +10,7 @@ export default {
   colorNames: false,
   textTransform: false,
   debug: __DEV__,
-  invariantNames: [
-    'textTransform'
-  ],
+  invariants: [],
   sizes: {
     'xx-small': 12,
     'x-small': 13,

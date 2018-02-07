@@ -146,12 +146,43 @@ export default class StyleRegistry {
     return sheets
   }
 
+  // Called by a registry to extract rules with invariants
+  // prior to compiling the styles
+  extract (target, invariants) {
+    const {config} = this
+    const extracted = {}
+    let selector, rule
+
+    const expand = (rule) => {
+      const keys = []
+      const decl = {}
+      invariants.forEach((name) => {
+        if (rule[name] !== undefined) {
+          keys.push(name)
+          decl[name] = rule[name]
+          delete rule[name]
+        }
+      })
+      return {keys, decl}
+    }
+
+    for (selector in target) {
+      rule = target[selector]
+      const {keys, decl} = expand(rule)
+      if (keys.length) {
+        extracted[selector] = decl
+      }
+    }
+    return extracted
+  }
+
   // Called to finalize the registry internally
   // do not call this directly
   compile ({config}) {
+    const {invariants} = config
 
     // Extract invariants before compilation
-    this.invariants = processor.extract(this.styles)
+    this.invariants = this.extract(this.styles, invariants)
 
     if (config.debug) {
       const keys = Object.keys(this.invariants)

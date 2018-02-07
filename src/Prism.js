@@ -20,7 +20,7 @@ import propTypes from './propTypes'
 import withPrism from './withPrism'
 import withContext from './withContext'
 import colorNames from './colorNames'
-import textTransform from './textTransform'
+import invariants from './invariants'
 
 // Register a stylable component type
 const Prism = (Type, namespace = '', requirements = null) => {
@@ -121,13 +121,21 @@ Prism.configure = (registry, config = {}) => {
     config.processors.push(colorNames)
   }
 
+  // Configure invariants behind flags
   if (config.textTransform) {
     if (!config.experimentalPlugins) {
       throw new Error(
         'Prism experimentalPlugins option is required to use textTransform')
     }
-    config.processors.push(textTransform)
+
+    // Need to ensure this style property
+    // never ends up in the computed style sheet
+    config.invariants.push('textTransform')
   }
+
+  // Configure invariant processors that will remove
+  // invariants from the final computed style sheet
+  invariants(config)
 
   if (config.debug) {
     console.log(
