@@ -3,8 +3,7 @@ import {Prism, StyleRegistry} from '../../src/Prism'
 import theme from './theme'
 import Label from './Label'
 
-const registry = new StyleRegistry()
-registry.addTheme(theme)
+const registry = new StyleRegistry({theme})
 Prism.configure(
   registry,
   {

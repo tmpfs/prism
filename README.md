@@ -153,8 +153,7 @@ import {Prism, StyleRegistry} from 'react-native-prism'
 import theme from './theme'
 import Label from './Label'
 
-const registry = new StyleRegistry()
-registry.addTheme(theme)
+const registry = new StyleRegistry({theme})
 Prism.configure(
   registry,
   {
