@@ -2,7 +2,15 @@
 
 ### Defining Styles
 
-To configure your application stylesheets first create some colors, fonts and styles.
+To configure your application stylesheets first create a theme with some styles, colors and fonts.
+
+#### Styles
+
+Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
+
+File: [theme.js](/doc/examples/theme.js)
+
+<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
 
 #### Colors
 
@@ -28,17 +36,9 @@ If you need a conditional use a function which will be passed the value of `Plat
 }
 ```
 
-#### Styles
+### Application Configuration
 
-Styles are declared as a function that is passed the style registry, typically you only need access to the colors and fonts.
-
-File: [theme.js](/doc/examples/theme.js)
-
-<? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/theme.js ?>
-
-### Configure Prism
-
-Now you can create a style registry and instruct your components to use it:
+To configure your application create a style registry with your theme and instruct your components to use it:
 
 File: [App.js](/doc/examples/App.js)
 

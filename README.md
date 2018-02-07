@@ -10,10 +10,10 @@
 - [Synopsis](#synopsis)
 - [Getting Started](#getting-started)
   - [Defining Styles](#defining-styles)
+    - [Styles](#styles)
     - [Colors](#colors)
     - [Fonts](#fonts)
-    - [Styles](#styles)
-  - [Configure Prism](#configure-prism)
+  - [Application Configuration](#application-configuration)
   - [Defining Styled Components](#defining-styled-components)
 - [Components](#components)
   - [Bundling Styles](#bundling-styles)
@@ -82,31 +82,7 @@ If you want to migrate an existing application you should start with [Prism Prim
 
 ### Defining Styles
 
-To configure your application stylesheets first create some colors, fonts and styles.
-
-#### Colors
-
-Colors are a map from color name to string value. Use of custom color names is optional but it can help make your styles more semantic.
-
-#### Fonts
-
-Fonts are a map from font identifier to string font family name.
-
-```javascript
-{regular: 'WorkSans-Regular'}
-```
-
-Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name.
-
-If you need a conditional use a function which will be passed the value of `Platform.OS` and should return a platform-specific font family name.
-
-```javascript
-{
-  regular: (os) => {
-    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
-  }
-}
-```
+To configure your application stylesheets first create a theme with some styles, colors and fonts.
 
 #### Styles
 
@@ -139,9 +115,33 @@ export default {
 }
 ```
 
-### Configure Prism
+#### Colors
 
-Now you can create a style registry and instruct your components to use it:
+Colors are a map from color name to string value. Use of custom color names is optional but it can help make your styles more semantic.
+
+#### Fonts
+
+Fonts are a map from font identifier to string font family name.
+
+```javascript
+{regular: 'WorkSans-Regular'}
+```
+
+Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name.
+
+If you need a conditional use a function which will be passed the value of `Platform.OS` and should return a platform-specific font family name.
+
+```javascript
+{
+  regular: (os) => {
+    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
+  }
+}
+```
+
+### Application Configuration
+
+To configure your application create a style registry with your theme and instruct your components to use it:
 
 File: [App.js](https://github.com/fika-community/prism/blob/master/doc/examples/App.js)
 
@@ -156,7 +156,6 @@ registry.addTheme(theme)
 Prism.configure(
   registry,
   {
-    debug: true,
     extendedProperties: true,
     experimentalPlugins: true,
     textTransform: true,
@@ -309,16 +308,16 @@ static mapPropsToStyle = {
 
 Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
 
-If you return a string a style sheet is resolved using the familiar `a:hover` syntax.
+If you call `state()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
 
 For a component called `Notice`:
 
 ```javascript
 static mapPropsToStyle = {
-  error: ({prop, props}) => {
+  error: ({prop, state}) => {
     if (prop === true) {
       // Include the style for Notice:error
-      return 'error'
+      return state('error')
     }
   }
 }
@@ -339,7 +338,7 @@ This can be an easy way to trigger style variations that are resolved from the s
 
 ```javascript
 static mapPropsToStyle = {
-  size: ({prop}) => prop
+  size: ({prop, state}) => state(prop)
 }
 ```
 
@@ -886,7 +885,7 @@ Prism.configure(
   registry,
   {
     extendedProperties: true,
-    disabledPlugins: ['direction', 'wrap']
+    disabledPlugins: ['position', 'wrap']
   }
 )
 ```
@@ -932,7 +931,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 6, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 7, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
