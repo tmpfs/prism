@@ -28,6 +28,9 @@ export default {
         fontFamily: fonts.regular,
         color: colors.base1
       },
+      Bundle: {
+        color: 'cyan'
+      },
       'com.example.text.Label': {
         fontSize: 17,
         fontFamily: fonts.regular,

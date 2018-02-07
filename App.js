@@ -9,6 +9,7 @@ import Label from './app/Label'
 import DefaultStyleLabel from './app/DefaultStyleLabel'
 import CompositeLabel from './app/CompositeLabel'
 import NumberStack from './app/NumberStack'
+import Bundle from './app/Bundle'
 
 import NamespaceExample from './app/NamespaceExample'
 
@@ -50,6 +51,12 @@ export default class App extends Component<{}> {
             padding={15}>
             This is a label to test various extended properties, it sets background, color, radius and padding.
           </Label>
+        </Panel>
+
+        <Panel label='Style Bundle'>
+          <Bundle>
+            This is an example of bundling default component styles. The <Label color='base1'>bundle.js</Label> file is supplied with the component and we selectively overwrite the color property in <Label color='base1'>theme.js</Label>.
+          </Bundle>
         </Panel>
 
         <Panel label='Quick Components'>

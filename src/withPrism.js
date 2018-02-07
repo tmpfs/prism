@@ -187,8 +187,8 @@ const withPrism = (Stylable, definition) => {
   if (Stylable.defaultProps) {
     PrismComponent.inheritedDefaultProps = Object.assign({}, Stylable.defaultProps)
     PrismComponent.defaultProps = Stylable.defaultProps
-    console.log('Inheriting defaultProps')
-    console.log(PrismComponent.defaultProps)
+    //console.log('Inheriting defaultProps')
+    //console.log(PrismComponent.defaultProps)
   }
 
   return PrismComponent

@@ -54,13 +54,13 @@ const Rectangle = Prism.fix(
 
 ### Bundling Styles
 
-Component libraries should supply a style registry which is merged with the user-supplied registry to bundle their default styles.
+Component libraries should supply a style registry which is merged with the user-supplied registry to bundle their default styles. Pass a theme and `bundle` to a style registry assigned to the component:
 
 ```javascript
 import React, {Component} from 'react'
 import {Prism, StyleRegistry} from 'react-native-prism'
 import theme from './theme'
-const registry = new StyleRegistry({theme})
+const registry = new StyleRegistry({theme, bundle: true})
 class Styled extends Component {
   static styleOptions = {
     registry: registry

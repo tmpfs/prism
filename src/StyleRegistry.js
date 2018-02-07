@@ -14,15 +14,25 @@ export default class StyleRegistry {
   styleSheet = {}
   invariants = {}
 
-  constructor ({theme, colors, fonts, styles}) {
+  constructor ({theme, bundle} = {}) {
     if (theme) {
-      this.addTheme(theme)
+      if (!bundle) {
+        this.addTheme(theme)
+      // When bundling we want to call styles() with the parent
+      // colors and fonts merged
+      } else {
+        this._bundle = theme
+      }
     }
   }
 
   assign (registry) {
+    const bundle = registry._bundle
     this.mergeColors(registry.colors)
     this.mergeFonts(registry.fonts)
+    registry.colors = this.colors
+    registry.fonts = this.fonts
+    registry.addStyleSheet(registry._bundle.styles)
     this.mergeStyles(registry.styles)
   }
 
@@ -36,7 +46,21 @@ export default class StyleRegistry {
   }
 
   mergeStyles (styles) {
-    this.styles = Object.assign({}, styles, this.styles)
+    for (const selector in styles) {
+      // Doesn't exist so create it
+      if (this.styles[selector] === undefined) {
+        this.styles[selector] = styles[selector]
+      // Selective merge === this registry wins
+      } else {
+        const target = this.styles[selector]
+        const source = styles[selector]
+        for (const decl in source) {
+          if (target[decl] === undefined) {
+            target[decl] = source[decl]
+          }
+        }
+      }
+    }
   }
 
   addColors (colors) {
