@@ -393,7 +393,7 @@ static mapPropsToStyle = {
 }
 ```
 
-Functions declared in this way have access to the style registry (`styleSheet`, `colors` etc) the `props`, current `prop` and the computed component `options`. Functions should return a style object or array of objects, to take no action return `undefined`.
+Functions declared in this way have access to the style registry and it's properties (`colors` etc) the `props`, current `prop` and  `propName`. Functions should return a style object or array of objects to be included in the computed styles, to take no action return `undefined`.
 
 When the passed `prop` is returned a style rule is created using the property name and value which is useful when the property name matches the style property name:
 
@@ -574,10 +574,11 @@ If you need it the `Prism.propTypes` field exposes the system property types.
 
 ### Namespaces
 
-The `Prism` function accepts a second argument which can be used to specify a namespace for your component. This is useful (and recommended) when designing reusable component sets.
+The `Prism` function accepts a namespace option which can be used to specify a namespace for your component. This is useful (and recommended) when designing reusable component sets.
 
 ```javascript
-export default Prism(Label, 'com.prism.ui')
+const namespace = 'com.prism.ui'
+export default Prism(Label, {namespace})
 ```
 
 Now the default component style declaration name is `com.prism.ui.Label` and a consumer needs to declare the style using the fully qualified name:
@@ -596,7 +597,7 @@ export default ({colors, fonts}) => {
 
 Sometimes a component or library of components needs certain conditions to be met to be able to work correctly.
 
-You may pass a *third* argument to `Prism()` which is a function passed the `registry` and `config` and can be used to validate the component requirements.
+You may pass a `requirements` option to `Prism()` which is a function passed the `registry` and `config` and can be used to validate the component requirements.
 
 Here is an example from the `com.prism.ui` components:
 
@@ -608,7 +609,7 @@ const requirements = ({config}) => {
   }
 }
 
-export default Prism(Layout, Namespace, requirements)
+export default Prism(Layout, {requirements})
 ```
 
 If the component requirements are not met you can throw an error or return an error or a string. When a string is returned it is wrapped in an error and thrown.
