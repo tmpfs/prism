@@ -343,23 +343,33 @@ Components have varied needs for mapping properties to style declarations so the
 
 Each of the mapping options may be either a function or object, when it is a function it is passed the style registry and should return an object.
 
-You may declare these options as `static` fields on your component or within the object returned by `styleOptions`, when using the `static` declaration if often makes more sense to use the function notation so you can access the style registry.
+Prism is flexible with these declarations, the `static` style is the most terse and preferred when other `styleOptions` are not needed:
+
+The following are all equivalent:
 
 ```javascript
 static mapPropsToStyle = {
-  bold: ({styleSheet}) => {
-    return styleSheet.bold
+  bold: ({registry}) => {
+    return registry.resolve('bold')
   }
 }
 ```
 
-Or using `styleOptions`:
-
 ```javascript
 static styleOptions = {
-  mapPropsToStyle: ({styleSheet}) => {
+  mapPropsToStyle: ({registry}) => {
     return {
-      bold: () => styleSheet.bold
+      bold: () => registry.resolve('bold')
+    }
+  }
+}
+```
+
+```javascript
+static styleOptions = ({registry}) => {
+  return {
+    mapPropsToStyle: {
+      bold: () => registry('bold')
     }
   }
 }
