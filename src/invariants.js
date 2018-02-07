@@ -8,7 +8,7 @@ import {Rule} from './Processor'
 //
 // The first case is dealt with in StyleRegistry.
 //
-// The second case is what this deals with, be registering
+// The second case is what this deals with, by registering
 // a processor for each invariant name we can ensure it
 // will never exist in the final computed style sheet.
 //

@@ -37,7 +37,7 @@ const mergeStatic = (definition, plugins, options) => {
       // Call as function, supports a static declaration
       // that can reference the styleSheet etc
       if (isFunction(options[name])) {
-        options[name] = options[name](registry)
+        options[name] = options[name]({...registry, registry})
       }
 
       // Got a declaration allow plugins to validate it
@@ -108,7 +108,6 @@ const computeStyleNames = (plugins, options) => {
 
   const allStyleObjectNames = [STYLE].concat(childComponentNames)
   return {allStyleObjectNames, childComponentNames}
-  //options.childComponentNames = childComponentNames
 }
 
 const mergePropTypes = (definition, plugins, allStyleObjectNames) => {
@@ -132,11 +131,6 @@ const mergePropTypes = (definition, plugins, allStyleObjectNames) => {
   })
 }
 
-//const mergeStylePlugin = (options) => {
-  //const {plugins} = options
-  //plugins.after = [inlineStyle]
-//}
-
 const computeStyleOptions = (registry, definition, config) => {
   const {styleOptions} = definition
   const {plugins} = config
@@ -152,7 +146,7 @@ const computeStyleOptions = (registry, definition, config) => {
     // Otherwise a function declaration allows access
     // to styleSheet, colors, fonts etc.
     } else if (isFunction(styleOptions)) {
-      options = styleOptions(registry)
+      options = styleOptions({...registry, registry})
     } else {
       throw new Error(
         `Prism unsupported type for styleOptions "${typeof(styleOptions)}"`)
