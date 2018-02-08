@@ -619,7 +619,7 @@ Here is an example from the `com.prism.ui` components:
 const requirements = ({config}) => {
   if (config.extendedProperties !== true) {
     return `extendedProperties must be set in config ` +
-      `to use the ${Namespace} component library`
+      `to use the ${namespace} component library`
   }
 }
 
@@ -1231,7 +1231,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 7, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 8, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
