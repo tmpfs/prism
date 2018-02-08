@@ -16,6 +16,7 @@ export default class StyleRegistry {
 
   _styleSheet = {}
   _selectors = []
+  _proxySheet = {}
 
   constructor ({theme, bundle} = {}) {
     if (theme) {
@@ -30,12 +31,17 @@ export default class StyleRegistry {
   }
 
   get styleSheet () {
-    return this._styleSheet
+    return this._proxySheet
   }
 
   set styleSheet (styles) {
     this._selectors = Object.keys(styles)
     this._styleSheet = StyleSheet.create(styles)
+    // Configure proxies so named access always
+    // resolves invariants
+    this._selectors.forEach((selector) => {
+      this._proxySheet[selector] = () => this.resolve(selector)
+    })
   }
 
   get selectors () {
@@ -176,35 +182,15 @@ export default class StyleRegistry {
     this.sizes = sizes
   }
 
-  //registerProxy () {
-    //const proxy = {}
-    //this._compiled = this.styleSheet
-    //const keys = Object.keys(this._compiled)
-    //keys.forEach((selector) => {
-      //console.log('Adding selector to proxy: ' + selector)
-      //Object.defineProperty(
-        //proxy,
-        //selector,
-        //get: () => {
-          //console.log('Getting style: ' + selector)
-          //return this._compiled[selector]
-        //}
-      //)
-    //})
-  //}
-  //
-  //
-  //
-
   has (selector) {
     return this.styleSheet[selector] || this.invariants[selector]
   }
 
   resolve (selector) {
     const sheets = []
-    const {styleSheet, invariants} = this
-    if (styleSheet[selector]) {
-      sheets.push(styleSheet[selector])
+    const {_styleSheet, invariants} = this
+    if (_styleSheet[selector]) {
+      sheets.push(_styleSheet[selector])
     }
     if (invariants[selector]) {
       sheets.push(invariants[selector])
