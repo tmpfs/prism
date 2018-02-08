@@ -12,8 +12,9 @@ export default class StyleRegistry {
   colors = {}
   colorNames = []
   styles = {}
-  styleSheet = {}
   invariants = {}
+
+  _styleSheet = {}
 
   constructor ({theme, bundle} = {}) {
     if (theme) {
@@ -27,6 +28,15 @@ export default class StyleRegistry {
     }
   }
 
+  get styleSheet () {
+    return this._styleSheet
+  }
+
+  set styleSheet (styles) {
+    this._styleSheet = StyleSheet.create(styles)
+  }
+
+  // Used when merging bundled styles
   assign (registry) {
     const bundle = registry._bundle
     // Compute preliminaries for bundle
@@ -249,14 +259,10 @@ export default class StyleRegistry {
       }
       keys.forEach((selector) => {
         console.log(` | "${selector}"`)
-        //console.log(this.invariants[selector])
       })
     }
 
     //console.log(Object.keys(this.invariants))
-    this.styleSheet = StyleSheet.create(this.styles)
-
-    // Configure proxy for invariant and platform handling
-    //this.registerProxy()
+    this.styleSheet = this.styles
   }
 }
