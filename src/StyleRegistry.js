@@ -40,7 +40,13 @@ export default class StyleRegistry {
     // Configure proxies so named access always
     // resolves invariants
     this._selectors.forEach((selector) => {
-      this._proxySheet[selector] = () => this.resolve(selector)
+      Object.defineProperty(this._proxySheet, selector, {
+        enumerable: true,
+        configurable: false,
+        get: () => {
+          return this.resolve(selector)
+        }
+      })
     })
   }
 
