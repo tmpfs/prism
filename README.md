@@ -149,12 +149,13 @@ Fonts are a map from font identifier to string font family name.
 
 Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name.
 
-If you need a conditional use a function which will be passed the value of `Platform.OS` and should return a platform-specific font family name.
+If you need a platform-specific font family specify an object:
 
 ```javascript
 {
-  regular: (os) => {
-    return os === 'ios' ? 'WorkSans-Regular' : 'worksans'
+  regular: {
+    ios: 'WorkSans-Regular',
+    android: 'worksans'
   }
 }
 ```
@@ -1244,7 +1245,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 8, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 9, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
