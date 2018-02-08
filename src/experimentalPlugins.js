@@ -1,8 +1,6 @@
 import React from 'react'
-
 import Plugin from './Plugin'
 import propTypes from './propTypes'
-
 import util from './util'
 
 export default [
