@@ -1114,6 +1114,8 @@ render () {
 }
 ```
 
+Flat styles are applied to [child components](#child-components) too.
+
 ### Plugins
 
 Plugins allow you to change the default behaviour.

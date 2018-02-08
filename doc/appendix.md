@@ -89,6 +89,8 @@ render () {
 }
 ```
 
+Flat styles are applied to [child components](#child-components) too.
+
 <? @include plugins.md ?>
 
 ### Processor
