@@ -169,6 +169,9 @@ Prism.configure = (registry, config = {}) => {
       withContext(definition)
     }
 
+    const {pure} = config
+    definition.NewType.prototype.pure = pure
+
     if (config.debug) {
       const {Name, NewType} = definition
       console.log(`${NewType.displayName} from ${Name}`)

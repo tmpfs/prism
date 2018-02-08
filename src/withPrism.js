@@ -83,6 +83,7 @@ const computeStyles = (pluginOptions) => {
 // High order component wrapper
 const withPrism = (Stylable, definition) => {
   const {config} = definition
+
   class PrismComponent extends Component {
     state = {
       styleProperties: {},
@@ -157,15 +158,33 @@ const withPrism = (Stylable, definition) => {
     }
 
     componentWillReceiveProps (props) {
-      // TODO: proper invalidation
-      this.processStylePlugins(props)
+      if (!this.pure) {
+        // TODO: proper invalidation
+        this.processStylePlugins(props)
+      }
     }
 
     componentWillMount () {
-      this.processStylePlugins(this.props)
+      if (!this.pure) {
+        this.processStylePlugins(this.props)
+      }
     }
 
     render () {
+      if (this.pure) {
+        const {registry} = definition
+        const {styleSheet} = registry
+        return (
+          <Stylable
+            ref='stylable'
+            {...this.props}
+            styleSheet={styleSheet}
+            styleRegistry={registry}>
+            {this.props.children}
+          </Stylable>
+        )
+      }
+
       // Preferring children in the state lets children
       // be rewritten (textTransform support)
       const children = this.state.children || this.props.children
