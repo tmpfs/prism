@@ -45,8 +45,11 @@
     - [radius](#radius)
     - [width](#width)
     - [height](#height)
-  - [Experimental Properties](#experimental-properties)
+  - [Font Properties](#font-properties)
+    - [align](#align)
+    - [bold](#bold)
     - [font](#font)
+  - [Experimental Properties](#experimental-properties)
     - [textTransform](#texttransform)
 - [Cascade](#cascade)
   - [Default Properties](#default-properties)
@@ -809,17 +812,29 @@ Pass the `width` property into the computed style, requires the `supportsDimensi
 
 Pass the `height` property into the computed style, requires the `supportsDimension` flag.
 
-### Experimental Properties
+### Font Properties
 
-When the `experimentalPlugins` option is given these properties are configured.
+When the `fontProperties` option is given these properties are configured.
 
-They are considered experimental due to use of `context` to propagate values to child components and the behaviour is undefined when components wrapped by `Prism()` make use of the `context`.
+Only `Text` and `TextInput` components can accept these style properties so components that wish to receive them in their computed stylesheet must specify the `supportsText` option.
+
+#### align
+
+`Enum<String> (left|center|right)`
+
+Sets the `textAlign` style property.
+
+#### bold
+
+`Boolean`
+
+Looks for a style rule named `bold` and returns it if available otherwise sets `fontWeight` to `bold`.
 
 #### font
 
 The `font` property provides a convenient shortcut for all the [Text Style Props][] and can be useful if you have a lot of inline text styling.
 
-Only `Text` and `TextInput` components can accept these style properties so components that wish to receive them in their computed stylesheet must specify the `supportsText` option.
+Note that to propagate down to children this property requires that `experimentalPlugins` is enabled so that `context` is used, see [experimental properties](#experimental-properties).
 
 An example using [Prism Components][]:
 
@@ -835,6 +850,12 @@ An example using [Prism Components][]:
 ```
 
 The shape of the font object is described in [propTypes.js](https://github.com/fika-community/prism/blob/master/src/propTypes.js).
+
+### Experimental Properties
+
+When the `experimentalPlugins` option is given these properties are configured.
+
+They are considered experimental due to use of `context` to propagate values to child components and the behaviour is undefined when components wrapped by `Prism()` make use of the `context`.
 
 #### textTransform
 

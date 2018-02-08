@@ -53,40 +53,4 @@ export default [
     {propType: propTypes.textTransform}
   ),
 
-  // Font
-  new Plugin(
-    'font',
-    ({context, prop, colors, sizes, config, options}) => {
-      if (options.supportsText) {
-        const fontShapeColors = propTypes.fontShapeColors
-        const fontShapeMap = propTypes.fontShapeMap
-        // Inherited from the parent context
-        if (!prop && context) {
-          prop = context.font
-        } else {
-          prop = Object.assign({}, context.font, prop)
-        }
-        const style = {}
-        for (let k in prop) {
-          if (prop[k] !== undefined) {
-            let val = prop[k]
-            if (~fontShapeColors.indexOf(k)) {
-              val = colors[val] || val
-            }
-            style[fontShapeMap[k]] = val
-          }
-        }
-
-        // Handle string type - named font size
-        if (style.fontSize && typeof(style.fontSize) === 'string') {
-          // TODO: throw error on missing size or fall through to style validation?
-          const sizes = options.sizes || sizes || config.sizes || {}
-          const fontSize = sizes[style.fontSize] || 16
-          style.fontSize = fontSize
-        }
-        return style
-      }
-    },
-    {propType: propTypes.font}
-  )
 ]

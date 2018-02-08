@@ -27,15 +27,6 @@ export default [
     {propType: propTypes.background}
   ),
   new Plugin(
-    'color',
-    ({prop, options}) => {
-      if (options.supportsText) {
-        return {color: prop}
-      }
-    },
-    {propType: propTypes.color}
-  ),
-  new Plugin(
     'width',
     ({prop, options}) => {
       if (options.supportsDimension) {
