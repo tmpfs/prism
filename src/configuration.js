@@ -12,6 +12,7 @@ export default {
   inlineStyle: true,
   colorNames: false,
   textTransform: false,
+  pure: false,
   debug: __DEV__,
   invariants: [],
   sizes: {

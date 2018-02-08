@@ -9,9 +9,9 @@ class Label extends Component {
 
   render () {
     // Get the computed style sheet
-    const {style, styleSheet} = this.props
+    const {style} = this.props
     return (
-      <Text style={styleSheet.Label}>{this.props.children}</Text>
+      <Text style={style}>{this.props.children}</Text>
     )
   }
 }

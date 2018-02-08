@@ -12,7 +12,8 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `experimentalPlugins` enables the [experimental plugins](/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
-* `debug` print configured plugins, default value is `__DEV__`.
+* `pure` advanced option, see [pure mode](#pure-mode).
+* `debug` print information at boot, default value is `__DEV__`.
 
 When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles and resolving default styles.
 

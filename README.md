@@ -74,6 +74,7 @@
   - [Processor](#processor)
   - [Invariants](#invariants)
   - [Best Practices](#best-practices)
+  - [Pure Mode](#pure-mode)
   - [Performance](#performance)
 - [License](#license)
 
@@ -965,7 +966,8 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
-* `debug` print configured plugins, default value is `__DEV__`.
+* `pure` advanced option, see [pure mode](#pure-mode).
+* `debug` print information at boot, default value is `__DEV__`.
 
 When no configuration object is given support for the `className` property is enabled and the global plugins to support mapping properties to styles and resolving default styles.
 
@@ -1006,6 +1008,7 @@ export default {
   inlineStyle: true,
   colorNames: false,
   textTransform: false,
+  pure: false,
   debug: __DEV__,
   invariants: [],
   sizes: {
@@ -1249,6 +1252,32 @@ You are free to do as you please however here are some guidelines:
 * Prefer `className` as first option for style overrides.
 * Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
 * Avoid inline `style` properties.
+
+### Pure Mode
+
+If you like the style sheet paradigm that Prism has but want to get closer to the metal we offer a pure mode of operation. When the `pure` configuration option is given plugins and style computation are disabled. Your components are given direct access to the style registry instead.
+
+In pure mode your components are only passed two properties by the HOC:
+
+* `styleRegistry` the application style registry.
+* `styleSheet` alias for the registry style sheet.
+
+Note that `style` is no longer passed!
+
+Now you need to pass the styles manually by finding them in the registry:
+
+```javascript
+render () {
+  const {styleSheet} = this.props
+  <Text style={styleSheet.text}>
+    {this.props.children}
+  </Text>
+}
+```
+
+Typically you would decide to use this mode of operation from the beginning. If you enable pure mode for an existing application using Prism features your views will revert to zero style.
+
+This would apply to any third-party components you may be using too!
 
 ### Performance
 
