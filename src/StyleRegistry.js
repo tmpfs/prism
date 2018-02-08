@@ -111,6 +111,21 @@ export default class StyleRegistry {
     } else {
       this.styles = styleSheet
     }
+
+    const {ios, android} = this.styles
+
+    if (ios) {
+      delete this.styles.ios
+    }
+
+    if (android) {
+      delete this.styles.android
+    }
+
+    if (ios || android) {
+      this.styles = Object.assign(
+        this.styles, Platform.select({ios, android}))
+    }
   }
 
   addTheme (theme) {

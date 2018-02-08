@@ -18,14 +18,16 @@ export default {
     green:     '#859900',
   },
   fonts: {
-    //regular: 'WorkSans-Regular',
-    //medium: 'WorkSans-Medium'
-    regular: {
-      android: 'Courier'
-    }
+    regular: 'WorkSans-Regular',
+    medium: 'WorkSans-Medium'
   },
   styles: ({colors, fonts}) => {
     return {
+      //android: {
+        //Label: {
+          //backgroundColor: 'red'
+        //}
+      //},
       Label: {
         fontSize: 17,
         fontFamily: fonts.regular,
