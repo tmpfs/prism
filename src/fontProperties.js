@@ -2,6 +2,15 @@ import PropTypes from 'prop-types'
 import Plugin from './Plugin'
 import propTypes from './propTypes'
 
+const getFontSize = (fontSize, {options, registry, config}) => {
+  if (fontSize && typeof(fontSize) === 'string') {
+    // TODO: throw error on missing size or fall through to style validation?
+    const sizes = options.sizes || registry.sizes || config.sizes || {}
+    fontSize = sizes[fontSize] || 16
+  }
+  return fontSize
+}
+
 export default [
   new Plugin(
     'color',
@@ -11,6 +20,15 @@ export default [
       }
     },
     {propType: propTypes.color}
+  ),
+  new Plugin(
+    'size',
+    ({prop, options, registry, config}) => {
+      if (options.supportsText) {
+        return {fontSize: getFontSize(prop, {options, registry, config})}
+      }
+    },
+    {propType: propTypes.fontSize}
   ),
   new Plugin(
     'align',
@@ -38,7 +56,7 @@ export default [
   // Font object support
   new Plugin(
     'font',
-    ({context, prop, colors, sizes, config, options}) => {
+    ({context, prop, colors, sizes, options, registry, config}) => {
       if (options.supportsText) {
         const fontShapeColors = propTypes.fontShapeColors
         const fontShapeMap = propTypes.fontShapeMap
@@ -59,12 +77,8 @@ export default [
           }
         }
 
-        // Handle string type - named font size
-        if (style.fontSize && typeof(style.fontSize) === 'string') {
-          // TODO: throw error on missing size or fall through to style validation?
-          const sizes = options.sizes || sizes || config.sizes || {}
-          const fontSize = sizes[style.fontSize] || 16
-          style.fontSize = fontSize
+        if (style.fontSize) {
+          style.fontSize = getFontSize(style.fontSize, {options, registry, config})
         }
         return style
       }

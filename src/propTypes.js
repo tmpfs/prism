@@ -18,28 +18,30 @@ const boxModelType = PropTypes.oneOfType([
 
 const colorType = PropTypes.string
 
-const textTransformType = PropTypes.oneOf(['none', 'uppercase', 'lowercase', 'capitalize'])
+const textTransformType = PropTypes.oneOf(['uppercase', 'lowercase', 'capitalize'])
 
 const dimensionType = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number
 ])
 
+const fontSize = PropTypes.oneOfType([
+  PropTypes.number,
+  PropTypes.oneOf([
+    'xx-small',
+    'x-small',
+    'small',
+    'medium',
+    'large',
+    'x-large',
+    'xx-large'])
+])
+
 const fontShape = {
   // Common properties
   family: PropTypes.string,
   color: PropTypes.string,
-  size: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.oneOf([
-      'xx-small',
-      'x-small',
-      'small',
-      'medium',
-      'large',
-      'x-large',
-      'xx-large'])
-  ]),
+  size: fontSize,
   lineHeight: PropTypes.number,
   style: PropTypes.oneOf(['normal', 'italic']),
   align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
@@ -153,6 +155,7 @@ const propTypes = {
   textTransform: textTransformType
 }
 
+propTypes.fontSize = fontSize
 propTypes.fontShape = fontShape
 propTypes.fontShapeColors = fontShapeColors
 propTypes.fontShapeMap = fontShapeMap

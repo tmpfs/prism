@@ -50,6 +50,7 @@ export default class App extends Component<{}> {
             color='base3'
             align='center'
             bold
+            size='large'
             radius={5}
             padding={15}>
             This is a label to test various extended properties, it sets background, color, radius and padding.

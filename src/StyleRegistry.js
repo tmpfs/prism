@@ -7,7 +7,8 @@ import {processor} from './Processor'
 
 export default class StyleRegistry {
   fonts = {}
-  sizes = {}
+  // Must not be the empty object
+  sizes = undefined
   colors = {}
   colorNames = []
   styles = {}

@@ -5,20 +5,7 @@ import {Prism} from '../../src/Prism'
 
 class Label extends Component {
   static styleOptions = {
-    supportsText: true,
-    mapPropsToStyle: {
-      align: ({prop}) => {
-        return {textAlign: prop}
-      },
-      bold: ({registry, propName}) => {
-        // Use a compiled `bold` style rule when available
-        if (registry.has(propName)) {
-          return registry.resolve(propName)
-        }
-        // Default behaviour
-        return {fontWeight: 'bold'}
-      }
-    }
+    supportsText: true
   }
 
   render () {
