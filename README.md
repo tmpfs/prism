@@ -1002,7 +1002,7 @@ export default {
   mapStyleToProps: true,
   className: true,
   extendedProperties: false,
-  fontPlugins: false,
+  fontProperties: false,
   experimentalPlugins: false,
   inlineStyle: true,
   colorNames: false,
