@@ -33,7 +33,6 @@
     - [className](#classname)
   - [Extended Style Properties](#extended-style-properties)
     - [background](#background)
-    - [color](#color)
     - [border](#border)
     - [padding](#padding)
     - [margin](#margin)
@@ -46,6 +45,7 @@
     - [width](#width)
     - [height](#height)
   - [Font Properties](#font-properties)
+    - [color](#color)
     - [align](#align)
     - [bold](#bold)
     - [font](#font)
@@ -60,7 +60,7 @@
   - [Inline Style](#inline-style)
 - [Configuration](#configuration)
 - [Appendix](#appendix)
-  - [Best Practices](#best-practices)
+  - [Platform Styles](#platform-styles)
   - [Color Names](#color-names)
   - [Flat Styles](#flat-styles)
   - [Plugins](#plugins)
@@ -73,6 +73,7 @@
       - [disabledPlugins](#disabledplugins)
   - [Processor](#processor)
   - [Invariants](#invariants)
+  - [Best Practices](#best-practices)
   - [Performance](#performance)
 - [License](#license)
 
@@ -147,18 +148,7 @@ Fonts are a map from font identifier to string font family name.
 {regular: 'WorkSans-Regular'}
 ```
 
-Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name.
-
-If you need a platform-specific font family specify an object:
-
-```javascript
-{
-  regular: {
-    ios: 'WorkSans-Regular',
-    android: 'worksans'
-  }
-}
-```
+Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name otherwise use [platform styles](#platform-styles).
 
 ### Application Configuration
 
@@ -675,12 +665,6 @@ Note that the `supportsText` option is also used to test whether a component can
 
 Set the `backgroundColor` style property.
 
-#### color
-
-`String`
-
-Set the `color` style property, requires the `supportsText` flag.
-
 #### border
 
 `String | Array | Object`
@@ -805,6 +789,12 @@ Pass the `height` property into the computed style, requires the `supportsDimens
 When the `fontProperties` option is given these properties are configured.
 
 Only `Text` and `TextInput` components can accept these style properties so components that wish to receive them in their computed stylesheet must specify the `supportsText` option.
+
+#### color
+
+`String`
+
+Set the `color` style property.
 
 #### align
 
@@ -1032,15 +1022,38 @@ export default {
 
 ## Appendix
 
-### Best Practices
+### Platform Styles
 
-You are free to do as you please however here are some guidelines:
+You can use platform specific styles for your fonts and style sheets by using the standard notation passed to `Platform.select()`.
 
-* Avoid setting styles in `defaultProps`.
-* Use class name style rule for default styles (eg: `Label`).
-* Prefer `className` as first option for style overrides.
-* Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
-* Avoid inline `style` properties.
+If you need a platform-specific font family specify an object in your fonts map:
+
+```javascript
+export default {
+  regular: {
+    ios: 'WorkSans-Regular',
+    android: 'worksans'
+  }
+}
+```
+
+Platform-specific styles are merged over the top of default rules using a selective merge so you can overwrite declarations and inherit the other styles. To illustrate:
+
+```javascript
+export default {
+  Label: {
+    fontSize: 20,
+    color: 'red'
+  },
+  android: {
+    Label: {
+      // Overwrite for android but inherit
+      // fontSize from the top-level Label
+      color: 'green'
+    }
+  }
+}
+```
 
 ### Color Names
 
@@ -1226,6 +1239,16 @@ An example of this is `tintColor` where we need to assign to the `tintColor` pro
 Also the experimental `textTransform` property is treated as an invariant so it can be declared in style rules and processed using the plugin system yet never appear in compiled or computed style sheets.
 
 Invariants use a processor to ensure computed styles do not contain these properties so they incur the same performance penalty.
+
+### Best Practices
+
+You are free to do as you please however here are some guidelines:
+
+* Avoid setting styles in `defaultProps`.
+* Use class name style rule for default styles (eg: `Label`).
+* Prefer `className` as first option for style overrides.
+* Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
+* Avoid inline `style` properties.
 
 ### Performance
 

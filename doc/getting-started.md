@@ -24,18 +24,7 @@ Fonts are a map from font identifier to string font family name.
 {regular: 'WorkSans-Regular'}
 ```
 
-Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name.
-
-If you need a platform-specific font family specify an object:
-
-```javascript
-{
-  regular: {
-    ios: 'WorkSans-Regular',
-    android: 'worksans'
-  }
-}
-```
+Because Android uses the file name and iOS uses the PostScript name the easiest thing to do is name your fonts *using the PostScript* name otherwise use [platform styles](#platform-styles).
 
 ### Application Configuration
 

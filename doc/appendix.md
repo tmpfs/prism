@@ -1,14 +1,37 @@
 ## Appendix
 
-### Best Practices
+### Platform Styles
 
-You are free to do as you please however here are some guidelines:
+You can use platform specific styles for your fonts and style sheets by using the standard notation passed to `Platform.select()`.
 
-* Avoid setting styles in `defaultProps`.
-* Use class name style rule for default styles (eg: `Label`).
-* Prefer `className` as first option for style overrides.
-* Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
-* Avoid inline `style` properties.
+If you need a platform-specific font family specify an object in your fonts map:
+
+```javascript
+export default {
+  regular: {
+    ios: 'WorkSans-Regular',
+    android: 'worksans'
+  }
+}
+```
+
+Platform-specific styles are merged over the top of default rules using a selective merge so you can overwrite declarations and inherit the other styles. To illustrate:
+
+```javascript
+export default {
+  Label: {
+    fontSize: 20,
+    color: 'red'
+  },
+  android: {
+    Label: {
+      // Overwrite for android but inherit
+      // fontSize from the top-level Label
+      color: 'green'
+    }
+  }
+}
+```
 
 ### Color Names
 
@@ -84,6 +107,16 @@ An example of this is `tintColor` where we need to assign to the `tintColor` pro
 Also the experimental `textTransform` property is treated as an invariant so it can be declared in style rules and processed using the plugin system yet never appear in compiled or computed style sheets.
 
 Invariants use a processor to ensure computed styles do not contain these properties so they incur the same performance penalty.
+
+### Best Practices
+
+You are free to do as you please however here are some guidelines:
+
+* Avoid setting styles in `defaultProps`.
+* Use class name style rule for default styles (eg: `Label`).
+* Prefer `className` as first option for style overrides.
+* Use extended properties sparingly, useful for rapid devlopment, later migrate to `className`.
+* Avoid inline `style` properties.
 
 ### Performance
 

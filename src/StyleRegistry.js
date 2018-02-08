@@ -43,7 +43,7 @@ export default class StyleRegistry {
     registry.addStyleSheet(registry._bundle.styles)
 
     // Selective merge with this registry styles
-    this.mergeStyles(registry.styles)
+    this.mergeStyles(this.styles, registry.styles)
   }
 
   mergeColors (colors) {
@@ -55,17 +55,17 @@ export default class StyleRegistry {
     this.fonts = Object.assign({}, fonts, this.fonts)
   }
 
-  mergeStyles (styles) {
+  mergeStyles (receiver, styles, overrides = false) {
     for (const selector in styles) {
       // Doesn't exist so create it
-      if (this.styles[selector] === undefined) {
-        this.styles[selector] = styles[selector]
+      if (receiver[selector] === undefined) {
+        receiver[selector] = styles[selector]
       // Selective merge === this registry wins
       } else {
-        const target = this.styles[selector]
+        const target = receiver[selector]
         const source = styles[selector]
         for (const decl in source) {
-          if (target[decl] === undefined) {
+          if (overrides || target[decl] === undefined) {
             target[decl] = source[decl]
           }
         }
@@ -123,8 +123,7 @@ export default class StyleRegistry {
     }
 
     if (ios || android) {
-      this.styles = Object.assign(
-        this.styles, Platform.select({ios, android}))
+      this.mergeStyles(this.styles, Platform.select({ios, android}), true)
     }
   }
 

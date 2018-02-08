@@ -43,12 +43,6 @@ Note that the `supportsText` option is also used to test whether a component can
 
 Set the `backgroundColor` style property.
 
-#### color
-
-`String`
-
-Set the `color` style property, requires the `supportsText` flag.
-
 #### border
 
 `String | Array | Object`
@@ -173,6 +167,12 @@ Pass the `height` property into the computed style, requires the `supportsDimens
 When the `fontProperties` option is given these properties are configured.
 
 Only `Text` and `TextInput` components can accept these style properties so components that wish to receive them in their computed stylesheet must specify the `supportsText` option.
+
+#### color
+
+`String`
+
+Set the `color` style property.
 
 #### align
 

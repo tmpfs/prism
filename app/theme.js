@@ -23,11 +23,13 @@ export default {
   },
   styles: ({colors, fonts}) => {
     return {
-      //android: {
-        //Label: {
-          //backgroundColor: 'red'
-        //}
-      //},
+      android: {
+        Label: {
+          // This tests selective merge
+          // on platform-specific styles
+          //color: 'red'
+        }
+      },
       Label: {
         fontSize: 17,
         fontFamily: fonts.regular,
