@@ -15,6 +15,7 @@ export default class StyleRegistry {
   invariants = {}
 
   _styleSheet = {}
+  _selectors = []
 
   constructor ({theme, bundle} = {}) {
     if (theme) {
@@ -33,7 +34,12 @@ export default class StyleRegistry {
   }
 
   set styleSheet (styles) {
+    this._selectors = Object.keys(styles)
     this._styleSheet = StyleSheet.create(styles)
+  }
+
+  get selectors () {
+    return this._selectors
   }
 
   // Used when merging bundled styles
@@ -252,6 +258,9 @@ export default class StyleRegistry {
     // Extract invariants before compilation
     this.invariants = this.extract(this.styles, invariants)
 
+    //console.log(Object.keys(this.invariants))
+    this.styleSheet = this.styles
+
     if (config.debug) {
       const keys = Object.keys(this.invariants)
       if (keys.length) {
@@ -260,9 +269,13 @@ export default class StyleRegistry {
       keys.forEach((selector) => {
         console.log(` | "${selector}"`)
       })
-    }
 
-    //console.log(Object.keys(this.invariants))
-    this.styleSheet = this.styles
+      if (this.selectors.length) {
+        console.log(`Selectors ${this.selectors.length}`)
+      }
+      this.selectors.forEach((selector) => {
+        console.log(` | "${selector}"`)
+      })
+    }
   }
 }
