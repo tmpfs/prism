@@ -18,8 +18,11 @@ export default {
     green:     '#859900',
   },
   fonts: {
-    regular: 'WorkSans-Regular',
-    medium: 'WorkSans-Medium'
+    //regular: 'WorkSans-Regular',
+    //medium: 'WorkSans-Medium'
+    regular: {
+      android: 'Courier'
+    }
   },
   styles: ({colors, fonts}) => {
     return {

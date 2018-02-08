@@ -84,12 +84,15 @@ export default class StyleRegistry {
       throw new Error('Prism registry fonts must be an object')
     }
     if (map) {
-      for (let k in map) {
-        const fn = map[k]
-        if (isFunction(fn)) {
-          this.fonts[k] = fn(Platform.OS)
-        } else if(isString(fn)) {
-          this.fonts[k] = fn
+      for (const k in map) {
+        const font = map[k]
+        if(isString(font)) {
+          this.fonts[k] = font
+        } else if (isObject(font)) {
+          this.fonts[k] = Platform.select(font)
+        } else {
+          throw new Error(
+            `Prism unexpected font declaration, need string or object, got ${typeof(font)}`)
         }
       }
     }
