@@ -130,23 +130,6 @@ class Processor {
 
     return expansions
   }
-
-  // Called by a registry to extract rules with invariants
-  // prior to compiling the styles
-  extract (target) {
-    const {config} = this
-    const extracted = {}
-    let selector, rule
-    for (selector in target) {
-      rule = target[selector]
-      const expansions = this.process(rule)
-      const keys = Object.keys(expansions)
-      if (keys.length) {
-        extracted[selector] = expansions
-      }
-    }
-    return extracted
-  }
 }
 
 // Singleton
