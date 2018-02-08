@@ -51,9 +51,10 @@ const computeStyles = (pluginOptions) => {
 
   runGlobalPlugins(plugins.after, pluginOptions)
 
+  let flat
   if (isPrimaryStyle &&
-    (options.flat || plugins.flat.length || processor.hasPreProcessors)) {
-    const flat = StyleSheet.flatten(sheets)
+    (plugins.flat.length || processor.hasPreProcessors)) {
+    flat = StyleSheet.flatten(sheets)
     runGlobalPlugins(plugins.flat, {...pluginOptions, flat})
 
     // NOTE: We only execute for the style attribute
@@ -70,10 +71,10 @@ const computeStyles = (pluginOptions) => {
     }
 
     sheets = [flat]
+  }
 
-    if (options.flat) {
-      return flat
-    }
+  if (options.flat) {
+    sheets = flat ? flat : StyleSheet.flatten(sheets)
   }
 
   return sheets
