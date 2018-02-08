@@ -8,6 +8,7 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `mapStyleToProps` use the [mapStyleToProps](/src/mapStyleToProps.js) plugin, default is `true`.
 * `className` use the property plugin for [className](/src/className.js), default is `true`.
 * `extendedProperties` enables the [extended property plugins](/src/extendedPropertyPlugins.js).
+* `fontProperties` enables the [font property plugins](/src/fontProperties.js).
 * `experimentalPlugins` enables the [experimental plugins](/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).

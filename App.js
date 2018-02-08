@@ -32,6 +32,7 @@ Prism.configure(
   registry,
   {
     extendedProperties: true,
+    fontProperties: true,
     experimentalPlugins: true,
     textTransform: true,
     colorNames: true
@@ -47,6 +48,8 @@ export default class App extends Component<{}> {
           <Label
             background='magenta'
             color='base3'
+            align='center'
+            bold
             radius={5}
             padding={15}>
             This is a label to test various extended properties, it sets background, color, radius and padding.

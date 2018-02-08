@@ -79,15 +79,17 @@ export default class StyleRegistry {
   }
 
   addFonts (map) {
-    if (!isObject(map)) {
+    if (map && !isObject(map)) {
       throw new Error('Prism registry fonts must be an object')
     }
-    for (let k in map) {
-      const fn = map[k]
-      if (isFunction(fn)) {
-        this.fonts[k] = fn(Platform.OS)
-      } else if(isString(fn)) {
-        this.fonts[k] = fn
+    if (map) {
+      for (let k in map) {
+        const fn = map[k]
+        if (isFunction(fn)) {
+          this.fonts[k] = fn(Platform.OS)
+        } else if(isString(fn)) {
+          this.fonts[k] = fn
+        }
       }
     }
   }

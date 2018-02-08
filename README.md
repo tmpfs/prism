@@ -173,6 +173,7 @@ Prism.configure(
   registry,
   {
     extendedProperties: true,
+    fontProperties: true,
     experimentalPlugins: true,
     textTransform: true,
     colorNames: true
@@ -961,6 +962,7 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `mapStyleToProps` use the [mapStyleToProps](https://github.com/fika-community/prism/blob/master/src/mapStyleToProps.js) plugin, default is `true`.
 * `className` use the property plugin for [className](https://github.com/fika-community/prism/blob/master/src/className.js), default is `true`.
 * `extendedProperties` enables the [extended property plugins](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js).
+* `fontProperties` enables the [font property plugins](https://github.com/fika-community/prism/blob/master/src/fontProperties.js).
 * `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
@@ -999,6 +1001,9 @@ export default {
   mapPropsToStyle: true,
   mapStyleToProps: true,
   className: true,
+  extendedProperties: false,
+  fontPlugins: false,
+  experimentalPlugins: false,
   inlineStyle: true,
   colorNames: false,
   textTransform: false,

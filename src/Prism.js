@@ -15,6 +15,7 @@ import mapStyleToPropsPlugin from './mapStyleToProps'
 import classNamePlugin from './className'
 import inlineStylePlugin  from './inlineStyle'
 import extendedPropertyPlugins from './extendedPropertyPlugins'
+import fontProperties from './fontProperties'
 import experimentalPlugins from './experimentalPlugins'
 import propTypes from './propTypes'
 import withPrism from './withPrism'
@@ -93,6 +94,10 @@ Prism.configure = (registry, config = {}) => {
 
   if (config.extendedProperties) {
     plugins = plugins.concat(extendedPropertyPlugins)
+  }
+
+  if (config.fontProperties) {
+    plugins = plugins.concat(fontProperties)
   }
 
   if (config.experimentalPlugins) {

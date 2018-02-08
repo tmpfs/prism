@@ -101,6 +101,7 @@ const withPrism = (Stylable, definition) => {
       const isPrimaryStyle = (attrName === 'style')
       return {
         ...registry,
+        registry,
         config,
         definition,
         options,
@@ -108,7 +109,6 @@ const withPrism = (Stylable, definition) => {
         props,
         state,
         ns,
-        registry,
         isPrimaryStyle,
         attrName,
         ...extras

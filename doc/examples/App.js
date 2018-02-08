@@ -8,6 +8,7 @@ Prism.configure(
   registry,
   {
     extendedProperties: true,
+    fontProperties: true,
     experimentalPlugins: true,
     textTransform: true,
     colorNames: true
