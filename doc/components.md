@@ -194,7 +194,7 @@ Is shorthand for:
 }
 ```
 
-##### State
+##### Pseudo State
 
 If you call `css.pseudo()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
 
@@ -349,7 +349,7 @@ See [Activity.js](https://github.com/fika-community/prism-components/blob/master
 
 ### Component State
 
-For most use cases when you are triggering state changes from a property `mapPropsToStyle` and `css.pseudo()` will do the job just fine. However there are times when you need finer control over style invalidation as the component state changes.
+For most use cases when you are triggering state changes from a property `mapPropsToStyle` and `css.pseudo()` will do the job just fine (see [pseudo state](#pseudo-state)). However there are times when you need finer control over style invalidation as the component state changes.
 
 To enable state invalidation you need to specify the `withState` configuration option and enable `supportsState` in your component:
 
@@ -390,7 +390,7 @@ static styleOptions = {
   cascadeState: true
 }
 static mapPropsToStyle = {
-  state: ({prop, state, css}) => {
+  state: ({state, css}) => {
     if (state.active) {
       return css.pseudo('active')
     }
