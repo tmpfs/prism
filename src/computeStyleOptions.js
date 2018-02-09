@@ -91,6 +91,7 @@ const computeStyleNames = (plugins, options) => {
       // Definition, eg: mapPropsToStyle
       const value = options[plugin.name]
       if (isObject(value)) {
+        let state = value.state
         for (let k in value) {
           // Got a child object definition
           // trigger creation of a corresponding
@@ -100,6 +101,15 @@ const computeStyleNames = (plugins, options) => {
               childComponentNames.push(k)
             }
           }
+        }
+        // Proxy state function at top-level to child objects
+        // when we have a stat and cascadeState option is given
+        // this means css.pseudo() on the top-level state will
+        // be applied to children too
+        if (state && options.cascadeState) {
+          childComponentNames.forEach((name) => {
+            options[name].state = state
+          })
         }
       }
     })
