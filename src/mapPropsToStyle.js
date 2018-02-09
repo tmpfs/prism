@@ -4,7 +4,7 @@ const {isString, isFunction, isObject} = util
 
 export default new Plugin(
   'mapPropsToStyle',
-  ({props, options, registry, ns, attrName, isPrimaryStyle}) => {
+  ({props, options, registry, state, ns, attrName, isPrimaryStyle}) => {
     const {mapPropsToStyle} = options
     let map = mapPropsToStyle
     if (isObject(map[attrName])) {
@@ -34,7 +34,7 @@ export default new Plugin(
       if (propName === '*' || props.hasOwnProperty(propName) && prop !== undefined) {
         const fn = map[propName]
         if (isFunction(fn)) {
-          const sheet = fn({...registry, registry, props, prop, propName, setState})
+          const sheet = fn({...registry, registry, props, prop, propName, state, setState})
           // This is a convenient shortcut for returning the
           // prop itself to assign it to a style with the same
           // name and value, you can just do:
