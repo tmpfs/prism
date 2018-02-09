@@ -192,7 +192,7 @@ const withPrism = (Stylable, definition) => {
       // Preferring children in the state lets children
       // be rewritten (textTransform support)
       const children = this.state.children || this.props.children
-      const setStyleState = (state, props) => {
+      const invalidateStyles = (state, props) => {
         this.processStylePlugins(props || this.props, state)
       }
       return (
@@ -201,7 +201,7 @@ const withPrism = (Stylable, definition) => {
           {...this.props}
           {...this.state.additionalProperties}
           {...this.state.styleProperties}
-          setStyleState={setStyleState}>
+          invalidateStyles={invalidateStyles}>
           {children}
         </Stylable>
       )

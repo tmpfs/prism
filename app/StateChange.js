@@ -40,9 +40,14 @@ class StateChange extends Component {
     // Set state from our initial instance state
     // so if we set active to `true` the style
     // will be applied when the component first renders
-    const {setStyleState} = this.props
-    setStyleState(this.state)
+    //const {setStyleState} = this.props
+    this.setStateStyle()
   }
+
+  //shouldUpdateStyles () {
+    //console.log('shouldUpdateStyles')
+    //return true
+  //}
 
   render () {
     const changeState = () => {
