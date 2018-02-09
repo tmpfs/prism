@@ -2,7 +2,7 @@ import Plugin from './Plugin'
 import util from './util'
 const {isString, isFunction, isObject} = util
 
-const selector = ({registry, attrName, ns, sheets, isPrimaryStyle}) => {
+const selector = ({registry, attrName, ns, sheets}) => {
   const css = (name) => registry.resolve(name)
   // Set from a pseudo class (:)
   css.pseudo = (name) => registry.select(registry.pseudo(name, ns, attrName), sheets)
