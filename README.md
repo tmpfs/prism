@@ -284,7 +284,7 @@ const namespace = 'prism'
 const theme = {
   styles: () => {
     return {
-      'com.example.text.Label': {
+      'prism|Label': {
         fontSize: 22,
         color: 'white',
         backgroundColor: 'black'
@@ -686,7 +686,7 @@ Sometimes a component or library of components needs certain conditions to be me
 
 You may pass a `requirements` option to `Prism()` which is a function passed the `registry` and `config` and can be used to validate the component requirements.
 
-Here is an example from the `com.prism.ui` components:
+Here is an example from the [Prism Components][]:
 
 ```javascript
 const requirements = ({config}) => {
