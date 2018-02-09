@@ -404,6 +404,15 @@ static mapPropsToStyle = {
 }
 ```
 
+You should try to match the default style of your component to the default state but you can trigger invalidation of the styles using the *initial component state* when it mounts by declaring the `mountStateStyle` option for your component.
+
+```javascript
+static styleOptions = {
+  supportsState: true,
+  mountStateStyle: true
+}
+```
+
 #### Lifecycle
 
 The component state functionality decorates your component with a simple lifecycle that lets you decide when state changes should trigger style invalidation.
@@ -418,19 +427,11 @@ shouldStyleUpdate(state, newState)
 
 Implement this function to control whether to invalidate the styles when the state changes, it should return a boolean.
 
-##### setStyleState
+#### Options
 
-Your component is also decorated with a `setStyleState()` method that allows you to trigger invalidation for the initial state of the component. You should avoid using this method and configure your default styles to match your default state but it can we useful when you want to switch the default state to see style changes applied.
-
-Call `setStyleState()` in `componentWillMount()` to trigger invalidation for the initial state:
-
-```javascript
-componentWillMount () {
-  this.setStateStyle()
-}
-```
-
-This should be avoided in production code as it triggers a re-render on first mount.
+* `supportsState` opt-in to state style invalidation.
+* `cascadeState` call primary state handler for child component styles.
+* `mountStateStyle` automatically invalidate using the state of the component when it mounts.
 
 ### Property Type Validation
 

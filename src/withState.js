@@ -1,6 +1,7 @@
 export default (definition) => {
 
-  const {Type} = definition
+  const {Type, NewType} = definition
+  const {options} = definition
   const setState = Type.prototype.setState
   Type.prototype.setState = function (newState) {
     const {state} = this
@@ -13,6 +14,10 @@ export default (definition) => {
     }
   }
 
+  if (Type.prototype.styleWillMount) {
+    NewType.prototype.styleWillMount = true
+  }
+
   if (!Type.prototype.shouldStyleUpdate) {
     Type.prototype.shouldStyleUpdate =
       function (state, newState) {
@@ -20,11 +25,17 @@ export default (definition) => {
     }
   }
 
-  Type.prototype.setStateStyle = function () {
-    const {state} = this
-    const {invalidateStyles} = this.props
-    if (this.shouldStyleUpdate(state, null)) {
-      invalidateStyles(state)
+  if (options.mountStateStyle) {
+    Type.prototype._componentWillMount = Type.prototype.componentWillMount
+    Type.prototype.componentWillMount = function () {
+      const {state} = this
+      const {invalidateStyles} = this.props
+      if (this.shouldStyleUpdate(state, null)) {
+        invalidateStyles(state)
+      }
+      if (this._componentWillMount) {
+        this._componentWillMount()
+      }
     }
   }
 }

@@ -169,7 +169,7 @@ const withPrism = (Stylable, definition) => {
 
     componentWillMount () {
       const {options} = definition
-      if (!this.pure && !options.manual) {
+      if (!this.pure && !options.mountStateStyle) {
         this.processStylePlugins(this.props)
       }
     }

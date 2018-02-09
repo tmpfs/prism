@@ -8,7 +8,8 @@ import Label from './Label'
 class StateChange extends Component {
 
   static styleOptions = {
-    supportsState: true
+    supportsState: true,
+    mountStateStyle: true
   }
 
   static mapPropsToStyle = {
@@ -33,13 +34,17 @@ class StateChange extends Component {
     active: true
   }
 
-  componentWillMount () {
-    // Set state from our initial instance state
-    // so if we set active to `true` the style
-    // will be applied when the component first renders
-    //const {setStyleState} = this.props
-    this.setStateStyle()
-  }
+  //styleWillMount(invaliate) {
+
+  //}
+
+  //componentWillMount () {
+    //// Set state from our initial instance state
+    //// so if we set active to `true` the style
+    //// will be applied when the component first renders
+    ////const {setStyleState} = this.props
+    //this.setStateStyle()
+  //}
 
   //shouldStyleUpdate () {
     //console.log('shouldStyleUpdate')
