@@ -256,16 +256,16 @@ Which will define and create the `headerStyle` and `bodyStyle` properties for yo
 The immediate benefit is that you can now define style rules for the child components which will automatically be resolved as default styles.
 
 ```javascript
-'Panel Header': {
+'Panel header': {
   color: 'blue',
   padding: 10
 },
-'Panel Body': {
+'Panel body': {
   padding: 20
 }
 ```
 
-For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase. If the component is namespaced use the fully qualified name, eg: `prism|Panel Header`.
+For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed. If the component is namespaced use the fully qualified name, eg: `prism|Panel header`.
 
 Then your render should route the properties to child components, for example:
 
