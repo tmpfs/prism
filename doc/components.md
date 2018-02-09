@@ -408,12 +408,12 @@ static mapPropsToStyle = {
 
 The component state functionality decorates your component with a simple lifecycle that lets you decide when state changes should trigger style invalidation.
 
-By default as soon as you enable this feature every call to `setState()` will trigger invalidation of the styles but you can implement `shouldUpdateStyles()` on your component to control this behaviour.
+By default as soon as you enable this feature every call to `setState()` will trigger invalidation of the styles but you can implement `shouldStyleUpdate()` on your component to control this behaviour.
 
-##### shouldUpdateStyles
+##### shouldStyleUpdate
 
 ```javascript
-shouldUpdateStyles(state, newState)
+shouldStyleUpdate(state, newState)
 ```
 
 Implement this function to control whether to invalidate the styles when the state changes, it should return a boolean.

@@ -41,8 +41,8 @@ class StateChange extends Component {
     this.setStateStyle()
   }
 
-  //shouldUpdateStyles () {
-    //console.log('shouldUpdateStyles')
+  //shouldStyleUpdate () {
+    //console.log('shouldStyleUpdate')
     //return true
   //}
 

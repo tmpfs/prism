@@ -8,13 +8,13 @@ export default (definition) => {
     // Invalidate styles when setState() is called
     // on the underlying component
     const {invalidateStyles} = this.props
-    if (this.shouldUpdateStyles(state, newState)) {
+    if (this.shouldStyleUpdate(state, newState)) {
       invalidateStyles(newState)
     }
   }
 
-  if (!Type.prototype.shouldUpdateStyles) {
-    Type.prototype.shouldUpdateStyles =
+  if (!Type.prototype.shouldStyleUpdate) {
+    Type.prototype.shouldStyleUpdate =
       function (state, newState) {
         return true
     }
@@ -23,7 +23,7 @@ export default (definition) => {
   Type.prototype.setStateStyle = function () {
     const {state} = this
     const {invalidateStyles} = this.props
-    if (this.shouldUpdateStyles(state, null)) {
+    if (this.shouldStyleUpdate(state, null)) {
       invalidateStyles(state)
     }
   }
