@@ -8,10 +8,7 @@ import Label from './Label'
 class StateChange extends Component {
 
   static styleOptions = {
-    // Prevent double render on mount
-    // as we are going to call setStyleState()
-    // manually in componentWillMount()
-    manual: true
+    supportsState: true
   }
 
   static mapPropsToStyle = {

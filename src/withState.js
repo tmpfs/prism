@@ -1,4 +1,5 @@
 export default (definition) => {
+
   const {Type} = definition
   const setState = Type.prototype.setState
   Type.prototype.setState = function (newState) {

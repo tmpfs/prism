@@ -170,7 +170,7 @@ Prism.configure = (registry, config = {}) => {
       withContext(definition)
     }
 
-    if (config.withState) {
+    if (config.withState && definition.options.supportsState) {
       withState(definition)
     }
 
