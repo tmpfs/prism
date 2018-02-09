@@ -103,12 +103,15 @@ const computeStyleNames = (plugins, options) => {
           }
         }
         // Proxy state function at top-level to child objects
-        // when we have a stat and cascadeState option is given
-        // this means css.pseudo() on the top-level state will
-        // be applied to children too
+        // when we have a state and cascadeState option is given
+        // this means the `state: () => {}` handler on the top-level will
+        // be called for children components too
         if (state && options.cascadeState) {
           childComponentNames.forEach((name) => {
-            value[name].state = state
+            // Test first so child objects can override if desired
+            if (value[name].state === undefined) {
+              value[name].state = state
+            }
           })
         }
       }
