@@ -4,6 +4,8 @@
 
 By default plugins are enabled that expose the following properties on all styled components.
 
+The property mapping API and these properties should be sufficient for most applications and indeed it would be considered best practice not to use the extended and experimental properties so that all styling information can be maintained in a single file.
+
 #### style
 
 `Array | Object`
@@ -16,7 +18,13 @@ Inline styles for the component.
 
 Assign stylesheets to the component. When a string is given separate stylesheet names should be delimited with whitespace.
 
-The property mapping API and these properties should be sufficient for most applications and indeed it might be considered best practice not to use the extended and experimental properties.
+The declaration in the style sheet should use a dot prefix as is the CSS convention:
+
+```javascript
+'.highlight': {
+  color: 'orange'
+}
+```
 
 ### Extended Style Properties
 
