@@ -475,7 +475,7 @@ static mapPropsToStyle = {
 
 Which will define and create the `headerStyle` and `bodyStyle` properties for your component and route the `color` property in to the `headerStyle` object. The `propTypes` for the child style objects are automatically declared as we know ahead of time they should have the same property type as `style`.
 
-The immediate benefit is that you can now define style rules using dot notation for the child components which will automatically be resolved as default styles.
+The immediate benefit is that you can now define style rules for the child components which will automatically be resolved as default styles.
 
 ```javascript
 'Panel Header': {
