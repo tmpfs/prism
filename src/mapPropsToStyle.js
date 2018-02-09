@@ -2,9 +2,23 @@ import Plugin from './Plugin'
 import util from './util'
 const {isString, isFunction, isObject} = util
 
+const selector = ({registry, attrName, ns, sheets, isPrimaryStyle}) => {
+  const css = (name) => registry.resolve(name)
+  // Set from a pseudo class (:)
+  css.pseudo = (name) => registry.select(registry.pseudo(name, ns, attrName), sheets)
+  // Set from an id declaration (#)
+  css.id = (name) => registry.select(registry.id(name, ns, attrName), sheets)
+  // Set from class name style (.)
+  css.className = (name) => registry.select(registry.className(name, ns, attrName), sheets)
+  // Set by type name (Component)
+  css.type = (name) => registry.select(registry.type(name, ns, attrName), sheets)
+  return css
+}
+
 export default new Plugin(
   'mapPropsToStyle',
-  ({props, options, registry, definition, newState, ns, attrName, isPrimaryStyle}) => {
+  (pluginOptions) => {
+    const {props, options, registry, definition, newState, ns, attrName, isPrimaryStyle} = pluginOptions
     const {mapPropsToStyle} = options
     let map = mapPropsToStyle
     if (isObject(map[attrName])) {
@@ -14,28 +28,15 @@ export default new Plugin(
 
     const sheets = []
 
-    // Add a state style to the list of style sheets
-    const setState = (stateName) => {
-      // Returned a string, trigger :hover syntax
-      if (isString(stateName)) {
-        let selector
-        if (isPrimaryStyle) {
-          // This gives us the top-level component
-          selector = ns.getStateClassName(stateName)
-        } else{
-          selector = ns.getChildStateClassName(attrName, stateName)
-        }
-        registry.select(selector, sheets)
-      }
-    }
-
     for (const propName in map) {
       const prop = props[propName]
+      // Note that `state` is the build in wildcard, always gets called
       if (propName === 'state' || (props.hasOwnProperty(propName) && prop !== undefined)) {
         const fn = map[propName]
         if (isFunction(fn)) {
           const state = newState || {}
-          const sheet = fn({...registry, registry, props, prop, propName, state, setState})
+          const css = selector({...pluginOptions, sheets})
+          const sheet = fn({...registry, registry, props, prop, propName, state, css})
 
           // This is a convenient shortcut for returning the
           // prop itself to assign it to a style with the same

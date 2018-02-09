@@ -9,7 +9,7 @@ export default new Plugin(
     let selector = ns.componentClassName
     if (!isPrimaryStyle) {
       // Add child class name style sheet
-      selector = ns.getChildClassName(attrName)
+      selector = registry.getChildClassName(ns, attrName)
     }
     return registry.resolve(selector)
   }

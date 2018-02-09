@@ -1,7 +1,7 @@
 import {Platform, StyleSheet} from 'react-native'
 
 import util from './util'
-const {isFunction, isObject, isString} = util
+const {isFunction, isObject, isString, ucfirst} = util
 
 import {processor} from './Processor'
 
@@ -192,6 +192,39 @@ export default class StyleRegistry {
     return this.styleSheet[selector] || this.invariants[selector]
   }
 
+  getChildClassName (ns, childClassName) {
+    childClassName = childClassName.replace(/Style$/, '')
+    childClassName = ucfirst(childClassName)
+    return ns.componentClassName + '.' + childClassName
+  }
+
+  pseudo (name, ns, child) {
+    if (ns) {
+      let selector
+      // This gives us the top-level component
+      if (child === 'style') {
+        selector = ns.componentClassName + ':' + name
+      } else{
+        selector = this.getChildClassName(ns, child) + ':' + name
+      }
+      return selector
+    }
+    return name
+  }
+
+  id (name, ns, child) {
+    return '#' + name
+  }
+
+  className (name, ns, child) {
+    return '.' + name
+  }
+
+  type (name, ns, child) {
+    // TODO: support mutating in namespace context
+    return name
+  }
+
   resolve (selector) {
     const sheets = []
     const {_styleSheet, invariants} = this
@@ -209,7 +242,7 @@ export default class StyleRegistry {
     if (found.length) {
       sheets.push.apply(sheets, found)
     }
-    return sheets
+    //return sheets
   }
 
   // Called by a registry to extract rules with invariants
