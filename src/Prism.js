@@ -20,6 +20,7 @@ import experimentalPlugins from './experimentalPlugins'
 import propTypes from './propTypes'
 import withPrism from './withPrism'
 import withContext from './withContext'
+import withState from './withState'
 import colorNames from './colorNames'
 import invariants from './invariants'
 
@@ -167,6 +168,10 @@ Prism.configure = (registry, config = {}) => {
     // Experimental plugins require withContext
     if (config.experimentalPlugins) {
       withContext(definition)
+    }
+
+    if (config.withState) {
+      withState(definition)
     }
 
     const {pure} = config

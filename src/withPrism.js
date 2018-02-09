@@ -208,15 +208,6 @@ const withPrism = (Stylable, definition) => {
     }
   }
 
-  // TODO: move behind withState() and config option
-  const setState = Stylable.prototype.setState
-  Stylable.prototype.setState = function (newState) {
-    //console.log('setState called for: ' + definition.Name)
-    setState.call(this, newState)
-    const {setStyleState} = this.props
-    setStyleState(newState)
-  }
-
   // So we can easily see the underlying component name in errors
   PrismComponent.displayName = `Prism(${definition.Name})`
   // Proxy propTypes

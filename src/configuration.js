@@ -9,6 +9,7 @@ export default {
   extendedProperties: false,
   fontProperties: false,
   experimentalPlugins: false,
+  withState: false,
   inlineStyle: true,
   colorNames: false,
   textTransform: false,

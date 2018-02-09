@@ -35,6 +35,7 @@ Prism.configure(
     experimentalPlugins: true,
     textTransform: true,
     colorNames: true,
+    withState: true,
     pure: false
   }
 )
