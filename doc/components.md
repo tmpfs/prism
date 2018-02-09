@@ -310,7 +310,7 @@ For a component `NumberStack`:
 <NumberStack size='medium' />
 ```
 
-Will resolve `NumberStack.Title:small` to include in `titleStyle` and `NumberStack.Number:small` for the `numberStyle`.
+Will resolve `NumberStack Title:small` to include in `titleStyle` and `NumberStack Number:small` for the `numberStyle`.
 
 #### mapStyleToProps
 
