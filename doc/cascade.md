@@ -30,7 +30,7 @@ static defaultProps = {
 ### Default Style Rule
 
 ```javascript
-Label: {
+'Label': {
   color: 'green'
 }
 ```
