@@ -58,7 +58,7 @@ static mapPropsToStyle = {
 ### Class Name
 
 ```javascript
-highlight: {
+'.highlight': {
   color: 'steelblue'
 }
 ```
