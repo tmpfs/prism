@@ -939,7 +939,7 @@ This property is distinct from the `font` property as it's behaviour is very dif
 In a style sheet:
 
 ```javascript
-'Panel.Header': {
+'Panel Header': {
   textTransform: 'capitalize'
 }
 ```
