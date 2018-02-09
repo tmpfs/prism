@@ -15,7 +15,7 @@ class StateChange extends Component {
   }
 
   static mapPropsToStyle = {
-    '*': ({prop, state, setState}) => {
+    state: ({prop, state, setState}) => {
       if (state.active) {
         return setState('active')
       }

@@ -31,7 +31,7 @@ export default new Plugin(
 
     for (const propName in map) {
       const prop = props[propName]
-      if (propName === '*' || (props.hasOwnProperty(propName) && prop !== undefined)) {
+      if (propName === 'state' || (props.hasOwnProperty(propName) && prop !== undefined)) {
         const fn = map[propName]
         if (isFunction(fn)) {
           const state = newState || {}
