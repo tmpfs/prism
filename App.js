@@ -90,7 +90,7 @@ export default class App extends Component<{}> {
 
         <Panel label='Namespace'>
           <NamespaceExample>
-            This is an example using the <Label color='base3'>com.example.text</Label> namespace for a component, the <Label color='base3'>com.example.text.Label</Label> style rule defines the component styles.
+            This is an example using the <Label color='base3'>example</Label> namespace for a component, the <Label color='base3'>example|Label</Label> style rule defines the component styles.
           </NamespaceExample>
         </Panel>
 

@@ -3,6 +3,29 @@ import Plugin from './Plugin'
 import propTypes from './propTypes'
 import util from './util'
 
+const ucfirst = (s) => {
+  if (s && s.length) {
+    return s.charAt(0).toUpperCase() + s.substr(1)
+  }
+  return s
+}
+
+const lcfirst = (s) => {
+  if (s && s.length) {
+    return s.charAt(0).toLowerCase() + s.substr(1)
+  }
+}
+
+// FIXME: naive implementation
+const ucword = (s) => {
+  if (s) {
+    return s.split(' ').map((word) => {
+      return ucfirst(word)
+    }).join(' ')
+  }
+  return s
+}
+
 export default [
 
   // Text
@@ -23,7 +46,7 @@ export default [
             s = s.toLowerCase()
             break;
           case 'capitalize':
-            s = util.ucword(s)
+            s = ucword(s)
             break;
         }
         return s

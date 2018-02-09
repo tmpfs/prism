@@ -1,7 +1,7 @@
 import {Platform, StyleSheet} from 'react-native'
 
 import util from './util'
-const {isFunction, isObject, isString, ucfirst} = util
+const {isFunction, isObject, isString} = util
 
 import {processor} from './Processor'
 
@@ -194,7 +194,6 @@ export default class StyleRegistry {
 
   getChildClassName (ns, childClassName) {
     childClassName = childClassName.replace(/Style$/, '')
-    childClassName = ucfirst(childClassName)
     return ns.getClassName() + ' ' + childClassName
   }
 

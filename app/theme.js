@@ -55,16 +55,16 @@ export default {
       'Panel': {
         marginBottom: 30,
       },
-      'Panel Header': {
+      'Panel header': {
         backgroundColor: colors.base02,
         padding: 10,
         textTransform: 'capitalize'
       },
-      'Panel Body': {
+      'Panel body': {
         backgroundColor: colors.base03,
         padding: 20
       },
-      'Panel Label': {
+      'Panel label': {
         fontFamily: fonts.medium,
         color: colors.base2,
         fontSize: 18
@@ -73,16 +73,16 @@ export default {
       'CompositeLabel': {
         margin: 20
       },
-      'CompositeLabel Header': {
+      'CompositeLabel header': {
         fontSize: 18,
         color: 'green',
         marginBottom: 5
       },
-      'CompositeLabel Body': {
+      'CompositeLabel body': {
         fontSize: 20,
         color: colors.base01
       },
-      'CompositeLabel Footer': {
+      'CompositeLabel footer': {
         fontSize: 16,
         marginTop: 10
       },
@@ -92,22 +92,22 @@ export default {
       '.activity-tint': {
         tintColor: 'green'
       },
-      'NumberStack Title:small': {
+      'NumberStack title:small': {
         fontSize: 16
       },
-      'NumberStack Number:small': {
+      'NumberStack number:small': {
         fontSize: 40
       },
-      'NumberStack Title:medium': {
+      'NumberStack title:medium': {
         fontSize: 20
       },
-      'NumberStack Number:medium': {
+      'NumberStack number:medium': {
         fontSize: 55
       },
-      'NumberStack Title:large': {
+      'NumberStack title:large': {
         fontSize: 24
       },
-      'NumberStack Number:large': {
+      'NumberStack number:large': {
         fontSize: 70
       },
       bold: {
