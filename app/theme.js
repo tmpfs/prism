@@ -41,7 +41,7 @@ export default {
       'StateChange:active': {
         backgroundColor: 'red'
       },
-      'example Label': {
+      'example|Label': {
         fontSize: 17,
         fontFamily: fonts.regular,
         color: colors.magenta

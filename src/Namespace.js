@@ -7,7 +7,7 @@ class Namespace {
   getClassName (name) {
     const {namespace, typeName} = this
     name = name || typeName
-    return namespace ? `${namespace} ${name}` : name
+    return namespace ? `${namespace}|${name}` : name
   }
 }
 
