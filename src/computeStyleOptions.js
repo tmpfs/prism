@@ -36,7 +36,7 @@ const mergeStatic = (definition, plugins, options) => {
 
       // Call as function, supports a static declaration
       // that can reference the styleSheet etc
-      if (isFunction(options[name]) && !plugin.options.isFunc) {
+      if (isFunction(options[name])) {
         options[name] = options[name]({...registry, registry})
       }
 
