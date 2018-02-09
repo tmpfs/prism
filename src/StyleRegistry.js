@@ -195,7 +195,7 @@ export default class StyleRegistry {
   getChildClassName (ns, childClassName) {
     childClassName = childClassName.replace(/Style$/, '')
     childClassName = ucfirst(childClassName)
-    return ns.componentClassName + '.' + childClassName
+    return ns.getClassName() + '.' + childClassName
   }
 
   pseudo (name, ns, child) {
@@ -203,7 +203,7 @@ export default class StyleRegistry {
       let selector
       // This gives us the top-level component
       if (child === 'style') {
-        selector = ns.componentClassName + ':' + name
+        selector = ns.getClassName() + ':' + name
       } else{
         selector = this.getChildClassName(ns, child) + ':' + name
       }

@@ -4,14 +4,10 @@ class Namespace {
     this.typeName = typeName
   }
 
-  getClassName () {
-    return this.className || this.typeName
-  }
-
-  get componentClassName () {
-    const className = this.getClassName()
-    const {namespace} = this
-    return namespace ? `${namespace}.${className}` : className
+  getClassName (name) {
+    const {namespace, typeName} = this
+    name = name || typeName
+    return namespace ? `${namespace}.${name}` : name
   }
 }
 

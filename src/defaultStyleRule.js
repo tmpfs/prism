@@ -6,7 +6,7 @@ import Plugin from './Plugin'
 export default new Plugin(
   'defaultStyleRule',
   ({ns, registry, isPrimaryStyle, attrName}) => {
-    let selector = ns.componentClassName
+    let selector = ns.getClassName()
     if (!isPrimaryStyle) {
       // Add child class name style sheet
       selector = registry.getChildClassName(ns, attrName)
