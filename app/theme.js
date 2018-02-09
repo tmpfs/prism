@@ -41,7 +41,7 @@ export default {
       'StateChange:active': {
         backgroundColor: 'red'
       },
-      'com.example.text.Label': {
+      'example Label': {
         fontSize: 17,
         fontFamily: fonts.regular,
         color: colors.magenta
@@ -55,16 +55,16 @@ export default {
       'Panel': {
         marginBottom: 30,
       },
-      'Panel.Header': {
+      'Panel Header': {
         backgroundColor: colors.base02,
         padding: 10,
         textTransform: 'capitalize'
       },
-      'Panel.Body': {
+      'Panel Body': {
         backgroundColor: colors.base03,
         padding: 20
       },
-      'Panel.Label': {
+      'Panel Label': {
         fontFamily: fonts.medium,
         color: colors.base2,
         fontSize: 18
@@ -73,41 +73,41 @@ export default {
       'CompositeLabel': {
         margin: 20
       },
-      'CompositeLabel.Header': {
+      'CompositeLabel Header': {
         fontSize: 18,
         color: 'green',
         marginBottom: 5
       },
-      'CompositeLabel.Body': {
+      'CompositeLabel Body': {
         fontSize: 20,
         color: colors.base01
       },
-      'CompositeLabel.Footer': {
+      'CompositeLabel Footer': {
         fontSize: 16,
         marginTop: 10
       },
       'Activity': {
         tintColor: 'red'
       },
-      'activity-tint': {
+      '.activity-tint': {
         tintColor: 'green'
       },
-      'NumberStack.Title:small': {
+      'NumberStack Title:small': {
         fontSize: 16
       },
-      'NumberStack.Number:small': {
+      'NumberStack Number:small': {
         fontSize: 40
       },
-      'NumberStack.Title:medium': {
+      'NumberStack Title:medium': {
         fontSize: 20
       },
-      'NumberStack.Number:medium': {
+      'NumberStack Number:medium': {
         fontSize: 55
       },
-      'NumberStack.Title:large': {
+      'NumberStack Title:large': {
         fontSize: 24
       },
-      'NumberStack.Number:large': {
+      'NumberStack Number:large': {
         fontSize: 70
       },
       bold: {

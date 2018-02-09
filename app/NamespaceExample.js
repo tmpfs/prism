@@ -13,5 +13,5 @@ class Label extends Component {
   }
 }
 
-const namespace = 'com.example.text'
+const namespace = 'example'
 export default Prism(Label, {namespace})

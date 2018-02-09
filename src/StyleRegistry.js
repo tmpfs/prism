@@ -195,7 +195,7 @@ export default class StyleRegistry {
   getChildClassName (ns, childClassName) {
     childClassName = childClassName.replace(/Style$/, '')
     childClassName = ucfirst(childClassName)
-    return ns.getClassName() + '.' + childClassName
+    return ns.getClassName() + ' ' + childClassName
   }
 
   pseudo (name, ns, child) {
