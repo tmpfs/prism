@@ -414,16 +414,16 @@ Is shorthand for:
 
 ##### State
 
-If you call `setState()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
+If you call `css.pseudo()` with a string a style sheet is resolved using the familiar `a:hover` syntax.
 
 For a component called `Notice`:
 
 ```javascript
 static mapPropsToStyle = {
-  error: ({setState, prop, propName}) => {
+  error: ({css, prop, propName}) => {
     if (prop === true) {
       // Include the style for Notice:error
-      return setState(propName)
+      return css.pseudo(propName)
     }
   }
 }
@@ -448,7 +448,7 @@ This can be an easy way to trigger style variations that are resolved from the s
 
 ```javascript
 static mapPropsToStyle = {
-  size: ({setState, prop}) => setState(prop)
+  size: ({css, prop}) => css.pseudo(prop)
 }
 ```
 
@@ -509,15 +509,15 @@ Now use of the `color` property on the parent is directed to the `headerStyle` o
 <Panel color='red' />
 ```
 
-You can combine `setState()` with multiple child components to create some interesting behaviour:
+You can combine `css.pseudo()` with multiple child components to create some interesting behaviour:
 
 ```javascript
 static mapPropsToStyle = {
   titleStyle: {
-    size: ({setState, prop}) => setState(prop)
+    size: ({css, prop}) => css.pseudo(prop)
   },
   numberStyle: {
-    size: ({setState, prop}) => setState(prop)
+    size: ({css, prop}) => css.pseudo(prop)
   }
 }
 ```
