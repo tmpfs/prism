@@ -12,6 +12,7 @@ You can pass a configuration object as the second argument to `Prism.configure()
 * `experimentalPlugins` enables the [experimental plugins](/src/experimentalPlugins.js).
 * `colorNames` enables the [color names](/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
+* `withState` enables [component state](#component-state) support.
 * `pure` advanced option, see [pure mode](#pure-mode).
 * `debug` print information at boot, default value is `__DEV__`.
 
