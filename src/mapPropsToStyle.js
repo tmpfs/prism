@@ -15,7 +15,7 @@ export default new Plugin(
     const sheets = []
 
     // Add a state style to the list of style sheets
-    const state = (stateName) => {
+    const setState = (stateName) => {
       // Returned a string, trigger :hover syntax
       if (isString(stateName)) {
         let selector
@@ -34,7 +34,7 @@ export default new Plugin(
       if (propName === '*' || props.hasOwnProperty(propName) && prop !== undefined) {
         const fn = map[propName]
         if (isFunction(fn)) {
-          const sheet = fn({...registry, registry, props, prop, propName, state})
+          const sheet = fn({...registry, registry, props, prop, propName, setState})
           // This is a convenient shortcut for returning the
           // prop itself to assign it to a style with the same
           // name and value, you can just do:
