@@ -31,7 +31,7 @@ export default new Plugin(
 
     for (const propName in map) {
       const prop = props[propName]
-      if (props.hasOwnProperty(propName) && prop !== undefined) {
+      if (propName === '*' || props.hasOwnProperty(propName) && prop !== undefined) {
         const fn = map[propName]
         if (isFunction(fn)) {
           const sheet = fn({...registry, registry, props, prop, propName, state})
@@ -41,7 +41,7 @@ export default new Plugin(
           //
           // color: ({prop}) => prop
           //
-          if (sheet === prop) {
+          if (sheet && sheet === prop) {
             const tmp = {}
             tmp[propName] = prop
             sheets.push(tmp)

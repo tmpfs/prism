@@ -7,6 +7,12 @@ class Label extends Component {
     supportsText: true
   }
 
+  static mapPropsToStyle = {
+    '*': () => {
+      //console.log('wildcard called!!!!')
+    }
+  }
+
   render () {
     // Get the computed style sheet
     const {style} = this.props
