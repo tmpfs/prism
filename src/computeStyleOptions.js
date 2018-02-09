@@ -108,7 +108,7 @@ const computeStyleNames = (plugins, options) => {
         // be applied to children too
         if (state && options.cascadeState) {
           childComponentNames.forEach((name) => {
-            options[name].state = state
+            value[name].state = state
           })
         }
       }
