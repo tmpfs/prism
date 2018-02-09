@@ -134,25 +134,25 @@ The following are all equivalent:
 
 ```javascript
 static mapPropsToStyle = {
-  bold: ({registry}) => registry.resolve('bold')
+  bold: ({styleSheet}) => styleSheet.bold
 }
 ```
 
 ```javascript
 static styleOptions = {
-  mapPropsToStyle: ({registry}) => {
+  mapPropsToStyle: ({styleSheet}) => {
     return {
-      bold: () => registry.resolve('bold')
+      bold: () => styleSheet.bold
     }
   }
 }
 ```
 
 ```javascript
-static styleOptions = ({registry}) => {
+static styleOptions = ({styleSheet}) => {
   return {
     mapPropsToStyle: {
-      bold: () => registry.resolve('bold')
+      bold: () => styleSheet.bold
     }
   }
 }
