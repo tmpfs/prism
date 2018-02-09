@@ -280,7 +280,7 @@ Component libraries should supply a style registry which is merged with the user
 
 ```javascript
 import {Prism, StyleRegistry} from 'react-native-prism'
-const namespace = 'com.example.text'
+const namespace = 'prism'
 const theme = {
   styles: () => {
     return {
@@ -304,7 +304,7 @@ export default Prism(Label, {namespace})
 Then a user of the component can just overwrite the declarations they need to change:
 
 ```javascript
-'com.example.text.Label': {
+'prism|Label': {
   color: 'black',
   backgroundColor: 'white'
 }
@@ -478,16 +478,16 @@ Which will define and create the `headerStyle` and `bodyStyle` properties for yo
 The immediate benefit is that you can now define style rules using dot notation for the child components which will automatically be resolved as default styles.
 
 ```javascript
-'Panel.Header': {
+'Panel Header': {
   color: 'blue',
   padding: 10
 },
-'Panel.Body': {
+'Panel Body': {
   padding: 20
 }
 ```
 
-For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase. If the component is namespaced use the fully qualified name, eg: `com.prism.ui.Panel.Header`.
+For style declaration lookup the child component name is determined by the property name with any `Style` suffix removed and the first character converted to uppercase. If the component is namespaced use the fully qualified name, eg: `prism|Panel Header`.
 
 Then your render should route the properties to child components, for example:
 
@@ -668,14 +668,14 @@ If you need it the `Prism.propTypes` field exposes the system property types.
 The `Prism` function accepts a namespace option which can be used to specify a namespace for your component. This is useful (and recommended) when designing reusable component sets.
 
 ```javascript
-const namespace = 'com.prism.ui'
+const namespace = 'prism'
 export default Prism(Label, {namespace})
 ```
 
-Now the default component style declaration name is `com.prism.ui.Label` and a consumer needs to declare the style using the fully qualified name:
+Now the default component style declaration name uses CSS-style namespaces `prism|Label` and a consumer needs to declare the style using the fully qualified name:
 
 ```javascript
-'com.prism.ui.Label': {
+'prism|Label': {
   color: 'black'
 }
 ```
