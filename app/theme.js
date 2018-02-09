@@ -46,7 +46,7 @@ export default {
         fontFamily: fonts.regular,
         color: colors.magenta
       },
-      highlight: {
+      '.highlight': {
         color: colors.cyan
       },
       DefaultStyleLabel: {

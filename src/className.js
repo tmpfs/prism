@@ -8,7 +8,7 @@ export default new Plugin(
     const find = (list) => {
       return list
         .reduce((arr, nm) => {
-          registry.select(nm, arr)
+          registry.select(registry.className(nm), arr)
           return arr
         }, [])
     }
