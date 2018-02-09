@@ -6,8 +6,7 @@ import View from './app/View'
 import Panel from './app/Panel'
 import Activity from './app/Activity'
 import Label from './app/Label'
-import DefaultStyleLabel from './app/DefaultStyleLabel'
-import CompositeLabel from './app/CompositeLabel'
+import StateChange from './app/StateChange'
 import NumberStack from './app/NumberStack'
 import Bundle from './app/Bundle'
 
@@ -44,6 +43,12 @@ export default class App extends Component<{}> {
   render () {
     return (
       <ScrollView padding={20} background='base01'>
+
+        <Panel label='State Change'>
+          <StateChange>
+            State Text
+          </StateChange>
+        </Panel>
 
         <Panel label='Extended Properties'>
           <Label

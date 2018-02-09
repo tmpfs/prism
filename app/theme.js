@@ -38,6 +38,9 @@ export default {
       Bundle: {
         color: 'cyan'
       },
+      'StateChange:active': {
+        backgroundColor: 'red'
+      },
       'com.example.text.Label': {
         fontSize: 17,
         fontFamily: fonts.regular,

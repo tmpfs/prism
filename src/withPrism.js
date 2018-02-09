@@ -100,6 +100,7 @@ const withPrism = (Stylable, definition) => {
     getPluginOptions (attrName, props, extras) {
       const {config, registry, options, ns} = definition
       const {state, context} = this
+      const {stylable} = this.refs
       const isPrimaryStyle = (attrName === 'style')
       return {
         ...registry,
@@ -113,6 +114,7 @@ const withPrism = (Stylable, definition) => {
         ns,
         isPrimaryStyle,
         attrName,
+        stylable,
         ...extras
       }
     }
@@ -132,7 +134,8 @@ const withPrism = (Stylable, definition) => {
       return {map, keys}
     }
 
-    processStylePlugins (props) {
+    processStylePlugins (props, newState) {
+      //console.log('computing styles: ' + definition.Name)
       const {registry, options} = definition
       const {state, context} = this
       const {allStyleObjectNames} = options
@@ -149,7 +152,7 @@ const withPrism = (Stylable, definition) => {
       // Compute style properties
       allStyleObjectNames.forEach((attrName) => {
         const pluginOptions = this.getPluginOptions(
-          attrName, props, {additionalProperties, propertyPlugins})
+          attrName, props, {additionalProperties, propertyPlugins, newState})
         styleProperties[attrName] = computeStyles(pluginOptions)
       })
 
@@ -165,7 +168,8 @@ const withPrism = (Stylable, definition) => {
     }
 
     componentWillMount () {
-      if (!this.pure) {
+      const {options} = definition
+      if (!this.pure && !options.manual) {
         this.processStylePlugins(this.props)
       }
     }
@@ -188,16 +192,29 @@ const withPrism = (Stylable, definition) => {
       // Preferring children in the state lets children
       // be rewritten (textTransform support)
       const children = this.state.children || this.props.children
+      const setStyleState = (state, props) => {
+        this.processStylePlugins(props || this.props, state)
+      }
       return (
         <Stylable
           ref='stylable'
           {...this.props}
           {...this.state.additionalProperties}
-          {...this.state.styleProperties}>
+          {...this.state.styleProperties}
+          setStyleState={setStyleState}>
           {children}
         </Stylable>
       )
     }
+  }
+
+  // TODO: move behind withState() and config option
+  const setState = Stylable.prototype.setState
+  Stylable.prototype.setState = function (newState) {
+    //console.log('setState called for: ' + definition.Name)
+    setState.call(this, newState)
+    const {setStyleState} = this.props
+    setStyleState(newState)
   }
 
   // So we can easily see the underlying component name in errors
