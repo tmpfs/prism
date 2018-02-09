@@ -24,6 +24,10 @@
       - [State](#state)
       - [Child Components](#child-components)
     - [mapStyleToProps](#mapstyletoprops)
+  - [Component State](#component-state)
+    - [Lifecycle](#lifecycle)
+      - [shouldUpdateStyles](#shouldupdatestyles)
+      - [setStyleState](#setstylestate)
   - [Property Type Validation](#property-type-validation)
   - [Namespaces](#namespaces)
   - [Requirements](#requirements)
@@ -564,6 +568,91 @@ render () {
 ```
 
 See [Activity.js](https://github.com/fika-community/prism-components/blob/master/src/Activity.js) for a complete implementation.
+
+### Component State
+
+For most use cases when you are triggering state changes from a property `mapPropsToStyle` and `css.pseudo()` will do the job just fine. However there are times when you need finer control over style invalidation as the component state changes.
+
+To enable state invalidation you need to specify the `withState` configuration option and enable `supportsState` in your component:
+
+```javascript
+static styleOptions = {
+  supportsState: true
+}
+```
+
+A typical scenario is when you are managing state based on events from a child component and want the state change to be reflected in the styles.
+
+```javascript
+render () {
+  const toggle = () => this.setState({active: !this.state.active})
+  return (
+    <ChildComponent onPress={toggle} />
+  )
+}
+```
+
+Once state invalidation is enabled you can do:
+
+```javascript
+static mapPropsToStyle = {
+  state: ({state, css}) => {
+    if (state.active) {
+      return css.pseudo('active')
+    }
+  }
+}
+```
+
+To add the `:active` pseudo class to the component when `state.active` is true. If you want the state change to automatically be applied to child components you can use the `cascadeState` option:
+
+```javascript
+static styleOptions = {
+  supportsState: true,
+  cascadeState: true
+}
+static mapPropsToStyle = {
+  state: ({prop, state, css}) => {
+    if (state.active) {
+      return css.pseudo('active')
+    }
+  }
+  // We don't need to declare a state handler
+  // for these as `cascadeState` is enabled
+  // the `:active` pseudo class will be triggered
+  // for these styles automatically
+  headerStyle: {},
+  footerStyle: {}
+}
+```
+
+#### Lifecycle
+
+The component state functionality decorates your component with a simple lifecycle that lets you decide when state changes should trigger style invalidation.
+
+By default as soon as you enable this feature every call to `setState()` will trigger invalidation of the styles but you can implement `shouldUpdateStyles()` on your component to control this behaviour.
+
+##### shouldUpdateStyles
+
+```javascript
+shouldUpdateStyles(state, newState)
+```
+
+Implement this function to control whether to invalidate the styles when the state changes, it should return a boolean.
+
+##### setStyleState
+
+Your component is also decorated with a `setStyleState()` method that allows you to trigger invalidation for the initial state of the component. You should avoid using this method and configure your default styles to match your default state but it can we useful when you want to switch the default state to see style changes applied.
+
+Call `setStyleState()` in `componentWillMount()` to trigger invalidation for the initial state:
+
+```javascript
+componentWillMount () {
+  this.setStateStyle()
+}
+```
+
+This should be avoided in production code as it triggers a re-render on first mount.
 
 ### Property Type Validation
 
