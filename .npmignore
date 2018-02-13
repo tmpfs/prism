@@ -16,5 +16,6 @@ yarn.lock
 *.bak
 *.log
 *.tgz
+release.sh
 .env
 *.keystore
