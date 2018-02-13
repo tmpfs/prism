@@ -14,7 +14,7 @@ import NamespaceExample from './app/NamespaceExample'
 
 import theme from './app/theme'
 
-const ScrollView = Prism(NativeScrollView)
+const ScrollView = Prism(NativeScrollView, 'ScrollView')
 
 const Rectangle = Prism.style(
   View,
@@ -36,7 +36,8 @@ Prism.configure(
     textTransform: true,
     colorNames: true,
     withState: true,
-    pure: false
+    pure: false,
+    debug: true
   }
 )
 

@@ -16,7 +16,7 @@ import com.android.build.OutputFile
  *   bundleAssetName: "index.android.bundle",
  *
  *   // the entry file for bundle generation
- *   entryFile: "index.android.js",
+ *   entryFile: "index.js",
  *
  *   // whether to bundle JS and assets in debug mode
  *   bundleInDebug: false,
@@ -95,7 +95,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.prism"
@@ -107,6 +107,18 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+
+    signingConfigs {
+        release {
+            if (System.env.FIKA_RELEASE_STORE_FILE) {
+                storeFile file(System.env.FIKA_RELEASE_STORE_FILE)
+                storePassword System.env.FIKA_RELEASE_STORE_PASSWORD
+                keyAlias System.env.FIKA_RELEASE_KEY_ALIAS
+                keyPassword System.env.FIKA_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
     splits {
         abi {
             reset()
@@ -117,6 +129,7 @@ android {
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

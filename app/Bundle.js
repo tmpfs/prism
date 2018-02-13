@@ -21,4 +21,4 @@ class Bundle extends Component {
   }
 }
 
-export default Prism(Bundle)
+export default Prism(Bundle, {styleName: 'Bundle'})

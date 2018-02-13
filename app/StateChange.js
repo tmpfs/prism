@@ -68,4 +68,4 @@ class StateChange extends Component {
   }
 }
 
-export default Prism(StateChange)
+export default Prism(StateChange, 'StateChange')

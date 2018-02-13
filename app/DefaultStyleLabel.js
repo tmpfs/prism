@@ -14,4 +14,4 @@ class DefaultStyleLabel extends Component {
   }
 }
 
-export default Prism(DefaultStyleLabel)
+export default Prism(DefaultStyleLabel, 'DefaultStyleLabel')

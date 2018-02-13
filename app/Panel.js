@@ -74,4 +74,4 @@ class Panel extends Component {
   }
 }
 
-export default Prism(Panel)
+export default Prism(Panel, 'Panel')

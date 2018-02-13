@@ -16,4 +16,4 @@ class Label extends Component {
   }
 }
 
-export default Prism(Label)
+export default Prism(Label, 'Label')

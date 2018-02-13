@@ -236,7 +236,7 @@ Prism.style = (Base, style, props = {}) => {
   Anonymous.defaultProps = props
   Anonymous.defaultProps.style = style
 
-  return Prism(Anonymous)
+  return Prism(Anonymous, props.styleName || 'Anonymous')
 }
 
 Prism.propTypes = propTypes

@@ -99,4 +99,4 @@ class NumberStack extends Component {
   }
 }
 
-export default Prism(NumberStack)
+export default Prism(NumberStack, 'NumberStack')

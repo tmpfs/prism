@@ -55,4 +55,4 @@ class Activity extends Component {
   }
 }
 
-export default Prism(Activity)
+export default Prism(Activity, 'Activity')

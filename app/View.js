@@ -13,4 +13,4 @@ class View extends Component {
   }
 }
 
-export default Prism(View)
+export default Prism(View, 'View')
