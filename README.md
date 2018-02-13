@@ -354,7 +354,7 @@ You must give your component a `styleName` which becomes the default style to us
 The `styleName` static declaration is preferred:
 
 ```javascript
-class Label extends Components {
+class Label extends Component {
   // Look up a style sheet using selector `Label` by default
   static styleName = 'Label'
 }
