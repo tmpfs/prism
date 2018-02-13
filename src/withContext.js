@@ -1,4 +1,6 @@
 import propTypes from './propTypes'
+import util from './util'
+const {isObject} = util
 
 const childContextTypes = {
   font: propTypes.fontPropType,
