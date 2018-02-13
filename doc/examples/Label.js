@@ -4,6 +4,7 @@ import {Text} from 'react-native'
 import {Prism} from '../../src/Prism'
 
 class Label extends Component {
+  static styleName = 'Label'
   static styleOptions = {
     supportsText: true
   }

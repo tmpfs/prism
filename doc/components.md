@@ -7,8 +7,10 @@ To create a styled component you just need to pass the component class to the `P
 ```javascript
 import {View} from 'react-native'
 import {Prism} from 'react-native-prism'
-export default Prism(View)
+export default Prism(View, 'View')
 ```
+
+You must give it a string name that becomes the default style name for the component.
 
 Here is a working example for the application shown above.
 
@@ -16,7 +18,7 @@ File: [Label.js](/doc/examples/Label.js)
 
 <? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/Label.js ?>
 
-The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
+Because the component configured `styleName` the stylesheet we created earlier already provides styles for our new component!
 
 ### Quick Components
 
@@ -72,6 +74,7 @@ const theme = {
 }
 const registry = new StyleRegistry({theme, bundle: true})
 class Label extends Component {
+  static styleName = 'Label'
   static styleOptions = {
     registry: registry
   }
@@ -447,6 +450,10 @@ The `Prism` function accepts a namespace option which can be used to specify a n
 
 ```javascript
 const namespace = 'prism'
+class Label extends Component {
+  static styleName = 'Label'
+  /* ... */
+}
 export default Prism(Label, {namespace})
 ```
 

@@ -208,8 +208,10 @@ To create a styled component you just need to pass the component class to the `P
 ```javascript
 import {View} from 'react-native'
 import {Prism} from 'react-native-prism'
-export default Prism(View)
+export default Prism(View, 'View')
 ```
+
+You must give it a string name that becomes the default style name for the component.
 
 Here is a working example for the application shown above.
 
@@ -222,6 +224,7 @@ import {Text} from 'react-native'
 import {Prism} from 'react-native-prism'
 
 class Label extends Component {
+  static styleName = 'Label'
   static styleOptions = {
     supportsText: true
   }
@@ -238,7 +241,7 @@ class Label extends Component {
 export default Prism(Label)
 ```
 
-The default styles for a component are extracted by class name so the stylesheet we created earlier already provides styles for our new component!
+Because the component configured `styleName` the stylesheet we created earlier already provides styles for our new component!
 
 ### Quick Components
 
@@ -294,6 +297,7 @@ const theme = {
 }
 const registry = new StyleRegistry({theme, bundle: true})
 class Label extends Component {
+  static styleName = 'Label'
   static styleOptions = {
     registry: registry
   }
@@ -669,6 +673,10 @@ The `Prism` function accepts a namespace option which can be used to specify a n
 
 ```javascript
 const namespace = 'prism'
+class Label extends Component {
+  static styleName = 'Label'
+  /* ... */
+}
 export default Prism(Label, {namespace})
 ```
 
@@ -1399,7 +1407,7 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 10, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on February 13, 2018
 
 [prism primitives]: https://github.com/fika-community/prism-primitives
 [prism components]: https://github.com/fika-community/prism-components
