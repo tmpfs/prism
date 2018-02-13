@@ -19,6 +19,7 @@
   - [Quick Components](#quick-components)
   - [Bundling Styles](#bundling-styles)
   - [Default Styles](#default-styles)
+  - [Style Names](#style-names)
   - [Mapping Properties To Styles](#mapping-properties-to-styles)
     - [mapPropsToStyle](#mappropstostyle)
       - [Pseudo State](#pseudo-state)
@@ -211,7 +212,7 @@ import {Prism} from 'react-native-prism'
 export default Prism(View, 'View')
 ```
 
-You must give it a string name that becomes the default style name for the component.
+You must give it a string name that becomes the default style name for the component, see [style names](#style-names) for more information.
 
 Here is a working example for the application shown above.
 
@@ -346,6 +347,28 @@ static defaultProps = {
     color: 'black'
   }
 }
+```
+
+### Style Names
+
+You must give your component a `styleName` which becomes the default style to use for the component. If a component is namespaced this does not affect the namespace it affects the *class name*. An earlier version of prism inferred the style name from the class name but this will not work in release builds as the name of a function is not guaranteed after name mangling.
+
+The `styleName` static declaration is preferred:
+
+```javascript
+class Label extends Components {
+  // Look up a style sheet using selector `Label` by default
+  static styleName = 'Label'
+}
+```
+
+Alternatively you can pass a string or `styleName` option to Prism:
+
+```javascript
+// Same as above, use `Label` as selector
+export default Prism(Label, 'Label')
+// Use `prism|Label` as the selector
+export default Prism(Label, {namespace: 'prism', styleName: 'Label'})
 ```
 
 ### Mapping Properties To Styles
