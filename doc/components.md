@@ -10,15 +10,13 @@ import {Prism} from 'react-native-prism'
 export default Prism(View, 'View')
 ```
 
-You must give it a string name that becomes the default style name for the component, see [style names](#style-names) for more information.
-
 Here is a working example for the application shown above.
 
 File: [Label.js](/doc/examples/Label.js)
 
 <? @source {javascript=s/\.\.\/\.\.\/src\/Prism/react-native-prism/} ./examples/Label.js ?>
 
-Because the component configured `styleName` the stylesheet we created earlier already provides styles for our new component!
+Because the component configured `styleName` with `Label` the style rule we created earlier already provides styles for our new component!
 
 ### Quick Components
 
