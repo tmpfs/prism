@@ -4,9 +4,12 @@ coverage
 android
 ios
 doc
+app
 App.js
+App-readme.js
 app.json
 mkdoc.js
+prism.png
 .babelrc
 .buckconfig
 .flowconfig
