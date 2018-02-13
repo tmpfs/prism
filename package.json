@@ -1,7 +1,7 @@
 {
   "name": "react-native-prism",
   "description": "Idiomatic style management for React Native",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "main": "src/Prism.js",
   "repository": {
     "type": "git",
