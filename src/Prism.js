@@ -48,6 +48,11 @@ const Prism = (Type, initOptions = {}) => {
 Prism.defined = []
 
 Prism.configure = (registry, config = {}) => {
+  if (Prism.registry) {
+    throw new Error(
+      'Prism is already configured. You may not call configure() more than once.')
+  }
+
   if (!(registry instanceof StyleRegistry)) {
     throw new Error(
       'Prism expects a StyleRegistry for configure()')
