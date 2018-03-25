@@ -98,10 +98,18 @@ const withPrism = (Stylable, definition) => {
     }
 
     getPluginOptions (attrName, props, extras) {
-      const {config, registry, options, ns} = definition
+      const {config, registry, options} = definition
+      let {ns} = definition
       const {state, context} = this
       const {stylable} = this.refs
       const isPrimaryStyle = (attrName === 'style')
+
+      // Mutate the styleName from props
+      if (props.styleName !== undefined) {
+        const {namespace} = definition.ns
+        ns = new Namespace({namespace, typeName: props.styleName})
+      }
+
       return {
         ...registry,
         registry,

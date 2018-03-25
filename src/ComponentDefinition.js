@@ -27,7 +27,6 @@ class ComponentDefinition {
         `behave as expected for style name lookup, error in ${Name}`)
     }
 
-
     this.Type = Type
     this.Name = styleName
 
