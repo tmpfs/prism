@@ -145,6 +145,38 @@ export default Prism(Label, 'Label')
 export default Prism(Label, {namespace: 'prism', styleName: 'Label'})
 ```
 
+### Style Name Property
+
+You may pass a `styleName` property to any component and it will *overwrite* the static `styleName` defined by the component just for that instance.
+
+This allows you to create completely different groups of styles for an existing component without defining a wrapper component class. For example, it is common to want two or more completely different button styles.
+
+If you pass `styleName` to a button component:
+
+```javascript
+<TouchButton styleName='TextButton'>
+  Label Text
+</TouchButton>
+```
+
+You can now style it using the assigned style name:
+
+```javascript
+export default {
+  'prism|TextButton': {
+    /* TextButton does not have a background style */
+  },
+  'prism|TextButton label': {
+    color: 'white'
+  },
+  'prism|TextButton label:disabled': {
+    color: '#999999'
+  }
+}
+```
+
+Notice that the namespace for the component definition is respected.
+
 ### Mapping Properties To Styles
 
 Components have varied needs for mapping properties to style declarations so the library provides several ways to map properties depending upon the requirement.
