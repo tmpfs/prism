@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet} from 'react-native'
 import propTypes from './propTypes'
 import withContext from './withContext'
+import Namespace from './Namespace'
 import {processor} from './Processor'
 
 const computeStyles = (pluginOptions) => {
