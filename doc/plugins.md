@@ -34,7 +34,7 @@ const plugins = [
 
 These plugins will only execute when the property is defined on the component.
 
-See [extendedPropertyPlugins.js](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js) for several examples.
+See [extendedPropertyPlugins.js](https://github.com/tmpfs/prism/blob/master/src/extendedPropertyPlugins.js) for several examples.
 
 ##### Global Plugins
 

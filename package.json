@@ -5,7 +5,7 @@
   "main": "src/Prism.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fika-community/prism.git"
+    "url": "https://github.com/tmpfs/prism.git"
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",

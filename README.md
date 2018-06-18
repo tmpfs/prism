@@ -1,7 +1,7 @@
 <h1 align="center">Prism</h1>
 <p align="center">Minimal, idiomatic style management for React Native.</p>
 <p align="center">
-  <img width="256" height="256" src="https://raw.githubusercontent.com/fika-community/prism/master/prism.png" />
+  <img width="256" height="256" src="https://raw.githubusercontent.com/tmpfs/prism/master/prism.png" />
 </p>
 
 ---
@@ -111,7 +111,7 @@ If you want to migrate an existing application you should start with [Prism Prim
 
 To configure your application stylesheets first create a theme with some styles, colors and fonts.
 
-File: [theme.js](https://github.com/fika-community/prism/blob/master/doc/examples/theme.js)
+File: [theme.js](https://github.com/tmpfs/prism/blob/master/doc/examples/theme.js)
 
 ```javascript
 export default {
@@ -161,7 +161,7 @@ Because Android uses the file name and iOS uses the PostScript name the easiest 
 
 To configure your application create a style registry with your theme and instruct your components to use it:
 
-File: [App.js](https://github.com/fika-community/prism/blob/master/doc/examples/App.js)
+File: [App.js](https://github.com/tmpfs/prism/blob/master/doc/examples/App.js)
 
 ```javascript
 import React, {Component} from 'react';
@@ -215,7 +215,7 @@ export default Prism(View, 'View')
 
 Here is a working example for the application shown above.
 
-File: [Label.js](https://github.com/fika-community/prism/blob/master/doc/examples/Label.js)
+File: [Label.js](https://github.com/tmpfs/prism/blob/master/doc/examples/Label.js)
 
 ```javascript
 import React, {Component} from 'react'
@@ -316,7 +316,7 @@ Then a user of the component can just overwrite the declarations they need to ch
 
 The default `fontSize` is respected but now the colors are inverted!
 
-An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
+An example of bundling default styles for a component library is in the [Layout](https://github.com/tmpfs/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/tmpfs/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
 ### Default Styles
 
@@ -625,7 +625,7 @@ render () {
 }
 ```
 
-See [Activity.js](https://github.com/fika-community/prism-components/blob/master/src/Activity.js) for a complete implementation.
+See [Activity.js](https://github.com/tmpfs/prism-components/blob/master/src/Activity.js) for a complete implementation.
 
 ### Component State
 
@@ -988,7 +988,7 @@ An example using [Prism Components][]:
 </Layout>
 ```
 
-The shape of the font object is described in [propTypes.js](https://github.com/fika-community/prism/blob/master/src/propTypes.js).
+The shape of the font object is described in [propTypes.js](https://github.com/tmpfs/prism/blob/master/src/propTypes.js).
 
 ### Experimental Properties
 
@@ -1116,15 +1116,15 @@ static mapPropsToStyle = {
 
 You can pass a configuration object as the second argument to `Prism.configure()` to modify the library configuration. These are the common configuration options, some more advanced options are shown in [plugin configuration](#plugin-configuration).
 
-* `defaultProps` use the [defaultProps](https://github.com/fika-community/prism/blob/master/src/defaultProps.js) plugin, default is `true`.
-* `defaultStyleRule` use the [defaultStyleRule](https://github.com/fika-community/prism/blob/master/src/defaultStyleRule.js) plugin, default is `true`.
-* `mapPropsToStyle` use the [mapPropsToStyle](https://github.com/fika-community/prism/blob/master/src/mapPropsToStyle.js) plugin, default is `true`.
-* `mapStyleToProps` use the [mapStyleToProps](https://github.com/fika-community/prism/blob/master/src/mapStyleToProps.js) plugin, default is `true`.
-* `className` use the property plugin for [className](https://github.com/fika-community/prism/blob/master/src/className.js), default is `true`.
-* `extendedProperties` enables the [extended property plugins](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js).
-* `fontProperties` enables the [font property plugins](https://github.com/fika-community/prism/blob/master/src/fontProperties.js).
-* `experimentalPlugins` enables the [experimental plugins](https://github.com/fika-community/prism/blob/master/src/experimentalPlugins.js).
-* `colorNames` enables the [color names](https://github.com/fika-community/prism/blob/master/src/colorNames.js) processor.
+* `defaultProps` use the [defaultProps](https://github.com/tmpfs/prism/blob/master/src/defaultProps.js) plugin, default is `true`.
+* `defaultStyleRule` use the [defaultStyleRule](https://github.com/tmpfs/prism/blob/master/src/defaultStyleRule.js) plugin, default is `true`.
+* `mapPropsToStyle` use the [mapPropsToStyle](https://github.com/tmpfs/prism/blob/master/src/mapPropsToStyle.js) plugin, default is `true`.
+* `mapStyleToProps` use the [mapStyleToProps](https://github.com/tmpfs/prism/blob/master/src/mapStyleToProps.js) plugin, default is `true`.
+* `className` use the property plugin for [className](https://github.com/tmpfs/prism/blob/master/src/className.js), default is `true`.
+* `extendedProperties` enables the [extended property plugins](https://github.com/tmpfs/prism/blob/master/src/extendedPropertyPlugins.js).
+* `fontProperties` enables the [font property plugins](https://github.com/tmpfs/prism/blob/master/src/fontProperties.js).
+* `experimentalPlugins` enables the [experimental plugins](https://github.com/tmpfs/prism/blob/master/src/experimentalPlugins.js).
+* `colorNames` enables the [color names](https://github.com/tmpfs/prism/blob/master/src/colorNames.js) processor.
 * `textTransform` enables the text transform support (requires experimental plugins).
 * `withState` enables [component state](#component-state) support.
 * `pure` advanced option, see [pure mode](#pure-mode).
@@ -1152,7 +1152,7 @@ Prism.configure(
 )
 ```
 
-File: [configuration.js](https://github.com/fika-community/prism/blob/master/src/configuration.js)
+File: [configuration.js](https://github.com/tmpfs/prism/blob/master/src/configuration.js)
 
 ```javascript
 export default {
@@ -1314,7 +1314,7 @@ const plugins = [
 
 These plugins will only execute when the property is defined on the component.
 
-See [extendedPropertyPlugins.js](https://github.com/fika-community/prism/blob/master/src/extendedPropertyPlugins.js) for several examples.
+See [extendedPropertyPlugins.js](https://github.com/tmpfs/prism/blob/master/src/extendedPropertyPlugins.js) for several examples.
 
 ##### Global Plugins
 
@@ -1461,9 +1461,9 @@ MIT
 
 ---
 
-Created by [mkdoc](https://github.com/mkdoc/mkdoc) on March 25, 2018
+Created by [mkdoc](https://github.com/mkdoc/mkdoc) on June 18, 2018
 
-[prism primitives]: https://github.com/fika-community/prism-primitives
-[prism components]: https://github.com/fika-community/prism-components
+[prism primitives]: https://github.com/tmpfs/prism-primitives
+[prism components]: https://github.com/tmpfs/prism-components
 [text style props]: https://facebook.github.io/react-native/docs/text-style-props.html
 

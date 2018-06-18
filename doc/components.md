@@ -91,7 +91,7 @@ Then a user of the component can just overwrite the declarations they need to ch
 
 The default `fontSize` is respected but now the colors are inverted!
 
-An example of bundling default styles for a component library is in the [Layout](https://github.com/fika-community/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/fika-community/prism-components/blob/master/src/theme.js) for [Prism Components][].
+An example of bundling default styles for a component library is in the [Layout](https://github.com/tmpfs/prism-components/blob/master/src/Layout.js) and corresponding [theme](https://github.com/tmpfs/prism-components/blob/master/src/theme.js) for [Prism Components][].
 
 ### Default Styles
 
@@ -400,7 +400,7 @@ render () {
 }
 ```
 
-See [Activity.js](https://github.com/fika-community/prism-components/blob/master/src/Activity.js) for a complete implementation.
+See [Activity.js](https://github.com/tmpfs/prism-components/blob/master/src/Activity.js) for a complete implementation.
 
 ### Component State
 
