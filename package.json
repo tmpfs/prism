@@ -11,7 +11,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
-  "peerDependences": {
+  "peerDependencies": {
     "prop-types": "*",
     "react": "16.2.0",
     "react-native": "0.52.2"
